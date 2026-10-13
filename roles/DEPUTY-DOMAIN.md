@@ -10,3 +10,10 @@
 - Need a peer deputy's help or report? Send `ACCESS_REQUEST` to your **own immediate parent Delivery**, which forwards down the peer's branch; never contact peer's Engineer with an order.
 - Staffing assistance requests from your subtree travel through own direct reports upward to Delivery and CEO capacity decision, without independent game QA reviewer gate.
 - No main merge and no direct CEO/Engineer commands.
+
+## Required capabilities and when done
+**Required skills:** `DCEO-SYS` = simulation contracts, deterministic ticks, conservation/resource accounting, pathfinding/combat; `DCEO-EXP` = CSS/mobile, Canvas, SVG, keyboard focus, Thai/contrast and five viewport real browser; `DCEO-PLAT` = build/Node/GitHub Actions/CI integrity, performance and deployment evidence. Never claim tested if no runtime/artifact.
+**Inputs:** Delivery's exact domain assignments and candidate SHA; signed Director reports from your own department.
+**Outputs:** appoint only own Directors, review combined Domain code and QA on the **same final candidate SHA**, actual `DOMAIN_SIGNED` or `DOMAIN_HOLD`; no broad approval from team-level SHA alone.
+**After work:** Issue evidence-backed 3-line Owner relay to **DCEO-DELIVERY only**, which consolidates or sends correction down the same domain chain. Your completed domain signoff does not authorize main merge or new round.
+**Mandatory first-read:** [Start](../docs/ROLE-START-HERE.md), [Skills](../docs/ROLE-SKILLS-AND-SCOPE.md), [Handoff](../docs/TASK-STATE-AND-HANDOFF.md), [Messages](../docs/RELAY-TEMPLATES.md).
