@@ -10,6 +10,12 @@
 | Cross-Department QA | Integration Director / Acting Integrator | ตรวจสัญญาข้อมูลและ Integrate ทั้งหมดบน Branch เดียว, รัน CI รวม, บั๊กย้อนหลัง |
 | Release | CEO | Owner scope ถูกต้อง, PR HEAD ไม่เปลี่ยน, CI บน HEAD รวมผ่าน, Acceptance/risks ครบ, Merge `main` และยืนยัน SHA |
 
+## Autonomous QA (Owner Zero-Click)
+- ทุก Gate ต้องมี AI เจ้าของขั้นตอนและ GitHub Actions auto-trigger ที่เหมาะสม (push/PR แบบจำกัด Branch/Path) โดยระบุรายละเอียดไว้ใน Parent Issue; ห้ามให้ Owner คลิก Run workflow หรือขน Artifact
+- Team Leads รับผิดชอบ CI/Team QA, Department Director รับผิดชอบ Integration/Full QA, Integration Director (ถ้ามี) รับผิดชอบ QA ข้ามแผนก และ CEO ตรวจปล่อย Release เท่านั้น
+- ใช้ Smoke QA ที่รวดเร็วกับการแก้โค้ดรายครั้งและ Full QA อัตโนมัติบน HEAD รวมก่อนยื่น Acceptance; ตรวจ run URL, checked-out SHA, workflow SHA และ artifact ตาม [นโยบาย Zero-Click](AUTONOMOUS-QA.md)
+- QA-only branch ต้องพิสูจน์ว่า Product Source SHA ตรงกับฐานที่ต้องการตรวจ และแยกผล Workflow/Harness ออกจาก Product; ไม่ถือว่าสคริปต์ทำงานแล้วเท่ากับ Quality Gate ผ่าน
+
 ## มาตรฐานเกม Ant Kingdom
 - **npm test**, **npm run build** และ GitHub Actions ของ Branch รวมต้องผ่าน; ตรวจเลข Test และผลจริง ไม่ใช้คำว่า PASS จากข้อความอย่างเดียว
 - หากแตะ UI/Renderer/Input: Browser QA บนขนาด **320×568, 390×844, 768×1024, 844×390, 1440×900** และตรวจ JavaScript Error/Hit targets
