@@ -14,6 +14,12 @@
 5. CEO **สั่งงานระดับ Director** ไม่ข้ามไปทำโค้ดหรือสั่ง Engineer โดยตรง
 6. หัวหน้าใหญ่แผนกกำหนด Team Leads ให้เหมาะกับงานและส่ง CEO ตรวจจำนวน; หัวหน้าแต่ละทีมแบ่งงานให้ Engineers สองคน
 
+## Owner Zero-Click / CI อัตโนมัติทุกแผนก
+- ต้องอ่านและปฏิบัติตาม [Autonomous CI/QA Governance](AUTONOMOUS-QA.md) ตั้งแต่การวางแผนแต่ละรอบ
+- CEO และ Director ต้องกำหนด AI ผู้รับผิดชอบ workflow, automatic `push`/`pull_request` triggers, fast smoke และ full QA ตามความเสี่ยง **ก่อน** ให้ทีมเริ่มเขียนโค้ด
+- Engineer และ Team Lead ต้องตรวจ/แก้ปัญหา CI/Artifacts เอง; Director ตรวจ Full Integration QA; Owner ทำหน้าที่ตัดสินเป้าหมายและส่งต่อข้อความเท่านั้น ห้ามให้ Owner กด Workflow, ส่ง ZIP หรือแก้ปัญหาเทคนิค
+- ถ้าไม่มีช่องทางกระตุ้น CI อัตโนมัติในสิทธิ์ที่มี ให้ผู้รับผิดชอบแจ้ง Blocker ตามสายงาน และขออนุมัติขอบเขตแก้ workflow จาก CEO; ห้ามโยนงานเทคนิคให้ Owner
+
 ## Phase 2: ออกงานจริง
 - ทุกหน่วยงานมี Issue/Task ID, ตัวรับผิดชอบ, ฐาน Git SHA, branch, ขอบเขตไฟล์ที่เขียนได้, interfaces, Acceptance Criteria, ชุดทดสอบ, ผู้รับรายงานและจุดส่งต่อ
 - งานคู่ขนานต้องแยกไฟล์หรือออกแบบ contract ก่อน; มีตัวแก้ไฟล์ร่วมเพียงหนึ่งคนในช่วงบูรณาการ
