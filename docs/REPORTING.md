@@ -1,44 +1,11 @@
-# มาตรฐานรายงาน GitHub-first และข้อความส่งต่อ
+# Reporting & relay — V2
+Source of truth: Governance rules in `appointment-CEO`, active roster in `appointment-CEO/docs/ai-org/TEAM-REGISTRY.json` and `ACTIVE_TEAM.md`, actual game task/PR/tests/actions/signoff GitHub links in `ant-project` (canonical roles/signoff board remain in `appointment-CEO`).
 
-## หลักฐานจริงเก็บที่ไหน
-- **งานพัฒนาและรายงานเต็ม**: `ant-project` GitHub Issue ของบทบาท/งานนั้น และ Draft PR ใน `ant-project`
-- **กฎถาวรและคำสั่งแต่งตั้งแบบกลาง**: `appointment-CEO`
-- ไม่ต้องสร้าง `docs/ai-reports/*` จำนวนมากในเกมโดยไม่จำเป็น; GitHub comments เป็นบันทึกความคืบหน้า
-- ทุกการเปลี่ยนสถานะสำคัญบันทึกไว้ที่ Github เพื่อให้ CEO/Director ตัวใหม่อ่านต่อได้โดยไม่ต้องใช้แชทเก่า
+**Every directive, approval and request must travel one adjacent organizational edge, never CEO→Engineer directly.** A cross-team consultation rises via immediate parents to shared ancestor, then down to recipient chain. No chat receives a message merely because a GitHub comment was posted; Owner carries **up to three concise lines** with sender, permanent GitHub link, immediate next recipient:
+`<ROUND> <SENDER_ROLE> → <DIRECT_CHILD_OR_PARENT> | EVENT / STATUS / HEAD`
+`GitHub evidence: https://github.com/.../issues/N#issuecomment-ID`
+`Next recipient: <ONE ADJACENT ROLE> | <expected action>`
 
-## Owner Zero-Click และการส่งต่อ
-- Owner เป็นผู้กำหนดทิศทางและคัดลอกเฉพาะข้อความ AI-to-AI ไม่เกินสามบรรทัด ไม่รับงาน Run workflow, checkout, terminal, ZIP, screenshots หรือ Artifact transfer
-- Engineer/Lead/Director ต้องเปิดอ่านผล CI, Logs, Screenshots, Artifacts และสร้าง/ซ่อม auto-trigger ตามสิทธิ์ที่ CEO อนุมัติด้วยตนเอง
-- หาก CI ทำงานไม่ได้ ต้องบันทึกสาเหตุและสถานะ `NOT_VERIFIED` ใน GitHub แล้วส่ง Blocker ไปยังผู้บังคับบัญชาที่รับผิดชอบ ไม่มอบงานเทคนิคให้ Owner
-- ดูนโยบายที่บังคับใช้ทุกแผนก: [AUTONOMOUS-QA.md](AUTONOMOUS-QA.md)
+Event types: `APPOINTMENT_ISSUED`→`APPOINTMENT_ACK`; `TASK_ASSIGNED`→`ENGINEER_DELIVERED`→`TEAM_ACCEPTED`→`DEPARTMENT_ACCEPTED`→`DOMAIN_SIGNED`→`INDEPENDENT_QA_SIGNED`→`DELIVERY_SIGNED`→CEO `RELEASE_AUTHORIZED`. Also `ORG_DELTA`, `ACCESS_REQUEST`, `STAFFING_REQUEST`, `CAPACITY_APPROVED`, `QA_HOLD`, `INVALID_ORDER`. Each contains parent role, Issue, SHA+run URLs and next direct recipient as appropriate.
 
-## Milestones ใน Issue
-`APPOINTED` (รับตำแหน่ง, ยังไม่มีงานจริง) → `STARTED` → `CONTRACT CHECK` → `IMPLEMENTED` → `TESTED` → `READY FOR REVIEW` / `BLOCKED` → `ACCEPTED` / `CHANGES REQUESTED` → `INTEGRATED` → `CLOSED`
-
-## รายงานที่ผู้พัฒนาต้องลง (full GitHub Issue / PR)
-- หน้าที่, ชื่องาน/รอบ, ลิงก์ Parent Issue, Recipient
-- Branch, HEAD SHA เต็ม, รายชื่อไฟล์เปลี่ยนและบทสรุปทางเทคนิค
-- สัญญาข้อมูลที่ใช้ / การไม่เข้ากันและการแก้
-- Tests ที่รันจริง + CI link ต่อ HEAD + Screenshots/Logs เท่าที่จำเป็น
-- ปัญหาที่ยังเหลือ/ความเสี่ยง/คำขอตัดสินใจ
-- ขั้นส่งต่อ `READY FOR TEAM REVIEW` หรือ `BLOCKED` และผู้รับต่อ
-
-## รายงานสรุปตามผู้บังคับบัญชา
-- **Team Lead → Department Director:** รายชื่อ 2 workers+PR+SHA, ผลตรวจและการสั่งแก้, Team Integration PR, `TEAM_ACCEPTED`
-- **Department Director → Integration Director/CEO:** งานของทุกทีม, ความขัดแย้ง/บั๊กที่แก้, แผน Integration, Test ทั้งแผนก, `DEPARTMENT_ACCEPTED`
-- **Integration Director → CEO:** Summary ทุกแผนก, Final Release PR+HEAD, Quality Gate/CI รวม, known risks, `RELEASE_READY`
-- **CEO → Owner:** รายงานสั้นว่าทำอะไร สำเร็จ/ติดขัด รวมเข้า main แล้วหรือไม่ พร้อม PR และ SHA
-
-## ข้อความให้ Owner คัดลอกระหว่างแชท — ไม่เกิน 3 บรรทัด
-```text
-<ROUND> <ROLE-ID> | READY/BLOCKED/CHANGES_REQUESTED | PR #... | CI PASS/FAIL/NOT_VERIFIED | Head abc1234
-GitHub report: https://github.com/tanawutmalirum29-ux/ant-project/issues/<n>#issuecomment-<id>
-Next recipient: <ชื่อบทบาท/รหัสผู้รับ> | Blocker: none/<สั้น ๆ>
-```
-
-ถ้ายังไม่มี PR ให้ใช้ `Issue #...` แทนได้ แต่ต้องมีลิงก์รายงานจริง ห้ามประดิษฐ์ SHA, CI, URL หรืออ้างว่าบุคคลถัดไปได้รับคำสั่งโดยยังไม่ได้ส่ง
-
-## การมอบหมายงานต้องส่งถึงทุกคน
-แต่ละคนที่มีหน้าที่จริงต้องได้รับข้อความแต่งตั้งพร้อมลิงก์ของตนเอง ไม่ถือว่าโพสต์คำสั่งของ CEO ครั้งเดียวแล้ว Team Lead/Engineer ในแชทอื่นจะทราบโดยอัตโนมัติ
-
-แสดงข้อความให้ Owner คัดลอกตามลำดับ: CEO → Director / Integrator → Team Lead → Engineer (2 คนต่อ Team Lead). แต่ละชั้นเป็นคนเขียนและส่งคำสั่งที่ลงชื่อถึงผู้ใต้บังคับบัญชาโดยเฉพาะ
+The Delivery roster steward records each actual acknowledged appointment and reports versioned org-chart changes to CEO via delivery (not every child Engineer's raw message). No requests to Owner to run CI, send ZIP, type commands or transport artifacts. Signoff comments under shared GitHub identity need source+scope+SHA/CI evidence and roster linkage; they cannot prove cryptographic ChatGPT identity. See [V2](V2-GOVERNANCE.md) and [Signatures](RELEASE-SIGNATURES.md).
