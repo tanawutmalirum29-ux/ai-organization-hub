@@ -1,5 +1,5 @@
 # Reporting & relay — V2
-Source of truth: Governance rules in `appointment-CEO`, active roster in `ant-project/docs/ai-org/TEAM-REGISTRY.json` and `ACTIVE_TEAM.md`, actual task/PR/tests/actions/signoff GitHub links in `ant-project`.
+Source of truth: Governance rules in `appointment-CEO`, active roster in `appointment-CEO/docs/ai-org/TEAM-REGISTRY.json` and `ACTIVE_TEAM.md`, actual game task/PR/tests/actions/signoff GitHub links in `ant-project` (canonical roles/signoff board remain in `appointment-CEO`).
 
 **Every directive, approval and request must travel one adjacent organizational edge, never CEO→Engineer directly.** A cross-team consultation rises via immediate parents to shared ancestor, then down to recipient chain. No chat receives a message merely because a GitHub comment was posted; Owner carries **up to three concise lines** with sender, permanent GitHub link, immediate next recipient:
 `<ROUND> <SENDER_ROLE> → <DIRECT_CHILD_OR_PARENT> | EVENT / STATUS / HEAD`
