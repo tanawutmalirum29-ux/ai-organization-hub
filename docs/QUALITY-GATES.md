@@ -1,35 +1,14 @@
-# Quality Gates — เกณฑ์รับงานหลายชั้น
-
-เลือกการตรวจให้เหมาะกับงานและเขียนไว้ใน Parent Issue **ก่อนพัฒนา** ค่าตัวอย่างต่อไปนี้เป็นเกณฑ์อ้างอิง ไม่ใช่คำสั่งให้ทุกงานต้องใช้ Test แบบเดียวกัน
-
-| ชั้นตรวจ | ผู้รับผิดชอบ | ต้องยืนยัน |
+# Quality Gates — V2 signed chain
+| Stage | Reviewer responsible | Required receipt |
 | --- | --- | --- |
-| Implementation | Engineer | เปลี่ยนเฉพาะไฟล์อนุญาต, Tests ใหม่+เดิมที่เกี่ยวข้อง, ไม่มีข้อมูลแต่งขึ้น |
-| Team QA | Team Lead | ตรวจครบสองคน, Review diff, ประเด็นหายจริง, CI ผลสุดท้าย SHA ตรง, ส่ง `TEAM_ACCEPTED` |
-| Department QA | Department Director | เชื่อมหลายทีม, ตรวจของที่ใช้งานร่วมกัน, ทดสอบสิ่งที่ข้ามทีม, วิเคราะห์และสั่งแก้ก่อน `DEPARTMENT_ACCEPTED` |
-| Cross-Department QA | Integration Director / Acting Integrator | ตรวจสัญญาข้อมูลและ Integrate ทั้งหมดบน Branch เดียว, รัน CI รวม, บั๊กย้อนหลัง |
-| Release | CEO | Owner scope ถูกต้อง, PR HEAD ไม่เปลี่ยน, CI บน HEAD รวมผ่าน, Acceptance/risks ครบ, Merge `main` และยืนยัน SHA |
+| Implementation | Engineer + immediate manager for Assistant | Exact file diff, tests, CI, delivered SHA |
+| Team | Team Lead | Both core Engineers and helpers actually reviewed; `TEAM_ACCEPTED` |
+| Department | Department Director | Team integration and actual regression; `DEPARTMENT_ACCEPTED` |
+| Domain | Relevant DCEO-SYS/EXP/PLAT | **Domain-specific actual QA** on frozen Candidate SHA; `DOMAIN_SIGNED` or HOLD |
+| Independent QA | DCEO-QA | Cross-domain/gameplay/browser verification; `INDEPENDENT_QA_SIGNED` or hard `QA_HOLD` |
+| Release integration | DCEO-DELIVERY | Full integrated branch/tests, all required domain/QA receipts same exact full SHA, then **last** `DELIVERY_SIGNED` |
+| CEO | AI CEO | Check fresh `SIGNATURE_READY` / immutable SHA / Owner scope, Merge main only |
 
-## Autonomous QA (Owner Zero-Click)
-- ทุก Gate ต้องมี AI เจ้าของขั้นตอนและ GitHub Actions auto-trigger ที่เหมาะสม (push/PR แบบจำกัด Branch/Path) โดยระบุรายละเอียดไว้ใน Parent Issue; ห้ามให้ Owner คลิก Run workflow หรือขน Artifact
-- Team Leads รับผิดชอบ CI/Team QA, Department Director รับผิดชอบ Integration/Full QA, Integration Director (ถ้ามี) รับผิดชอบ QA ข้ามแผนก และ CEO ตรวจปล่อย Release เท่านั้น
-- ใช้ Smoke QA ที่รวดเร็วกับการแก้โค้ดรายครั้งและ Full QA อัตโนมัติบน HEAD รวมก่อนยื่น Acceptance; ตรวจ run URL, checked-out SHA, workflow SHA และ artifact ตาม [นโยบาย Zero-Click](AUTONOMOUS-QA.md)
-- QA-only branch ต้องพิสูจน์ว่า Product Source SHA ตรงกับฐานที่ต้องการตรวจ และแยกผล Workflow/Harness ออกจาก Product; ไม่ถือว่าสคริปต์ทำงานแล้วเท่ากับ Quality Gate ผ่าน
+ต้องกำหนด `required_signers` ตามรอบก่อนเริ่มทำ, QA ต้องยืนยัน HEAD/CI จริง, ไม่ใช้ PASS จาก Source/Issue เพียงข้อความเดียว. 40-character Candidate SHA ใหม่ทำให้ Final Signature เดิมใช้ไม่ได้ ต้องตรวจ/เซ็นใหม่. ตรวจ UI จริง 5 ขนาดเมื่อแตะ UI, Simulation/Conservation/Seed และ Long Tick เมื่อเหมาะสม, SVG/assets, performance ตามความเสี่ยง. ทดสอบอัตโนมัติบน GitHub และแสดง Artifact จริง; ผู้ใช้ไม่กด Actions.
 
-## มาตรฐานเกม Ant Kingdom
-- **npm test**, **npm run build** และ GitHub Actions ของ Branch รวมต้องผ่าน; ตรวจเลข Test และผลจริง ไม่ใช้คำว่า PASS จากข้อความอย่างเดียว
-- หากแตะ UI/Renderer/Input: Browser QA บนขนาด **320×568, 390×844, 768×1024, 844×390, 1440×900** และตรวจ JavaScript Error/Hit targets
-- หากแตะ Simulation/Map/Resource: ตรวจ Seed Determinism, Tick, Pause/Speed, Reachability, ผล Gameplay จริง และการจำลองระยะยาว **30,000 Tick × อย่างน้อย 3 Seeds** เมื่อมีความเสี่ยงที่เหมาะสม
-- หากแตะทรัพยากร: ต้องตรวจ physical accounting; ไม่สร้างอาหาร น้ำ โปรตีน หรือวัสดุโดยไม่มีที่มา/บัญชี
-- หากแตะ Combat/Pathfinding: ตรวจการเคลื่อนที่จริง การเข้าถึงพื้นที่ และ Regression ที่เกี่ยวข้อง
-- หากแตะ Performance: มี benchmark เทียบก่อน/หลังและภาระมือถือพอสมควร
-- CI ไม่สามารถรันได้ / DNS blocked / Browser QA ยังไม่วิ่ง = **NOT VERIFIED** ไม่ใช่ PASS
-
-## หลักฐานที่ต้องมาพร้อมงาน
-1. Github Issue และ PR, Branch, full HEAD SHA, base SHA, changed filenames
-2. Test Commands และ Workflow Run URL ที่ยืนยัน HEAD เดียวกัน
-3. Screenshot/Artifact หรือ benchmark ถ้าจำเป็น
-4. Risks, Known Failures, Out-of-scope defects, ระดับความรุนแรง
-5. Team Acceptance / Department Acceptance / Integration Acceptance ตามโครงสร้างรอบนั้น
-
-**CEO ไม่รับ PR ของ Engineer เป็น Final PR โดยตรง** หากไม่ผ่านสายตรวจรับ และ **CEO ไม่แก้ Gameplay เอง** เพื่อให้ CI ผ่าน. 
+รอง CEO ไม่สามารถยกเลิก QA_HOLD เอง. ไม่ถือว่าการตรวจ Contrast บางตัวอย่างเป็นใบรับรอง WCAG ทุกจุด, หรือ Chromium fallback เป็นการตรวจ Legacy browser จริง. ดู [RELEASE-SIGNATURES](RELEASE-SIGNATURES.md) สำหรับแบบคำรับรองและเงื่อนไข CI Verifier ที่ยังต้อง implement.
