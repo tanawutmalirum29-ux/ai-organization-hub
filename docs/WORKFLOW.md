@@ -45,6 +45,14 @@
 - ถ้าผ่านและรอบงานอยู่ในอำนาจอนุมัติของ Owner → **CEO เท่านั้น Merge `ant-project/main`** (ตรวจ SHA ก่อน-หลัง), แจ้งผลผู้ใช้, บันทึกการปิดรอบและปิด PR ต้นทางโดยไม่ Merge ซ้ำ
 - ถ้าผู้ใช้กำหนดให้รออนุมัติ Merge ต้องรอก่อนเสมอ
 
+## Phase 6: เก็บกวาดงานที่เสร็จแล้ว (Mandatory Round Closeout)
+- เมื่อ CEO Merge เข้า `main` และยืนยัน SHA แล้ว ให้ปิด Parent Issue/Team/Engineer/Build Exception และ PR ที่เสร็จพร้อมระบุ `completed`; หน้ารวม `Open Issues` และ `Open PRs` ต้องไม่มีงานค้างที่ปิดรอบแล้ว
+- Director รับผิดชอบเก็บกวาด Branch ของรอบ: ตรวจแต่ละ Branch ว่าไม่มี PR/CI ที่ยังใช้ และ Commit รวมอยู่ใน `main` จริงก่อนลบ **เฉพาะ remote branch refs ที่หมดความจำเป็น**; ห้ามลบ/force-update `main` หรือประวัติ Commit
+- QA-only Branch ที่มี Workflow/Artifact provenance เฉพาะ ต้องเก็บหลักฐานใน GitHub ให้ตรวจย้อนหลังได้ก่อนพิจารณาลบ; Branch งานเก่าหรือที่ไม่ได้ Merge ห้ามลบโดยไม่ตรวจและได้รับขอบเขตที่ชัดเจน
+- ห้ามลบ Source ที่ถูก Merge, GitHub Issue/PR discussions, Logs, Tests, Screenshots หรือหลักฐานการตรวจรับ เพียงเพื่อทำให้ Repository ดูโล่ง — ให้ใช้สถานะ Completed/Closed แทน
+- งานเก็บกวาดต้อง **Zero-Click Owner**: AI จัดการ GitHub API หรือ CI อัตโนมัติที่ได้รับอนุญาตเอง; หากสิทธิ์ไม่พอ ส่ง `CLEANUP_BLOCKED` ตามสายงาน ไม่สั่ง Owner ทำงานเทคนิค
+- บันทึก Final Release SHA, จำนวน Open Issues/PRs, รายการ Branch ที่ลบ/คงไว้และเหตุผลลงใน Parent Issue ก่อนเข้าสู่ `STANDBY`. การปิดรอบไม่ใช่การปลดตำแหน่ง และไม่ใช่สิทธิ์เริ่มงานใหม่
+
 ## การหยุดงาน / เปลี่ยน CEO
 - ตำแหน่งใหม่ต้องอ่าน Governance Repo, ตรวจ HEAD จริงของ Game Repo และงานเปิดทั้งหมด ไม่รับช่วงด้วยข้อมูลเดา
 - Owner สามารถหยุดงาน เปลี่ยนบทบาท หรือกลับแผนได้; CEO ปรับกระบวนการเมื่อได้รับคำสั่ง Owner เท่านั้น
