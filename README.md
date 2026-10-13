@@ -1,12 +1,12 @@
-# Ant Kingdom — Governance V2 (เสนอปรับผังองค์กร)
-**เอกสารฉบับเสนอแก้ไข ไม่ใช่คำสั่งเปิดงานใหม่**: ต้องให้ AI CEO/Owner อนุมัติและ Merge PR ของ Governance ก่อนจึงใช้แทนผังเก่า. โครงการเกมอยู่ที่ [ant-project](https://github.com/tanawutmalirum29-ux/ant-project) ตามเดิม
+# Ant Kingdom — Governance V2 | ศูนย์กลางการแต่งตั้งและบริหารองค์กร
+**เอกสารนโยบายองค์กรหลักบน `appointment-CEO/main`**: ใช้กำหนดโครงสร้าง การแต่งตั้ง และการรับรองงานในรอบถัดไป **ไม่ใช่คำสั่งเริ่มพัฒนาเกมหรือยืนยันว่ามี AI แชทใหม่แล้ว**. ส่วนโค้ดเกมและงานพัฒนาอยู่ที่ [ant-project](https://github.com/tanawutmalirum29-ux/ant-project) เท่านั้น
 
 ## กฎอ้างอิงหลัก (V2)
 1. [กฎใหม่ทั้งองค์กร: V2-GOVERNANCE](docs/V2-GOVERNANCE.md)
 2. [ห้ามสั่งงานข้ามหัวและวิธีขอดูงานข้ามทีม](docs/REQUEST-ROUTING.md)
 3. [ทุกระดับขอผู้ช่วยได้ / เส้นทางขอเพิ่มกำลังคน](docs/STAFFING.md)
 4. [ลายเซ็น Release บน SHA เดียวกัน / รอง CEO ลงนามสุดท้าย](docs/RELEASE-SIGNATURES.md)
-5. [ทะเบียนทีมและผังทีมแบบ Live ในเกม](docs/TEAM-REGISTRY.md)
+5. [ทะเบียนทีมและผังทีมใน Repository นี้](docs/TEAM-REGISTRY.md) · [ผังปัจจุบัน](docs/ai-org/ACTIVE_TEAM.md) · [ทะเบียน JSON](docs/ai-org/TEAM-REGISTRY.json) · [บอร์ดลายเซ็น](docs/ai-org/RELEASE-SIGNATURES.md)
 6. [Zero-Click Owner / Automatic QA](docs/AUTONOMOUS-QA.md)
 7. [บทบาท DCEO-DELIVERY](roles/DEPUTY-DELIVERY.md), [DCEO สายงาน](roles/DEPUTY-DOMAIN.md), [DCEO-QA](roles/DEPUTY-QUALITY.md)
 8. [คำสั่งแต่งตั้ง Delivery](appointments/APPOINT-DEPUTY-DELIVERY.md), [Domain](appointments/APPOINT-DEPUTY-DOMAIN.md), [Assistant](appointments/APPOINT-ASSISTANT.md)
@@ -20,4 +20,6 @@
 **หลักฐาน:** รายงาน/CI/ลายเซ็นอยู่ใน GitHub, CEO ไม่รับคำว่า PASS ลอย ๆ; CI verifier ของลายเซ็นเป็นคุณสมบัติที่ *กำหนดให้ implement ในรอบเปิดใช้งาน* มิใช่บอกว่ามี Workflow นี้อยู่แล้ว. การใช้ GitHub บัญชีเดียวกันไม่ยืนยันตัวผู้ลงนามแต่ละแชทอย่างเข้ารหัส. เจ้าของโครงการไม่ต้องกด Actions/ส่ง ZIP.
 
 ## Legacy documents
-[ORGANIZATION](docs/ORGANIZATION.md), [WORKFLOW](docs/WORKFLOW.md), [QUALITY-GATES](docs/QUALITY-GATES.md), [REPORTING](docs/REPORTING.md) และไฟล์แต่งตั้งรุ่นก่อนถือเป็น **Legacy Reference** หลัง V2 ได้รับอนุมัติ: หากขัดกับ V2 ให้ใช้ไฟล์ V2 เป็นหลัก. ผัง 17 AI เดิมใน ant-project เป็นบันทึกประวัติ ไม่ใช่คำสั่งแต่งตั้งที่ทำงานใหม่ได้.
+[ORGANIZATION](docs/ORGANIZATION.md), [WORKFLOW](docs/WORKFLOW.md), [QUALITY-GATES](docs/QUALITY-GATES.md), [REPORTING](docs/REPORTING.md) และไฟล์แต่งตั้งรุ่นก่อนถือเป็น **Legacy Reference** ในกรณีเนื้อหาขัดกับ V2 ให้ใช้ไฟล์ V2 เป็นหลัก. ผัง 17 AI เดิมใน ant-project เป็นบันทึกประวัติ ไม่ใช่คำสั่งแต่งตั้งที่ทำงานใหม่ได้.
+
+**โปรดอย่าลบแชท AI เดิมหรือถือว่าตำแหน่งที่ยังไม่ ACK เป็น ACTIVE:** ผังองค์กรใน `docs/ai-org` ระบุเฉพาะโครงสร้าง/สถานะจริง และบันทึกการแต่งตั้งต้องมี GitHub Issue และคำตอบรับแชทก่อน.
