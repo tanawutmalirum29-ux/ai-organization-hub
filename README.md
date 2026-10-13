@@ -1,6 +1,17 @@
 # Ant Kingdom — Governance V2 | ศูนย์กลางการแต่งตั้งและบริหารองค์กร
 **เอกสารนโยบายองค์กรหลักบน `appointment-CEO/main`**: ใช้กำหนดโครงสร้าง การแต่งตั้ง และการรับรองงานในรอบถัดไป **ไม่ใช่คำสั่งเริ่มพัฒนาเกมหรือยืนยันว่ามี AI แชทใหม่แล้ว**. ส่วนโค้ดเกมและงานพัฒนาอยู่ที่ [ant-project](https://github.com/tanawutmalirum29-ux/ant-project) เท่านั้น
 
+## คู่มือบังคับสำหรับ AI ทุกแชท — เริ่มอ่านตรงนี้
+
+**AI ทุกตัวต้องอ่าน [ROLE START HERE](docs/ROLE-START-HERE.md) ก่อนรับแต่งตั้ง/งานจริง** และตอบว่าตนเป็นตำแหน่งใด อยู่ใต้ใคร มีทักษะ/เครื่องมือที่ตรวจได้จริงอะไรบ้าง ขอบเขตห้ามแก้คืออะไร และหลังทำงานเสร็จจะส่งใคร.
+
+- [Skills & Scope ของแต่ละ Role](docs/ROLE-SKILLS-AND-SCOPE.md) — ทักษะที่ตำแหน่งต้องใช้ สิทธิ์ และสิ่งที่ห้ามทำ
+- [หลังจบงานต้องทำอะไร](docs/TASK-STATE-AND-HANDOFF.md) — ทุก Status → เจ้าของงานถัดไป
+- [ชุดข้อความ 3 บรรทัดให้ Owner ส่งต่อ](docs/RELAY-TEMPLATES.md) — AI เขียนเอง ระบุ `Next recipient` ทีละชั้น
+- [Assistant charter](roles/ASSISTANT.md) และ [Roster Steward charter](roles/ROSTER-STEWARD.md)
+
+**Owner = Messenger only**: Owner รับข้อความ AI-to-AI ที่เขียนครบแล้ว คัดลอกไปแชทที่ระบุ ไม่กด Run workflow, ไม่ขน ZIP, ไม่แก้ Code, ไม่ตรวจ PR/CI แทน AI. การวางเอกสารไว้ใน `main` **ไม่ได้ทำให้แชท AI อื่นอ่านอัตโนมัติ** ต้องได้รับคำสั่งแต่งตั้งที่มีลิงก์กฎ แล้วตอบ `APPOINTMENT_ACK` จริง.
+
 ## กฎอ้างอิงหลัก (V2)
 1. [กฎใหม่ทั้งองค์กร: V2-GOVERNANCE](docs/V2-GOVERNANCE.md)
 2. [ห้ามสั่งงานข้ามหัวและวิธีขอดูงานข้ามทีม](docs/REQUEST-ROUTING.md)

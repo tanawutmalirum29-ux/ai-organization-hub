@@ -1,4 +1,8 @@
 # Delivery SOP — V2
+
+**PHASE -1 (mandatory):** ทุกบทบาทอ่าน [Start](ROLE-START-HERE.md), [Role Skills](ROLE-SKILLS-AND-SCOPE.md), [Task Status](TASK-STATE-AND-HANDOFF.md), [Owner Relay](RELAY-TEMPLATES.md), ตรวจเครื่องมือในแชทจริงและโพสต์ APPOINTMENT_ACK/SKILL_READY หรือ BLOCKED ก่อนรับงาน. หัวหน้าต้องให้คำสั่งแต่งตั้งแยกทุกคนและรอ ACK จริง. Role ID + ชื่อบทบาทเฉย ๆ ไม่ได้เพิ่มสกิลหรือสิทธิ GitHub.
+
+**PHASE 7 (mandatory):** หลังทุก DELIVERED/ACCEPTED/HOLD/STANDBY ลงรายงาน GitHub จริง แล้ว AI เจ้าของงานสร้างข้อความส่ง Owner ไม่เกิน 3 บรรทัดที่ระบุ Sender → Recipient ซึ่งเป็น direct edge, Permanent GitHub URL และ Next recipient พร้อมการกระทำที่ต้องการ (ตาม [Status SOP](TASK-STATE-AND-HANDOFF.md)). ไม่มี Recipient ใหม่เมื่อ STANDBY ก็ไม่ต้องให้ Owner ไปส่งซ้ำ.
 1. **Owner→CEO** ให้เป้าหมาย. CEO ตรวจ main ล่าสุด กำหนดขอบเขต Round, capacity envelope, domain Required Signers และแต่งตั้ง Delivery รอง CEO หากยังไม่มี; ไม่สั่ง Engineer ตรง.
 2. **CEO→Delivery** มอบหมายงานระดับสูง. Delivery แต่งตั้งรอง SYS/EXP/PLAT/QA ใน Slot ที่อนุมัติ, ออกงานเฉพาะผู้ใต้บังคับบัญชาตรง, ดูแลทะเบียนคน. Domain Deputies แต่งตั้ง Directors, Director แต่งตั้ง Lead, Lead แต่งตั้ง Engineers 2 คน; ทุกคนต้องมี Issue/ACK จริง.
 3. **Engineer/Assistant** พัฒนาเฉพาะไฟล์อนุญาตและส่ง PR/CI ให้หัวหน้าตรง. **Lead** ตรวจครบ 2 Engineers ลง `TEAM_ACCEPTED`. **Director** ตรวจรวมลง `DEPARTMENT_ACCEPTED`. **Domain Deputies** ทดสอบงานในเขตรับผิดชอบจริงบน Candidate SHA สุดท้ายแล้วลง `DOMAIN_SIGNED` / HOLD. **Independent DCEO-QA** ตรวจระบบข้ามส่วนและลง `INDEPENDENT_QA_SIGNED` / `QA_HOLD`.
