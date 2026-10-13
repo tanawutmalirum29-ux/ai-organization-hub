@@ -16,14 +16,20 @@ Project Owner sets direction, priorities and scope; approves exceptions/decision
 
 AI chats do **not** autonomously communicate with one another. The only human relay is a short message with role, actual GitHub report URL, status and next recipient; reports/artifacts stay on GitHub.
 
-## Accountability by role
-| Role | Autonomous responsibilities | Send results to |
+## Accountability by role — V2 authoritative routing
+**This section replaces legacy ROYAL-01 Integration Director→CEO / Director→CEO routing. Every message moves one direct parent/child hop.** No alternate parallel Integration Director reporting to CEO is active under V2.
+
+| Role | Technical duties it owns | Exactly who receives the result |
 | --- | --- | --- |
-| Engineer | Scope audit, source implementation, focused tests, documentation and Draft PR; inspect own checks/logs | Own Team Lead |
-| Team Lead | Review both Engineers, arrange CI triggers without Owner, inspect logs/artifacts and independently verify Team QA; decide `TEAM_ACCEPTED` or `CHANGES REQUESTED` | Department Director |
-| Department Director | Integrate accepted Team changes, handle authorized QA-only workflows, execute/verifiably trigger combined Full QA, inspect artifacts and issue `DEPARTMENT_ACCEPTED` / `REWORK` | Integration Director if designated; otherwise CEO |
-| Integration Director, when appointed | Cross-department compatibility, integration CI and release-candidate validation | CEO |
-| AI CEO | Define gates and role boundaries, review evidence, exact integrated HEAD + Owner scope, accept/reject final release; **only CEO** may merge `ant-project/main` | Owner (short status) |
+| Engineer / approved Assistant | Implement owned paths, test, open scoped Draft PR, attach actual SHA and CI evidence | **Its direct manager** (Engineer→Team Lead; Assistant→its actual parent) |
+| Team Lead | Review two Core Engineers' PRs, actual CI/results and assign rework, issue `TEAM_ACCEPTED` | **Its Department Director** |
+| Department Director | Combine accepted Team work, run/check integrated relevant QA, `DEPARTMENT_ACCEPTED` or HOLD | **Its registered Domain Deputy** |
+| DCEO-SYS / EXP / PLAT | Technical review and QA of affected Domain on frozen final Candidate SHA; sign/HOLD | **DCEO-DELIVERY** |
+| DCEO-QA | Independently verify complete candidate and issue binding `INDEPENDENT_QA_SIGNED` / `QA_HOLD` | **DCEO-DELIVERY** |
+| DCEO-DELIVERY | Integrate all Domains, collect exact-SHA signatures + independent QA and sign **last** | **AI CEO** — one final Release request |
+| AI CEO | Product scope and capacity, verify complete signoff gate and CI/HEAD, sole `ant-project/main` merge | **Project Owner**, informational Release result; sends rework only to Delivery |
+
+A Product QA failure in another Domain goes `DCEO-QA→DCEO-DELIVERY→DCEO-<DOMAIN>→Director→Lead→Engineer`, never Quality→Engineer directly. If a task changes the source SHA, recheck and re-sign as required. [Mandatory onboarding](ROLE-START-HERE.md), [Skill scopes](ROLE-SKILLS-AND-SCOPE.md), [After-task routing](TASK-STATE-AND-HANDOFF.md), [Actual Task contract](TASK-ISSUE-CONTRACT.md).
 
 An AI role may not claim that another chat received an order until Owner actually relays it and/or the recipient acknowledges it.
 
@@ -34,15 +40,15 @@ An AI role may not claim that another chat received an order until Owner actuall
 4. **Acceptance/release checkpoints:** on integrated Team/Department/Release candidate SHA, automatically run the full relevant test/build, Browser QA and gameplay/simulation/performance checks prescribed in the Parent Issue and Quality Gates. No new push after signoff without fresh checks.
 5. **Provenance:** report GitHub run URL, `GITHUB_SHA`, actual checkout SHA, production-source SHA when using a QA-only harness, workflow SHA, conclusion, logs, artifact IDs and gate counts. Branch names and old PASS results are not sufficient.
 6. **QA-only harness separation:** an isolated QA branch may modify workflow/test harness files ONLY with authorized QA ownership and a documented exact production base SHA and scoped compare. It may validate unchanged product source but does not replace verification of the final integrated product SHA. Never silently merge disposable harness changes into production.
-7. **Failure handling:** if a workflow does not start, has YAML errors, fails for infrastructure, or reports a genuine product regression, the responsible AI diagnoses it and repairs only its authorized files or escalates to its lead/Director/CEO for a scope decision. A harness failure is not automatically a gameplay failure, and a passing smoke test is not full QA.
+7. **Failure handling:** if a workflow does not start, has YAML errors, fails for infrastructure, or reports a genuine product regression, the responsible AI diagnoses it and repairs only its authorized files or escalates to its **direct parent only** for a scope decision; that parent forwards upward one level if outside authority. A harness failure is not automatically a gameplay failure, and a passing smoke test is not full QA.
 8. **No shortcuts:** `CI NOT_RUN`, `CI NOT_VERIFIED`, missing artifacts, wrong HEAD, unavailable runner, DNS/network failure, or unresolved coverage = **QA HOLD**. Never invent `PASS`, weaken tests to greenwash results, retarget PR to main as a trigger workaround, or bypass signed Team/Department/Integration acceptance.
-9. **If automation cannot be implemented within current permissions:** report `BLOCKED` with the missing capability, attempted alternatives and a minimal technical decision to the appropriate AI supervisor. Never offload shell, screenshots, CI clicks or file transfers to Owner. CEO may approve scoped workflow ownership or a different AI-managed trigger design without expanding Gameplay scope.
+9. **If automation cannot be implemented within current permissions:** report `BLOCKED` with the missing capability, attempted alternatives and a minimal technical decision to the direct AI supervisor, following one-edge chain. Never offload shell, screenshots, CI clicks or file transfers to Owner. CEO may approve staffing/scope policy via the DCEO-DELIVERY chain. The Domain Deputy and direct Team/Department parent must assign scoped workflow ownership; never order a lower Engineer directly.
 
 ## Reporting template to Owner, max 3 lines
 ```text
 <ROUND> <ROLE-ID> | READY/BLOCKED/CHANGES_REQUESTED | PR #... | CI PASS/FAIL/NOT_VERIFIED | Head <short-SHA>
 GitHub report: https://github.com/tanawutmalirum29-ux/ant-project/issues/<n>#issuecomment-<id>
-Next recipient: <ROLE-ID> | Blocker: none/<technical issue to be handled by AI team>
+Next recipient: <IMMEDIATE-PARENT-OR-CHILD-ROLE-ID> | <one next action by recipient, or OWNER information only>
 ```
 
 **When to apply:** starting with the next planned work round and immediately to any in-progress task where Owner's Zero-Click directive supersedes prior manual instructions. This document is a governance policy; it does not by itself create GitHub Actions triggers, start an AI chat, or authorize a release merge.
