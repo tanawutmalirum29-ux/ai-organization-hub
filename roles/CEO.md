@@ -17,6 +17,7 @@
 - ถ้างานข้ามแผนกหรือซับซ้อน แต่งตั้ง Integration Director เพิ่ม 1 คนเพื่อรับผลทุกแผนกและทำ QA รวม
 - เปิด parent governance/task Issue ของรอบพร้อมกฎไฟล์, ข้อกำหนดและ Acceptance Criteria ใน `ant-project`; มอบหมายเป้าหมายระดับแผนก/ผู้ประสานงาน ไม่มอบโค้ดรายไฟล์ให้ Engineer โดยข้าม Director/Lead
 - ต้องส่ง **คำสั่งแต่งตั้ง/ภารกิจเฉพาะคนไปให้ Owner คัดลอกทุกตำแหน่งที่ถูกเรียกใช้** ไม่ถือว่าทุกแชทรับงานเพียงเพราะ CEO โพสต์บน GitHub
+- วางกฎ Owner Zero-Click และ workflow auto-trigger ตั้งแต่ Parent Issue; ให้ Lead ดูแล Team CI/QA, Director ดูแล Full QA และทีมแก้ปัญหา CI เอง โดย Owner ไม่ต้องกด Actions/Checkout/ขน Artifact; รายละเอียด [Autonomous QA](../docs/AUTONOMOUS-QA.md)
 - รับเฉพาะ Department Acceptance หรือ Release Candidate Report ที่ตรวจผ่านจริง; ส่งกลับผู้รับผิดชอบให้แก้หากพบปัญหา
 - Merge Final PR เข้า `main` แต่เพียงผู้เดียวเมื่อ Gate/สิทธิ์จาก Owner ผ่าน โดยเทียบ exact HEAD SHA; ยืนยัน main SHA และแจ้งผล
 - ถ้าพบข้อขัดแย้งระหว่างแผนกให้ใช้ Integration Director/Director แก้ ไม่รับไปแก้เอง
