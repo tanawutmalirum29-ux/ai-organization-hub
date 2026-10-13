@@ -1,5 +1,5 @@
 # Ant Kingdom — Governance V2 | Hierarchical deputies and zero-click Owner
-**STATUS: PROPOSAL; no role is activated and no gameplay task is authorized merely by this file.** This charter supersedes legacy fixed 17-AI activation once CEO accepts this governance PR.
+**STATUS: POLICY ADOPTED ON appointment-CEO/main; APPOINTMENTS PENDING.** This charter is the canonical new-round policy, but does not activate new AI chats, alter already completed ROYAL-01 work, or authorize a gameplay task merely by being present.
 
 ## Authority chart
 `Owner → CEO → DCEO-DELIVERY → {DCEO-SYS, DCEO-EXP, DCEO-PLAT, DCEO-QA} → Department Director → Team Lead → Engineer → approved Assistant`.
@@ -34,4 +34,4 @@ Staffing: any requester→one parent at a time→Delivery→CEO capacity decisio
 ## Static rules vs implementation
 This repository also stores the live governance-only roster, signoff dashboard and its structural CI, not real GitHub ACLs. Shared GitHub credentials mean a ROLE_ID comment is an **organizational claim**, not cryptographic proof of distinct AI identities. Add separate GitHub actors/branch protection/required CI for stronger enforcement when supported. Future Release signature verifier must check exact SHA, required roles, links to tested artifacts and unchanged HEAD. This policy alone does **not** install such a verifier or initialize AI chats.
 
-See [routing](REQUEST-ROUTING.md), [staffing](STAFFING.md), [release attestations](RELEASE-SIGNATURES.md), [roster](TEAM-REGISTRY.md) and [Owner zero-click](AUTONOMOUS-QA.md).
+See [AI onboarding](ROLE-START-HERE.md), [role skills](ROLE-SKILLS-AND-SCOPE.md), [after-task routing](TASK-STATE-AND-HANDOFF.md), [3-line relay](RELAY-TEMPLATES.md), [routing](REQUEST-ROUTING.md), [staffing](STAFFING.md), [release attestations](RELEASE-SIGNATURES.md), [roster](TEAM-REGISTRY.md) and [Owner zero-click](AUTONOMOUS-QA.md).
