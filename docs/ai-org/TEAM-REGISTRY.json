@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "registry_version": "GOV-V2-CHARTER-001",
+  "registry_version": "GOV-V2-CHARTER-002",
   "governance_status": "POLICY_ADOPTED_APPOINTMENTS_PENDING",
   "round_id": null,
   "round_status": "STANDBY",
@@ -11,37 +11,116 @@
       "role_id": "CEO",
       "parent_role_id": null,
       "scope": "Strategy, role capacity, release signature gate and sole main merge",
-      "required_for_release": true
+      "required_for_release": true,
+      "role_charter": "roles/CEO.md",
+      "required_skill_areas": [
+        "release gate",
+        "roadmap",
+        "staffing capacity",
+        "GitHub PR metadata"
+      ],
+      "skill_contract": "docs/ROLE-SKILLS-AND-SCOPE.md",
+      "onboarding_procedure": "docs/ROLE-START-HERE.md",
+      "task_completion_procedure": "docs/TASK-STATE-AND-HANDOFF.md",
+      "owner_message_template": "docs/RELAY-TEMPLATES.md",
+      "next_recipient_after_signoff": "Project Owner",
+      "slot_status": "TEMPLATE_ONLY_NOT_APPOINTED"
     },
     {
       "role_id": "DCEO-DELIVERY",
       "parent_role_id": "CEO",
       "scope": "Integrated candidate, roster governance, LAST release signer",
-      "required_for_release": true
+      "required_for_release": true,
+      "role_charter": "roles/DEPUTY-DELIVERY.md",
+      "required_skill_areas": [
+        "integration",
+        "cross-domain contracts",
+        "source SHA verification",
+        "last signature"
+      ],
+      "skill_contract": "docs/ROLE-SKILLS-AND-SCOPE.md",
+      "onboarding_procedure": "docs/ROLE-START-HERE.md",
+      "task_completion_procedure": "docs/TASK-STATE-AND-HANDOFF.md",
+      "owner_message_template": "docs/RELAY-TEMPLATES.md",
+      "next_recipient_after_signoff": "CEO",
+      "slot_status": "TEMPLATE_ONLY_NOT_APPOINTED"
     },
     {
       "role_id": "DCEO-SYS",
       "parent_role_id": "DCEO-DELIVERY",
       "scope": "Simulation, economy, workers, AI, combat and pathfinding",
-      "required_for_release": "if_systems_affected"
+      "required_for_release": "if_systems_affected",
+      "role_charter": "roles/DEPUTY-DOMAIN.md",
+      "required_skill_areas": [
+        "simulation determinism",
+        "resource conservation",
+        "pathfinding",
+        "combat QA"
+      ],
+      "skill_contract": "docs/ROLE-SKILLS-AND-SCOPE.md",
+      "onboarding_procedure": "docs/ROLE-START-HERE.md",
+      "task_completion_procedure": "docs/TASK-STATE-AND-HANDOFF.md",
+      "owner_message_template": "docs/RELAY-TEMPLATES.md",
+      "next_recipient_after_signoff": "DCEO-DELIVERY",
+      "slot_status": "TEMPLATE_ONLY_NOT_APPOINTED"
     },
     {
       "role_id": "DCEO-EXP",
       "parent_role_id": "DCEO-DELIVERY",
       "scope": "HUD, renderer, graphics, mobile accessibility and Thai",
-      "required_for_release": "if_experience_affected"
+      "required_for_release": "if_experience_affected",
+      "role_charter": "roles/DEPUTY-DOMAIN.md",
+      "required_skill_areas": [
+        "responsive UI",
+        "Canvas 2D",
+        "browser regression",
+        "Thai typography",
+        "SVG"
+      ],
+      "skill_contract": "docs/ROLE-SKILLS-AND-SCOPE.md",
+      "onboarding_procedure": "docs/ROLE-START-HERE.md",
+      "task_completion_procedure": "docs/TASK-STATE-AND-HANDOFF.md",
+      "owner_message_template": "docs/RELAY-TEMPLATES.md",
+      "next_recipient_after_signoff": "DCEO-DELIVERY",
+      "slot_status": "TEMPLATE_ONLY_NOT_APPOINTED"
     },
     {
       "role_id": "DCEO-PLAT",
       "parent_role_id": "DCEO-DELIVERY",
       "scope": "Build, CI, tooling, performance and deploy contract",
-      "required_for_release": "if_platform_affected"
+      "required_for_release": "if_platform_affected",
+      "role_charter": "roles/DEPUTY-DOMAIN.md",
+      "required_skill_areas": [
+        "Node build",
+        "GitHub Actions",
+        "CI artifacts",
+        "performance"
+      ],
+      "skill_contract": "docs/ROLE-SKILLS-AND-SCOPE.md",
+      "onboarding_procedure": "docs/ROLE-START-HERE.md",
+      "task_completion_procedure": "docs/TASK-STATE-AND-HANDOFF.md",
+      "owner_message_template": "docs/RELAY-TEMPLATES.md",
+      "next_recipient_after_signoff": "DCEO-DELIVERY",
+      "slot_status": "TEMPLATE_ONLY_NOT_APPOINTED"
     },
     {
       "role_id": "DCEO-QA",
       "parent_role_id": "DCEO-DELIVERY",
       "scope": "Independent game/browser/regression QA and binding HOLD",
-      "required_for_release": true
+      "required_for_release": true,
+      "role_charter": "roles/DEPUTY-QUALITY.md",
+      "required_skill_areas": [
+        "independent regression",
+        "artifact verification",
+        "QA HOLD",
+        "risk testing"
+      ],
+      "skill_contract": "docs/ROLE-SKILLS-AND-SCOPE.md",
+      "onboarding_procedure": "docs/ROLE-START-HERE.md",
+      "task_completion_procedure": "docs/TASK-STATE-AND-HANDOFF.md",
+      "owner_message_template": "docs/RELAY-TEMPLATES.md",
+      "next_recipient_after_signoff": "DCEO-DELIVERY",
+      "slot_status": "TEMPLATE_ONLY_NOT_APPOINTED"
     }
   ],
   "appointments": [],
@@ -64,7 +143,13 @@
     "release_last_signer": "DCEO-DELIVERY",
     "independent_quality_signer": "DCEO-QA",
     "team_core_engineers_per_lead": 2,
-    "staffing_capacity_approved_by": "CEO"
+    "staffing_capacity_approved_by": "CEO",
+    "skills_selfcheck_before_ack": true,
+    "tools_access_must_be_verified": true,
+    "owner_message_max_lines": 3,
+    "direct_parent_approval_required": true,
+    "recipients_must_be_immediate_edges": true,
+    "appointment_ack_is_not_task_authorization": true
   },
   "baseline_main_repo": "tanawutmalirum29-ux/ant-project"
 }
