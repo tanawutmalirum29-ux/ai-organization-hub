@@ -79,6 +79,36 @@ assert.ok(page.includes('ROLE-SKILLS-AND-SCOPE.md') && page.includes('TASK-STATE
   'human team chart must link skills and after-task instructions');
 console.log('ROLE_ONBOARDING_AND_HANDOFF_CONTRACT_PASS', {slots:r.role_slots.length,mandatory_files:requiredContracts.length});
 
+// V2 operational hardening: a role template alone cannot start a chat/task.
+for (const path of [
+  'docs/ACTIVATION-PACKET.md',
+  'docs/TASK-ISSUE-CONTRACT.md',
+  'docs/READINESS-DRILLS.md',
+  'tools/check-governance-links.mjs'
+]) {
+  assert.ok(existsSync(new URL(path, repoRoot)),'missing actual onboarding/task contract '+path);
+}
+for(const link of [
+  'docs/ACTIVATION-PACKET.md',
+  'docs/TASK-ISSUE-CONTRACT.md',
+  'docs/READINESS-DRILLS.md'
+]) assert.ok(mainReadme.includes(link),'README missing operational prerequisite '+link);
+const qaSop=readFileSync(new URL('docs/AUTONOMOUS-QA.md',repoRoot),'utf8');
+assert.ok(qaSop.includes('DCEO-DELIVERY') && qaSop.includes('DCEO-QA'),
+  'QA policy must use V2 deputy chain');
+assert.ok(!qaSop.includes('Integration Director if designated; otherwise CEO') &&
+           !qaSop.includes('Integration Director, when appointed'),
+  'QA SOP contains forbidden pre-V2 reporting route');
+const activationSop=readFileSync(new URL('docs/ACTIVATION-PACKET.md',repoRoot),'utf8');
+assert.ok(activationSop.includes('NEEDS_APPOINTMENT') && activationSop.includes('APPOINTMENT_ACK'),
+  'activation must reject a bare repo URL and require real recipient ACK');
+const taskSop=readFileSync(new URL('docs/TASK-ISSUE-CONTRACT.md',repoRoot),'utf8');
+for(const field of ['sender_role_id','recipient_role_id','main_base_sha','owned_paths',
+  'forbidden_paths','acceptance_criteria','required_tests','reviewer_role_id','auto_ci_trigger']){
+  assert.ok(taskSop.includes(field),'task contract missing critical field '+field);
+}
+console.log('GOVERNANCE_ACTIVATION_AND_TASK_CONTRACT_PASS');
+
 const appointed = new Map();
 const states = new Set(['PROPOSED','PENDING_ACK','ACTIVE','STANDBY','INACTIVE']);
 const issueUrl = /^https:\/\/github\.com\/[^/]+\/[^/]+\/issues\/[0-9]+/;
