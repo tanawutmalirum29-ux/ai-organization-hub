@@ -5,7 +5,7 @@
 ## เริ่มจากตรงไหน
 1. ผู้ที่จะเป็น **AI CEO** อ่าน [คำสั่งแต่งตั้ง CEO](appointments/APPOINT-CEO.md) และ [หน้าที่ CEO](roles/CEO.md)
 2. ผู้ที่ได้รับตำแหน่งอื่นอ่านเอกสารใน `appointments/` ตามตำแหน่งที่ผู้บังคับบัญชาแต่งตั้ง
-3. อ่าน [โครงสร้างองค์กร](docs/ORGANIZATION.md), [ขั้นตอนมอบหมายงาน](docs/WORKFLOW.md), [การตรวจรับ](docs/QUALITY-GATES.md) และ [การรายงาน](docs/REPORTING.md) ที่เกี่ยวข้อง
+3. อ่าน [โครงสร้างองค์กร](docs/ORGANIZATION.md), [ขั้นตอนมอบหมายงาน](docs/WORKFLOW.md), [การตรวจรับ](docs/QUALITY-GATES.md), [การรายงาน](docs/REPORTING.md) และ [มาตรฐาน Owner Zero-Click / Autonomous QA](docs/AUTONOMOUS-QA.md) ที่เกี่ยวข้อง
 4. **หลังรับแต่งตั้งให้รอคำสั่งงานจริง** จากผู้บังคับบัญชาที่มีสิทธิ์ ไม่เริ่มพัฒนาเกมเอง
 
 ## สอง Repository — ห้ามสับสน
