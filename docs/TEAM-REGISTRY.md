@@ -1,11 +1,22 @@
-# Authoritative team graph in game repository
+# Central AI Team Registry — appointment-CEO (authoritative)
 
-Canonical live artifacts are stored in `ant-project`: `docs/ai-org/TEAM-REGISTRY.json` (machine-readable) and `docs/ai-org/ACTIVE_TEAM.md` (easy-to-read org chart); optional `docs/ai-org/RELEASE-SIGNATURES.md` is a signoff dashboard, not the roster.
+**Organizational records, appointments, charter and release-signature dashboard are owned by THIS repository (`appointment-CEO`), not the game repository.** `ant-project` remains the source of truth for game code, work Issues/PRs, CI runs and concrete release evidence.
 
-Every entry must include `role_id` unique, `parent_role_id` unique (CEO parent null), title, domain, appointed_by, approved slot, `appointment_issue_url`, `ack_comment_url`, `status` (PROPOSED/PENDING_ACK/ACTIVE/STANDBY/INACTIVE), `responsibilities`, approved paths, current Issue/PR and successor link. Graph has no cycles and exactly one CEO root. Do not mark an unacknowledged AI ACTIVE.
+## Canonical files on main
+- [Team Registry JSON](ai-org/TEAM-REGISTRY.json) — machine-readable current slots, actual appointments, parent roles and statuses
+- [Active Team Chart](ai-org/ACTIVE_TEAM.md) — visible hierarchy and responsibilities, status `ACTIVE/STANDBY/PENDING_ACK`
+- [Release Signature Board](ai-org/RELEASE-SIGNATURES.md) — signers and same-SHA completion state (not equivalent to an implemented signature verifier)
+- [Activation and Handoff](ai-org/GOVERNANCE-V2-HANDOFF.md) — role transition and actual chat ACK
+- [Roster Validator](../tools/check-ai-org.mjs) and [automatic CI](../.github/workflows/org-registry-verify.yml) — validate unique role IDs, parent graph, ACK fields, status and dashboard consistency; **not** independent AI identity/authentication
 
-**Update without burdening CEO:** each immediate parent posts `ORG_DELTA` to its own superior on an appointment/transfer; DCEO-DELIVERY appoints/assigns a roster steward to update both JSON and Markdown at every approved change. Steward owns only governance files, not Gameplay. CEO sees a short versioned change summary, and authorizes only additional *capacity* outside approved plan.
+Each real `appointments[]` entry has unique `role_id`, a single `parent_role_id` (CEO root alone is null), appointing role, approved staffing slot, appointment GitHub Issue, real `APPOINTMENT_ACK` comment URL, task scope/responsibility, owned paths, `ACTIVE/STANDBY` or pending status. No orphan role, duplicate, false acknowledgement or parent cycle. `role_slots[]` are a **template**, not automatically active ChatGPT chats.
 
-If `main` changes require CEO approval, maintain rapid live registry on a dedicated protected `org/registry` branch, linked from the game repo `main`. Its source-of-truth SHA and status must be visible; use reviewed PRs/snapshots to reconcile to `main` without forcing CEO to review every role. **Don't quietly update main** and don't treat a roster row as actual spawned chat or as Quality signature.
+## Synchronization protocol (no CEO overload)
+1. CEO authorizes round capacity and directly appoints Delivery. Each supervising role appoints only its own immediate reports within the approved limit.
+2. Each actual new AI chat must receive the Owner's short relay and post GitHub `APPOINTMENT_ACK` to be `ACTIVE`.
+3. Direct manager reports `ORG_DELTA` **one superior edge at a time**. Delivery's Roster Steward updates JSON and visible chart together, validates parent graph and approved slot and logs a versioned roster change.
+4. Normal roster updates may use an approved separate branch/PR within **appointment-CEO**. The authoritative snapshot is on **appointment-CEO/main** after merge; if an interim `org/registry` branch is approved, link its version clearly as *pending*. Do not require merging a game source PR to update organizational metadata.
+5. CEO receives summarized staffing deltas and decisions outside capacity; it does **not** directly issue every Engineer appointment. The roster is not the Release QA receipt.
 
-Historical 17-role org instructions remain archival. On activation each new role must have an actual user-relayed appointment and reply `APPOINTMENT_ACK` before marked ACTIVE. Tasks CLOSED ≠ role terminated.
+## Limitations
+Shared GitHub credentials cannot uniquely authenticate separate AI chats. The V2 roster structural CI is included, but a true automated final `SIGNATURE_READY` verifier, permissions and branch rules are separate future release gate work; do not claim those exist merely because a sample signature board is present. Historical 17-chat rules in `ant-project/docs/ai-org` remain archival, and old completed task closures do not cancel past AI titles.
