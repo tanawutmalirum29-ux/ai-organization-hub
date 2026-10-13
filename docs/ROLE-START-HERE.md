@@ -2,13 +2,17 @@
 
 > เอกสารนี้มีผลกับ **ทุกแชท AI** ที่ทำหน้าที่ในองค์กร Ant Kingdom ไม่ใช่เฉพาะ Engineer. แหล่งกฎ: `appointment-CEO/main`; ข้อมูลผลิตเกม/งานจริงและหลักฐาน: `ant-project`. การอ่าน README เพียงไฟล์เดียวไม่พอ. ผู้ใช้เป็น **ผู้ส่งต่อข้อความเท่านั้น** ไม่ใช่ผู้ทดสอบเกมหรือเลขานุการทำเอกสารให้ AI.
 
+## สำคัญ: ถ้าได้รับแค่ลิงก์ Repository
+
+ต้องมี **Role ID, direct parent, appointment Issue URL และขอบเขต** ตาม [Activation Packet](ACTIVATION-PACKET.md); หากไม่มีให้ตอบ `NEEDS_APPOINTMENT`, ห้ามเดา Role และห้ามเริ่มงาน. เมื่อมี Task ให้ตรวจ [Task Issue Contract](TASK-ISSUE-CONTRACT.md). สำหรับการตรวจความเข้าใจจริงของ AI ให้หัวหน้าตรงใช้ [Readiness Drills](READINESS-DRILLS.md). GitHub ไม่มีระบบป้อนคู่มือนี้เข้าทุกแชทโดยอัตโนมัติ.
+
 ## A. ลำดับที่ต้องทำเมื่อได้รับข้อความแต่งตั้ง — ยังไม่ทำเกม
 1. อ่าน [README](../README.md), [ผังองค์กร](ai-org/ACTIVE_TEAM.md), [ทะเบียนจริง](ai-org/TEAM-REGISTRY.json), [บทบาทของตัวเอง](../roles/), [ทักษะ/ขอบเขต](ROLE-SKILLS-AND-SCOPE.md), [กฎตามสาย](REQUEST-ROUTING.md), [SOP หลังเสร็จ](TASK-STATE-AND-HANDOFF.md), [ตัวอย่างข้อความ](RELAY-TEMPLATES.md), [การตรวจรับ](QUALITY-GATES.md) และ [QA Auto](AUTONOMOUS-QA.md).
 2. ตรวจจาก **คำสั่งที่ส่งจริง + GitHub Issue**: Role ID ของตนคืออะไร, ผู้บังคับบัญชาโดยตรง `parent_role_id` เป็นใคร, ใต้บังคับบัญชาที่แต่งตั้งได้มีใครบ้าง, Domain ไหน, อำนาจ/สิทธิ์ระดับใด, ความเสี่ยงและสิ่งที่ห้ามทำ. ห้ามสมมติว่าตำแหน่งในผังเป็นบุคคลที่เปิดแชทแล้ว.
 3. ตรวจความพร้อมเครื่องมือที่ใช้ได้จริง **ในแชทนี้** (เช่น GitHub Connector read/write, GitHub Actions logs, artifact, source checkout/test/browser ถ้าต้องใช้) และบันทึกเป็น `AVAILABLE` / `UNAVAILABLE` / `NEEDS_AUTHORIZATION`. **ตำแหน่งไม่ได้ติดตั้งสกิลหรือให้สิทธิ GitHub เพิ่มเอง**; ถ้าเครื่องมือไม่มี ห้ามกล่าวว่าได้ตรวจจริง ให้แจ้ง `CAPABILITY_BLOCKED` ถึงหัวหน้าตรง.
 4. อ่านสัญญาคุณภาพเฉพาะด้านที่ระบุใน [Role Skills](ROLE-SKILLS-AND-SCOPE.md) และรายงานว่า `SKILL_READY` (มีความเข้าใจและช่องทางทดสอบ) หรือ `SKILL_GAP` (ขาดเครื่องมือ/ข้อมูล/ทักษะ). การกล่าวว่า SKILL_READY ไม่เท่ากับการพิสูจน์ผลงาน ต้องมี CI/Artifact ของงานจริงภายหลัง.
 5. บันทึก `APPOINTMENT_ACK` ใน GitHub Issue ที่ **ผู้แต่งตั้งส่งลิงก์มา**: Role ID, direct parent, หน้าที่, Skill readiness, สิทธิ์ที่ตรวจได้จริง, ไฟล์อ่านแล้ว, สิ่งที่ยังไม่ชัด, GitHub URL ของข้อความ ACK. ถ้ายังไม่มี Issue/ข้อมูลแต่งตั้ง ให้ตอบ `APPOINTMENT_BLOCKED` ถึงผู้ส่งตรง ไม่สร้างข้อมูล/Role ใหม่เอง.
-6. ส่ง **ข้อความสั้น 3 บรรทัดให้ Owner ส่งแชทหัวหน้าตรง** ด้วย `Next recipient` ชัดเจน; รอการยืนยันจากหัวหน้า และ `TASK_ASSIGNMENT` ที่มีอำนาจถูกต้อง. **APPOINTMENT_ACK ≠ คำสั่งเริ่มพัฒนาเกม**.
+6. ส่ง **ข้อความสั้น 3 บรรทัดให้ Owner ส่งแชทหัวหน้าตรง** ด้วย `Next recipient` ชัดเจน; รอการยืนยันจากหัวหน้า และ `TASK_ASSIGNED` ที่มีอำนาจถูกต้อง. **APPOINTMENT_ACK ≠ คำสั่งเริ่มพัฒนาเกม**.
 
 ## B. ก่อนลงมือกับ Task จริง (ทุกระดับ)
 ตรวจ Checklist ที่ Issue ระบุอย่างน้อย: `round_id`, `task_id`, `sender_role_id` เป็น direct parent, `recipient_role_id`, งาน/ผลลัพธ์วัดได้, ไฟล์ที่แก้ได้/ห้ามแตะ, branch/base HEAD 40 ตัว, PR target, interface contract, dependency, test/auto-trigger, Risk & Definition of Done, วันหมดอายุหรือ Stop condition, ผู้ตรวจรับและผู้รับรายงานต่อไป. ถ้าไม่ครบให้แจ้ง `NEEDS_SCOPE` หรือ `BLOCKED` กลับ **หัวหน้าตรง**; ห้ามคิดงานเอง/แก้ Gameplay นอกคำสั่ง.

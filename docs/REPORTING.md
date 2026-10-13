@@ -1,5 +1,10 @@
 # Reporting & relay — V2
 
+## Preconditions before any AI has a role or task
+
+A repository URL by itself does not appoint an AI. Each real chat must receive [Activation Packet](ACTIVATION-PACKET.md) with Role ID, direct parent, an actual GitHub appointment Issue and approve/ACK evidence, and must pass the relevant [Readiness Drills](READINESS-DRILLS.md). An actionable assignment must have a distinct [Task Issue Contract](TASK-ISSUE-CONTRACT.md). If any are absent, return `NEEDS_APPOINTMENT` / `NEEDS_SCOPE` to immediate parent; do not invent role or code. Owner only relays prewritten messages.
+
+
 **Mandatory closing message for EVERY role:** after actual work or appointment ACK, follow [Status → Who next](TASK-STATE-AND-HANDOFF.md) and use one of the exact [Owner Relay Templates](RELAY-TEMPLATES.md). Must identify `Sender → DIRECT_NEXT_ROLE`, GitHub report permalink and `Next recipient: ROLE-ID | next action`, or state `STANDBY / no relay needed`. No role may leave Owner to decide routing or invent a missing GitHub report.
 
 **Mandatory Role selfcheck:** Each role reads [Start Here](ROLE-START-HERE.md) and [Role Skills](ROLE-SKILLS-AND-SCOPE.md) before ACK, reports actual tools/access and SKILL_READY or SKILL_GAP, and cannot claim a GitHub Issue comment automatically reached another ChatGPT chat.
