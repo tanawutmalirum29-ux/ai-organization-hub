@@ -5,6 +5,8 @@
 
 **ต้องมีข้อความแต่งตั้งรายคนก่อน:** [ใบแต่งตั้งใช้งานจริง](docs/ACTIVATION-PACKET.md) ระบุ `Role ID`, หัวหน้าตรง, Issue และ Capacity ที่ได้รับอนุมัติ. หากได้รับแค่ลิงก์ ให้ตอบ `NEEDS_APPOINTMENT` ไม่เดาว่าตนคือ CEO/Engineer หรือเริ่มพัฒนาเกม. ตำแหน่งต้นแบบในทะเบียนยังไม่ใช่ ChatGPT แชทที่ถูกแต่งตั้ง.
 
+**สถานะความพร้อมจริงก่อนเปิดแชท:** [Go-live Checklist](docs/GO-LIVE-CHECKLIST.md) แยกการมีกฎครบจากการมี AI ที่รับแต่งตั้งและตรวจเครื่องมือจริง และยืนยันว่า Automated Final Release Signature Gate ยังไม่ได้ Implement. ห้ามกล่าวว่าพร้อม Release โดยอ้าง Governance CI เพียงอย่างเดียว.
+
 **หัวหน้าแต่ละระดับต้องทำสัญญางานเอง** ตาม [Task Issue Contract](docs/TASK-ISSUE-CONTRACT.md), และให้ลูกทีมตอบ [Readiness Drills](docs/READINESS-DRILLS.md) ก่อนทำจริง. ไม่มีการให้ Owner กรอก Field/กด CI หรือเขียนคำสั่งแทน AI.
 
 ## คู่มือบังคับสำหรับ AI ทุกแชท — เริ่มอ่านตรงนี้
