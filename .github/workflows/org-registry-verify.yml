@@ -3,16 +3,23 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'docs/ai-org/**'
+      - 'docs/**'
+      - 'roles/**'
+      - 'appointments/**'
+      - 'README.md'
       - 'tools/check-ai-org.mjs'
       - '.github/workflows/org-registry-verify.yml'
   push:
     branches:
       - 'proposal/governance-v2-hierarchical-signoff'
+      - 'docs/v2-role-onboarding-skills-handoffs'
       - 'main'
       - 'org/registry'
     paths:
-      - 'docs/ai-org/**'
+      - 'docs/**'
+      - 'roles/**'
+      - 'appointments/**'
+      - 'README.md'
       - 'tools/check-ai-org.mjs'
       - '.github/workflows/org-registry-verify.yml'
 permissions:
@@ -25,5 +32,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Verify roster parent graph / unique roles / ACK provenance shape
+      - name: Verify every role's skills, handoff, parent graph and ACK provenance
         run: node tools/check-ai-org.mjs
