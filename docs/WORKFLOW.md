@@ -1,59 +1,9 @@
-# SOP — รับงาน แบ่งงาน ตรวจรวมและ Merge
+# Delivery SOP — V2
+1. **Owner→CEO** ให้เป้าหมาย. CEO ตรวจ main ล่าสุด กำหนดขอบเขต Round, capacity envelope, domain Required Signers และแต่งตั้ง Delivery รอง CEO หากยังไม่มี; ไม่สั่ง Engineer ตรง.
+2. **CEO→Delivery** มอบหมายงานระดับสูง. Delivery แต่งตั้งรอง SYS/EXP/PLAT/QA ใน Slot ที่อนุมัติ, ออกงานเฉพาะผู้ใต้บังคับบัญชาตรง, ดูแลทะเบียนคน. Domain Deputies แต่งตั้ง Directors, Director แต่งตั้ง Lead, Lead แต่งตั้ง Engineers 2 คน; ทุกคนต้องมี Issue/ACK จริง.
+3. **Engineer/Assistant** พัฒนาเฉพาะไฟล์อนุญาตและส่ง PR/CI ให้หัวหน้าตรง. **Lead** ตรวจครบ 2 Engineers ลง `TEAM_ACCEPTED`. **Director** ตรวจรวมลง `DEPARTMENT_ACCEPTED`. **Domain Deputies** ทดสอบงานในเขตรับผิดชอบจริงบน Candidate SHA สุดท้ายแล้วลง `DOMAIN_SIGNED` / HOLD. **Independent DCEO-QA** ตรวจระบบข้ามส่วนและลง `INDEPENDENT_QA_SIGNED` / `QA_HOLD`.
+4. **Delivery** รวมงานบน Release Candidate เดียว ตรวจลายเซ็นผู้เกี่ยวข้องทุกฝ่าย + CI ที่ HEAD ตรงกัน แล้วลง `DELIVERY_SIGNED` เป็นคนสุดท้าย, ส่ง Final PR ให้ CEO พร้อม `SIGNATURE_READY` ที่เครื่องตรวจ (เมื่อ implement แล้ว).
+5. **CEO** ตรวจนโยบายที่ Owner อนุมัติ, ลายเซ็นทุกคน, ไม่มี HOLD, SHA ตรง, CI Final PASS, แล้ว Merge เข้า `main` คนเดียว. CEO ไม่ทำ Browser/Game QA ซ้ำ. เมื่อปิดรอบให้ปิดงานที่เสร็จแต่เก็บหลักฐานและพักทุกตำแหน่ง.
+6. **Cross-team requests** และคำสั่งทุกชนิดเดินผ่าน parent ทีละคน; ดู [Routing](REQUEST-ROUTING.md). **Staffing/Assistant request** เดินขึ้น CEO ผ่านสาย แต่ไม่อ้อมผ่าน QA ตรวจเกม; ดู [Staffing](STAFFING.md). **Owner** ส่งต่อข้อความสั้นระหว่างแชทเท่านั้น ไม่กด Workflow/ขน Artifact.
 
-## Phase 0: รับแต่งตั้ง (Standby)
-- ผู้แต่งตั้งส่งคำสั่งจาก `appointments/` พร้อมชื่อบทบาท/แผนก/ทีมตามจริง
-- ผู้รับแต่งตั้งอ่านเอกสารบทบาทและระเบียบขององค์กร ตอบรับสถานะ `APPOINTED — AWAITING ASSIGNMENT`
-- **ไม่สร้าง Issue/Branch/PR หรือแก้โค้ดโดยเพียงรับแต่งตั้ง**; ผู้ใช้ยังไม่ได้สั่งพัฒนา
-- ตำแหน่งใดถูกปิดงาน/ถูกแทนที่ ให้ส่งมอบลิงก์เอกสารและสถานะโดยไม่แต่งตั้งตนเองขึ้นรับงานใหม่
-
-## Phase 1: Owner สั่งภารกิจ CEO
-1. Owner บอกเป้าหมาย เงื่อนไข หรือเรื่องที่จะพัฒนา
-2. CEO ตรวจ `ant-project/main` ล่าสุด (ห้ามสมมติ SHA), ปัญหาค้างและงานที่เกี่ยวข้อง
-3. CEO เสนอ **1 งานหลัก/รอบ** หรือจำนวนตาม Owner สั่ง พร้อมแผนก จำนวนทีม และเหตุผลความหนักแต่ละคน
-4. เมื่อ Owner อนุมัติ CEO เปิด Parent Issue สัญญาข้อมูล กฎไฟล์ และ Department Issues/branches ใน `ant-project` พร้อมคำสั่งแต่งตั้งคนที่จะใช้จริง
-5. CEO **สั่งงานระดับ Director** ไม่ข้ามไปทำโค้ดหรือสั่ง Engineer โดยตรง
-6. หัวหน้าใหญ่แผนกกำหนด Team Leads ให้เหมาะกับงานและส่ง CEO ตรวจจำนวน; หัวหน้าแต่ละทีมแบ่งงานให้ Engineers สองคน
-
-## Owner Zero-Click / CI อัตโนมัติทุกแผนก
-- ต้องอ่านและปฏิบัติตาม [Autonomous CI/QA Governance](AUTONOMOUS-QA.md) ตั้งแต่การวางแผนแต่ละรอบ
-- CEO และ Director ต้องกำหนด AI ผู้รับผิดชอบ workflow, automatic `push`/`pull_request` triggers, fast smoke และ full QA ตามความเสี่ยง **ก่อน** ให้ทีมเริ่มเขียนโค้ด
-- Engineer และ Team Lead ต้องตรวจ/แก้ปัญหา CI/Artifacts เอง; Director ตรวจ Full Integration QA; Owner ทำหน้าที่ตัดสินเป้าหมายและส่งต่อข้อความเท่านั้น ห้ามให้ Owner กด Workflow, ส่ง ZIP หรือแก้ปัญหาเทคนิค
-- ถ้าไม่มีช่องทางกระตุ้น CI อัตโนมัติในสิทธิ์ที่มี ให้ผู้รับผิดชอบแจ้ง Blocker ตามสายงาน และขออนุมัติขอบเขตแก้ workflow จาก CEO; ห้ามโยนงานเทคนิคให้ Owner
-
-## Phase 2: ออกงานจริง
-- ทุกหน่วยงานมี Issue/Task ID, ตัวรับผิดชอบ, ฐาน Git SHA, branch, ขอบเขตไฟล์ที่เขียนได้, interfaces, Acceptance Criteria, ชุดทดสอบ, ผู้รับรายงานและจุดส่งต่อ
-- งานคู่ขนานต้องแยกไฟล์หรือออกแบบ contract ก่อน; มีตัวแก้ไฟล์ร่วมเพียงหนึ่งคนในช่วงบูรณาการ
-- Workers เขียนเฉพาะไฟล์ใน Task Issue, เปิด **Draft PR**; ห้ามแก้ `main`
-- งานนอกรายการให้แจ้ง Lead เป็น blocker, ห้ามแอบแก้
-
-## Phase 3: ตรวจรับระดับทีมและแผนก
-- Team Lead ตรวจครบ **ทั้ง 2 Engineers**, Source Diff, Test Logs, SHA/CI และการทำงานร่วมกัน
-- หากพบปัญหา ให้ส่ง `CHANGES REQUESTED` พร้อมจุดแก้ที่ตรวจซ้ำได้ไปที่คนรับผิดชอบ แล้วรอ Commit และ CI ใหม่
-- เมื่อผ่าน ส่ง `TEAM_ACCEPTED` ไปยัง Department Director โดยหลักฐานเต็มใน GitHub
-- Department Director รวบรวมทุกทีม ตรวจการเชื่อมต่อ ทดสอบใน Department Integration Branch (ถ้าต้องใช้), แก้ Conflict ที่ได้รับมอบสิทธิ์, รวมรายงาน และส่ง `DEPARTMENT_ACCEPTED`
-- Department Director **ห้ามส่ง CEO ทันทีโดยไม่วิเคราะห์** ผลกระทบต่อเกมส่วนอื่น ประสิทธิภาพ บัญชีทรัพยากร ความเสี่ยงและบั๊กที่ค้าง
-
-## Phase 4: รับรวมข้ามแผนก
-- ถ้ามี Integration Director: ผู้รับตำแหน่งรวบรวม Department PRs ลง Branch รวม, จัด Dependency/Conflict และทดสอบจริงบน HEAD เดียวกัน ก่อนส่ง Release Candidate ให้ CEO
-- ถ้าไม่มีและมีแผนกเดียว: Department Director เตรียม Integration PR/CI ให้ CEO โดยตรง
-- หากมีหลายแผนก ต้องมีผู้รับผิดชอบ Integration เดียวอย่างชัดเจน; CEO เลือก Integration Director หรือแต่งตั้ง Department Director หนึ่งคนเป็น Acting Integration Coordinator **โดยไม่อนุญาตให้ Merge main**
-- ไม่ปิดต้นฉบับ PR จนแน่ใจว่าโค้ดนั้นอยู่ใน Final PR; ห้าม Merge ซ้ำ
-
-## Phase 5: CEO Final Gate
-- CEO ตรวจ Owner Approval, exact PR HEAD, base `main`, changelist, ไฟล์ที่อนุญาต, ข้อตกลงระบบ, full CI/QA และรายงานลงนามตามสายงาน
-- ถ้าไม่ผ่าน → คืนกลับ Director/Integration Director ให้แก้; ไม่เปิดทางลัดผ่านเด็กทีมโดยตรง
-- ถ้าผ่านและรอบงานอยู่ในอำนาจอนุมัติของ Owner → **CEO เท่านั้น Merge `ant-project/main`** (ตรวจ SHA ก่อน-หลัง), แจ้งผลผู้ใช้, บันทึกการปิดรอบและปิด PR ต้นทางโดยไม่ Merge ซ้ำ
-- ถ้าผู้ใช้กำหนดให้รออนุมัติ Merge ต้องรอก่อนเสมอ
-
-## Phase 6: เก็บกวาดงานที่เสร็จแล้ว (Mandatory Round Closeout)
-- เมื่อ CEO Merge เข้า `main` และยืนยัน SHA แล้ว ให้ปิด Parent Issue/Team/Engineer/Build Exception และ PR ที่เสร็จพร้อมระบุ `completed`; หน้ารวม `Open Issues` และ `Open PRs` ต้องไม่มีงานค้างที่ปิดรอบแล้ว
-- Director รับผิดชอบเก็บกวาด Branch ของรอบ: ตรวจแต่ละ Branch ว่าไม่มี PR/CI ที่ยังใช้ และ Commit รวมอยู่ใน `main` จริงก่อนลบ **เฉพาะ remote branch refs ที่หมดความจำเป็น**; ห้ามลบ/force-update `main` หรือประวัติ Commit
-- QA-only Branch ที่มี Workflow/Artifact provenance เฉพาะ ต้องเก็บหลักฐานใน GitHub ให้ตรวจย้อนหลังได้ก่อนพิจารณาลบ; Branch งานเก่าหรือที่ไม่ได้ Merge ห้ามลบโดยไม่ตรวจและได้รับขอบเขตที่ชัดเจน
-- ห้ามลบ Source ที่ถูก Merge, GitHub Issue/PR discussions, Logs, Tests, Screenshots หรือหลักฐานการตรวจรับ เพียงเพื่อทำให้ Repository ดูโล่ง — ให้ใช้สถานะ Completed/Closed แทน
-- งานเก็บกวาดต้อง **Zero-Click Owner**: AI จัดการ GitHub API หรือ CI อัตโนมัติที่ได้รับอนุญาตเอง; หากสิทธิ์ไม่พอ ส่ง `CLEANUP_BLOCKED` ตามสายงาน ไม่สั่ง Owner ทำงานเทคนิค
-- บันทึก Final Release SHA, จำนวน Open Issues/PRs, รายการ Branch ที่ลบ/คงไว้และเหตุผลลงใน Parent Issue ก่อนเข้าสู่ `STANDBY`. การปิดรอบไม่ใช่การปลดตำแหน่ง และไม่ใช่สิทธิ์เริ่มงานใหม่
-
-## การหยุดงาน / เปลี่ยน CEO
-- ตำแหน่งใหม่ต้องอ่าน Governance Repo, ตรวจ HEAD จริงของ Game Repo และงานเปิดทั้งหมด ไม่รับช่วงด้วยข้อมูลเดา
-- Owner สามารถหยุดงาน เปลี่ยนบทบาท หรือกลับแผนได้; CEO ปรับกระบวนการเมื่อได้รับคำสั่ง Owner เท่านั้น
-- การเปลี่ยนโครงสร้างหรือตำแหน่งไม่เปลี่ยนไฟล์เกมใน `main` โดยอัตโนมัติ
+**No bypass, no greenwashing:** CI ไม่รัน ≠ PASS, เปลี่ยน Release SHA เมื่อไรลายเซ็นเดิมใช้แทนไม่ได้, ไม่มีการ Merge main โดย Director/Deputy. การแต่งตั้งไม่อนุมัติงานพัฒนาใหม่.
