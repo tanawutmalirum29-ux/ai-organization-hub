@@ -6,6 +6,12 @@
 - ไม่ต้องสร้าง `docs/ai-reports/*` จำนวนมากในเกมโดยไม่จำเป็น; GitHub comments เป็นบันทึกความคืบหน้า
 - ทุกการเปลี่ยนสถานะสำคัญบันทึกไว้ที่ Github เพื่อให้ CEO/Director ตัวใหม่อ่านต่อได้โดยไม่ต้องใช้แชทเก่า
 
+## Owner Zero-Click และการส่งต่อ
+- Owner เป็นผู้กำหนดทิศทางและคัดลอกเฉพาะข้อความ AI-to-AI ไม่เกินสามบรรทัด ไม่รับงาน Run workflow, checkout, terminal, ZIP, screenshots หรือ Artifact transfer
+- Engineer/Lead/Director ต้องเปิดอ่านผล CI, Logs, Screenshots, Artifacts และสร้าง/ซ่อม auto-trigger ตามสิทธิ์ที่ CEO อนุมัติด้วยตนเอง
+- หาก CI ทำงานไม่ได้ ต้องบันทึกสาเหตุและสถานะ `NOT_VERIFIED` ใน GitHub แล้วส่ง Blocker ไปยังผู้บังคับบัญชาที่รับผิดชอบ ไม่มอบงานเทคนิคให้ Owner
+- ดูนโยบายที่บังคับใช้ทุกแผนก: [AUTONOMOUS-QA.md](AUTONOMOUS-QA.md)
+
 ## Milestones ใน Issue
 `APPOINTED` (รับตำแหน่ง, ยังไม่มีงานจริง) → `STARTED` → `CONTRACT CHECK` → `IMPLEMENTED` → `TESTED` → `READY FOR REVIEW` / `BLOCKED` → `ACCEPTED` / `CHANGES REQUESTED` → `INTEGRATED` → `CLOSED`
 
