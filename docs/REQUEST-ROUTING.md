@@ -1,7 +1,7 @@
 # Command / consultation / escalation protocol V2
 
 ## Invariant: adjacent-hop only
-At any instant, an active AI has one direct supervisor in the live `ant-project/docs/ai-org/TEAM-REGISTRY.json`. Only the supervisor issues executable orders to that AI. Manager-to-subordinate and subordinate-to-manager traffic advances **exactly one edge** in each relayed message; peer instructions are invalid. A common-ancestor router can forward a request to another branch, but may not directly command another branch's Engineer.
+At any instant, an active AI has one direct supervisor in the live `appointment-CEO/docs/ai-org/TEAM-REGISTRY.json`. Only the supervisor issues executable orders to that AI. Manager-to-subordinate and subordinate-to-manager traffic advances **exactly one edge** in each relayed message; peer instructions are invalid. A common-ancestor router can forward a request to another branch, but may not directly command another branch's Engineer.
 
 **Correct command** CEO→DCEO-DELIVERY→DCEO-EXP→VIS-DIR→VIS-TL1→VIS-E2.
 **INVALID_ORDER** CEO→VIS-E2. The Engineer stops, sends `ORDER_ROUTE_CORRECTION` to VIS-TL1, and work begins only after each actual intermediate manager has processed and forwarded a Task Issue and target's ACK. The CEO's original intention may stay attached as a proposal URL; it never overrides missing approvals.
