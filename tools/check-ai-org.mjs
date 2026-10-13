@@ -1,5 +1,5 @@
 // Governance V2 roster sanity gate. This verifies structure, NOT independent ChatGPT identities or Release QA signatures.
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import assert from 'node:assert/strict';
 const r = JSON.parse(readFileSync(new URL('../docs/ai-org/TEAM-REGISTRY.json', import.meta.url),'utf8'));
 const page = readFileSync(new URL('../docs/ai-org/ACTIVE_TEAM.md', import.meta.url),'utf8');
@@ -27,6 +27,58 @@ for (const s of r.role_slots) {
     x=x.parent_role_id===null ? null : slotMap.get(x.parent_role_id);
   }
 }
+// Explicit skills, charter and handoff contract for each proposed executive slot.
+const requiredContracts = [
+  'README.md',
+  'docs/ROLE-START-HERE.md',
+  'docs/ROLE-SKILLS-AND-SCOPE.md',
+  'docs/TASK-STATE-AND-HANDOFF.md',
+  'docs/RELAY-TEMPLATES.md',
+  'roles/ASSISTANT.md',
+  'roles/ROSTER-STEWARD.md',
+  'appointments/APPOINT-ROSTER-STEWARD.md'
+];
+const repoRoot = new URL('../', import.meta.url);
+for (const path of requiredContracts) {
+  assert.ok(existsSync(new URL(path, repoRoot)), 'missing required AI rule: '+path);
+}
+const mainReadme = readFileSync(new URL('README.md', repoRoot), 'utf8');
+for (const p of requiredContracts.filter(x => x.startsWith('docs/'))) {
+  assert.ok(mainReadme.includes(p) || p==='docs/RELAY-TEMPLATES.md', 'README lacks skills/handoff entry '+p);
+}
+for (const role of r.role_slots) {
+  assert.ok(role.role_charter && existsSync(new URL(role.role_charter, repoRoot)), 'missing role charter: '+role.role_id);
+  assert.ok(Array.isArray(role.required_skill_areas) && role.required_skill_areas.length>0, 'missing explicit skills for '+role.role_id);
+  assert.equal(role.skill_contract,'docs/ROLE-SKILLS-AND-SCOPE.md');
+  assert.equal(role.onboarding_procedure,'docs/ROLE-START-HERE.md');
+  assert.equal(role.task_completion_procedure,'docs/TASK-STATE-AND-HANDOFF.md');
+  assert.equal(role.owner_message_template,'docs/RELAY-TEMPLATES.md');
+  assert.ok(role.next_recipient_after_signoff, 'missing Next recipient for '+role.role_id);
+  assert.equal(role.slot_status,'TEMPLATE_ONLY_NOT_APPOINTED','unacknowledged slot must not claim ACTIVE: '+role.role_id);
+  const charter = readFileSync(new URL(role.role_charter, repoRoot), 'utf8');
+  assert.ok(charter.includes('ROLE-START-HERE.md') && charter.includes('TASK-STATE-AND-HANDOFF.md'), 'charter missing onboarding/handoff links: '+role.role_id);
+}
+for (const path of [
+  'appointments/APPOINT-CEO.md',
+  'appointments/APPOINT-DEPUTY-DELIVERY.md',
+  'appointments/APPOINT-DEPUTY-DOMAIN.md',
+  'appointments/APPOINT-DEPARTMENT-DIRECTOR.md',
+  'appointments/APPOINT-TEAM-LEAD.md',
+  'appointments/APPOINT-ENGINEER.md',
+  'appointments/APPOINT-ASSISTANT.md',
+  'appointments/APPOINT-ROSTER-STEWARD.md'
+]) {
+  const source=readFileSync(new URL(path, repoRoot),'utf8');
+  assert.ok(source.includes('ROLE-START-HERE.md') && source.includes('TASK-STATE-AND-HANDOFF.md'),
+    'appointment missing mandatory skill/handoff reader: '+path);
+}
+assert.equal(r.policy.owner_message_max_lines,3,'Owner relay cannot exceed 3 lines');
+assert.equal(r.policy.skills_selfcheck_before_ack,true);
+assert.equal(r.policy.recipients_must_be_immediate_edges,true);
+assert.ok(page.includes('ROLE-SKILLS-AND-SCOPE.md') && page.includes('TASK-STATE-AND-HANDOFF.md'),
+  'human team chart must link skills and after-task instructions');
+console.log('ROLE_ONBOARDING_AND_HANDOFF_CONTRACT_PASS', {slots:r.role_slots.length,mandatory_files:requiredContracts.length});
+
 const appointed = new Map();
 const states = new Set(['PROPOSED','PENDING_ACK','ACTIVE','STANDBY','INACTIVE']);
 const issueUrl = /^https:\/\/github\.com\/[^/]+\/[^/]+\/issues\/[0-9]+/;
