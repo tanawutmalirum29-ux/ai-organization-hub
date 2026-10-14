@@ -1,5 +1,8 @@
 # Reporting & relay — V2
 
+**Chat title on appointment:** ทุก Role ต้องคำนวณชื่อแชทจาก Role ID จริงตาม [Chat Naming](CHAT-NAMING.md), เสนอเป็นบรรทัดแรกของข้อความรับแต่งตั้ง และเก็บ `suggested_chat_title` ใน ACK. ข้อความส่งต่อ 3 บรรทัดยังเป็นกฎเดิม; ไม่กล่าวว่าเปลี่ยนชื่อสำเร็จถ้าไม่มีเครื่องมือ Rename.
+
+
 ## Preconditions before any AI has a role or task
 
 A repository URL by itself does not appoint an AI. Each real chat must receive [Activation Packet](ACTIVATION-PACKET.md) with Role ID, direct parent, an actual GitHub appointment Issue and approve/ACK evidence, and must pass the relevant [Readiness Drills](READINESS-DRILLS.md). An actionable assignment must have a distinct [Task Issue Contract](TASK-ISSUE-CONTRACT.md). If any are absent, return `NEEDS_APPOINTMENT` / `NEEDS_SCOPE` to immediate parent; do not invent role or code. Owner only relays prewritten messages.
