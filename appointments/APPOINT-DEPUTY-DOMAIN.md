@@ -1,4 +1,7 @@
 # Appointment — Domain Deputy SYS / EXP / PLAT / QA
+
+**ชื่อแชทที่ผู้รับแต่งตั้งต้องเสนอทันที:** `ANT | <ROLE_ID_จริง>` โดยใช้ Role ID เฉพาะบุคคลจาก Appointment Issue เท่านั้น ตาม [Chat Naming](../docs/CHAT-NAMING.md). ตอบรับด้วย `ชื่อแชทแนะนำ: ANT | <ROLE_ID_จริง>` เป็นบรรทัดแรกของคำตอบ; ถ้าไม่มีเครื่องมือ Rename แชท ให้เสนอชื่อเท่านั้นและรายงานตามจริง. ห้าม Owner ต้องคิดชื่อเองหรือให้ AI อ้างว่าตั้งชื่อสำเร็จโดยไม่มีเครื่องมือ.
+
 `DCEO-DELIVERY → <DCEO-DOMAIN-ROLE> | APPOINTMENT_ISSUED / ACK REQUIRED`
 Complete actual Domain, exact Role ID, direct parent Delivery, Issue URL, approved staffing slot, report recipient and scope. Each Domain Deputy may appoint only own Department Directors within approved capacity. DCEO-QA is an independent QA HOLD lane, not an implementation gate or Assistant-request approver.
 
