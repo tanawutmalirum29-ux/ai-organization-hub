@@ -1,77 +1,50 @@
-# Ant Kingdom — Team Map / Current command chain
+# Ant Kingdom — Live AI Organization / CEO Succession
 
-**กฎปฏิบัติล่าสุด:** [FAST-LANE-GOVERNANCE](../FAST-LANE-GOVERNANCE.md). การแต่งตั้งแบบ 1 Issue + 1 ACK ไม่ต้องรอ Relay เพื่อ Sync ทะเบียนก่อนเปิดตำแหน่งลูกน้องภายใน Slot ที่อนุมัติ. สามารถถาม/ประสานงานจริงข้ามทีมได้โดยตรง; งานแก้โค้ดต่าง Scope ต้องมีเจ้าของรับรอง. สถานะ ACTIVE ตาม JSON ต้องมาจาก ACK จริง, ไม่เดาขึ้นเอง.
+**Registry version:** `GOV-V2-COLONY-NEXT-01-007`  
+**Status:** `9 ACK-BACKED ACTIVE + 1 CEO PENDING_ACK` / `GLOBAL MAX 10` / `IMPLEMENTATION_HOLD` / `RELEASE_HOLD`  
+**Single source of organizational role state:** [TEAM-REGISTRY.json](TEAM-REGISTRY.json)  
+**Owner new CEO instruction:** [CEO succession Issue #28](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28)  
+**Game mission (previously planned, not implemented):** [ant-project Master Issue #93](https://github.com/tanawutmalirum29-ux/ant-project/issues/93)  
+**Rules:** [Global ten-AI cap](../TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md), [FAST-LANE-GOVERNANCE](../FAST-LANE-GOVERNANCE.md), [Role Start](../ROLE-START-HERE.md), [Chat Naming](../CHAT-NAMING.md), [Release Signatures](../RELEASE-SIGNATURES.md).
 
-**Current state: COLONY-NEXT-01 / 10 REGISTRY ACTIVE + 4 UNRECONCILED LEAD ACKs / GLOBAL STAFFING FREEZE / IMPLEMENTATION_HOLD.** CEO, DCEO-DELIVERY, four Domain Deputies and four Directors have personal receiving-chat ACK evidence and direct-parent accepted appointment in governance Issues #5/#6/#9–#12/#16–#19. No Team Lead or Engineer is ACTIVE in the merged JSON roster; HOWEVER four Team Leads have separately acknowledged in actual GitHub Issues and must be reconciled before a <=10 global headcount claim. Game main is unchanged at `7d2458a13154716b09649903d1b26c86c8848845`; no COLONY-NEXT-01 game implementation is authorized.
+**No new AI role is automatically created in ChatGPT by GitHub.** The new CEO role is only `PENDING_ACK` until the receiving chat posts its own verified ACK on Issue #28. The old CEO's role was retired with a separate governance receipt; the four formerly acknowledged but unregistered Leads were retired with their ACK history preserved. Their actual ChatGPT conversations remain visible unless the Owner stops using them; GitHub writes cannot close chats.
 
-**Registry version:** `GOV-V2-COLONY-NEXT-01-006` (CEO, Delivery, four Deputies and four Directors personally ACKed/accepted; next Team Lead appointments unissued)
+## Global headcount — one organization, hard maximum TEN
 
-**ชื่อแชทของทุก Role:** `<ROLE_ID>` จากคำสั่งแต่งตั้งจริง; ดู [Chat Naming](../CHAT-NAMING.md). AI ต้องเสนอชื่อทันทีที่ ACK แต่ไม่มีคำสั่ง Rename ChatGPT โดยตรงใน GitHub Connector.
-
-**เริ่มงาน AI ใหม่:** [คู่มือ Role Start](../ROLE-START-HERE.md) · [ทักษะแต่ละบทบาท](../ROLE-SKILLS-AND-SCOPE.md) · [วิธีส่งต่องาน](../TASK-STATE-AND-HANDOFF.md) · [Owner Relay](../RELAY-TEMPLATES.md). ทุก AI ต้อง ACK เครื่องมือและขอบเขตก่อนรับงานจริง.
-
-**Machine-readable live roster:** [TEAM-REGISTRY.json](TEAM-REGISTRY.json) · [Signed Release Board](RELEASE-SIGNATURES.md) · [Governance V2 charter](../V2-GOVERNANCE.md)
-
-**GLOBAL CAP: [10 AI FOR THE ENTIRE ORGANIZATION](../TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md), NOT PER TEAM.** Count CEO, Delivery, Deputies, Directors, Leads, Engineers, Assistants, standby roles and all verified but not yet reconciled appointment ACKs. No 11th AI for huge work or multi-team structures. CEO/Delivery consolidates duties; qualified managers may implement scoped tasks with independent review.
-
-## Approved chain / staffing blueprint (CEO + DELIVERY + FOUR DEPUTIES + FOUR DIRECTORS ACKed; Leads/Engineers are not on the registered ACTIVE roster; four Lead ACKs remain unresolved)
-```mermaid
-flowchart TD
-  Owner["Project Owner - goals / relay"] --> CEO["AI CEO - mandate / capacity / main gate"] --> D["DCEO-DELIVERY - final signer"]
-  D --> SYS["DCEO-SYS - simulation/combat"]
-  D --> EXP["DCEO-EXP - UI/graphics"]
-  D --> PLAT["DCEO-PLAT - CI/performance"]
-  D --> QA["DCEO-QA - independent QA/HOLD"]
-  SYS --> SD["SYS Directors -> Leads -> existing global staff only"]
-  EXP --> ED["EXP Directors -> Leads -> existing global staff only"]
-  PLAT --> PD["PLAT Directors -> Leads -> existing global staff only"]
-  QA --> QD["QA Directors -> Leads -> existing global staff only"]
-```
-
-**Schematic only:** each of the four Director nodes represents a **separate position class in its own domain**, not an individual appointment. Every real Director/Lead/Engineer/Assistant must have exactly one `parent_role_id` in the JSON when appointed. Formal code ownership remains under an accountable manager. Real technical consultations and urgent blocker notices may go directly to a related active role across any level; out-of-scope writes need affected file owner's acceptance.
-
-**AI ใหม่ได้เพียง Repo URL ยังรู้ Role ไม่ได้:** ผู้จัดการตรงต้องส่ง [Activation Packet](../ACTIVATION-PACKET.md) ที่มี Role ID, Parent และ Issue แต่งตั้ง; Task จริงใช้ [Task Issue Contract](../TASK-ISSUE-CONTRACT.md). โปรดอ่าน [Readiness Drills](../READINESS-DRILLS.md) และตรวจ Tool Access ก่อนเปิดทำงาน.
-
-## Skill/Authority cards — ทุก Role ต้องอ่านก่อน ACK
-
-| Slot | Role Charter | Mandatory Skill Check | Next Recipient หลังงาน |
+| Role ID / suggested chat name | Status | Personal Issue | Actual scope |
 | --- | --- | --- | --- |
-| CEO | [CEO](../../roles/CEO.md) | PR metadata, staffing, Release Gate | Project Owner |
-| DCEO-DELIVERY | [Delivery](../../roles/DEPUTY-DELIVERY.md) | Integration/sha/signature | CEO |
-| DCEO-SYS | [Domain Deputy](../../roles/DEPUTY-DOMAIN.md) | Simulation & gameplay invariants | DCEO-DELIVERY |
-| DCEO-EXP | [Domain Deputy](../../roles/DEPUTY-DOMAIN.md) | HUD/render/mobile/Thai | DCEO-DELIVERY |
-| DCEO-PLAT | [Domain Deputy](../../roles/DEPUTY-DOMAIN.md) | CI/build/performance | DCEO-DELIVERY |
-| DCEO-QA | [Independent QA](../../roles/DEPUTY-QUALITY.md) | Independent tests/artifacts/HOLD | DCEO-DELIVERY |
-| Directors/Leads/Engineers | [Directors](../../roles/DEPARTMENT-DIRECTOR.md) · [Leads](../../roles/TEAM-LEAD.md) · [Engineers](../../roles/ENGINEER.md) | [Skills & Scope](../ROLE-SKILLS-AND-SCOPE.md) | **หัวหน้าตรงในทะเบียนจริง** |
-| Assistant/Roster Steward | [Assistant](../../roles/ASSISTANT.md) · [Roster](../../roles/ROSTER-STEWARD.md) | Approved task/organization schema | **ผู้จัดการตรงในทะเบียนจริง** |
+| `CEO` (replacement `CEO-V2-20261014-02`) | **PENDING_ACK — reserved seat #10, no merge/staffing authority yet** | [#28](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28) | Owner strategy, Round approval after gates, sole `ant-project/main` merge |
+| `DCEO-DELIVERY` | ACTIVE / verified | [#6](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6) | Integration, cross-domain coordination, QA receipts, sign LAST |
+| `DCEO-SYS` | ACTIVE / verified | [#9](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9) | Simulation, persistence, task AI |
+| `DCEO-EXP` | ACTIVE / verified | [#10](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10) | Save/UI, UX and controls |
+| `DCEO-PLAT` | ACTIVE / verified | [#11](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11) | Automated CI, signatures, branch cleanup |
+| `DCEO-QA` | ACTIVE / verified | [#12](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12) | Independent quality gate / QA_HOLD |
+| `SYS-DIR1` | ACTIVE / verified | [#16](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16) | Scoped implementation and SYS review |
+| `EXP-DIR` | ACTIVE / verified | [#18](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18) | Scoped UI implementation and review |
+| `PLAT-DIR` | ACTIVE / verified | [#17](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17) | Scoped Platform implementation and review |
+| `QA-DIR` | ACTIVE / verified | [#19](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19) | Independent regression/testing implementation, separate QA evaluation |
 
-**ทุกแชทต้องตรวจ GitHub Tool/CI/Skill ที่ใช้ได้จริงด้วยตัวเอง, โพสต์ APPOINTMENT_ACK, และใช้ [ข้อความส่งต่องาน](../RELAY-TEMPLATES.md).** รายการนี้เป็นสัญญา Skill ของตำแหน่ง **ไม่ใช่หลักฐานว่าบุคคลใหม่ได้รับงานหรือเครื่องมือแล้ว**. หลังงานจบ ถ้าไม่มีคำสั่งใหม่ → STANDBY.
+**Exactly nine other operational seats remain**; when new CEO ACK is validated, total becomes ten. `PENDING_ACK` does NOT mean the new CEO has actually accepted or acquired tools. No Team Lead, Engineer, Assistant, Steward, replacement Deputy, duplicate CEO or secret parallel specialist can be newly appointed. The earlier 22-slot envelope is superseded, not additional capacity.
 
-## Actual appointments — personal ACK + direct-parent acceptance verified from GitHub
-| Role ID | Immediate parent | Personal ACK | Parent validation / organizational authority |
-| --- | --- | --- | --- |
-| `CEO` | `Project Owner` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5#issuecomment-6157635338) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157968920) — `ACTIVE / ORG_SETUP_ONLY / IMPLEMENTATION_HOLD` |
-| `DCEO-DELIVERY` | `CEO` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157936418) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157968920) — `ACTIVE / ORG_SETUP_ONLY / IMPLEMENTATION_HOLD` |
-| `DCEO-SYS` | `DCEO-DELIVERY` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158081984) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158183714) — `ACTIVE / ORG_SETUP_ONLY / IMPLEMENTATION_HOLD` |
-| `DCEO-EXP` | `DCEO-DELIVERY` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158081848) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158184263) — `ACTIVE / ORG_SETUP_ONLY / IMPLEMENTATION_HOLD` |
-| `DCEO-PLAT` | `DCEO-DELIVERY` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158090772) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158184729) — `ACTIVE / ORG_SETUP_ONLY / IMPLEMENTATION_HOLD` |
-| `DCEO-QA` | `DCEO-DELIVERY` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158094709) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158185570) — `ACTIVE / ORG_SETUP_ONLY / IMPLEMENTATION_HOLD` |
-| `SYS-DIR1` | `DCEO-SYS` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158297046) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158323793) — `ACTIVE / ONE direct Team Lead authorized; legacy registry-sync wait superseded by Fast Lane / IMPLEMENTATION_HOLD` |
-| `EXP-DIR` | `DCEO-EXP` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158299961) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158337385) — `ACTIVE / ONE direct Team Lead authorized; legacy registry-sync wait superseded by Fast Lane / IMPLEMENTATION_HOLD` |
-| `PLAT-DIR` | `DCEO-PLAT` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158307027) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158346850) — `ACTIVE / ONE direct Team Lead authorized; legacy registry-sync wait superseded by Fast Lane / IMPLEMENTATION_HOLD` |
-| `QA-DIR` | `DCEO-QA` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158321086) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158360737) — `ACTIVE / ONE direct Team Lead authorized; legacy registry-sync wait superseded by Fast Lane / IMPLEMENTATION_HOLD` |
+## Archived (no operational authority; historical ACK retained)
 
-**Capacity override:** Previously approved 22 slots are **SUPERSEDED** by Owner global hard cap of 10, not an invitation to fill 12 optional places. Registered roles = 10 ACTIVE; [SYS-TL1 #21](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/21), [EXP-TL1 #22](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/22), [PLAT-TL1 #23](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/23), [QA-TL1 #24](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/24) **have real ACKs not reconciled into JSON**. **NO NEW AI APPOINTMENTS** until CEO/Delivery establishes which at-most-10 individuals remain in the organization with real retirement/handoff records.
+| Former role | Evidence | Archive reason |
+| --- | --- | --- |
+| former `CEO-V2-20261014-01` | [Issue #5 retirement](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5#issuecomment-6159595827) | Owner requested replacement CEO, sole CEO seat transfers to successor pending ACK |
+| `SYS-TL1` | [#21 retired](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/21#issuecomment-6159584526) | Replaced proposed Leader layer with hands-on existing SYS management |
+| `EXP-TL1` | [#22 retired](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/22#issuecomment-6159586456) | Existing EXP management does work |
+| `PLAT-TL1` | [#23 retired](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/23#issuecomment-6159588353) | Existing PLAT management does work |
+| `QA-TL1` | [#24 retired](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/24#issuecomment-6159590181) | Existing QA management does work |
 
-**Historical capacity (archived authority only):** `CAP-COLONY-NEXT-01-22` originally allowed 22 role slots, but this is **revoked as an operative hiring budget** by the Owner's GLOBAL MAX 10. Do NOT appoint the other Lead/Engineer slots. `appointments[]` has 10 registered ACK-backed roles; `unreconciled_verified_ack_issues[]` records four more genuine Lead ACKs requiring an honest CEO/Delivery disposition.
+Old chats cannot be deleted or disabled using the GitHub Connector; if opened they should read their RETIRED receipts and avoid continuing tasks. This records **organizational authority**, not a claim that ChatGPT history has been erased.
 
-**Director org deltas processed together:** [SYS-DIR1 source ACK #16](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158297046) and [parent accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158323793); [EXP-DIR source ACK #18](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158299961) and [parent accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158337385); [PLAT-DIR source ACK #17](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158307027) and [parent accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158346850); [QA-DIR source ACK #19](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158321086) and [parent accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158360737). Direct Deputies reported each accepted Director through Issues #9–#12. No duplicate role/slot, and all four parents are active. HISTORICAL NEXT-HOP instruction now CANCELLED by GLOBAL STAFFING FREEZE: `SYS-DIR1→SYS-TL1`, `EXP-DIR→EXP Team Lead`, `PLAT-DIR→PLAT Team Lead`, `QA-DIR→QA Team Lead` — one each. The 4 Lead Issues have already been issued and acknowledged; no more AI chats may be appointed. CEO/Delivery must reconcile the actual 14 ACK-backed chats with a ten-person operational ceiling. Each separate Lead MUST send its own `APPOINTMENT_ACK` to its direct Director; registration remains Delivery's responsibility. No skip-level directions.
+## Work flow and project status
 
-**IMPLEMENTATION_HOLD / RELEASE_HOLD:** no engineer product Tasks, code changes, product PR/QA PASS, new candidate, source SHA signatures, branch cleanup, or `ant-project/main` merge. `SIGNATURE_READY` machine gate is not implemented. Structural roster CI proves organizational syntax only, not ChatGPT actor identity or gameplay quality. Shared integration entrypoint path leases for `src/core/game.js`, `src/main.js`, `src/ui/app.js` remain unissued.
+- **SAVE/LOAD (P0)**: `DCEO-SYS + SYS-DIR1` code with independent reviewer; `DCEO-EXP + EXP-DIR` compact UI.
+- **SMARTER ANT AI (P1)**: `DCEO-SYS + SYS-DIR1`, coordinated with existing EXP roles.
+- **PLATFORM & RELEASE (P1)**: `DCEO-PLAT + PLAT-DIR` CI, frozen-SHA signing gate and safe branch cleanup automation.
+- **INDEPENDENT QA (binding gate)**: `DCEO-QA + QA-DIR`; production implementers do NOT certify their own release changes.
+- **DCEO-DELIVERY** coordinates contracts, exclusive shared-source changes, domain handoffs and final signature. CEO decides final merge after current gate actually exists and passes.
+- **No gameplay Implementation yet**; Owner's new mission authorizes planning, then CEO/Delivery must record explicit Task-level implementation release after scope/CI/QA-readiness checks, never by bare appointment.
 
-## Rules for the Roster Steward
-1. Owner/CEO approves governance and round staffing envelope. CEO appoints Delivery; Delivery appoints domain Deputies; Deputies appoint Directors; Directors appoint Leads; Leads appoint only contributors actually needed; the ENTIRE organization has a maximum of 10 AI, even across multiple work teams. No mandatory two Engineers.
-2. Real chat receives appointment via Owner's short relay and posts `APPOINTMENT_ACK` with Issue permalink. Only then add a row with `ACTIVE`. A proposed role slot is NOT an activated person.
-3. Direct managers report verified ACK deltas directly to Delivery/Roster Steward and the steward batches edits to this page and `TEAM-REGISTRY.json`; inspect unique IDs, parent links, cycles, scope ownership and current Task Issues before saving. Show the **registry_version**, actual changed roles and signed update URL.
-4. Every signed candidate SHA belongs on separate [Release Signature Board](RELEASE-SIGNATURES.md); a roster row is not a release signature. Signatures are invalid if release HEAD changes.
-5. For rapid roster maintenance, Delivery may propose a separate `org/registry` branch **in appointment-CEO**, linked from this repository's `main`. Do not treat it as the live source until explicitly adopted; do not write organizational records into `ant-project/main`. All game-development source, Issues/PR and CI continue in `ant-project`.
+**Communications:** Fast Lane allows direct technically relevant cross-team or genuine urgent requests using real Task/Issue links; scope-changing code still requires owning authority. Owner only forwards prepared AI-to-AI three-line messages when contacting another ChatGPT conversation. **Suggested chat name is simply exact `ROLE_ID`**, without `ANT |` prefix.
