@@ -1,4 +1,4 @@
-# V5 — Mandatory numbered inter-chat communication protocol
+# V6 — Mandatory numbered inter-chat communication protocol
 
 **Scope:** ALL CEO/GAME-ADVISOR/DIR/TL/Engineer outbound instructions, appointments, ACKs, game feedback, proposals, decisions, work reports, QA verdicts, blockers, refusals and release handoffs. Owner manually transports the copy block between separate ChatGPT chats. GitHub is the source of truth for sequence/receipts, not shared chat memory.
 
@@ -98,10 +98,21 @@ LIMITS: <SCOPE_AND_MERGE_GATES>
 
 Never send placeholders such as `<ACTUAL...>` in a live relay.
 
-## 5. Closeout — mission vs organization lifecycle
+## 5. V6 Closeout — ONE mission per CEO round, automatic team dissolution
 
-**The game repository**: independent reviewer + QA green, Owner release authorization, merge to **game main**, verify exact post-merge HEAD and acceptance. Close resolved game Issues and PRs, preserve links/release summary on game main (or an Owner-approved permanent record), delete only confirmed merged/obsolete task branches and temporary resources. If code is unmerged, CI red, open blocking PR, or Owner release authorization absent, CLEANUP_HOLD. GitHub closed Issues/PRs are part of audit history; a closed Issue is not physically deleted.
+The full [V6 organization closeout rule](README.md#v6--one-mission-per-ceo-generation-automatic-organization-closeout) is binding. A successful mission closes only after independent QA, separately authorized game-main merge, verified game-main SHA, completed game task Issues/PRs, durable game-repository release summary and safe ownership/relay reconciliation. **After those gates, the CEO automatically dissolves the entire appointed team without asking Owner for another dissolution command.**
 
-**The appointment repository**: once all numbered handoffs are complete and Owner explicitly approves closure, record final numbered CEO→Owner `ROUND_CLOSED` relay and verify permanent final evidence exists outside temporary branch. Delete **only this closed round branch** when supported; **never merge it into governance main**. When no rounds are active, `main` is the only remaining branch. If tool lacks branch deletion, provide a precise Owner deletion instruction and status `CLEANUP_PENDING`; never say cleanup finished.
+**Mandatory execution order for MISSION_COMPLETED:**
+1. Verify exact release main SHA and QA/Owner merge evidence. Close completed game issues, archive a compact game-side handoff and remove only safe merged/obsolete temporary game branches.
+2. Check all direct/indirect roles for unrelayed instructions, open work, pending ACKs and unresolved blockers. If a safety/blocking task remains unresolved, record `CLOSEOUT_HOLD`; never pretend that unforwarded messages were read.
+3. Append exactly one new sequential `CEO→OWNER` final message with `kind=ROUND_CLOSED`, `task_ref` of this mission, `closure_reason=MISSION_COMPLETED`, immutable release SHA/PR/CI references, each role's end status and exact full copy-ready relay. Give it to Owner as a terminal report, **not** a request for permission to disband.
+4. Mark all `workspace/roster.json` `roles[].status=CLOSED`, including advisor and all pending-but-initiated appointments, and `workspace/round.json` `state=CLOSED`, `closure_reason=MISSION_COMPLETED`, `final_game_main_sha` and `closure_evidence_url`. Preserve append-only prior messages. Run governance validation.
+5. Invalidate the entire old organization's authority immediately: CEO, GAME-ADVISOR, DIR, TL, Engineer. If permitted and safely archived, delete only that CLOSED round branch; otherwise `BRANCH_CLEANUP_PENDING` and keep it as read-only historical record. No new work or new appointments in closed rounds.
 
-Old numbered messages cannot be replayed in a new CEO generation.
+**No Owner dissolution approval is required** once that mission is genuinely completed. **Owner approval for the preceding game-main release MERGE remains mandatory**, never implied by any other instruction.
+
+**Owner-cancelled mission:** Explicit Owner cancellation can close an unimplemented/unmerged mission **without pretending code was shipped**. Post a clear `CANCELLED / NOT_IMPLEMENTED / HISTORY_PRESERVED` summary in game Issue and close it with `not_planned`, not `completed`. Append a `CEO→OWNER` `ROUND_CLOSED` ledger report with `closure_reason=OWNER_CANCELLED`, source Owner instruction, no asserted release SHA, and copy-ready status; close all roster identities including PENDING_RELAY; mark round CLOSED. Preserve prior GitHub logs. Do not delete or modify game main; only optional safe old-round-branch cleanup after evidence archival.
+
+**Round validator / audit:** The final `ROUND_CLOSED` message is a terminal administrative record, not a further game mandate. Closed rosters must have no ACTIVE or PENDING_RELAY staff. Future rounds use a wholly NEW Owner-provided `ROUND_ID`, new CEO chat, new `M000001` bootstrap and new subordinate appointments. The old CEO may only draft the next bootstrap on Owner request; this does not restore its prior role or allow writes into the next CEO's ledger. New missions from an Advisor or other sources are **proposals until the Owner authorizes them**.
+
+**Automatic vs physical deletion:** Closing the round and retiring everyone is the required automatic action. Physical Git branch deletion is optional and tool/permissions-dependent; never falsely claim it happened. If deletion is impossible, report its precise status to Owner rather than asking Owner to issue an extra team-dismissal order.
