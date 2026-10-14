@@ -18,7 +18,7 @@ REQUESTED_ACTION:
   ตรวจตัวตน/เลขข้อความใน GitHub round branch ก่อนรับ
   ส่ง ACK ใหม่ที่มีเลข GitHub จริงให้ Owner คัดลอกส่งกลับ CEO
   จัดตั้ง TL ใหม่ของแผนกตน (สูงสุดสอง TL) ด้วยข้อความเลขใหม่และ Owner relay
-LIMITS: องค์กรรวมไม่เกิน 10 AI; ห้ามแตะ governance main/round อื่น; ห้ามเริ่มโค้ดเกมโดยไม่มี Owner mandate
+LIMITS: ไม่มีเพดาน AI รวม; DIR ตั้ง TL สูงสุด 2 คน; TL ตั้ง Engineer สูงสุด 3 คน; ถ้าต้องการ 4 Engineer ต้องแยกเป็น 2 TL; ห้ามแตะ governance main/round อื่น; ห้ามเริ่มโค้ดเกมโดยไม่มี Owner mandate
 ```
 
 Replace **all** placeholders and record EXACT same relay in next `workspace/messages/NNNNNN.json` before sharing. Receiver rejects wrong recipient, generation, unlogged/duplicate message. `DIR-A` owns only `TL-A1`/`TL-A2`; do not inherit old teams.

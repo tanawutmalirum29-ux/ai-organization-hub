@@ -10,9 +10,14 @@
 - **Actual game:** [ant-project](https://github.com/tanawutmalirum29-ux/ant-project). Game code, QA, game issues/PRs and integration branches are managed **in the game repo only**, after an explicit NEW Owner mission. No automatic resurrection of cancelled work.
 - These restrictions are governance instructions, not GitHub account isolation. GitHub protection/permissions must be configured by the Owner separately to technically prevent unauthorized writes.
 
-## Organization and capacity (unchanged)
+## Organization and scalable staffing
 
-`OWNER → CEO → DIR-A/B/... → TL-A1/A2/... → E-A1-1/E-A1-2/...`. Only four AI hierarchy levels (CEO, DIR, TL, Engineer). Every DIR may appoint up to **two TLs in its own department**; every TL may appoint up to **two Engineers on its own team**. **Global maximum: 10 active AI chats in total including CEO**, regardless of departments. Unneeded slots remain empty; managers may implement within approved scope with independent review.
+`OWNER → CEO → DIR-A/B/... → TL-A1/A2/... → E-A1-1/E-A1-2/E-A1-3/...`. Four levels: CEO, DIR, TL and Engineer. **There is no global maximum number of AI chats**. Staff roles only when Owner-approved work needs them.
+
+- A Director has at most **two** Team Leads: `DIR-A → TL-A1, TL-A2`.
+- A TL may appoint up to **three** Engineers: `TL-A1 → E-A1-1, E-A1-2, E-A1-3`.
+- **Four Engineers must be split between two TLs** under that DIR: **2+2 or 3+1**, never `E-A1-4`. Example: `TL-A1` owns three and `TL-A2` owns `E-A2-1`.
+- Multiple departments are allowed as workload requires; naming can extend past A-Z (`DIR-AA`, `TL-AA1`, `E-AA1-3`). No global headcount limit; each per-role bound and unique appointment still applies.
 
 **NEW CEO = NEW organization.** All staffed DIR/TL/Engineer chats must be freshly appointed as separate conversations for that CEO generation. Never inherit old chat acceptances, identities, authorizations or tasks. CEO starts organization setup, then needs a separate explicit Owner development mandate. The mandatory Owner-forwarded acceptance chain is `CEO → DIR → TL → Engineer` where actual staffing warrants it. No AI can silently create or message another ChatGPT conversation.
 

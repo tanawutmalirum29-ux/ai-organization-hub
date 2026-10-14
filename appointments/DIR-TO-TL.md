@@ -17,8 +17,9 @@ REQUESTED_ACTION:
   รับแต่งตั้งเป็น TL ใหม่ในแชทใหม่ อ่าน main README, MESSAGE-PROTOCOL, roles/TL.md
   ตรวจเลข GitHub ผู้รับรอบแต่งตั้งและหัวหน้าตรง; อย่าตอบรับข้อความซ้ำ
   บันทึก ACK เลขใหม่ แล้วแสดงข้อความคัดลอกให้ Owner ส่งกลับ DIR คนเดิม
-  แต่งตั้ง Engineer ใหม่ในทีมตน (ไม่เกินสอง) ตามงานจริงและเลขข้อความ GitHub
-LIMITS: ห้ามแตะ governance main/round อื่น; ห้ามข้ามสายงาน; ยอด AI ทั้งองค์กรไม่เกิน 10
+  แต่งตั้ง Engineer ใหม่ในทีมตนได้ 1-3 คน (E-<D><N>-1/-2/-3) ตามงานจริงและเลขข้อความ GitHub
+  ถ้าต้องการ Engineer 4 คน ให้ DIR ตั้ง TL คนที่สองและแบ่งทีม 2+2 หรือ 3+1 ห้ามสร้าง E-A1-4
+LIMITS: ไม่มีเพดาน AI รวม; DIR ตั้ง TL ได้ไม่เกิน 2 คน; TL ดูแล Engineer ได้สูงสุด 3 คน; ห้ามแตะ governance main/round อื่น; ห้ามข้ามสายงาน
 ```
 
 Replace every placeholder and verify successful ledger write before Owner relay. `DIR-A` may create `TL-A1` or `TL-A2`, never `TL-B1`.
