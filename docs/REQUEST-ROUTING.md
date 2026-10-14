@@ -1,17 +1,22 @@
-# Command / consultation / escalation protocol V2
+# Direct technical coordination and exceptional escalation — V2 Fast Lane
 
-## Invariant: adjacent-hop only
-At any instant, an active AI has one direct supervisor in the live `appointment-CEO/docs/ai-org/TEAM-REGISTRY.json`. Only the supervisor issues executable orders to that AI. Manager-to-subordinate and subordinate-to-manager traffic advances **exactly one edge** in each relayed message; peer instructions are invalid. A common-ancestor router can forward a request to another branch, but may not directly command another branch's Engineer.
+**Current authority:** [FAST-LANE-GOVERNANCE](FAST-LANE-GOVERNANCE.md). **One direct manager** remains for accountability, but **messages may cross teams and management levels** when the recipient is technically relevant to an existing task or a genuine urgent incident. The former universal adjacent-hop / common-ancestor approval requirement is retired.
 
-**Correct command** CEO→DCEO-DELIVERY→DCEO-EXP→VIS-DIR→VIS-TL1→VIS-E2.
-**INVALID_ORDER** CEO→VIS-E2. The Engineer stops, sends `ORDER_ROUTE_CORRECTION` to VIS-TL1, and work begins only after each actual intermediate manager has processed and forwarded a Task Issue and target's ACK. The CEO's original intention may stay attached as a proposal URL; it never overrides missing approvals.
+## Pick one of four modes, reuse the existing Issue or PR
 
-## ACCESS_REQUEST or TECH_CONSULT
-A SIM Engineer requests an EXP team's SVG/performance review. SIM-E→SIM-LEAD→SIM-DIR→DCEO-SYS→DCEO-DELIVERY (their nearest common ancestor)→DCEO-EXP→VIS-DIR→VIS-TL2. Approval at a hop is sufficient ONLY for that hop's scope; if the resource is outside manager's authority, forward the same Request ID upward one step. Receiving side grants narrow READ_ONLY access/consultation and routes the result back; it is not authorization to change foreign source.
+| Mode | Who may contact whom? | May recipient act? |
+| --- | --- | --- |
+| `TECH_CONSULT`, `INFO_REQUEST` | Any already appointed AI → relevant specialist/Lead/Director/Deputy | Directly read source, diagnose, explain; no prior approval or new Issue |
+| `CROSS_TEAM_REVIEW` | Any → owning expert or QA reviewer in affected subsystem | Direct review, evidence, suggested fix; FYI manager if consumes scheduled capacity |
+| `DIRECT_SCOPED_TASK` | Any authorized coordinator → relevant implementer, including across levels | Implement only if existing approved Task paths/contract cover the requested change and component owner or delegated direct manager accepts it in that Issue |
+| `URGENT_INCIDENT` | Any → directly relevant responder and, when release/cross-domain risk, Delivery/QA | Immediate evidence gathering/containment **inside existing permissions**; out-of-scope writes need expedited component-owner authorization. Never bypass QA/release |
 
-A public repository file can be read without special GitHub ACL; this rule controls permission to consume other team's effort, restricted documents, change task ownership, or access sensitive evidence. No fabricated credentials or permission claim.
+**Cross-team examples:** `SYS-E1 → PLAT-E1` ask for CI analysis; `QA-E1 → SYS-E2` send repro directly; `CEO → VIS-E1` notify a time-critical regression, with their Lead copied for authorized fix ownership. No hopping through five superiors just to pass a screenshot or question.
 
-## Required request fields
-`request_id`, `type`, `origin_role_id`, `round`, `direct_parent`, `issue_url`, `purpose`, `requested_data_or_action`, `scope/read_or_write`, `risk`, `expires_at`, `current_hop_decision`, `next_adjacent_recipient`, `receipt_url`. Each hop appends decision/authority and keeps the same Request ID. A direct report sends up only, not CEO by shortcut.
+## Minimum evidence, not a 12-field request form
 
-If denied, log reason. If urgent, add `URGENT_BLOCKER` to shared Issue for visibility but route the actual fix normally. Quality Deputy raises binding `QA_HOLD` to Delivery, which routes down to the correct domain deputy→Director→Lead→Engineer; QA cannot order another Engineer directly.
+An existing task or Incident Issue/PR link + `sender → target | mode | affected subsystem | question/action | urgency if any`. A reply on that same Issue is the receipt. If substantive task priority or code ownership changes, notify recipient's accountable manager in that Issue; no separate approvals from every ancestor.
+
+For an actual **new write scope**, record permitted paths, branch/PR target, assignee, accepting component manager, testing and acceptance criteria **before** implementation. For cross-domain conflicts, Delivery arbitrates promptly based on same Issue. Independent QA can contact an Engineer immediately with a `QA_HOLD` repro, but Delivery remains owner of the release block.
+
+**Not allowed:** unappointed or unverifiable ChatGPT target, changing another team's code by mere direct request, falsifying CI or identity, removing QA HOLD without independent evidence, extra staffing without approved capacity, or any other role merging main. Owner only forwards the AI-written 3-line relay when a separate chat must be reached.
