@@ -1,5 +1,7 @@
 # DIR → TL — Message template
 
+**REQUIRED FOR A NEW CEO GENERATION:** The new DIR must appoint a **NEW, separate TL ChatGPT conversation** within its own department. An old `TL-A1` reply from a former CEO organization does NOT count. After the new TL accepts, it MUST prepare its own NEW Engineer appointment(s) for Owner relay; each Engineer is a NEW distinct chat. The chain continues until needed positions exist in reality under the global TEN AI cap. READ-ONLY governance repository; no registration or GitHub comment.
+
 Only a DIR may appoint its **own** TLs, two maximum, respecting global 10 AI. Replace [D] with the department letter and [N] with 1 or 2.
 
 ```text
