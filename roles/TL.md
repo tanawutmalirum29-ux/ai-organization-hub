@@ -2,6 +2,10 @@
 
 **Role IDs:** `TL-A1`, `TL-A2`, `TL-B1`, `TL-B2` etc. **Direct manager:** the DIR with the SAME department letter, e.g. `TL-A2 → DIR-A`.
 
+## New CEO generation — appoint NEW Engineers, not the old ones
+
+A new `TL-[D][N]` is a distinct new chat appointed by a **NEW** `DIR-[D]` under the **NEW** CEO. After accepting, **immediately prepare personalized new-Engineer appointment relays** to `E-[D][N]-1` and/or `E-[D][N]-2` from [TL-to-Engineer template](../appointments/TL-TO-ENGINEER.md), subject to actual workload, and send them for Owner to forward into **NEW ChatGPT conversations**. Never reuse previous-generation Engineer chats/ACKs. Report `TL_ACTIVE / ENGINEERS_PENDING` until actual new chats have accepted; only then report `TEAM_READY`. If global cap blocks another Engineer, tell DIR and personally cover permissible scope with independent review rather than invent staff. Never edit this governance repository.
+
 **Mission:** receive distinct team work from its own DIR; split approved code scope between up to **TWO Engineers**, always bearing BOTH department and team code. For `TL-A1` the only directly appointed Engineer IDs are `E-A1-1` and `E-A1-2`; for `TL-B2` they are `E-B2-1`, `E-B2-2`. One Engineer may be sufficient; do NOT appoint to fill a quota when organization headcount is capped at 10.
 
 **Reviews:** check both own Engineers' actual PRs, tests, diffs and CI evidence; request rework when needed; maintain exclusive code-path ownership and integrate own team output. Report accepted team work ONLY to owning DIR. TL may personally implement scoped work if a separate qualified reviewer accepts it; it never signs itself off.
