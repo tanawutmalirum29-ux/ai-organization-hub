@@ -1,21 +1,16 @@
-# Migration to Governance V2 — historical activation notes (live roster has active appointments)
+# V2 Handoff — active organization, faster onboarding
 
-**OVERRIDE:** [Fast Lane](../FAST-LANE-GOVERNANCE.md) supersedes the older one-hop-per-relay and wait-for-registry-unlock activation checklist below. The live [Registry](TEAM-REGISTRY.json) records actual accepted appointments for COLONY-NEXT-01. Do not follow historical `NO ACTIVE APPOINTMENTS` language; this document is retained as context. One Issue + one ACK, batch registry sync, direct relevant technical cross-team contacts. Release/QA/implementation HOLD unchanged.
+**Source of truth:** [Fast Lane](../FAST-LANE-GOVERNANCE.md), [Live Registry](TEAM-REGISTRY.json), [Team Chart](ACTIVE_TEAM.md). Older checklists requiring every command to advance one edge or every appointment to wait for `REGISTRY_SYNCED` are superseded.
 
-This page is a handoff for the new AI CEO and Delivery deputy when Owner authorizes changing the org. **Nothing here reopens ROYAL-01 or assigns gameplay work. The canonical governance/appointments/roster/signature board are all in `appointment-CEO/main`; the game repo is for code, tasks, PR and test evidence only.**
+## Current COLONY-NEXT-01 transition
 
-## เงื่อนไขก่อนปล่อย Role ใหม่
+- Already accepted CEO, Delivery, Domain Deputies and Directors keep their real ACKs and reporting lines. Read **latest** Registry for exact ACTIVE status; Issue `PENDING_ACK` is not actual acceptance.
+- Directors have issued `SYS-TL1`, `EXP-TL1`, `PLAT-TL1`, `QA-TL1` appointment Issues. Each must post a **real** ACK in its Issue. After their own Director verifies ACK and existing allocated slot, they may issue appointed subordinate Engineer Issues **without an extra upstream registry-unlock relay**.
+- Roster Steward/Delivery batches verified `role_id, parent_role_id, appointment Issue, ACK permalink, approved slot` in a single governance PR/CI. Unverified roles are never invented as `ACTIVE`; Parent links and duplicate identities must pass validator. Operational authorization from Issue+ACK can precede the batch merge; all roles must be reconciled before any signed Release.
+- No Gameplay Source implementation starts merely from staffing or this policy update; `IMPLEMENTATION_HOLD` stays until the authorized Round manager lifts it.
 
-**เจ้าของโครงการไม่ต้องเลือก Role/แต่ง Issue เอง.** หัวหน้าที่แต่งตั้งต้องกรอก [Activation Packet](../ACTIVATION-PACKET.md) จริงก่อนส่งข้อความ Owner และสร้าง [Task Issue](../TASK-ISSUE-CONTRACT.md) แยกหลัง ACK. ทดสอบด้วย [Readiness Drills](../READINESS-DRILLS.md); ห้ามสมมติว่าแชทปลายทางมีสกิลหรืออ่านกฎโดยอัตโนมัติ. ประวัติ ROYAL-01 ไม่ใช่การแต่งตั้ง V2.
+## Direct work requests
 
-## Adopt a single charter
-**Before any actual appointment:** send the AI [Role Start](../ROLE-START-HERE.md), [Skills](../ROLE-SKILLS-AND-SCOPE.md), [After Task](../TASK-STATE-AND-HANDOFF.md) and [3-line Relay](../RELAY-TEMPLATES.md). It must post SKILL_READY or SKILL_GAP and real ACK; after every task the AI writes the next adjacent-hop message. No automatic inter-chat delivery.
-1. Confirm that [Governance V2 charter](../V2-GOVERNANCE.md), [Team Chart](ACTIVE_TEAM.md), [Registry](TEAM-REGISTRY.json), [Release Signatures](RELEASE-SIGNATURES.md) and appointment templates are present in **appointment-CEO/main**. Legacy fixed 17-AI files in `ant-project` are archival and not a live command chain.
-2. CEO defines only required domains/deputy counts and budget per Round; appoints Delivery via its individual template. Delivery appoints domain deputies inside slots; each successive supervisor appoints its own direct reports; never CEO→VIS-E.
-3. Delivery and its roster steward initialize `TEAM-REGISTRY.json` only with **real chat ACKs**. Each appointment: Role ID, parent, Issue, scope, budget slot, ACK permalink, status. Issue alone ≠ spawned AI. Publish updated `ACTIVE_TEAM.md` tree.
-4. Configure automatic CI: fast change-level smoke, full integrated risk-appropriate QA, then separately automated Release-signature structure verifier. **No Owner GitHub clicks**.
-5. For every feature/task request, route one edge per message. For cross-team work requests, go up to the common ancestor and down. For all-level Assistant requests, go up to CEO staffing/capacity decision **without DCEO-QA gameplay inspection**, then authorize direct-parent appointment.
-6. Domain deputies sign actual candidate SHA after personal QA, independent QA may HOLD; Delivery signs **last**, CEO only checks receipt/ready status and merges main. The same 40-character SHA must appear in final required signatures.
-7. If final PR has no required verifier/QA controls installed, label `GATE_NOT_CONFIGURED` and keep hold; do not claim green based solely on a Markdown signature list. Source/CI checks and Issue signoff remain required until automation is installed.
+**Any real relevant task/bug/CI/urgent incident:** read existing Task/PR and send a direct 3-line Owner relay to the actual relevant active chat. `TECH_CONSULT` and `CROSS_TEAM_REVIEW` require no chain. `URGENT_INCIDENT` can contact the real responder immediately with evidence, affected manager + Delivery FYI if release or scope impacted. `DIRECT_SCOPED_TASK` proceeds only within existing approved Task paths; extra scope needs actual component owner approval, on the same Issue.
 
-Do not change `ant-project/main` to activate a governance policy; no V2 staff are ACTIVE until actual Owner/CEO transition and GitHub ACKs. This charter being merged into governance `main` does not start a gameplay round.
+Keep required signers exact full SHA, independent QA HOLD, Delivery LAST, CEO-only `ant-project/main` merge and actual automatic release gate requirement unchanged. No new ChatGPT chats are created by GitHub or JSON.
