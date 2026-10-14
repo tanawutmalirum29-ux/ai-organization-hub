@@ -1,5 +1,8 @@
 # Appointment — Approved AI Assistant
 
+**ชื่อแชทที่ผู้รับแต่งตั้งต้องเสนอทันที:** `ANT | <ROLE_ID_จริง>` โดยใช้ Role ID เฉพาะบุคคลจาก Appointment Issue เท่านั้น ตาม [Chat Naming](../docs/CHAT-NAMING.md). ตอบรับด้วย `ชื่อแชทแนะนำ: ANT | <ROLE_ID_จริง>` เป็นบรรทัดแรกของคำตอบ; ถ้าไม่มีเครื่องมือ Rename แชท ให้เสนอชื่อเท่านั้นและรายงานตามจริง. ห้าม Owner ต้องคิดชื่อเองหรือให้ AI อ้างว่าตั้งชื่อสำเร็จโดยไม่มีเครื่องมือ.
+
+
 **Prerequisite:** a real `CAPACITY_APPROVED` CEO receipt or existing unused preapproved assistant slot; approved `STAFFING_REQUEST` and an appointment Issue. **Anyone** may request this helper, including existing Assistants, but nobody can self-create one.
 
 `<IMMEDIATE_PARENT_ROLE> → <NEW_ASSISTANT_ROLE> | APPOINTMENT_ISSUED / ACK REQUIRED`
