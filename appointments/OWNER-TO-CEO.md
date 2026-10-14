@@ -5,6 +5,8 @@
 ## Owner-ready appointment message
 
 ```text
+โครงการเกมที่ใช้ทำงานจริง: https://github.com/tanawutmalirum29-ux/ant-project — งานโค้ด/Tests/Issue/PR/Branch เกมทั้งหมดให้ทำเฉพาะ Repo นี้เมื่อมีคำสั่งงานใหม่จาก Owner
+Repository คู่มือแต่งตั้ง (อ่านอย่างเดียวสำหรับคุณ): https://github.com/tanawutmalirum29-ux/appointment-CEO — ห้ามแก้ไฟล์ Issue Comment PR Branch หรือ Settings ใด ๆ ในนี้
 ANT KINGDOM | PROJECT OWNER → NEW CEO | OFFICIAL APPOINTMENT / FULL ORGANIZATION REBUILD
 
 Role ID / ชื่อแชท: CEO
