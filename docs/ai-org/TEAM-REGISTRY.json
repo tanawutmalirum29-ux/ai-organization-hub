@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
-  "registry_version": "GOV-V2-CHARTER-004",
-  "governance_status": "POLICY_ADOPTED_APPOINTMENTS_PENDING",
-  "round_id": null,
-  "round_status": "STANDBY",
+  "registry_version": "GOV-V2-COLONY-NEXT-01-001",
+  "governance_status": "REAL_ACKS_RECORDED_DEPUTIES_PENDING",
+  "round_id": "COLONY-NEXT-01",
+  "round_status": "ORG_SETUP_IMPLEMENTATION_HOLD",
   "baseline_main_sha": "7d2458a13154716b09649903d1b26c86c8848845",
   "canonical_governance": "https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/docs/V2-GOVERNANCE.md",
   "role_slots": [
@@ -135,7 +135,51 @@
       "chat_title_rule": "docs/CHAT-NAMING.md"
     }
   ],
-  "appointments": [],
+  "appointments": [
+    {
+      "appointment_id": "CEO-V2-20261014-01",
+      "role_id": "CEO",
+      "parent_role_id": null,
+      "appointed_by_role": "Project Owner",
+      "capacity_slot_id": "GOV-V2-CEO-SINGLETON",
+      "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5",
+      "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5",
+      "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5#issuecomment-6157635338",
+      "appointment_verification_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157968920",
+      "round_id": "COLONY-NEXT-01",
+      "domain": "STRATEGY",
+      "status": "ACTIVE",
+      "scope": "CEO strategy, capacity approvals, signature gate and sole ant-project/main merge",
+      "owned_paths": [],
+      "skill_status": "SKILL_READY",
+      "suggested_chat_title": "CEO",
+      "governance_sha_at_ack": "ce291ed81bf68cf46a1332be895540f0da855a3f",
+      "notes": "Actual CEO chat ACK at Issue #5; role carries active Round authority through CEO Master Issue #93. No source Task or code granted by appointment."
+    },
+    {
+      "appointment_id": "DCEO-DELIVERY-COLONY-NEXT-01-01",
+      "role_id": "DCEO-DELIVERY",
+      "parent_role_id": "CEO",
+      "appointed_by_role": "CEO",
+      "capacity_slot_id": "CAP-COLONY-NEXT-01-22/DCEO-DELIVERY-01",
+      "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157968920",
+      "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6",
+      "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157936418",
+      "appointment_verification_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157968920",
+      "round_id": "COLONY-NEXT-01",
+      "domain": "DELIVERY",
+      "status": "ACTIVE",
+      "scope": "Cross-domain coordination, roster stewardship, exclusive path leases, frozen candidate and last release signature; organization setup only",
+      "owned_paths": [
+        "appointment-CEO/docs/ai-org/TEAM-REGISTRY.json",
+        "appointment-CEO/docs/ai-org/ACTIVE_TEAM.md"
+      ],
+      "skill_status": "SKILL_READY",
+      "suggested_chat_title": "DCEO-DELIVERY",
+      "governance_sha_at_ack": "6bcaa4008a941434f063c3008878ad5fe9159314",
+      "notes": "CEO accepted actual ACK; not implementation approval; no game main merge."
+    }
+  ],
   "pending_staffing_requests": [],
   "active_release_candidate": null,
   "history": [
@@ -166,5 +210,82 @@
     "chat_title_must_be_proposed_on_first_ack": true,
     "chat_title_is_not_proof_of_rename": true
   },
-  "baseline_main_repo": "tanawutmalirum29-ux/ant-project"
+  "baseline_main_repo": "tanawutmalirum29-ux/ant-project",
+  "capacity_envelope": {
+    "capacity_approval_id": "CAP-COLONY-NEXT-01-22",
+    "approval_issue_url": "https://github.com/tanawutmalirum29-ux/ant-project/issues/93",
+    "max_distinct_ai_chats_total": 22,
+    "allocated_roles": [
+      "CEO",
+      "DCEO-DELIVERY",
+      "DCEO-SYS",
+      "DCEO-EXP",
+      "DCEO-PLAT",
+      "DCEO-QA"
+    ],
+    "approved_roster_model": {
+      "ceo": 1,
+      "delivery": 1,
+      "domain_deputies": 4,
+      "department_directors": 4,
+      "team_leads": 4,
+      "core_engineers": 8,
+      "assistants": 0
+    },
+    "note": "Role allocation and issued Issues are not equivalent to actual chat ACK/ACTIVE; one-hop staffing required."
+  },
+  "pending_appointment_issues": [
+    {
+      "role_id": "DCEO-SYS",
+      "domain": "SYS",
+      "issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9",
+      "appointment_id": "DCEO-SYS-COLONY-NEXT-01-01",
+      "parent_role_id": "DCEO-DELIVERY",
+      "appointed_by_role": "DCEO-DELIVERY",
+      "capacity_slot_id": "CAP-COLONY-NEXT-01-22/DCEO-SYS-01",
+      "status": "PENDING_ACK",
+      "ack_comment_url": null,
+      "owner_relay_status": "AWAITING_OWNER_RELAY",
+      "note": "Issued only; DO NOT count as active/appointed chat before real receiver ACK and direct parent verification."
+    },
+    {
+      "role_id": "DCEO-EXP",
+      "domain": "EXP",
+      "issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10",
+      "appointment_id": "DCEO-EXP-COLONY-NEXT-01-01",
+      "parent_role_id": "DCEO-DELIVERY",
+      "appointed_by_role": "DCEO-DELIVERY",
+      "capacity_slot_id": "CAP-COLONY-NEXT-01-22/DCEO-EXP-01",
+      "status": "PENDING_ACK",
+      "ack_comment_url": null,
+      "owner_relay_status": "AWAITING_OWNER_RELAY",
+      "note": "Issued only; DO NOT count as active/appointed chat before real receiver ACK and direct parent verification."
+    },
+    {
+      "role_id": "DCEO-PLAT",
+      "domain": "PLAT",
+      "issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11",
+      "appointment_id": "DCEO-PLAT-COLONY-NEXT-01-01",
+      "parent_role_id": "DCEO-DELIVERY",
+      "appointed_by_role": "DCEO-DELIVERY",
+      "capacity_slot_id": "CAP-COLONY-NEXT-01-22/DCEO-PLAT-01",
+      "status": "PENDING_ACK",
+      "ack_comment_url": null,
+      "owner_relay_status": "AWAITING_OWNER_RELAY",
+      "note": "Issued only; DO NOT count as active/appointed chat before real receiver ACK and direct parent verification."
+    },
+    {
+      "role_id": "DCEO-QA",
+      "domain": "QA",
+      "issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12",
+      "appointment_id": "DCEO-QA-COLONY-NEXT-01-01",
+      "parent_role_id": "DCEO-DELIVERY",
+      "appointed_by_role": "DCEO-DELIVERY",
+      "capacity_slot_id": "CAP-COLONY-NEXT-01-22/DCEO-QA-01",
+      "status": "PENDING_ACK",
+      "ack_comment_url": null,
+      "owner_relay_status": "AWAITING_OWNER_RELAY",
+      "note": "Issued only; DO NOT count as active/appointed chat before real receiver ACK and direct parent verification."
+    }
+  ]
 }
