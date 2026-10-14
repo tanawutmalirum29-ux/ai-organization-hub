@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "registry_version": "GOV-V2-COLONY-NEXT-01-006",
+  "registry_version": "GOV-V2-COLONY-NEXT-01-007",
   "governance_status": "ALL_FOUR_DIRECTORS_ACK_VERIFIED_LEAD_SETUP_ONLY",
   "round_id": "COLONY-NEXT-01",
   "round_status": "ORG_SETUP_IMPLEMENTATION_HOLD",
@@ -137,24 +137,24 @@
   ],
   "appointments": [
     {
-      "appointment_id": "CEO-V2-20261014-01",
+      "appointment_id": "CEO-V2-20261014-02",
       "role_id": "CEO",
       "parent_role_id": null,
       "appointed_by_role": "Project Owner",
       "capacity_slot_id": "GOV-V2-CEO-SINGLETON",
-      "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5",
-      "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5",
-      "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5#issuecomment-6157635338",
-      "appointment_verification_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157968920",
+      "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28",
+      "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28",
+      "ack_comment_url": null,
+      "appointment_verification_url": null,
       "round_id": "COLONY-NEXT-01",
       "domain": "STRATEGY",
-      "status": "ACTIVE",
+      "status": "PENDING_ACK",
       "scope": "CEO strategy, capacity approvals, signature gate and sole ant-project/main merge",
       "owned_paths": [],
-      "skill_status": "SKILL_READY",
+      "skill_status": "PENDING_SELF_CHECK",
       "suggested_chat_title": "CEO",
-      "governance_sha_at_ack": "ce291ed81bf68cf46a1332be895540f0da855a3f",
-      "notes": "Actual CEO chat ACK at Issue #5; role carries active Round authority through CEO Master Issue #93. No source Task or code granted by appointment."
+      "governance_sha_at_ack": null,
+      "notes": "Owner-directed replacement of old CEO. This CEO chat DOES NOT exist operationally until real ACK in Issue #28; global singleton slot reserved, no extra staffing. Pending CEO has no gameplay/main-merge authority before ACK."
     },
     {
       "appointment_id": "DCEO-DELIVERY-COLONY-NEXT-01-01",
@@ -395,7 +395,9 @@
     "allow_more_than_max_for_large_work": false,
     "new_appointments_frozen_until_reconciled": true,
     "require_external_ack_reconciliation": true,
-    "global_cap_compliance_verified": false
+    "global_cap_compliance_verified": false,
+    "succession_only_appointment_id": "CEO-V2-20261014-02",
+    "global_capacity_remaining_after_succession": 0
   },
   "baseline_main_repo": "tanawutmalirum29-ux/ant-project",
   "capacity_envelope": {
@@ -504,38 +506,82 @@
     }
   ],
   "work_teams": [],
-  "staffing_status": "STAFFING_FREEZE_UNRECONCILED_ACKS",
+  "staffing_status": "CEO_SUCCESSION_PENDING_ACK / NINE_EXISTING_ACTIVE / NO_ADDITIONAL_APPOINTMENTS",
   "global_staffing_limit": 10,
   "previously_authorized_22_slot_envelope": "SUPERSEDED_BY_OWNER_GLOBAL_CAP_10",
-  "unreconciled_verified_ack_issues": [
+  "unreconciled_verified_ack_issues": [],
+  "global_staffing_reconciliation_note": "Owner retired predecessor CEO role #5 and four Lead appointments #21–#24 with actual GitHub receipts. Nine other registered roles retained ACTIVE. Successor CEO #28 is a PENDING_ACK placeholder for the singleton 10th slot and has zero operational authority before real personal ACK. New staffing is frozen; ChatGPT UI chats cannot be automatically closed by GitHub.",
+  "retired_appointments": [
+    {
+      "appointment_id": "CEO-V2-20261014-01",
+      "role_id": "CEO",
+      "parent_role_id": null,
+      "appointed_by_role": "Project Owner",
+      "capacity_slot_id": "GOV-V2-CEO-SINGLETON",
+      "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5",
+      "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5",
+      "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5#issuecomment-6157635338",
+      "appointment_verification_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157968920",
+      "round_id": "COLONY-NEXT-01",
+      "domain": "STRATEGY",
+      "status": "RETIRED",
+      "scope": "CEO strategy, capacity approvals, signature gate and sole ant-project/main merge",
+      "owned_paths": [],
+      "skill_status": "SKILL_READY",
+      "suggested_chat_title": "CEO",
+      "governance_sha_at_ack": "ce291ed81bf68cf46a1332be895540f0da855a3f",
+      "notes": "Actual CEO chat ACK at Issue #5; role carries active Round authority through CEO Master Issue #93. No source Task or code granted by appointment.",
+      "retirement_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5#issuecomment-6159595827",
+      "successor_appointment_id": "CEO-V2-20261014-02",
+      "retirement_reason": "OWNER_DIRECTED_CEO_SUCCESSION",
+      "historical_ack_preserved": true
+    },
     {
       "role_id": "SYS-TL1",
       "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/21",
       "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/21#issuecomment-6158590649",
-      "status": "ACK_RECEIVED_UNRECONCILED",
-      "counts_as_existing_chat": true
+      "status": "RETIRED",
+      "counts_as_existing_chat": false,
+      "retirement_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/21#issuecomment-6159584526",
+      "retirement_reason": "OWNER_GLOBAL_HEADCOUNT_CAP_10_CONSOLIDATION",
+      "historical_ack_preserved": true
     },
     {
       "role_id": "EXP-TL1",
       "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/22",
       "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/22#issuecomment-6158601371",
-      "status": "ACK_RECEIVED_UNRECONCILED",
-      "counts_as_existing_chat": true
+      "status": "RETIRED",
+      "counts_as_existing_chat": false,
+      "retirement_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/22#issuecomment-6159586456",
+      "retirement_reason": "OWNER_GLOBAL_HEADCOUNT_CAP_10_CONSOLIDATION",
+      "historical_ack_preserved": true
     },
     {
       "role_id": "PLAT-TL1",
       "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/23",
       "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/23#issuecomment-6158623683",
-      "status": "ACK_RECEIVED_UNRECONCILED",
-      "counts_as_existing_chat": true
+      "status": "RETIRED",
+      "counts_as_existing_chat": false,
+      "retirement_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/23#issuecomment-6159588353",
+      "retirement_reason": "OWNER_GLOBAL_HEADCOUNT_CAP_10_CONSOLIDATION",
+      "historical_ack_preserved": true
     },
     {
       "role_id": "QA-TL1",
       "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/24",
       "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/24#issuecomment-6158641286",
-      "status": "ACK_RECEIVED_UNRECONCILED",
-      "counts_as_existing_chat": true
+      "status": "RETIRED",
+      "counts_as_existing_chat": false,
+      "retirement_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/24#issuecomment-6159590181",
+      "retirement_reason": "OWNER_GLOBAL_HEADCOUNT_CAP_10_CONSOLIDATION",
+      "historical_ack_preserved": true
     }
   ],
-  "global_staffing_reconciliation_note": "10 ACK-verified registered ACTIVE roles plus 4 real out-of-ledger Team Lead ACKs: CEO/Delivery must retire/consolidate roles before claim of <=10 total. New appointments frozen; no existing ACK erased. Do not treat 22-slot old capacity as available."
+  "staffing_snapshot": {
+    "registered_active_roles": 9,
+    "successor_ceo_pending_ack": 1,
+    "retired_ack_evidence_count": 5,
+    "global_cap": 10,
+    "additional_staffing_authorized": false
+  }
 }
