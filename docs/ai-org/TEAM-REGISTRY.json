@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "registry_version": "GOV-V2-COLONY-NEXT-01-003",
+  "registry_version": "GOV-V2-COLONY-NEXT-01-004",
   "governance_status": "ALL_FOUR_DIRECTORS_ACK_VERIFIED_LEAD_SETUP_ONLY",
   "round_id": "COLONY-NEXT-01",
   "round_status": "ORG_SETUP_IMPLEMENTATION_HOLD",
@@ -358,7 +358,7 @@
   ],
   "policy": {
     "one_direct_parent": true,
-    "adjacent_hop_orders_only": true,
+    "adjacent_hop_orders_only": false,
     "owner_zero_click": true,
     "release_last_signer": "DCEO-DELIVERY",
     "independent_quality_signer": "DCEO-QA",
@@ -368,11 +368,19 @@
     "tools_access_must_be_verified": true,
     "owner_message_max_lines": 3,
     "direct_parent_approval_required": true,
-    "recipients_must_be_immediate_edges": true,
+    "recipients_must_be_immediate_edges": false,
     "appointment_ack_is_not_task_authorization": true,
     "chat_title_format": "{role_id}",
     "chat_title_must_be_proposed_on_first_ack": true,
-    "chat_title_is_not_proof_of_rename": true
+    "chat_title_is_not_proof_of_rename": true,
+    "fast_lane_policy": "docs/FAST-LANE-GOVERNANCE.md",
+    "direct_relevant_cross_team_contact": true,
+    "urgent_skip_level_contact_allowed": true,
+    "direct_cross_team_write_requires_scope_owner_approval": true,
+    "appointment_one_issue_one_ack": true,
+    "registry_sync_required_before_subordinate_appointment": false,
+    "batched_registry_sync": true,
+    "implementation_hold_unchanged": true
   },
   "baseline_main_repo": "tanawutmalirum29-ux/ant-project",
   "capacity_envelope": {
