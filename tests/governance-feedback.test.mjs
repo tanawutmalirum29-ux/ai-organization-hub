@@ -36,7 +36,10 @@ function message(n,from,to,kind,opts={}) {
     kind, task_ref:'DESIGN', event_key:'TEST-01:'+kind+':'+n,
     in_reply_to: opts.in_reply_to||null, summary:'Test '+kind,
     relay_text:fields.join('\n'), ...('proposal' in opts?{proposal:opts.proposal}:{}),
-    ...('decision' in opts?{decision:opts.decision}:{})
+    ...('decision' in opts?{decision:opts.decision}:{}),
+    ...('consultation' in opts?{consultation:opts.consultation}:{}),
+    ...('mission' in opts?{mission:opts.mission}:{}),
+    ...('release' in opts?{release:opts.release}:{})
   };
 }
 
