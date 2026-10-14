@@ -1,7 +1,10 @@
 # Ant Kingdom — Team Map / Current command chain
+
+**กฎปฏิบัติล่าสุด:** [FAST-LANE-GOVERNANCE](../FAST-LANE-GOVERNANCE.md). การแต่งตั้งแบบ 1 Issue + 1 ACK ไม่ต้องรอ Relay เพื่อ Sync ทะเบียนก่อนเปิดตำแหน่งลูกน้องภายใน Slot ที่อนุมัติ. สามารถถาม/ประสานงานจริงข้ามทีมได้โดยตรง; งานแก้โค้ดต่าง Scope ต้องมีเจ้าของรับรอง. สถานะ ACTIVE ตาม JSON ต้องมาจาก ACK จริง, ไม่เดาขึ้นเอง.
+
 **Current state: COLONY-NEXT-01 / TEN_ACTUAL_ACKS / LEAD_SETUP_ONLY / IMPLEMENTATION_HOLD.** CEO, DCEO-DELIVERY, four Domain Deputies and four Directors have personal receiving-chat ACK evidence and direct-parent accepted appointment in governance Issues #5/#6/#9–#12/#16–#19. No Team Lead or Engineer is ACTIVE or has a registered appointment. Game main is unchanged at `7d2458a13154716b09649903d1b26c86c8848845`; no COLONY-NEXT-01 game implementation is authorized.
 
-**Registry version:** `GOV-V2-COLONY-NEXT-01-003` (CEO, Delivery, four Deputies and four Directors personally ACKed/accepted; next Team Lead appointments unissued)
+**Registry version:** `GOV-V2-COLONY-NEXT-01-004` (CEO, Delivery, four Deputies and four Directors personally ACKed/accepted; next Team Lead appointments unissued)
 
 **ชื่อแชทของทุก Role:** `<ROLE_ID>` จากคำสั่งแต่งตั้งจริง; ดู [Chat Naming](../CHAT-NAMING.md). AI ต้องเสนอชื่อทันทีที่ ACK แต่ไม่มีคำสั่ง Rename ChatGPT โดยตรงใน GitHub Connector.
 
@@ -23,7 +26,7 @@ flowchart TD
   QA --> QD["QA Directors -> Leads -> 2 Engineers"]
 ```
 
-**Schematic only:** each of the four Director nodes represents a **separate position class in its own domain**, not an individual appointment. Every real Director/Lead/Engineer/Assistant must have exactly one `parent_role_id` in the JSON when appointed. Route instructions **one supervisor/subordinate edge at a time**; cross-team consults go up to nearest common ancestor and back down, not peer-to-peer orders.
+**Schematic only:** each of the four Director nodes represents a **separate position class in its own domain**, not an individual appointment. Every real Director/Lead/Engineer/Assistant must have exactly one `parent_role_id` in the JSON when appointed. Formal code ownership remains under an accountable manager. Real technical consultations and urgent blocker notices may go directly to a related active role across any level; out-of-scope writes need affected file owner's acceptance.
 
 **AI ใหม่ได้เพียง Repo URL ยังรู้ Role ไม่ได้:** ผู้จัดการตรงต้องส่ง [Activation Packet](../ACTIVATION-PACKET.md) ที่มี Role ID, Parent และ Issue แต่งตั้ง; Task จริงใช้ [Task Issue Contract](../TASK-ISSUE-CONTRACT.md). โปรดอ่าน [Readiness Drills](../READINESS-DRILLS.md) และตรวจ Tool Access ก่อนเปิดทำงาน.
 
@@ -51,10 +54,10 @@ flowchart TD
 | `DCEO-EXP` | `DCEO-DELIVERY` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158081848) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158184263) — `ACTIVE / ORG_SETUP_ONLY / IMPLEMENTATION_HOLD` |
 | `DCEO-PLAT` | `DCEO-DELIVERY` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158090772) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158184729) — `ACTIVE / ORG_SETUP_ONLY / IMPLEMENTATION_HOLD` |
 | `DCEO-QA` | `DCEO-DELIVERY` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158094709) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158185570) — `ACTIVE / ORG_SETUP_ONLY / IMPLEMENTATION_HOLD` |
-| `SYS-DIR1` | `DCEO-SYS` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158297046) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158323793) — `ACTIVE / ONE direct Team Lead appointment AFTER registry sync / IMPLEMENTATION_HOLD` |
-| `EXP-DIR` | `DCEO-EXP` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158299961) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158337385) — `ACTIVE / ONE direct Team Lead appointment AFTER registry sync / IMPLEMENTATION_HOLD` |
-| `PLAT-DIR` | `DCEO-PLAT` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158307027) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158346850) — `ACTIVE / ONE direct Team Lead appointment AFTER registry sync / IMPLEMENTATION_HOLD` |
-| `QA-DIR` | `DCEO-QA` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158321086) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158360737) — `ACTIVE / ONE direct Team Lead appointment AFTER registry sync / IMPLEMENTATION_HOLD` |
+| `SYS-DIR1` | `DCEO-SYS` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158297046) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158323793) — `ACTIVE / ONE direct Team Lead authorized; legacy registry-sync wait superseded by Fast Lane / IMPLEMENTATION_HOLD` |
+| `EXP-DIR` | `DCEO-EXP` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158299961) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158337385) — `ACTIVE / ONE direct Team Lead authorized; legacy registry-sync wait superseded by Fast Lane / IMPLEMENTATION_HOLD` |
+| `PLAT-DIR` | `DCEO-PLAT` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158307027) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158346850) — `ACTIVE / ONE direct Team Lead authorized; legacy registry-sync wait superseded by Fast Lane / IMPLEMENTATION_HOLD` |
+| `QA-DIR` | `DCEO-QA` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158321086) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158360737) — `ACTIVE / ONE direct Team Lead authorized; legacy registry-sync wait superseded by Fast Lane / IMPLEMENTATION_HOLD` |
 
 **Approved organizational capacity:** `CAP-COLONY-NEXT-01-22`: **10 real recipient ACKs / 22 total slots**, consisting of 1 CEO, 1 Delivery, 4 Deputies and 4 Directors. Exactly **12 unappointed** slots remain: 4 Team Leads + 8 Core Engineers. No separate Assistant/Steward chat authorized. `appointments[]` is the only active identity roster; `role_slots[].slot_status` describes unused template archetypes required by existing schema CI.
 
@@ -65,6 +68,6 @@ flowchart TD
 ## Rules for the Roster Steward
 1. Owner/CEO approves governance and round staffing envelope. CEO appoints Delivery; Delivery appoints domain Deputies; Deputies appoint Directors; Directors appoint Leads; Leads appoint two core Engineers. Helper only after permitted capacity.
 2. Real chat receives appointment via Owner's short relay and posts `APPOINTMENT_ACK` with Issue permalink. Only then add a row with `ACTIVE`. A proposed role slot is NOT an activated person.
-3. Every direct parent reports `ORG_DELTA` **up one edge**; the Delivery-appointed steward edits both this page and `TEAM-REGISTRY.json` together; inspect unique IDs, parent links, cycles, scope ownership and current Task Issues before saving. Show the **registry_version**, actual changed roles and signed update URL.
+3. Direct managers report verified ACK deltas directly to Delivery/Roster Steward and the steward batches edits to this page and `TEAM-REGISTRY.json`; inspect unique IDs, parent links, cycles, scope ownership and current Task Issues before saving. Show the **registry_version**, actual changed roles and signed update URL.
 4. Every signed candidate SHA belongs on separate [Release Signature Board](RELEASE-SIGNATURES.md); a roster row is not a release signature. Signatures are invalid if release HEAD changes.
 5. For rapid roster maintenance, Delivery may propose a separate `org/registry` branch **in appointment-CEO**, linked from this repository's `main`. Do not treat it as the live source until explicitly adopted; do not write organizational records into `ant-project/main`. All game-development source, Issues/PR and CI continue in `ant-project`.

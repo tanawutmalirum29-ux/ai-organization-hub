@@ -1,5 +1,7 @@
 # Central AI Team Registry — appointment-CEO (authoritative)
 
+**Latest operational rule:** [Fast Lane](FAST-LANE-GOVERNANCE.md). One Issue + one ACK, batched registry updates, direct relevant technical/urgent requests across teams. The JSON `ACTIVE` claim must remain backed by actual ACK permalink; operational ACK verification may precede a batch merge. The registry is an authoritative **persisted snapshot**, not a per-person onboarding approval gate.
+
 **Organizational records, appointments, charter and release-signature dashboard are owned by THIS repository (`appointment-CEO`), not the game repository.** `ant-project` remains the source of truth for game code, work Issues/PRs, CI runs and concrete release evidence.
 
 ## Canonical files on main
@@ -14,7 +16,7 @@ Each real `appointments[]` entry has unique `role_id`, a single `parent_role_id`
 ## Synchronization protocol (no CEO overload)
 1. CEO authorizes round capacity and directly appoints Delivery. Each supervising role appoints only its own immediate reports within the approved limit.
 2. Each actual new AI chat must receive the Owner's short relay and post GitHub `APPOINTMENT_ACK` to be `ACTIVE`.
-3. Direct manager reports `ORG_DELTA` **one superior edge at a time**. Delivery's Roster Steward updates JSON and visible chart together, validates parent graph and approved slot and logs a versioned roster change.
+3. Appointing manager records actual Issue + ACK **directly to Delivery/Roster Steward on the existing governance Issue**. Steward batches updates to JSON and visible chart, verifies actual ACKs/unique parent/capacity and logs one versioned PR for the appointment wave. **No registry-sync PR is needed between preapproved consecutive appointments.**
 4. Normal roster updates may use an approved separate branch/PR within **appointment-CEO**. The authoritative snapshot is on **appointment-CEO/main** after merge; if an interim `org/registry` branch is approved, link its version clearly as *pending*. Do not require merging a game source PR to update organizational metadata.
 5. CEO receives summarized staffing deltas and decisions outside capacity; it does **not** directly issue every Engineer appointment. The roster is not the Release QA receipt.
 

@@ -1,7 +1,9 @@
 # Organizational Charter — V2 authoritative summary
+
+**Latest policy:** [Fast Lane](FAST-LANE-GOVERNANCE.md). ทุกตำแหน่งยังมีหัวหน้ารับผิดชอบหนึ่งคน แต่ปรึกษาหรือรายงานบล็อกเกอร์เร่งด่วนข้ามทีมได้ตรงคนเกี่ยวข้อง. แต่งตั้งใน Slot ที่อนุมัติด้วย 1 Issue + 1 ACK และลงทะเบียนเป็นชุดโดยไม่ต้องรออนุมัติทะเบียนทีละชั้น.
 ใช้ [V2-GOVERNANCE.md](V2-GOVERNANCE.md) เป็นกฎเต็มหลังผ่านการอนุมัติ PR นี้.
 
-**Owner → CEO → Delivery Deputy → Functional Deputies SYS/EXP/PLAT/QA → Directors → Team Leads → Engineers → approved Assistants**. แต่ละ AI มี **ผู้บังคับบัญชาโดยตรงหนึ่งคน** และแต่งตั้งเฉพาะลูกทีมใต้ตน. CEO กำหนดเป้าหมาย + เพดานคน, ไม่แต่งตั้ง Engineer หรือสั่งข้ามหัว. รองด้านเทคนิคลงลายเซ็นตรวจงานจริงบน Candidate SHA เดียว, รอง Delivery เซ็นเป็นคนสุดท้าย, CEO ตรวจใบรับรองรวมแล้ว Merge main.
+**Owner → CEO → Delivery Deputy → Functional Deputies SYS/EXP/PLAT/QA → Directors → Team Leads → Engineers → approved Assistants**. แต่ละ AI มี **ผู้บังคับบัญชาโดยตรงหนึ่งคน** และแต่งตั้งเฉพาะลูกทีมใต้ตน. CEO กำหนดเป้าหมาย + เพดานคน, ไม่แต่งตั้ง Engineer เอง; ติดต่อ Engineer โดยตรงได้เพื่อปรึกษางานจริง/แจ้งปัญหาเร่งด่วน แต่สิทธิ์แก้โค้ดต้องให้เจ้าของ Scope รับรอง. รองด้านเทคนิคลงลายเซ็นตรวจงานจริงบน Candidate SHA เดียว, รอง Delivery เซ็นเป็นคนสุดท้าย, CEO ตรวจใบรับรองรวมแล้ว Merge main.
 
 Team Lead หนึ่งคนดูแล Engineers หลัก 2 คน; Helper ที่อนุมัติไม่ถูกนับเป็น Engineer หลักคนที่สาม. ทุกระดับขอ Assistant ได้ผ่านหัวหน้าตรง→...→CEO แต่ไม่ผ่านเกม QA พิเศษ. ตำแหน่งที่ไม่อยู่ในรอบนั้นไม่ต้องเปิดใช้งาน. เก็บข้อมูล Role ID, พ่อ/แม่สายงาน, หน้าที่, Issue, ACK, สถานะจริงใน [ทะเบียนทีมกลาง](TEAM-REGISTRY.md).
 
