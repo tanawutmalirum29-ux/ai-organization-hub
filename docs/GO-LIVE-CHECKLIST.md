@@ -1,5 +1,8 @@
 # Governance V2 — ความพร้อมเปิดใช้งานจริง (Readiness Gates)
 
+**Current override:** [Fast Lane](FAST-LANE-GOVERNANCE.md). This checklist's historical `NOT_STARTED` labels describe its original audit and must NOT be mistaken for today's live roster. Consult [Team Registry](ai-org/TEAM-REGISTRY.json) + actual GitHub ACKs. One verified ACK within preapproved capacity unlocks operational appointment and subordinate appointment; batched registry PR is not a per-level gate. Real technical/urgent cross-team direct contact is now allowed. `IMPLEMENTATION_HOLD` and release gates still apply.
+
+
 **แยกสองสถานะให้ชัด:** `RULEBOOK_READY` = คู่มือแต่ละ Role/Appointment/Task/Relay มีครบและผ่านการตรวจไฟล์; `AGENTS_READY` = แชท AI แต่ละตัวรับแต่งตั้ง/ตรวจเครื่องมือ/ACK และระบบส่งงานสามารถทำจริงแล้ว. **สองสถานะนี้ไม่เหมือนกัน.**
 
 ## ตรวจตามจริง ณ เวลายกร่าง Audit
