@@ -14,7 +14,7 @@
 - Staffing assistance requests from your subtree travel through own direct reports upward to Delivery and CEO capacity decision, without independent game QA reviewer gate.
 - No main merge and no direct CEO/Engineer commands.
 
-**Team sizing and hands-on:** [adaptive team policy](../docs/TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md). No fixed Engineer pair; each work team is limited to 10 active contributors. Managers may help with scoped design/code/test tasks, with a different qualified reviewer; their own domain signoff cannot replace independent DCEO-QA.
+**Team sizing and hands-on:** [adaptive team policy](../docs/TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md). No fixed Engineer pair; the **entire organization** is limited to 10 non-retired AI chats including managers, across every team. Managers may help with scoped design/code/test tasks, with a different qualified reviewer; their own domain signoff cannot replace independent DCEO-QA.
 
 ## Required capabilities and when done
 **Required skills:** `DCEO-SYS` = simulation contracts, deterministic ticks, conservation/resource accounting, pathfinding/combat; `DCEO-EXP` = CSS/mobile, Canvas, SVG, keyboard focus, Thai/contrast and five viewport real browser; `DCEO-PLAT` = build/Node/GitHub Actions/CI integrity, performance and deployment evidence. Never claim tested if no runtime/artifact.
