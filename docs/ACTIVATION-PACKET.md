@@ -1,10 +1,12 @@
 # Fast appointment packet — one Issue, one ACK
 
+**HARD STOP / OWNER LATEST POLICY:** [Global 10-AI cap](TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md) applies to the ENTIRE organization, NOT per team, no huge-project exception. **STAFFING_FREEZE** until CEO/Delivery resolves ten registered ACTIVE roles and four real unregistered Lead ACKs (#21–#24). This packet **does not** authorize new AI conversations, appointments or helpers even if old 22 slots were approved.
+
 **Latest rule:** [FAST-LANE-GOVERNANCE](FAST-LANE-GOVERNANCE.md). Appointment is separate from a new Gameplay Task. `suggested_chat_title = <ROLE_ID>` per [Chat Naming](CHAT-NAMING.md), never `ANT | ...`.
 
 ## Manager: one Issue, no intermediate unlock chain
 
-Create **one individual Issue in `appointment-CEO`** containing only required identity and authority:
+**ONLY when GLOBAL STAFFING FREEZE has been lifted and a real global seat is free:** Create **one individual Issue in `appointment-CEO`** containing only required identity and authority:
 ```text
 role_id: <unique ID>                 parent_role_id: <actual manager>
 approved_capacity_slot: <real slot/CEO mandate>

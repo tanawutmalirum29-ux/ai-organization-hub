@@ -4,13 +4,15 @@
 
 ## Organization and technical authority
 
-`OWNER → CEO → DCEO-DELIVERY → DCEO-SYS/EXP/PLAT/QA → Directors → Team Leads → as-needed Engineers/Assistants (max 10 active AI per working team)`.
+`OWNER → CEO → DCEO-DELIVERY → DCEO-SYS/EXP/PLAT/QA → Directors → Team Leads → as-needed Engineers/Assistants (max **10 total AI for the ENTIRE organization**)`.
 
 Every active role has **one accountable direct manager**, and new roles may be appointed only by that direct manager within preapproved slots. **That hierarchy governs accountability and ownership, not who may ask a technical question.** Direct technical contacts, cross-team consultations, and real urgent incident notices may go to the relevant role **without passing through every intermediary**. For out-of-scope code changes, the actual component owner must still consent. Read [Routing](REQUEST-ROUTING.md).
 
-## Dynamic team staffing
+## Absolute organization-wide ten-AI limit
 
-Every working team has **no more than 10 active AI contributors including Lead and hands-on management helpers**. A work team may use zero dedicated Engineers if its Lead performs the task, one, or more as needed. When work exceeds ten participants, split into separate coherent teams rather than cramming additional people into one. Senior management can contribute design, code, tests and integration when qualified, but implementation/review must be separated and independent QA preserved. See [Adaptive team capacity](TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md). The ten-person ceiling is per work team, **not the entire organization**; capacity slots are maximum approval, not a minimum hiring quota.
+**Latest Owner command:** [Global 10-AI hard cap](TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md) overrides prior per-work-team sizing. **CEO, Delivery, Deputies, Directors, Leads, Engineers, Assistants and any additional manager/steward all count in the SAME ten-person global pool**, even while standby. No exception for huge jobs, multiple parallel teams, or emergencies. Reuse executive technical abilities; broaden one person's scope only with Issue/independent reviewer and independent QA; allocate work sequentially rather than hiring past ten.
+
+**STAFFING_FREEZE:** Ten roles are registered ACTIVE, and four other Lead chats have verified ACKs pending reconciliation. CEO/Delivery must reconcile/retire or replace roles first; the old 22-slot envelope is superseded, not permission to open new staff chats. No new appointments during freeze. Release and current IMPLEMENTATION_HOLD preserved.
 
 ## Simple appointment procedure
 

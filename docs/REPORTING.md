@@ -1,5 +1,7 @@
 # Reporting and Owner relay — Governance V2 Fast Lane
 
+**LATEST GLOBAL CAP:** [Only 10 AI for the ENTIRE organization](TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md), no multiple-team exception. Any appointment/new-chat relay is blocked by current `STAFFING_FREEZE` until the four additional real Team Lead ACKs (#21–#24) and ten registered staff are reconciled. Inform CEO/Delivery on existing Issue; do not create another ChatGPT AI.
+
 [Fast Lane](FAST-LANE-GOVERNANCE.md) is the canonical policy. All evidence lives in real GitHub Issues/PRs/CI. The **one accountable manager per role** remains, but technical requests and urgent blocker alerts can go straight to the relevant active role without manager-to-manager message relays.
 
 ## For an appointment

@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "registry_version": "GOV-V2-COLONY-NEXT-01-005",
+  "registry_version": "GOV-V2-COLONY-NEXT-01-006",
   "governance_status": "ALL_FOUR_DIRECTORS_ACK_VERIFIED_LEAD_SETUP_ONLY",
   "round_id": "COLONY-NEXT-01",
   "round_status": "ORG_SETUP_IMPLEMENTATION_HOLD",
@@ -383,13 +383,19 @@
     "max_active_ai_per_work_team": 10,
     "min_core_engineers_per_lead": 0,
     "fixed_two_engineers_required": false,
-    "team_size_basis": "active_contributors_including_hands_on_managers",
-    "team_size_scope": "per_work_team_not_entire_organization",
-    "split_workstream_if_exceeds_max": true,
+    "team_size_basis": "all_staffed_roles_and_acknowledged_unreconciled_chats",
+    "team_size_scope": "ENTIRE_ORGANIZATION",
+    "split_workstream_if_exceeds_max": false,
     "management_hands_on_contribution_allowed": true,
     "implementer_cannot_self_approve": true,
     "independent_quality_required_when_manager_codes": true,
-    "owner_only_can_change_team_cap": true
+    "owner_only_can_change_team_cap": true,
+    "max_ai_entire_organization": 10,
+    "global_staffing_hard_cap": true,
+    "allow_more_than_max_for_large_work": false,
+    "new_appointments_frozen_until_reconciled": true,
+    "require_external_ack_reconciliation": true,
+    "global_cap_compliance_verified": false
   },
   "baseline_main_repo": "tanawutmalirum29-ux/ant-project",
   "capacity_envelope": {
@@ -497,5 +503,39 @@
       ]
     }
   ],
-  "work_teams": []
+  "work_teams": [],
+  "staffing_status": "STAFFING_FREEZE_UNRECONCILED_ACKS",
+  "global_staffing_limit": 10,
+  "previously_authorized_22_slot_envelope": "SUPERSEDED_BY_OWNER_GLOBAL_CAP_10",
+  "unreconciled_verified_ack_issues": [
+    {
+      "role_id": "SYS-TL1",
+      "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/21",
+      "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/21#issuecomment-6158590649",
+      "status": "ACK_RECEIVED_UNRECONCILED",
+      "counts_as_existing_chat": true
+    },
+    {
+      "role_id": "EXP-TL1",
+      "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/22",
+      "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/22#issuecomment-6158601371",
+      "status": "ACK_RECEIVED_UNRECONCILED",
+      "counts_as_existing_chat": true
+    },
+    {
+      "role_id": "PLAT-TL1",
+      "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/23",
+      "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/23#issuecomment-6158623683",
+      "status": "ACK_RECEIVED_UNRECONCILED",
+      "counts_as_existing_chat": true
+    },
+    {
+      "role_id": "QA-TL1",
+      "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/24",
+      "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/24#issuecomment-6158641286",
+      "status": "ACK_RECEIVED_UNRECONCILED",
+      "counts_as_existing_chat": true
+    }
+  ],
+  "global_staffing_reconciliation_note": "10 ACK-verified registered ACTIVE roles plus 4 real out-of-ledger Team Lead ACKs: CEO/Delivery must retire/consolidate roles before claim of <=10 total. New appointments frozen; no existing ACK erased. Do not treat 22-slot old capacity as available."
 }

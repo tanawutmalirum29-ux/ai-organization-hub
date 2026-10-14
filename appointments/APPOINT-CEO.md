@@ -1,6 +1,8 @@
 # แต่งตั้ง AI CEO — Governance V2
 
-**Team sizing:** [Adaptive team policy](../docs/TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md). A work team uses up to 10 real active AI including its Lead and hands-on management; old 22 organizational slots are optional total capacity, not mandatory hiring or one giant team. Manager contributions need independent review.
+**OWNER OVERRIDE:** [GLOBAL MAX 10 AI across ENTIRE org](../docs/TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md). Current registry has 10 ACTIVE plus 4 other real Lead ACKs; CEO must reconcile/retire surplus chats and freeze all new appointments. Huge projects never increase cap. Managers may perform scoped technical work with independent reviewers.
+
+**Historical team sizing (superseded):** [Adaptive team policy](../docs/TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md). A work team uses up to 10 real active AI including its Lead and hands-on management; old 22 organizational slots are optional total capacity, not mandatory hiring or one giant team. Manager contributions need independent review.
 
 **Fast Lane current policy:** [Simple appointment + direct work routing](../docs/FAST-LANE-GOVERNANCE.md). หนึ่ง Issue + หนึ่ง ACK จริงก็เพียงพอใน Slot ที่อนุมัติ; หัวหน้าตรวจ ACK แล้วแต่งตั้งลูกทีมตาม Slot ต่อได้ทันที ไม่ต้องรอทะเบียน Sync ทีละชั้น. ติดต่อข้ามทีม/ข้ามระดับที่ตรงงานหรือเร่งด่วนได้; เขียนโค้ดนอก Scope ต้องให้เจ้าของงานอนุมัติ. `IMPLEMENTATION_HOLD` และ Release Gate ยังอยู่.
 

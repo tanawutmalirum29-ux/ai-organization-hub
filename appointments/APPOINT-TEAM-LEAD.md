@@ -1,5 +1,7 @@
 # แต่งตั้ง Team Lead — Governance V2
 
+**OWNER STAFFING FREEZE:** [GLOBAL maximum 10 AI across ENTIRE organization](../docs/TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md). 10 registry ACTIVE + four separately acknowledged Leads mean **DO NOT appoint any Engineer/Assistant or additional AI chat**, despite earlier capacity slots, until CEO/Delivery formally reconciles roles. Existing Lead ACKs are not erased, but no new staffing may proceed. A Lead/Director may handle scoped work personally with independent review.
+
 **Fast Lane current policy:** [Simple appointment + direct work routing](../docs/FAST-LANE-GOVERNANCE.md). หนึ่ง Issue + หนึ่ง ACK จริงก็เพียงพอใน Slot ที่อนุมัติ; หัวหน้าตรวจ ACK แล้วแต่งตั้งลูกทีมตาม Slot ต่อได้ทันที ไม่ต้องรอทะเบียน Sync ทีละชั้น. ติดต่อข้ามทีม/ข้ามระดับที่ตรงงานหรือเร่งด่วนได้; เขียนโค้ดนอก Scope ต้องให้เจ้าของงานอนุมัติ. `IMPLEMENTATION_HOLD` และ Release Gate ยังอยู่.
 
 
@@ -7,7 +9,7 @@
 
 `<DIRECTOR-ID> → <TEAM-LEAD-ID> | APPOINTED / ACK REQUIRED`
 
-ผู้แต่งตั้งคือ Department Director โดยตรง. ระบุ Issue/Team, Approved Slot, Lead role ID, direct parent และจำนวนคนตามงานจริง (ทีมปฏิบัติงานไม่เกิน 10 AI รวม Lead/Assistant/ผู้บริหารลงมือทำ). อ่าน `roles/TEAM-LEAD.md`, `docs/V2-GOVERNANCE.md`, `docs/REQUEST-ROUTING.md`. แต่งตั้ง Engineer เท่าที่จำเป็น (0 คนได้ถ้า Lead ลงมือทำเอง) แต่ทุกคนต้องมี Issue/ACK จริง และ Lead ตรวจ PR/CI ของงานจริงและลง `TEAM_ACCEPTED` ถึง Director. หาก Engineer ขอ Assistant ให้ส่งคำขอขึ้นสาย ไม่สร้างเอง. รอ ACK และ Task ก่อนเริ่มจริง.
+ผู้แต่งตั้งคือ Department Director โดยตรง. ระบุ Issue/Team, Approved Slot, Lead role ID, direct parent และจำนวนคนตามงานจริง (ทั้งองค์กรไม่เกิน 10 AI รวมทุกตำแหน่งและทุกทีม). อ่าน `roles/TEAM-LEAD.md`, `docs/V2-GOVERNANCE.md`, `docs/REQUEST-ROUTING.md`. แต่งตั้ง Engineer เท่าที่จำเป็น (0 คนได้ถ้า Lead ลงมือทำเอง) แต่ทุกคนต้องมี Issue/ACK จริง และ Lead ตรวจ PR/CI ของงานจริงและลง `TEAM_ACCEPTED` ถึง Director. หาก Engineer ขอ Assistant ให้ส่งคำขอขึ้นสาย ไม่สร้างเอง. รอ ACK และ Task ก่อนเริ่มจริง.
 
 ## ก่อนตอบรับและหลังส่งงาน — ใช้กับทุกแชท
 

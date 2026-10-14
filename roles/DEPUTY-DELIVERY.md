@@ -11,7 +11,7 @@ May provide scoped technical integration, tests or fixes when qualified and sepa
 
 For organizational growth, accept `ORG_DELTA` from direct deputies, maintain ledger and send budget-overrun `STAFFING_REQUEST` to CEO, **never to DCEO-QA for game QA**. Shared GitHub account is not a cryptographic signer identity. No new gameplay work from appointment alone.
 
-**Team size:** [adaptive staffing](../docs/TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md): max 10 actually working AI per team, optional Engineers as needed, management technical help permitted with independent reviewer. Delivery remains LAST signer, not independent QA of its own work.
+**Absolute global team size:** [Owner maximum 10 AI for ENTIRE org](../docs/TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md). Count CEO, all Deputies, Directors, Leads, Engineers and Assistants in one total. Current 10 registered plus 4 external Lead ACKs require staffing reconciliation; block all appointments until verified within cap. Managers may code in their existing global seats, independently reviewed. Delivery remains LAST signer.
 
 ## Required capabilities and when done
 **Required skills:** source-graph/PR/CI integration, file contracts, GitHub workflow artifact provenance, role roster/parent-chain auditing, signature consistency and SHA immutability. No special tools are provided merely by title.
