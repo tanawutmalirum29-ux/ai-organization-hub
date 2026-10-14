@@ -1,4 +1,7 @@
-# Migration to Governance V2 — activation checklist (POLICY ADOPTED; NO ACTIVE APPOINTMENTS)
+# Migration to Governance V2 — historical activation notes (live roster has active appointments)
+
+**OVERRIDE:** [Fast Lane](../FAST-LANE-GOVERNANCE.md) supersedes the older one-hop-per-relay and wait-for-registry-unlock activation checklist below. The live [Registry](TEAM-REGISTRY.json) records actual accepted appointments for COLONY-NEXT-01. Do not follow historical `NO ACTIVE APPOINTMENTS` language; this document is retained as context. One Issue + one ACK, batch registry sync, direct relevant technical cross-team contacts. Release/QA/implementation HOLD unchanged.
+
 This page is a handoff for the new AI CEO and Delivery deputy when Owner authorizes changing the org. **Nothing here reopens ROYAL-01 or assigns gameplay work. The canonical governance/appointments/roster/signature board are all in `appointment-CEO/main`; the game repo is for code, tasks, PR and test evidence only.**
 
 ## เงื่อนไขก่อนปล่อย Role ใหม่
