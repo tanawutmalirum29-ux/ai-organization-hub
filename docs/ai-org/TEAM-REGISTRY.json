@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "registry_version": "GOV-V2-COLONY-NEXT-01-006",
+  "registry_version": "GOV-V2-COLONY-NEXT-01-007",
   "governance_status": "ALL_FOUR_DIRECTORS_ACK_VERIFIED_LEAD_SETUP_ONLY",
   "round_id": "COLONY-NEXT-01",
   "round_status": "ORG_SETUP_IMPLEMENTATION_HOLD",
@@ -137,24 +137,24 @@
   ],
   "appointments": [
     {
-      "appointment_id": "CEO-V2-20261014-01",
+      "appointment_id": "CEO-V2-20261014-02",
       "role_id": "CEO",
       "parent_role_id": null,
       "appointed_by_role": "Project Owner",
       "capacity_slot_id": "GOV-V2-CEO-SINGLETON",
-      "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5",
-      "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5",
-      "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5#issuecomment-6157635338",
-      "appointment_verification_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157968920",
+      "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28",
+      "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28",
+      "ack_comment_url": null,
+      "appointment_verification_url": null,
       "round_id": "COLONY-NEXT-01",
       "domain": "STRATEGY",
-      "status": "ACTIVE",
+      "status": "PENDING_ACK",
       "scope": "CEO strategy, capacity approvals, signature gate and sole ant-project/main merge",
       "owned_paths": [],
-      "skill_status": "SKILL_READY",
+      "skill_status": "PENDING_SELF_CHECK",
       "suggested_chat_title": "CEO",
-      "governance_sha_at_ack": "ce291ed81bf68cf46a1332be895540f0da855a3f",
-      "notes": "Actual CEO chat ACK at Issue #5; role carries active Round authority through CEO Master Issue #93. No source Task or code granted by appointment."
+      "governance_sha_at_ack": null,
+      "notes": "Owner-directed replacement of old CEO. This CEO chat DOES NOT exist operationally until real ACK in Issue #28; global singleton slot reserved, no extra staffing. Pending CEO has no gameplay/main-merge authority before ACK."
     },
     {
       "appointment_id": "DCEO-DELIVERY-COLONY-NEXT-01-01",
@@ -395,73 +395,55 @@
     "allow_more_than_max_for_large_work": false,
     "new_appointments_frozen_until_reconciled": true,
     "require_external_ack_reconciliation": true,
-    "global_cap_compliance_verified": false
+    "global_cap_compliance_verified": false,
+    "succession_only_appointment_id": "CEO-V2-20261014-02",
+    "global_capacity_remaining_after_succession": 0
   },
   "baseline_main_repo": "tanawutmalirum29-ux/ant-project",
   "capacity_envelope": {
-    "capacity_approval_id": "CAP-COLONY-NEXT-01-22",
-    "approval_issue_url": "https://github.com/tanawutmalirum29-ux/ant-project/issues/93",
-    "max_distinct_ai_chats_total": 22,
+    "capacity_approval_id": "OWNER-GLOBAL-HARD-CAP-10-20261014",
+    "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28",
+    "max_distinct_ai_chats_total": 10,
     "allocated_roles": [
       "CEO",
       "DCEO-DELIVERY",
       "DCEO-SYS",
       "DCEO-EXP",
       "DCEO-PLAT",
-      "DCEO-QA"
-    ],
-    "approved_roster_model": {
-      "ceo": 1,
-      "delivery": 1,
-      "domain_deputies": 4,
-      "department_directors": 4,
-      "team_leads": 4,
-      "core_engineers": 8,
-      "assistants": 0
-    },
-    "note": "Role allocation and issued Issues are not equivalent to actual chat ACK/ACTIVE; one-hop staffing required."
-  },
-  "pending_appointment_issues": [],
-  "org_delta": {
-    "change_id": "ORG-DELTA-COLONY-NEXT-01-DIRECTORS-001",
-    "type": "VERIFY_FOUR_DIRECTOR_ACKS_AND_PARENT_ACCEPTANCES",
-    "reporting_path": "Director -> Domain Deputy -> DCEO-DELIVERY",
-    "changed_role_ids": [
+      "DCEO-QA",
       "SYS-DIR1",
       "EXP-DIR",
       "PLAT-DIR",
       "QA-DIR"
     ],
-    "ack_and_parent_acceptance": [
-      {
-        "role_id": "SYS-DIR1",
-        "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158297046",
-        "parent_acceptance_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158323793",
-        "org_delta_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158329858"
-      },
-      {
-        "role_id": "EXP-DIR",
-        "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158299961",
-        "parent_acceptance_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158337385",
-        "org_delta_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158342437"
-      },
-      {
-        "role_id": "PLAT-DIR",
-        "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158307027",
-        "parent_acceptance_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158346850",
-        "org_delta_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158353311"
-      },
-      {
-        "role_id": "QA-DIR",
-        "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158321086",
-        "parent_acceptance_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158360737",
-        "org_delta_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158365164"
-      }
+    "approved_roster_model": {
+      "ceo_successor_pending_ack": 1,
+      "delivery": 1,
+      "domain_deputies": 4,
+      "department_directors": 4,
+      "team_leads": 0,
+      "core_engineers": 0,
+      "assistants": 0
+    },
+    "note": "Owner global 10 AI TOTAL. Nine existing ACTIVE plus CEO successor singleton PENDING_ACK. Previous 22-seat allocation retired, no Lead/Engineer hires. No extra chat if task is large.",
+    "prior_capacity_approval_id": "CAP-COLONY-NEXT-01-22"
+  },
+  "pending_appointment_issues": [],
+  "org_delta": {
+    "change_id": "ORG-DELTA-CEO-SUCCESSION-20261014-02",
+    "type": "CEO_SINGLETON_REPLACEMENT_AND_4_LEAD_RETIREMENTS",
+    "changed_role_ids": [
+      "CEO",
+      "SYS-TL1",
+      "EXP-TL1",
+      "PLAT-TL1",
+      "QA-TL1"
     ],
-    "status": "ACK_VERIFIED_REGISTRY_MERGE_REQUIRED",
-    "next_hop": "Directors appoint exactly one direct Team Lead each after confirmed governance merge and direct-parent one-hop authorization",
+    "status": "RETIREMENT_RECEIPTS_RECORDED / CEO_SUCCESSOR_PENDING_ACK",
+    "evidence_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28",
+    "next_hop": "New CEO personally posts real ACK on Issue #28, then reuses existing DCEO-DELIVERY and 8 other existing AI, no new staffing",
     "hold": "IMPLEMENTATION_HOLD / NO_CODE / RELEASE_HOLD",
-    "note": "Live GitHub comment URLs are organizational evidence, not cryptographic personal chat identities."
+    "note": "Retired real AI appointments archived; GitHub does not close actual separate ChatGPT UI conversations. Former Director ORG_DELTA archived in existing issue history."
   },
   "org_delta_history": [
     {
@@ -504,38 +486,82 @@
     }
   ],
   "work_teams": [],
-  "staffing_status": "STAFFING_FREEZE_UNRECONCILED_ACKS",
+  "staffing_status": "CEO_SUCCESSION_PENDING_ACK / NINE_EXISTING_ACTIVE / NO_ADDITIONAL_APPOINTMENTS",
   "global_staffing_limit": 10,
   "previously_authorized_22_slot_envelope": "SUPERSEDED_BY_OWNER_GLOBAL_CAP_10",
-  "unreconciled_verified_ack_issues": [
+  "unreconciled_verified_ack_issues": [],
+  "global_staffing_reconciliation_note": "Owner retired predecessor CEO role #5 and four Lead appointments #21–#24 with actual GitHub receipts. Nine other registered roles retained ACTIVE. Successor CEO #28 is a PENDING_ACK placeholder for the singleton 10th slot and has zero operational authority before real personal ACK. New staffing is frozen; ChatGPT UI chats cannot be automatically closed by GitHub.",
+  "retired_appointments": [
+    {
+      "appointment_id": "CEO-V2-20261014-01",
+      "role_id": "CEO",
+      "parent_role_id": null,
+      "appointed_by_role": "Project Owner",
+      "capacity_slot_id": "GOV-V2-CEO-SINGLETON",
+      "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5",
+      "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5",
+      "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5#issuecomment-6157635338",
+      "appointment_verification_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157968920",
+      "round_id": "COLONY-NEXT-01",
+      "domain": "STRATEGY",
+      "status": "RETIRED",
+      "scope": "CEO strategy, capacity approvals, signature gate and sole ant-project/main merge",
+      "owned_paths": [],
+      "skill_status": "SKILL_READY",
+      "suggested_chat_title": "CEO",
+      "governance_sha_at_ack": "ce291ed81bf68cf46a1332be895540f0da855a3f",
+      "notes": "Actual CEO chat ACK at Issue #5; role carries active Round authority through CEO Master Issue #93. No source Task or code granted by appointment.",
+      "retirement_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5#issuecomment-6159595827",
+      "successor_appointment_id": "CEO-V2-20261014-02",
+      "retirement_reason": "OWNER_DIRECTED_CEO_SUCCESSION",
+      "historical_ack_preserved": true
+    },
     {
       "role_id": "SYS-TL1",
       "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/21",
       "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/21#issuecomment-6158590649",
-      "status": "ACK_RECEIVED_UNRECONCILED",
-      "counts_as_existing_chat": true
+      "status": "RETIRED",
+      "counts_as_existing_chat": false,
+      "retirement_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/21#issuecomment-6159584526",
+      "retirement_reason": "OWNER_GLOBAL_HEADCOUNT_CAP_10_CONSOLIDATION",
+      "historical_ack_preserved": true
     },
     {
       "role_id": "EXP-TL1",
       "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/22",
       "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/22#issuecomment-6158601371",
-      "status": "ACK_RECEIVED_UNRECONCILED",
-      "counts_as_existing_chat": true
+      "status": "RETIRED",
+      "counts_as_existing_chat": false,
+      "retirement_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/22#issuecomment-6159586456",
+      "retirement_reason": "OWNER_GLOBAL_HEADCOUNT_CAP_10_CONSOLIDATION",
+      "historical_ack_preserved": true
     },
     {
       "role_id": "PLAT-TL1",
       "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/23",
       "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/23#issuecomment-6158623683",
-      "status": "ACK_RECEIVED_UNRECONCILED",
-      "counts_as_existing_chat": true
+      "status": "RETIRED",
+      "counts_as_existing_chat": false,
+      "retirement_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/23#issuecomment-6159588353",
+      "retirement_reason": "OWNER_GLOBAL_HEADCOUNT_CAP_10_CONSOLIDATION",
+      "historical_ack_preserved": true
     },
     {
       "role_id": "QA-TL1",
       "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/24",
       "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/24#issuecomment-6158641286",
-      "status": "ACK_RECEIVED_UNRECONCILED",
-      "counts_as_existing_chat": true
+      "status": "RETIRED",
+      "counts_as_existing_chat": false,
+      "retirement_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/24#issuecomment-6159590181",
+      "retirement_reason": "OWNER_GLOBAL_HEADCOUNT_CAP_10_CONSOLIDATION",
+      "historical_ack_preserved": true
     }
   ],
-  "global_staffing_reconciliation_note": "10 ACK-verified registered ACTIVE roles plus 4 real out-of-ledger Team Lead ACKs: CEO/Delivery must retire/consolidate roles before claim of <=10 total. New appointments frozen; no existing ACK erased. Do not treat 22-slot old capacity as available."
+  "staffing_snapshot": {
+    "registered_active_roles": 9,
+    "successor_ceo_pending_ack": 1,
+    "retired_ack_evidence_count": 5,
+    "global_cap": 10,
+    "additional_staffing_authorized": false
+  }
 }

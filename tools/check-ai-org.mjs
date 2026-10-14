@@ -283,6 +283,42 @@ console.log('GLOBAL_TEN_AI_HARD_CAP_POLICY_PASS_PENDING_RECONCILIATION',{
   workTeams:r.work_teams.length
 });
 
+// CEO replacement/succession receipts. Historical ACK roles do not hold current operational authority.
+if(r.registry_version==='GOV-V2-COLONY-NEXT-01-007'){
+  assert.equal(r.appointments.length,10,'one CEO succession slot plus nine existing staff');
+  const ceo=r.appointments.find(x=>x.role_id==='CEO');
+  assert.equal(ceo?.status,'PENDING_ACK','new CEO must not be ACTIVE without actual personal ACK');
+  assert.equal(ceo?.appointment_id,'CEO-V2-20261014-02');
+  assert.ok(ceo?.appointment_issue_url?.endsWith('/issues/28'),'new CEO must use real personal Issue #28');
+  assert.ok(ceo.ack_comment_url==null,'new CEO ACK is not yet real');
+  assert.equal(r.appointments.filter(x=>x.status==='ACTIVE').length,9,'nine retained managers must remain real ACTIVE staff');
+  assert.equal(r.capacity_envelope?.max_distinct_ai_chats_total,10);
+  assert.equal(r.capacity_envelope?.approved_roster_model?.team_leads,0);
+  assert.equal(r.capacity_envelope?.approved_roster_model?.core_engineers,0);
+  assert.equal(r.policy.new_appointments_frozen_until_reconciled,true);
+  assert.equal(r.policy.global_cap_compliance_verified,false,'do not assert active replacement before ACK');
+  assert.ok(Array.isArray(r.retired_appointments),'retirement receipts missing');
+  const retiredIds=new Set(r.retired_appointments.map(x=>x.role_id));
+  for(const id of ['CEO','SYS-TL1','EXP-TL1','PLAT-TL1','QA-TL1']){
+    assert.ok(retiredIds.has(id),'retirement handoff missing '+id);
+    const old=r.retired_appointments.find(x=>x.role_id===id);
+    assert.equal(old.status,'RETIRED');
+    assert.ok(ackUrl.test(old.ack_comment_url),'historical real ACK must be retained '+id);
+    assert.ok(issueUrl.test(old.retirement_issue_url),'retirement issue receipt required '+id);
+  }
+  assert.equal(r.unreconciled_verified_ack_issues.length,0,'four Lead ACKs need archival disposition');
+  assert.equal(r.staffing_snapshot.registered_active_roles,9);
+  assert.equal(r.staffing_snapshot.successor_ceo_pending_ack,1);
+  assert.equal(r.staffing_snapshot.retired_ack_evidence_count,5);
+  assert.equal(r.staffing_snapshot.additional_staffing_authorized,false);
+  assert.ok(page.includes('CEO-V2-20261014-02')&&page.includes('PENDING_ACK'),
+    'team chart must distinguish new CEO pending from actual ACTIVE');
+  console.log('CEO_SUCCESSION_SLOT_RECONCILIATION_PASS',{
+    retainedActive:9,ceoPending:true,retiredReceipts:5,globallyAllocatedSeats:10,
+    gameplayHold:r.round_status
+  });
+}
+
 assert.ok(page.includes(r.registry_version),'human chart must show registry version');
 assert.ok(page.includes('TEAM-REGISTRY.json'),'chart must link JSON');
 assert.ok(release.includes('No new release candidate') || release.includes('candidate_sha'),'release board missing');

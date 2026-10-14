@@ -16,7 +16,7 @@
 | Release | Full immutable candidate SHA, required domain/independent QA signatures, Delivery LAST, CEO-only merge, actually configured automated Release verifier |
 | Owner burden | Define goals and forward AI-written short messages only; no manual GitHub, Actions, tests or artifacts |
 
-**GLOBAL STAFFING HOLD:** The organization registered ten ACTIVE but also has four verified Team Lead ACKs in Issues #21–#24. This is an unresolved over-allocation of real acknowledged chats, NOT evidence of global <=10. Freeze new appointments and reconcile/retire roles before any new staffing. Old 22 slots are non-operative.
+**CEO SUCCESSION (CURRENT):** Owner formally retired predecessor CEO and four Lead ACK roles via Issues #5, #21–#24, preserving all real ACK history. Nine incumbent roles remain ACTIVE, new CEO Issue #28 is PENDING_ACK for the ONLY reserved tenth seat; staff freeze remains until personal CEO ACK. GitHub cannot itself close historical ChatGPT windows. No new Engineer/Assistant/Lead roles. Old 22 slots are non-operative; game Implementation stays HOLD.
 
 **Verified at policy-drafting checkpoint:** live COLONY-NEXT-01 registry had **10 ACTIVE roles** (CEO, Delivery, 4 deputies, 4 Directors). Four Lead appointment Issues #21–#24 were issued and marked PENDING_ACK at that time; each requires its own actual ACK. **These counts are not live monitors** — always refresh current Issues and JSON. The round remained `ORG_SETUP_IMPLEMENTATION_HOLD`.
 

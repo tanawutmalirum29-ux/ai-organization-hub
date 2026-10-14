@@ -1,5 +1,8 @@
 # Ant Kingdom — Governance V2 | ศูนย์กลางการแต่งตั้งและบริหารองค์กร
 
+**CEO คนใหม่ — 14 ต.ค. 2026:** [แต่งตั้งผู้สืบทอด CEO-V2-20261014-02](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28) แทน CEO เดิมที่ยุติบทบาท พร้อมสืบทอด [COLONY-NEXT-01 งาน Save/Load, Smart Ant AI, Platform QA/Release](https://github.com/tanawutmalirum29-ux/ant-project/issues/93). ทะเบียนขณะนี้มี 9 AI ACTIVE เดิม + CEO ใหม่ PENDING_ACK รวมไม่เกิน 10 Slot; Lead 4 รายยุติบทบาทพร้อมเก็บประวัติ ACK; **ห้ามแต่งตั้งเพิ่ม**. Implementation ยัง HOLD จน CEO ใหม่ ACK และออก Task Scope อย่างถูกต้อง.
+
+
 ## เพดาน AI ทั้งองค์กร: สูงสุด 10 ตัวเท่านั้น
 
 **ไม่ใช่ทีมละ 10 ตัว — ทุกตำแหน่ง ทุกฝ่าย ทุกทีม รวมกันต้องไม่เกิน 10 AI ไม่ว่างานใหญ่แค่ไหน** รวม CEO, รอง CEO, Director, Lead, Engineer, Assistant และผู้บริหารที่ลงมือทำ. ห้ามเปิดแชท AI เพิ่มเมื่อเต็มเพดาน, ห้ามแยกหลายทีมเพื่อเพิ่มจำนวน; ให้รวมหน้าที่ จัดลำดับงาน ใช้ผู้บริหารเขียนโค้ด/ทดสอบเมื่อมี Scope และ Reviewer อิสระ. **ปัจจุบัน 10 รายในทะเบียน + ACK ของ Leads อีก 4 ที่ต้องปรับโครงสร้าง** จึงหยุดแต่งตั้งทั้งหมดจนกระทั่ง CEO/Delivery ตรวจรับ/ปิดบทบาทซ้ำและยืนยันไม่เกินสิบ. [กฎเพดาน AI ทั้งองค์กร](docs/TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md)
