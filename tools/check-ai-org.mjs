@@ -113,18 +113,18 @@ console.log('GOVERNANCE_ACTIVATION_AND_TASK_CONTRACT_PASS');
 // This CI never claims to rename a ChatGPT conversation.
 assert.ok(existsSync(new URL('docs/CHAT-NAMING.md', repoRoot)), 'missing required chat title instructions');
 assert.ok(mainReadme.includes('docs/CHAT-NAMING.md'), 'README must link chat naming rule');
-assert.equal(r.policy.chat_title_format, 'ANT | {role_id}');
+assert.equal(r.policy.chat_title_format, '{role_id}');
 assert.equal(r.policy.chat_title_must_be_proposed_on_first_ack, true);
 assert.equal(r.policy.chat_title_is_not_proof_of_rename, true);
 const chatNaming = readFileSync(new URL('docs/CHAT-NAMING.md', repoRoot), 'utf8');
-assert.ok(chatNaming.includes('ANT | <ROLE_ID>') && chatNaming.includes('NEEDS_APPOINTMENT'),
+assert.ok(chatNaming.includes('<ROLE_ID>') && chatNaming.includes('NEEDS_APPOINTMENT'),
   'chat naming rule must derive from authorized role and reject unknown appointment');
 for (const slot of r.role_slots) {
-  assert.equal(slot.suggested_chat_title, 'ANT | '+slot.role_id, 'chat title does not match role '+slot.role_id);
+  assert.equal(slot.suggested_chat_title, slot.role_id, 'chat title does not match role '+slot.role_id);
   assert.equal(slot.chat_title_rule, 'docs/CHAT-NAMING.md');
 }
 for (const appt of r.appointments) {
-  assert.equal(appt.suggested_chat_title, 'ANT | '+appt.role_id, 'appointed chat title must match actual Role ID');
+  assert.equal(appt.suggested_chat_title, appt.role_id, 'appointed chat title must match actual Role ID');
 }
 for (const name of [
  'APPOINT-CEO.md','APPOINT-DEPUTY-DELIVERY.md','APPOINT-DEPUTY-DOMAIN.md',
@@ -135,6 +135,7 @@ for (const name of [
   assert.ok(t.includes('CHAT-NAMING.md') && t.includes('ชื่อแชทแนะนำ'),
     'appointment template missing first-reply chat title: '+name);
 }
+assert.ok(!chatNaming.includes('ANT | <ROLE_ID>'), 'chat title rule must not use former prefix');
 console.log('ROLE_CHAT_TITLE_CONTRACT_PASS', {slots:r.role_slots.length,proposed:true,renamed:false});
 
 const appointed = new Map();
