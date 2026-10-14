@@ -5,7 +5,7 @@
 **Single source of organizational role state:** [TEAM-REGISTRY.json](TEAM-REGISTRY.json)  
 **Owner new CEO instruction:** [CEO succession Issue #28](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28)  
 **Game mission (previously planned, not implemented):** [ant-project Master Issue #93](https://github.com/tanawutmalirum29-ux/ant-project/issues/93)  
-**Rules:** [Global ten-AI cap](../TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md), [FAST-LANE-GOVERNANCE](../FAST-LANE-GOVERNANCE.md), [Role Start](../ROLE-START-HERE.md), [Chat Naming](../CHAT-NAMING.md), [Release Signatures](../RELEASE-SIGNATURES.md).
+**Rules:** [Global ten-AI cap](../TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md), [FAST-LANE-GOVERNANCE](../FAST-LANE-GOVERNANCE.md), [Role Start](../ROLE-START-HERE.md), [Role Skills](../ROLE-SKILLS-AND-SCOPE.md), [Task States & Handoff](../TASK-STATE-AND-HANDOFF.md), [Chat Naming](../CHAT-NAMING.md), [Release Signatures](../RELEASE-SIGNATURES.md).
 
 **No new AI role is automatically created in ChatGPT by GitHub.** The new CEO role is only `PENDING_ACK` until the receiving chat posts its own verified ACK on Issue #28. The old CEO's role was retired with a separate governance receipt; the four formerly acknowledged but unregistered Leads were retired with their ACK history preserved. Their actual ChatGPT conversations remain visible unless the Owner stops using them; GitHub writes cannot close chats.
 
