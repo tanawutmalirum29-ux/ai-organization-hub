@@ -401,69 +401,49 @@
   },
   "baseline_main_repo": "tanawutmalirum29-ux/ant-project",
   "capacity_envelope": {
-    "capacity_approval_id": "CAP-COLONY-NEXT-01-22",
-    "approval_issue_url": "https://github.com/tanawutmalirum29-ux/ant-project/issues/93",
-    "max_distinct_ai_chats_total": 22,
+    "capacity_approval_id": "OWNER-GLOBAL-HARD-CAP-10-20261014",
+    "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28",
+    "max_distinct_ai_chats_total": 10,
     "allocated_roles": [
       "CEO",
       "DCEO-DELIVERY",
       "DCEO-SYS",
       "DCEO-EXP",
       "DCEO-PLAT",
-      "DCEO-QA"
-    ],
-    "approved_roster_model": {
-      "ceo": 1,
-      "delivery": 1,
-      "domain_deputies": 4,
-      "department_directors": 4,
-      "team_leads": 4,
-      "core_engineers": 8,
-      "assistants": 0
-    },
-    "note": "Role allocation and issued Issues are not equivalent to actual chat ACK/ACTIVE; one-hop staffing required."
-  },
-  "pending_appointment_issues": [],
-  "org_delta": {
-    "change_id": "ORG-DELTA-COLONY-NEXT-01-DIRECTORS-001",
-    "type": "VERIFY_FOUR_DIRECTOR_ACKS_AND_PARENT_ACCEPTANCES",
-    "reporting_path": "Director -> Domain Deputy -> DCEO-DELIVERY",
-    "changed_role_ids": [
+      "DCEO-QA",
       "SYS-DIR1",
       "EXP-DIR",
       "PLAT-DIR",
       "QA-DIR"
     ],
-    "ack_and_parent_acceptance": [
-      {
-        "role_id": "SYS-DIR1",
-        "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158297046",
-        "parent_acceptance_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158323793",
-        "org_delta_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158329858"
-      },
-      {
-        "role_id": "EXP-DIR",
-        "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158299961",
-        "parent_acceptance_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158337385",
-        "org_delta_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158342437"
-      },
-      {
-        "role_id": "PLAT-DIR",
-        "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158307027",
-        "parent_acceptance_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158346850",
-        "org_delta_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158353311"
-      },
-      {
-        "role_id": "QA-DIR",
-        "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158321086",
-        "parent_acceptance_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158360737",
-        "org_delta_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158365164"
-      }
+    "approved_roster_model": {
+      "ceo_successor_pending_ack": 1,
+      "delivery": 1,
+      "domain_deputies": 4,
+      "department_directors": 4,
+      "team_leads": 0,
+      "core_engineers": 0,
+      "assistants": 0
+    },
+    "note": "Owner global 10 AI TOTAL. Nine existing ACTIVE plus CEO successor singleton PENDING_ACK. Previous 22-seat allocation retired, no Lead/Engineer hires. No extra chat if task is large.",
+    "prior_capacity_approval_id": "CAP-COLONY-NEXT-01-22"
+  },
+  "pending_appointment_issues": [],
+  "org_delta": {
+    "change_id": "ORG-DELTA-CEO-SUCCESSION-20261014-02",
+    "type": "CEO_SINGLETON_REPLACEMENT_AND_4_LEAD_RETIREMENTS",
+    "changed_role_ids": [
+      "CEO",
+      "SYS-TL1",
+      "EXP-TL1",
+      "PLAT-TL1",
+      "QA-TL1"
     ],
-    "status": "ACK_VERIFIED_REGISTRY_MERGE_REQUIRED",
-    "next_hop": "Directors appoint exactly one direct Team Lead each after confirmed governance merge and direct-parent one-hop authorization",
+    "status": "RETIREMENT_RECEIPTS_RECORDED / CEO_SUCCESSOR_PENDING_ACK",
+    "evidence_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28",
+    "next_hop": "New CEO personally posts real ACK on Issue #28, then reuses existing DCEO-DELIVERY and 8 other existing AI, no new staffing",
     "hold": "IMPLEMENTATION_HOLD / NO_CODE / RELEASE_HOLD",
-    "note": "Live GitHub comment URLs are organizational evidence, not cryptographic personal chat identities."
+    "note": "Retired real AI appointments archived; GitHub does not close actual separate ChatGPT UI conversations. Former Director ORG_DELTA archived in existing issue history."
   },
   "org_delta_history": [
     {
