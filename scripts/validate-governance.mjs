@@ -1,0 +1,93 @@
+#!/usr/bin/env node
+import fs from 'node:fs';
+import path from 'node:path';
+
+const errors = [];
+const fail = s => errors.push(s);
+const read = p => { try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch(e) { fail(`Unreadable JSON ${p}: ${e.message}`); return null; } };
+const branch = process.env.GITHUB_HEAD_REF || process.env.GITHUB_REF_NAME || process.argv[2] || 'main';
+const root = 'workspace';
+const roundBranch = branch.startsWith('round/');
+const exists = fs.existsSync(root);
+
+if (!roundBranch) {
+  if (exists) fail('Governance main/policy PR must not contain workspace/: live rounds belong on round/<slug>.');
+} else {
+  if (process.env.GITHUB_BASE_REF === 'main') fail('Round branch must NEVER be merged into governance main.');
+  const round = read(path.join(root, 'round.json'));
+  const roster = read(path.join(root, 'roster.json'));
+  const id = round?.round_id;
+  if (!/^[A-Z0-9][A-Z0-9-]{2,39}$/.test(id || '')) fail('Invalid round_id.');
+  if (id && branch !== `round/${id.toLowerCase()}`) fail('Branch/round_id mismatch.');
+  if (roster?.round_id !== id) fail('Roster round_id mismatch.');
+  if (round?.game_repository !== 'tanawutmalirum29-ux/ant-project') fail('Unsupported game_repository: explicit Owner policy required.');
+  if (!['ACTIVE', 'RELEASED', 'CLOSED'].includes(round?.state)) fail('Invalid round state.');
+
+  const roles = roster?.roles;
+  const known = new Map();
+  const ids = new Set();
+  if (!Array.isArray(roles) || roles.length < 1 || roles.length > 10) fail('Roster must have 1..10 AI roles total.');
+  else for (const r of roles) {
+    if (!r.role_id || known.has(r.role_id)) fail(`Duplicate/missing role_id ${r.role_id}`);
+    if (!r.appointment_id || ids.has(r.appointment_id)) fail(`Duplicate/missing appointment ID ${r.appointment_id}`);
+    if (!['ACTIVE', 'PENDING_RELAY', 'CLOSED'].includes(r.status)) fail(`Invalid status for ${r.role_id}`);
+    if (r.role_id === 'CEO' && r.parent_role !== 'OWNER') fail('CEO parent must be OWNER');
+    else if (/^DIR-[A-Z]$/.test(r.role_id) && r.parent_role !== 'CEO') fail(`DIR wrong parent: ${r.role_id}`);
+    else if (/^TL-([A-Z])[12]$/.test(r.role_id) && r.parent_role !== `DIR-${RegExp.$1}`) fail(`TL wrong parent: ${r.role_id}`);
+    else if (/^E-([A-Z][12])-[12]$/.test(r.role_id) && r.parent_role !== `TL-${RegExp.$1}`) fail(`Engineer wrong parent: ${r.role_id}`);
+    else if (r.role_id !== 'CEO' && !/^(DIR-[A-Z]|TL-[A-Z][12]|E-[A-Z][12]-[12])$/.test(r.role_id)) fail(`Invalid role_id ${r.role_id}`);
+    known.set(r.role_id, r); ids.add(r.appointment_id);
+  }
+  if (!known.has('CEO')) fail('Round must contain CEO');
+  for (const r of known.values()) {
+    if (r.role_id !== 'CEO' && !known.has(r.parent_role)) fail(`Missing parent for ${r.role_id}`);
+    if (id && !r.appointment_id.startsWith(id + '-')) fail(`Cross-round appointment ${r.appointment_id}`);
+  }
+
+  const dir = path.join(root, 'messages');
+  const names = fs.existsSync(dir) ? fs.readdirSync(dir).sort() : [];
+  if (!names.length) fail('At least bootstrap message 000001.json required.');
+  const eventKeys = new Set();
+  const msgIds = new Set();
+  const msgs = [];
+  for (let i = 0; i < names.length; i++) {
+    const expected = `${String(i + 1).padStart(6, '0')}.json`;
+    if (names[i] !== expected) { fail(`Gap or unexpected file: expected ${expected}, found ${names[i]}`); continue; }
+    const m = read(path.join(dir, names[i]));
+    if (!m) continue;
+    msgs.push(m);
+    const expectedId = `${id}-M${String(i + 1).padStart(6, '0')}`;
+    if (m.sequence !== i + 1 || m.message_id !== expectedId || m.round_id !== id) fail(`Message envelope mismatch in ${expected}`);
+    if (!m.event_key || eventKeys.has(m.event_key)) fail(`Duplicate/empty event_key in ${expected}`);
+    if (msgIds.has(m.message_id)) fail(`Duplicate message_id in ${expected}`);
+    eventKeys.add(m.event_key); msgIds.add(m.message_id);
+    for (const side of ['from', 'to']) {
+      const role = m[`${side}_role`], a = m[`${side}_appointment_id`];
+      if (role === 'OWNER') { if (a !== 'OWNER') fail(`${expected}: OWNER ID must be OWNER`); }
+      else if (!known.has(role) || known.get(role).appointment_id !== a) fail(`${expected}: invalid ${side} role/appointment`);
+    }
+    if (!['APPOINTMENT','ACK','TASK','RESULT','BLOCKED','REJECTED','REPORT','REVIEW','RELEASE','ROUND_CLOSED'].includes(m.kind)) fail(`${expected}: invalid kind`);
+    if (typeof m.task_ref !== 'string' || !m.task_ref) fail(`${expected}: missing task_ref`);
+    if (typeof m.summary !== 'string' || !m.summary) fail(`${expected}: missing summary`);
+    if (typeof m.relay_text !== 'string' ||
+       !m.relay_text.includes(`MESSAGE_ID: ${expectedId}`) ||
+       !m.relay_text.includes(`ROUND_ID: ${id}`) ||
+       !m.relay_text.includes(`FROM_ROLE: ${m.from_role}`) ||
+       !m.relay_text.includes(`TO_ROLE: ${m.to_role}`) ||
+       !m.relay_text.includes(`FROM_APPOINTMENT_ID: ${m.from_appointment_id}`) ||
+       !m.relay_text.includes(`TO_APPOINTMENT_ID: ${m.to_appointment_id}`) ||
+       !m.relay_text.includes(`TASK_REF: ${m.task_ref}`) ||
+       !m.relay_text.includes('IN_REPLY_TO:')) fail(`${expected}: missing mandatory copy-ready relay fields`);
+    if (m.sequence === 1 && (m.from_role !== 'OWNER' || m.to_role !== 'CEO' || m.kind !== 'APPOINTMENT')) fail('Message 000001 must be Owner→CEO bootstrap.');
+  }
+  for (const m of msgs) {
+    if (m.in_reply_to != null) {
+      const target = msgs.find(v => v.message_id === m.in_reply_to);
+      if (!target || target.sequence >= m.sequence) fail(`Bad reply link: ${m.message_id}`);
+      else if (m.from_role !== target.to_role || m.from_appointment_id !== target.to_appointment_id)
+        fail(`Reply sender mismatch: ${m.message_id}`);
+    } else if (['ACK','RESULT','REJECTED'].includes(m.kind)) fail(`Reply type requires in_reply_to: ${m.message_id}`);
+  }
+}
+if (errors.length) { for (const e of errors) console.error('ERROR:', e); process.exit(1); }
+console.log(`VALID governance branch=${branch}, workspace=${roundBranch ? 'validated' : 'absent'}`);

@@ -1,15 +1,25 @@
-# TL → Engineer — Message template
+# TL → New Engineer (same TL only)
 
-**REQUIRED FOR A NEW CEO GENERATION:** This appointment must be sent to a **NEW Engineer ChatGPT conversation**, not to an old `E-...` conversation from the prior CEO/DIR/TL hierarchy. The role only becomes appointed after it replies in its own new chat. A valid `E-A1-2` belongs only to the new `TL-A1` appointed by new `DIR-A` under new CEO. Old GitHub ACKs, chat titles or historical role claims cannot be counted. Global TEN AI total and read-only `appointment-CEO` policy remain binding.
-
-Only the owning TL may appoint up to two **correctly numbered own team Engineers**. Never confuse team and department.
+Check your own round roster and newest persisted numbered message first; create one distinct pending Engineer appointment. Persist the message BEFORE Owner-forwarding.
 
 ```text
-โครงการเกมที่ใช้ทำงานจริง: https://github.com/tanawutmalirum29-ux/ant-project — งานโค้ด/Tests/Issue/PR/Branch เกมทั้งหมดให้ทำเฉพาะ Repo นี้เมื่อมีคำสั่งงานใหม่จาก Owner
-Repository คู่มือแต่งตั้ง (อ่านอย่างเดียวสำหรับคุณ): https://github.com/tanawutmalirum29-ux/appointment-CEO — ห้ามแก้ไฟล์ Issue Comment PR Branch หรือ Settings ใด ๆ ในนี้
-APPOINTMENT | TL-[D][N] → E-[D][N]-[E] | ACCEPT_ROLE
-Role ID / ชื่อแชทแนะนำ: E-[D][N]-[E] | หัวหน้าตรง: TL-[D][N] | งานเขียนโค้ด: [SCOPED_TASK]
-อ่าน https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/roles/ENGINEER.md และ README; รับแต่งตั้งในแชท เขียนและทดสอบโค้ดที่ได้รับมอบหมายใน ant-project เปิด PR ให้ TL-[D][N] ตรวจรับ และห้ามแก้ appointment-CEO
+ROUND_ID: <VERIFIED_ROUND_ID>
+MESSAGE_ID: <VERIFIED_ROUND_ID>-M<NEXT_ACTUAL_6_DIGIT_SEQUENCE>
+FROM_ROLE: TL-<D><N>
+FROM_APPOINTMENT_ID: <ACTIVE_TL_APPOINTMENT_ID>
+TO_ROLE: E-<D><N>-<1_OR_2>
+TO_APPOINTMENT_ID: <NEW_DISTINCT_APPOINTMENT_ID>
+TASK_REF: ORG_SETUP
+IN_REPLY_TO: NONE
+LEDGER_URL: <ACTUAL_SAVED_FILE_URL>
+STATUS: APPOINTMENT_ISSUED
+REQUESTED_ACTION:
+  รับตำแหน่ง Engineer ในแชทใหม่ อ่าน main README, MESSAGE-PROTOCOL, roles/ENGINEER.md
+  เช็ค GitHub round, ผู้รับ, appointment ID, หมายเลข, หลักฐาน ก่อนทำอะไร
+  ส่ง ACK ที่สร้างเลขใหม่จริงให้ Owner คัดลอกส่งกลับ TL ของตน
+  เมื่อได้อนุมัติงานโค้ดเกมใหม่จึงพัฒนาเฉพาะไฟล์ที่มอบหมายใน ant-project
+  เมื่อเสร็จ/ติดขัด ให้สร้าง RESULT/BLOCKED เลขใหม่และส่งข้อความพร้อมคัดลอกถึง TL เดิม
+LIMITS: ไม่มีสิทธิ์แต่งตั้งลูกทีม/merge game main/แก้ governance main/round อื่น
 ```
 
-`TL-A1` → `E-A1-1`, `E-A1-2`. `TL-A2` → `E-A2-1`, `E-A2-2`. Different team IDs must not collide. Global organization **never more than ten real AI chats**. Recipient replies in ChatGPT, not on GitHub.
+Fill all fields and verify ledger write first. `TL-A1` may appoint only `E-A1-1`/`E-A1-2`. Wrong destination, appointment/generation or duplicate messages must be explicitly rejected with NO work.
