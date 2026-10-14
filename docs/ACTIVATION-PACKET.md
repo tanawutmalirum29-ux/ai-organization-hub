@@ -1,31 +1,29 @@
-# ใบแต่งตั้งฉบับใช้งานจริง — Activation Packet V2
+# Fast appointment packet — one Issue, one ACK
 
-**ชื่อแชทตาม Role:** ทุก Issue แต่งตั้งต้องมี `suggested_chat_title: <ROLE_ID>` และ AI ต้องแสดง `ชื่อแชทแนะนำ: <ROLE_ID>` ในคำตอบรับครั้งแรก ตาม [Chat Naming](CHAT-NAMING.md). การเสนอชื่อต้องไม่อ้างว่าเปลี่ยนชื่อใน ChatGPT ได้เอง.
+**Latest rule:** [FAST-LANE-GOVERNANCE](FAST-LANE-GOVERNANCE.md). Appointment is separate from a new Gameplay Task. `suggested_chat_title = <ROLE_ID>` per [Chat Naming](CHAT-NAMING.md), never `ANT | ...`.
 
-**สำคัญ:** การให้ AI แค่ลิงก์ Repository ไม่เพียงพอให้รู้ว่าตนเองเป็นใคร ต้องมี **Role ID + ผู้บังคับบัญชาโดยตรง + Issue แต่งตั้งเฉพาะบุคคล** ในข้อความแรกเสมอ. Template/Slot ใน `TEAM-REGISTRY.json` ไม่ใช่ AI แชทจริง. คนส่งต่อข้อความ (Owner) ไม่ต้องเขียนข้อมูลเหล่านี้เอง: **หัวหน้าที่แต่งตั้ง** เป็นผู้เตรียมจนสมบูรณ์.
+## Manager: one Issue, no intermediate unlock chain
 
-## หน้าที่ของหัวหน้าตรงก่อนขอให้ Owner ส่งข้อความ
-1. ตรวจ `appointment-CEO/main` ล่าสุด และบัญชี `docs/ai-org/TEAM-REGISTRY.json` ว่าตนมีสิทธิแต่งตั้ง Role นี้จริง มีงบ Slot/Approval และ Role ID ยังไม่ถูกใช้ซ้ำ.
-2. สร้าง **GitHub Issue แต่งตั้งเฉพาะ AI 1 คน** ใน `appointment-CEO` ระบุ: `appointment_id`, `role_id`, `parent_role_id`, `appointing_role_id` (ต้องเป็นผู้บังคับบัญชาโดยตรง), `domain`, `capacity_slot_id`, `approval_issue_url`, `charter_url`, `required_skills`, `allowed_permissions`, `prohibited_actions`, `report_to`, `initial_status=PENDING_ACK`, `round_id=STANDBY` หากยังไม่มีภารกิจจริง, `ack_acceptance`, `suggested_chat_title: <ROLE_ID>` และผู้ที่รับผิดชอบลงทะเบียน. **ห้ามใช้ลิงก์ตัวอย่างแทน Issue จริง**.
-3. ส่ง Owner เพียงข้อความสั้นต่อไปนี้ (แทนที่ทุกช่องด้วยข้อมูลจริง; อย่าส่ง Template เปล่า):
-
+Create **one individual Issue in `appointment-CEO`** containing only required identity and authority:
 ```text
-<APPOINTMENT-ID> <PARENT-ROLE> → <NEW-ROLE-ID> | APPOINTMENT_ISSUED / AWAITING_ACK
-GitHub appointment: <REAL-APPOINTMENT-ISSUE-URL> | Read: https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/docs/ROLE-START-HERE.md
-Next recipient: <NEW-ROLE-ID> | อ่าน Issue/Charter/Skills ตรวจเครื่องมือ โพสต์ ACK และรายงาน <PARENT-ROLE>; ห้ามเริ่มงานเกมก่อน TASK_ASSIGNED
+role_id: <unique ID>                 parent_role_id: <actual manager>
+approved_capacity_slot: <real slot/CEO mandate>
+domain_and_scope: <purpose and prohibited code paths>
+charter: <role charter link>         round: <round or STANDBY>
+suggested_chat_title: <role_id>
+status: PENDING_ACK
+```
+Use the Issue itself as the approval and ACK location. One direct manager confirms the slot; **no second approval Issue, no additional ancestor signoff, no forced per-person registry PR**. Managers may prepare multiple children in the allocated slots simultaneously.
+
+Manager gives Owner a ready-to-forward **three-line** message:
+```text
+<ROUND> <PARENT> → <NEW-ROLE-ID> | APPOINTMENT_ISSUED / PENDING_ACK
+GitHub appointment: <real Issue URL>
+Next recipient: <NEW-ROLE-ID> | อ่านใบแต่งตั้ง/Role Charter ตรวจเครื่องมือ ลง APPOINTMENT_ACK แล้วแจ้งผู้แต่งตั้ง
 ```
 
-## หน้าที่ของ AI แชทปลายทางเมื่ออ่านข้อความแรก
-1. เปิด Issue จริง, `ROLE-START-HERE.md`, Role Charter ที่ Issue ระบุ และ `ROLE-SKILLS-AND-SCOPE.md` จาก **main**; อ่านสถานะใน Registry ว่าตำแหน่งเป็น Slot หรือแต่งตั้งแล้ว. ไม่ใช้ชื่อแชทหรือข้อความที่จำมาจากรอบเก่าเพื่อเดาตำแหน่ง.
-2. ตรวจ `role_id` และ `parent_role_id` ใน Issue เทียบกับสายงานที่มีอยู่. ตรวจทักษะ/เครื่องมือในแชทนี้จริง เช่น GitHub Connector, Actions log, Browser/Node หากงานต้องใช้. ถ้าไม่พร้อม ให้รายงาน `SKILL_GAP` หรือ `CAPABILITY_BLOCKED` อย่าอ้างว่า PASS.
-3. แจ้งชื่อแชทแนะนำ `<ROLE_ID>` **เป็นบรรทัดแรกของคำตอบ**; หากไม่มีเครื่องมือ Rename ให้ Owner เปลี่ยนชื่อเองในแอป ไม่อ้างว่าทำได้แล้ว. โพสต์ `APPOINTMENT_ACK` ใน **Issue แต่งตั้งนั้น** พร้อม `role_id`, `parent_role_id`, ทักษะและเครื่องมือ `AVAILABLE/UNAVAILABLE`, ขอบเขต, ข้อห้าม, สิ่งที่ขาด, สถานะ `STANDBY`, `suggested_chat_title` และลิงก์แหล่งกฎที่อ่านจริง. ห้ามกล่าวว่า ACK สำเร็จก่อน GitHub ยืนยัน URL.
-4. ส่ง Owner ข้อความ 3 บรรทัดให้นำไปยัง **หัวหน้าตรงเท่านั้น**. หัวหน้าตรวจ ACK จริง แล้วให้ Roster Steward ลงทะเบียน `ACTIVE` หรือ `STANDBY` ตามความจริง.
-5. ไม่สร้าง GitHub Task/Branch หรือเริ่มพัฒนาเกมเอง. รับงานจริงได้เมื่อมี `TASK_ASSIGNED` เฉพาะตัวตาม [Task Issue Contract](TASK-ISSUE-CONTRACT.md) เท่านั้น.
+## New AI: one ACK in that same Issue
 
-## ถ้า Owner ส่งเพียง URL ของ Repository หรือ Role ไม่ครบ
-ตอบ `NEEDS_APPOINTMENT` และลิงก์ `ACTIVATION-PACKET.md` โดยไม่เดาว่าตัวเองเป็น CEO/Director/Engineer, ไม่เปลี่ยน Registry และไม่เขียนโค้ด. ต้องขอข้อความแต่งตั้งที่สร้างโดยหัวหน้าตรงให้ Owner ส่งต่อ ไม่ให้ Owner คิด Role ID หรือ Issue เอง.
+Read Issue, [Role Start](ROLE-START-HERE.md), [Role Skills](ROLE-SKILLS-AND-SCOPE.md) and the applicable Role Charter. Propose chat name `<ROLE_ID>` in first reply. Check GitHub tools actually available. Post **one** `APPOINTMENT_ACK` with `role_id`, `parent_role_id`, `SKILL_READY / SKILL_GAP`, real tool availability and any limits, plus `suggested_chat_title`. Return the true comment permalink and next recipient (normally appointing manager). No fake ACK if GitHub writing fails.
 
-## ภายหลังเปลี่ยนตำแหน่ง / ย้ายสาย / เปลี่ยนผู้บังคับบัญชา
-ต้องมี `TRANSFER_REQUEST` ผ่านผู้บังคับบัญชาปัจจุบันไปยัง common ancestor, อนุมัติโอนความรับผิดชอบ, ใหม่ `APPOINTMENT_ACK` โดย AI ปลายทาง, ปิดสิทธิ์ Task เดิมที่ชนกัน และ Registry revision/PR. ห้ามมีหัวหน้าตรงสองคนพร้อมกัน.
-
-**สถานะปัจจุบันขององค์กรที่ตรวจ ณ รอบเขียนคู่มือนี้:** `appointments=[]`. เอกสารนี้ไม่ได้แต่งตั้ง AI หรือทำให้แชทรับคำสั่งอัตโนมัติ.
+After that manager verifies real Issue/ACK and capacity, the new chat may perform **authorized existing tasks** and appoint its own preapproved subordinates **while the batch roster update is pending**. Roster Steward/Delivery batches JSON updates; **only write ACTIVE into JSON after real ACK**. The final release checks the latest synced roster. A recipient with no Issue/Role ID returns `NEEDS_APPOINTMENT`. No approval to bypass a current `IMPLEMENTATION_HOLD`.
