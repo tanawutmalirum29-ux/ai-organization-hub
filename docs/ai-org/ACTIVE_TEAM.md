@@ -47,10 +47,10 @@ flowchart TD
 | --- | --- | --- | --- |
 | `CEO` | Project Owner (`null` root) | [#5](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5#issuecomment-6157635338) | `ACTIVE / STRATEGY_ONLY` |
 | `DCEO-DELIVERY` | `CEO` | [#6](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157936418), [CEO acceptance](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157968920) | `ACTIVE / ORG_SETUP_ONLY` |
-| `DCEO-SYS` | `DCEO-DELIVERY` | [#9](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158081984) | `ACTIVE / DIRECTOR_APPOINTMENT_ONLY / IMPLEMENTATION_HOLD` |
-| `DCEO-EXP` | `DCEO-DELIVERY` | [#10](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158081848) | `ACTIVE / DIRECTOR_APPOINTMENT_ONLY / IMPLEMENTATION_HOLD` |
-| `DCEO-PLAT` | `DCEO-DELIVERY` | [#11](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158090772) | `ACTIVE / DIRECTOR_APPOINTMENT_ONLY / IMPLEMENTATION_HOLD` |
-| `DCEO-QA` | `DCEO-DELIVERY` | [#12](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158094709) | `ACTIVE / DIRECTOR_APPOINTMENT_ONLY / IMPLEMENTATION_HOLD` |
+| `DCEO-SYS` | `DCEO-DELIVERY` | [#9](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158081984), [Delivery acceptance](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158183714) | `ACTIVE / DIRECTOR_APPOINTMENT_ONLY / IMPLEMENTATION_HOLD` |
+| `DCEO-EXP` | `DCEO-DELIVERY` | [#10](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158081848), [Delivery acceptance](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158184263) | `ACTIVE / DIRECTOR_APPOINTMENT_ONLY / IMPLEMENTATION_HOLD` |
+| `DCEO-PLAT` | `DCEO-DELIVERY` | [#11](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158090772), [Delivery acceptance](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158184729) | `ACTIVE / DIRECTOR_APPOINTMENT_ONLY / IMPLEMENTATION_HOLD` |
+| `DCEO-QA` | `DCEO-DELIVERY` | [#12](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158094709), [Delivery acceptance](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158185570) | `ACTIVE / DIRECTOR_APPOINTMENT_ONLY / IMPLEMENTATION_HOLD` |
 
 **Staffing budget:** `CAP-COLONY-NEXT-01-22` permits at most **22 distinct role chats** (CEO 1 + Delivery 1 + Deputies 4 + Directors 4 + Leads 4 + Core Engineers 8). Exactly **6 real personal ACKs** recorded above. Exactly **16 downstream slots remain unappointed**, consisting of four Directors, four Leads and eight Engineers. No extra Assistant/Steward chat approved.
 
