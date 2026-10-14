@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "registry_version": "GOV-V2-COLONY-NEXT-01-004",
+  "registry_version": "GOV-V2-COLONY-NEXT-01-005",
   "governance_status": "ALL_FOUR_DIRECTORS_ACK_VERIFIED_LEAD_SETUP_ONLY",
   "round_id": "COLONY-NEXT-01",
   "round_status": "ORG_SETUP_IMPLEMENTATION_HOLD",
@@ -362,7 +362,6 @@
     "owner_zero_click": true,
     "release_last_signer": "DCEO-DELIVERY",
     "independent_quality_signer": "DCEO-QA",
-    "team_core_engineers_per_lead": 2,
     "staffing_capacity_approved_by": "CEO",
     "skills_selfcheck_before_ack": true,
     "tools_access_must_be_verified": true,
@@ -380,7 +379,17 @@
     "appointment_one_issue_one_ack": true,
     "registry_sync_required_before_subordinate_appointment": false,
     "batched_registry_sync": true,
-    "implementation_hold_unchanged": true
+    "implementation_hold_unchanged": true,
+    "max_active_ai_per_work_team": 10,
+    "min_core_engineers_per_lead": 0,
+    "fixed_two_engineers_required": false,
+    "team_size_basis": "active_contributors_including_hands_on_managers",
+    "team_size_scope": "per_work_team_not_entire_organization",
+    "split_workstream_if_exceeds_max": true,
+    "management_hands_on_contribution_allowed": true,
+    "implementer_cannot_self_approve": true,
+    "independent_quality_required_when_manager_codes": true,
+    "owner_only_can_change_team_cap": true
   },
   "baseline_main_repo": "tanawutmalirum29-ux/ant-project",
   "capacity_envelope": {
@@ -487,5 +496,6 @@
         }
       ]
     }
-  ]
+  ],
+  "work_teams": []
 }
