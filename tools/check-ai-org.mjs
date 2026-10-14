@@ -74,7 +74,10 @@ for (const path of [
 }
 assert.equal(r.policy.owner_message_max_lines,3,'Owner relay cannot exceed 3 lines');
 assert.equal(r.policy.skills_selfcheck_before_ack,true);
-assert.equal(r.policy.recipients_must_be_immediate_edges,true);
+assert.equal(r.policy.recipients_must_be_immediate_edges,false,'Fast Lane allows relevant direct contacts');
+assert.equal(r.policy.adjacent_hop_orders_only,false,'universal hop chain must be disabled');
+assert.equal(r.policy.one_direct_parent,true,'manager accountability remains');
+assert.equal(r.policy.direct_parent_approval_required,true,'new code scope needs authorized owner');
 assert.ok(page.includes('ROLE-SKILLS-AND-SCOPE.md') && page.includes('TASK-STATE-AND-HANDOFF.md'),
   'human team chart must link skills and after-task instructions');
 console.log('ROLE_ONBOARDING_AND_HANDOFF_CONTRACT_PASS', {slots:r.role_slots.length,mandatory_files:requiredContracts.length});
@@ -137,6 +140,40 @@ for (const name of [
 }
 assert.ok(!chatNaming.includes('ANT | <ROLE_ID>'), 'chat title rule must not use former prefix');
 console.log('ROLE_CHAT_TITLE_CONTRACT_PASS', {slots:r.role_slots.length,proposed:true,renamed:false});
+
+// Owner-approved Fast Lane invariants; structural policy check, not a real chat or QA execution.
+const fastPath = 'docs/FAST-LANE-GOVERNANCE.md';
+assert.equal(r.policy.fast_lane_policy, fastPath);
+for (const flag of [
+  'direct_relevant_cross_team_contact','urgent_skip_level_contact_allowed',
+  'direct_cross_team_write_requires_scope_owner_approval',
+  'appointment_one_issue_one_ack','batched_registry_sync','implementation_hold_unchanged'
+]) assert.equal(r.policy[flag], true, 'fast-lane flag must be true: '+flag);
+assert.equal(r.policy.registry_sync_required_before_subordinate_appointment, false);
+assert.ok(existsSync(new URL(fastPath, repoRoot)), 'missing fast-lane rule');
+assert.ok(mainReadme.includes(fastPath), 'README must link Fast Lane policy');
+const fastSop = readFileSync(new URL(fastPath,repoRoot), 'utf8');
+const routingSop = readFileSync(new URL('docs/REQUEST-ROUTING.md',repoRoot), 'utf8');
+for (const token of ['APPOINTMENT_ACK', 'TECH_CONSULT', 'CROSS_TEAM_REVIEW',
+  'DIRECT_SCOPED_TASK','URGENT_INCIDENT','IMPLEMENTATION_HOLD',
+  'QA_HOLD','DCEO-DELIVERY','CEO','registry']) {
+  assert.ok(fastSop.toLowerCase().includes(token.toLowerCase()),
+    'fast lane policy missing operational guardrail: '+token);
+}
+assert.ok(routingSop.includes('FAST-LANE-GOVERNANCE.md') &&
+  routingSop.includes('DIRECT_SCOPED_TASK') && routingSop.includes('URGENT_INCIDENT'),
+  'request routing must permit direct scoped/urgent paths');
+assert.ok(activationSop.includes('FAST-LANE-GOVERNANCE.md') &&
+  activationSop.includes('one ACK') || activationSop.includes('one Issue'),
+  'activation must use one issue and ACK');
+assert.ok(page.includes('FAST-LANE-GOVERNANCE.md'),
+  'active team page must expose new routing');
+assert.ok(r.round_status.includes('IMPLEMENTATION_HOLD'),
+  'governance-only policy changes must preserve current implementation hold');
+console.log('GOVERNANCE_FAST_LANE_POLICY_PASS', {
+  registry:r.registry_version,appointed:r.appointments.length,
+  direct_contacts:true,batched_registry:true,impl_hold:r.round_status
+});
 
 const appointed = new Map();
 const states = new Set(['PROPOSED','PENDING_ACK','ACTIVE','STANDBY','INACTIVE']);
