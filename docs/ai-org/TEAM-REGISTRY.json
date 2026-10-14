@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
-  "registry_version": "GOV-V2-COLONY-NEXT-01-002",
-  "governance_status": "ALL_FOUR_DEPUTY_ACKS_VERIFIED_DIRECTOR_SETUP_ONLY",
+  "registry_version": "GOV-V2-COLONY-NEXT-01-003",
+  "governance_status": "ALL_FOUR_DIRECTORS_ACK_VERIFIED_LEAD_SETUP_ONLY",
   "round_id": "COLONY-NEXT-01",
   "round_status": "ORG_SETUP_IMPLEMENTATION_HOLD",
   "baseline_main_sha": "7d2458a13154716b09649903d1b26c86c8848845",
@@ -258,6 +258,90 @@
       "suggested_chat_title": "DCEO-QA",
       "governance_sha_at_ack": "a0d40ff28351b603f52246ebbe40054538bedf21",
       "notes": "ACK personally submitted and DIRECT_PARENT DCEO-DELIVERY verified in own GitHub Issue; only one-direct-Director organizational appointment authorized, Implementation HOLD."
+    },
+    {
+      "appointment_id": "SYS-DIR1-COLONY-NEXT-01-01",
+      "role_id": "SYS-DIR1",
+      "parent_role_id": "DCEO-SYS",
+      "appointed_by_role": "DCEO-SYS",
+      "capacity_slot_id": "CAP-COLONY-NEXT-01-22/SYS-DIR1-01",
+      "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158183714",
+      "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16",
+      "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158297046",
+      "appointment_verification_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158323793",
+      "org_delta_report_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158329858",
+      "round_id": "COLONY-NEXT-01",
+      "domain": "SYS",
+      "status": "ACTIVE",
+      "scope": "One-hop SYS-TL1 organization staffing; Systems Department architecture, deterministic Save/Load, AI design and review planning; no product implementation.",
+      "owned_paths": [],
+      "skill_status": "SKILL_READY",
+      "suggested_chat_title": "SYS-DIR1",
+      "governance_sha_at_ack": "bc1c3ae40dba7ca6564f86339ed355e476a9d1e5",
+      "notes": "Personally ACKed Director verified by direct Domain Deputy and independently reconciled by DCEO-DELIVERY; ONLY one direct Lead personal appointment authorized AFTER governance roster sync. IMPLEMENTATION_HOLD / NO_CODE. No product code permission, team test PASS or release signing."
+    },
+    {
+      "appointment_id": "EXP-DIR-COLONY-NEXT-01-01",
+      "role_id": "EXP-DIR",
+      "parent_role_id": "DCEO-EXP",
+      "appointed_by_role": "DCEO-EXP",
+      "capacity_slot_id": "CAP-COLONY-NEXT-01-22/EXP-DIR-01",
+      "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158184263",
+      "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18",
+      "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158299961",
+      "appointment_verification_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158337385",
+      "org_delta_report_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158342437",
+      "round_id": "COLONY-NEXT-01",
+      "domain": "EXP",
+      "status": "ACTIVE",
+      "scope": "One-hop EXP Team Lead organization staffing; Save/Load UX, ant AI controls, accessibility and mobile design/review planning; no product implementation.",
+      "owned_paths": [],
+      "skill_status": "SKILL_READY",
+      "suggested_chat_title": "EXP-DIR",
+      "governance_sha_at_ack": "bc1c3ae40dba7ca6564f86339ed355e476a9d1e5",
+      "notes": "Personally ACKed Director verified by direct Domain Deputy and independently reconciled by DCEO-DELIVERY; ONLY one direct Lead personal appointment authorized AFTER governance roster sync. IMPLEMENTATION_HOLD / NO_CODE. No product code permission, team test PASS or release signing."
+    },
+    {
+      "appointment_id": "PLAT-DIR-COLONY-NEXT-01-01",
+      "role_id": "PLAT-DIR",
+      "parent_role_id": "DCEO-PLAT",
+      "appointed_by_role": "DCEO-PLAT",
+      "capacity_slot_id": "CAP-COLONY-NEXT-01-22/PLAT-DIR-01",
+      "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158184729",
+      "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17",
+      "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158307027",
+      "appointment_verification_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158346850",
+      "org_delta_report_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158353311",
+      "round_id": "COLONY-NEXT-01",
+      "domain": "PLAT",
+      "status": "ACTIVE",
+      "scope": "One-hop PLAT Team Lead organization staffing; auto CI, exact-SHA release gate and safe branch-cleanup design/review planning; no product implementation.",
+      "owned_paths": [],
+      "skill_status": "SKILL_READY",
+      "suggested_chat_title": "PLAT-DIR",
+      "governance_sha_at_ack": "bc1c3ae40dba7ca6564f86339ed355e476a9d1e5",
+      "notes": "Personally ACKed Director verified by direct Domain Deputy and independently reconciled by DCEO-DELIVERY; ONLY one direct Lead personal appointment authorized AFTER governance roster sync. IMPLEMENTATION_HOLD / NO_CODE. No product code permission, team test PASS or release signing."
+    },
+    {
+      "appointment_id": "QA-DIR-COLONY-NEXT-01-01",
+      "role_id": "QA-DIR",
+      "parent_role_id": "DCEO-QA",
+      "appointed_by_role": "DCEO-QA",
+      "capacity_slot_id": "CAP-COLONY-NEXT-01-22/QA-DIR-01",
+      "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158185570",
+      "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19",
+      "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158321086",
+      "appointment_verification_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158360737",
+      "org_delta_report_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158365164",
+      "round_id": "COLONY-NEXT-01",
+      "domain": "QA",
+      "status": "ACTIVE",
+      "scope": "One-hop QA Team Lead organization staffing; independent regression, provenance and QA_HOLD test planning; no production implementation or QA release signoff.",
+      "owned_paths": [],
+      "skill_status": "SKILL_READY",
+      "suggested_chat_title": "QA-DIR",
+      "governance_sha_at_ack": "bc1c3ae40dba7ca6564f86339ed355e476a9d1e5",
+      "notes": "Personally ACKed Director verified by direct Domain Deputy and independently reconciled by DCEO-DELIVERY; ONLY one direct Lead personal appointment authorized AFTER governance roster sync. IMPLEMENTATION_HOLD / NO_CODE. No product code permission, team test PASS or release signing."
     }
   ],
   "pending_staffing_requests": [],
@@ -316,41 +400,84 @@
   },
   "pending_appointment_issues": [],
   "org_delta": {
-    "change_id": "ORG-DELTA-COLONY-NEXT-01-DEPUTIES-001",
-    "type": "VERIFY_FOUR_DIRECT_CHILD_ACKS",
-    "direct_parent": "DCEO-DELIVERY",
+    "change_id": "ORG-DELTA-COLONY-NEXT-01-DIRECTORS-001",
+    "type": "VERIFY_FOUR_DIRECTOR_ACKS_AND_PARENT_ACCEPTANCES",
+    "reporting_path": "Director -> Domain Deputy -> DCEO-DELIVERY",
     "changed_role_ids": [
-      "DCEO-SYS",
-      "DCEO-EXP",
-      "DCEO-PLAT",
-      "DCEO-QA"
+      "SYS-DIR1",
+      "EXP-DIR",
+      "PLAT-DIR",
+      "QA-DIR"
     ],
-    "source_ack_issue_comments": [
-      "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158081984",
-      "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158081848",
-      "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158090772",
-      "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158094709"
-    ],
-    "status": "ACK_VERIFIED_PARENT_ACCEPTED_AND_ROSTER_RECONCILED",
-    "forbidden": "Game implementation, main merge, QA PASS and release signing remain unauthorized",
-    "note": "GitHub personal receipts are organizational assertions; shared account cannot cryptographically identify individual ChatGPT chats.",
-    "parent_acceptance_comments": [
+    "ack_and_parent_acceptance": [
       {
-        "role_id": "DCEO-SYS",
-        "url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158183714"
+        "role_id": "SYS-DIR1",
+        "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158297046",
+        "parent_acceptance_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158323793",
+        "org_delta_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158329858"
       },
       {
-        "role_id": "DCEO-EXP",
-        "url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158184263"
+        "role_id": "EXP-DIR",
+        "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158299961",
+        "parent_acceptance_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158337385",
+        "org_delta_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158342437"
       },
       {
-        "role_id": "DCEO-PLAT",
-        "url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158184729"
+        "role_id": "PLAT-DIR",
+        "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158307027",
+        "parent_acceptance_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158346850",
+        "org_delta_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158353311"
       },
       {
-        "role_id": "DCEO-QA",
-        "url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158185570"
+        "role_id": "QA-DIR",
+        "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158321086",
+        "parent_acceptance_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158360737",
+        "org_delta_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158365164"
       }
-    ]
-  }
+    ],
+    "status": "ACK_VERIFIED_REGISTRY_MERGE_REQUIRED",
+    "next_hop": "Directors appoint exactly one direct Team Lead each after confirmed governance merge and direct-parent one-hop authorization",
+    "hold": "IMPLEMENTATION_HOLD / NO_CODE / RELEASE_HOLD",
+    "note": "Live GitHub comment URLs are organizational evidence, not cryptographic personal chat identities."
+  },
+  "org_delta_history": [
+    {
+      "change_id": "ORG-DELTA-COLONY-NEXT-01-DEPUTIES-001",
+      "type": "VERIFY_FOUR_DIRECT_CHILD_ACKS",
+      "direct_parent": "DCEO-DELIVERY",
+      "changed_role_ids": [
+        "DCEO-SYS",
+        "DCEO-EXP",
+        "DCEO-PLAT",
+        "DCEO-QA"
+      ],
+      "source_ack_issue_comments": [
+        "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158081984",
+        "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158081848",
+        "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158090772",
+        "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158094709"
+      ],
+      "status": "ACK_VERIFIED_PARENT_ACCEPTED_AND_ROSTER_RECONCILED",
+      "forbidden": "Game implementation, main merge, QA PASS and release signing remain unauthorized",
+      "note": "GitHub personal receipts are organizational assertions; shared account cannot cryptographically identify individual ChatGPT chats.",
+      "parent_acceptance_comments": [
+        {
+          "role_id": "DCEO-SYS",
+          "url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158183714"
+        },
+        {
+          "role_id": "DCEO-EXP",
+          "url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158184263"
+        },
+        {
+          "role_id": "DCEO-PLAT",
+          "url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158184729"
+        },
+        {
+          "role_id": "DCEO-QA",
+          "url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158185570"
+        }
+      ]
+    }
+  ]
 }
