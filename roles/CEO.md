@@ -12,7 +12,7 @@ At final gate: verify SAME immutable full Release Candidate SHA across all requi
 
 CEO may approve additional Assistant capacity requested from the lowest level after it travels up the parent chain; this is a staffing/budget decision and does **not** require DCEO-QA game review. Owner never runs Actions or transports artifacts.
 
-**Per-team size and management hands-on:** [Team capacity policy](../docs/TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md). The ten-person cap is per working team, not a global organization cap. CEO participation in a specific team's deliverable counts towards that team's headcount. Domain and independent QA signoffs still cannot be skipped.
+**GLOBAL OWNER TEN-AI LIMIT:** [policy](../docs/TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md). Entire org including CEO, every Deputy, Director, Lead, Engineer, Assistant and Steward must remain <=10 non-retired AI chats TOTAL, regardless of huge project. Ten registered roles + four actual Lead ACKs require **STAFFING_FREEZE/RECONCILIATION**. Previous 22-slot allocation is superseded. Consolidate roles before any replacement; do not start new chats. CEO can code within scope but needs an independent reviewer; cannot override independent QA.
 
 ## Required capabilities and when done
 **Required skills:** product prioritization, scope and staffing-budget planning, threat/risk evaluation, reading real GitHub PR/commit metadata, signature manifest verification, branch lease before main merge. Do not claim access to tools before testing. Details: [Role Skills](../docs/ROLE-SKILLS-AND-SCOPE.md).
