@@ -204,61 +204,83 @@ for (const m of r.appointments) {
     assert.ok(p, 'appointed parent not found for '+m.role_id);
   }
 }
-// Owner-defined cap applies PER WORKING TEAM, not to the organization-wide role graph.
-// Structural roster assertions cannot prove actual ChatGPT identity or invisible help.
+// Owner maximum TEN AI for the ENTIRE ORGANIZATION, not per Team.
+// The CI can validate roster data and declared real ACK receipts, not unseen chats.
 const capacityDoc='docs/TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md';
-assert.ok(existsSync(new URL(capacityDoc,repoRoot)), 'missing adaptive staffing policy');
-assert.ok(mainReadme.includes(capacityDoc), 'README lacks adaptive team staffing policy');
-assert.equal(r.policy.max_active_ai_per_work_team, 10, 'work team may have at most 10 active AI');
-assert.equal(r.policy.min_core_engineers_per_lead, 0, 'zero Engineer minimum required');
-assert.equal(r.policy.fixed_two_engineers_required, false, 'fixed Engineer pair prohibited');
-assert.equal(r.policy.team_size_scope, 'per_work_team_not_entire_organization');
-for(const flag of ['split_workstream_if_exceeds_max',
-  'management_hands_on_contribution_allowed','implementer_cannot_self_approve',
-  'independent_quality_required_when_manager_codes',
-  'owner_only_can_change_team_cap'])assert.equal(r.policy[flag],true,'policy flag '+flag);
-assert.equal(r.policy.team_size_basis,'active_contributors_including_hands_on_managers');
-assert.ok(Array.isArray(r.work_teams), 'activated working team roster must be array');
-const teamIds=new Set();
+assert.ok(existsSync(new URL(capacityDoc,repoRoot)), 'missing global staffing policy');
+assert.ok(mainReadme.includes(capacityDoc), 'README lacks global staffing cap');
+assert.equal(r.policy.max_ai_entire_organization,10,'the global maximum is exactly ten');
+assert.equal(r.global_staffing_limit,10,'registry global limit must equal policy');
+assert.equal(r.policy.global_staffing_hard_cap,true);
+assert.equal(r.policy.team_size_scope,'ENTIRE_ORGANIZATION',
+  'per-work-team cap is forbidden: must cap entire organization');
+assert.equal(r.policy.allow_more_than_max_for_large_work,false);
+assert.equal(r.policy.split_workstream_if_exceeds_max,false,
+  'no extra staffing via new teams');
+assert.equal(r.policy.min_core_engineers_per_lead,0);
+assert.equal(r.policy.fixed_two_engineers_required,false);
+assert.equal(r.policy.team_size_basis,'all_staffed_roles_and_acknowledged_unreconciled_chats');
+for(const flag of ['management_hands_on_contribution_allowed',
+  'implementer_cannot_self_approve','independent_quality_required_when_manager_codes',
+  'owner_only_can_change_team_cap','require_external_ack_reconciliation']){
+  assert.equal(r.policy[flag],true,'missing global staffing protection: '+flag);
+}
+const globalRosterRoles=r.appointments.filter(a=>a.status!=='INACTIVE'&&a.status!=='RETIRED');
+assert.ok(globalRosterRoles.length<=10,'GLOBAL_AI_CAP_EXCEEDED: current registry staff > 10');
+assert.ok(Array.isArray(r.unreconciled_verified_ack_issues),'must record external real ACKs');
+const external=new Set();
+for(const item of r.unreconciled_verified_ack_issues){
+  assert.ok(typeof item.role_id==='string'&&item.role_id.length>0,'external ACK missing role');
+  assert.ok(!external.has(item.role_id),'duplicate external ACK');
+  external.add(item.role_id);
+  assert.ok(!appointed.has(item.role_id),'external ACK role also in registered roster');
+  assert.ok(issueUrl.test(item.appointment_issue_url||''),'external ACK missing real appointment issue');
+  assert.ok(ackUrl.test(item.ack_comment_url||''),'external ACK missing real comment permalink');
+  assert.equal(item.status,'ACK_RECEIVED_UNRECONCILED');
+  assert.equal(item.counts_as_existing_chat,true);
+}
+const totalKnown=globalRosterRoles.length+external.size;
+assert.ok(totalKnown<=10 || (
+  r.policy.new_appointments_frozen_until_reconciled===true &&
+  r.policy.global_cap_compliance_verified===false &&
+  r.staffing_status==='STAFFING_FREEZE_UNRECONCILED_ACKS'
+),'GLOBAL_CAP_OVERBOOKED: freeze and refuse capacity-compliance claim until genuine reconciliation');
+if(external.size>0){
+  assert.equal(r.policy.new_appointments_frozen_until_reconciled,true);
+  assert.equal(r.policy.global_cap_compliance_verified,false);
+}
+assert.ok(Array.isArray(r.work_teams));
+const workTeamIds=new Set();
 for(const team of r.work_teams){
-  assert.ok(typeof team.team_id==='string'&&team.team_id.length>0,'working team needs ID');
-  assert.ok(!teamIds.has(team.team_id),'duplicate working team '+team.team_id);
-  teamIds.add(team.team_id);
-  assert.ok(Array.isArray(team.active_member_role_ids) && team.active_member_role_ids.length>0,
-    'activated working team requires actual members');
-  assert.ok(team.active_member_role_ids.length<=10, 'TEAM_SIZE_EXCEEDED: '+team.team_id);
+  assert.ok(typeof team.team_id==='string'&&team.team_id.length>0);
+  assert.ok(!workTeamIds.has(team.team_id),'duplicate task team');
+  workTeamIds.add(team.team_id);
+  assert.ok(Array.isArray(team.active_member_role_ids));
   const members=new Set(team.active_member_role_ids);
-  assert.equal(members.size,team.active_member_role_ids.length,
-    'duplicate participant within working team '+team.team_id);
-  assert.ok(typeof team.accountable_lead_role_id==='string'&&members.has(team.accountable_lead_role_id),
-    'accountable team owner must be a counted active member: '+team.team_id);
-  assert.ok(issueUrl.test(team.task_issue_url||''),'team missing actual task Issue '+team.team_id);
+  assert.equal(members.size,team.active_member_role_ids.length,'duplicate team member');
+  assert.ok(members.size<=10,'no workstream may contain >10 global AI');
   for(const id of members){
-    assert.equal(appointed.get(id)?.status,'ACTIVE','team participant has no verified ACTIVE roster appointment: '+id);
+    assert.ok(globalRosterRoles.some(x=>x.role_id===id),'hidden AI not in global registry: '+id);
   }
-  const managerContributors=team.hands_on_management_role_ids||[];
-  assert.ok(Array.isArray(managerContributors),'hands-on manager roles must be array');
-  for(const id of managerContributors){
-    assert.ok(members.has(id),'hidden hands-on manager not counted in team: '+id);
-  }
-  for(const roleId of team.implementation_owner_role_ids||[]){
-    assert.ok(members.has(roleId), 'unregistered implementer not counted: '+roleId);
+  for(const id of (team.hands_on_management_role_ids||[])){
+    assert.ok(members.has(id),'unregistered management helper in workteam: '+id);
   }
 }
-for(const name of ['appointments/APPOINT-TEAM-LEAD.md',
-  'roles/TEAM-LEAD.md','docs/STAFFING.md','docs/V2-GOVERNANCE.md']){
-  const body=readFileSync(new URL(name,repoRoot),'utf8');
-  assert.ok(body.includes('TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md')||
-     name==='appointments/APPOINT-TEAM-LEAD.md'&&body.includes('10 AI'),
-    'active staffing instructions missing adaptive policy: '+name);
-  assert.ok(!body.includes('exactly two core Engineers') &&
-            !body.includes('two core Engineers per') &&
-            !body.includes('แต่งตั้ง Engineers สองคน'),
-    'obsolete mandatory engineer pair still present: '+name);
+for(const name of ['appointments/APPOINT-TEAM-LEAD.md','roles/TEAM-LEAD.md',
+  'docs/STAFFING.md','docs/V2-GOVERNANCE.md','README.md']){
+  const content=readFileSync(new URL(name,repoRoot),'utf8');
+  assert.ok(content.includes('TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md'),
+    'global cap policy must be in all onboarding/authority files: '+name);
+  assert.ok(!content.includes('each team at') && !content.includes('teams are capped independently'),
+    'per-team cap not valid: '+name);
 }
-console.log('ADAPTIVE_WORK_TEAM_CAPACITY_PASS',{
-  max_per_team:10, no_fixed_engineer_pair:true,
-  live_organization_members:appointed.size,activated_work_teams:r.work_teams.length
+console.log('GLOBAL_TEN_AI_HARD_CAP_POLICY_PASS_PENDING_RECONCILIATION',{
+  maximum:10,registeredStaff:globalRosterRoles.length,
+  externalAcknowledgedUnreconciled:external.size,
+  knownStaffingReceipts:totalKnown,
+  compliant:r.policy.global_cap_compliance_verified,
+  staffingFreeze:r.policy.new_appointments_frozen_until_reconciled,
+  workTeams:r.work_teams.length
 });
 
 assert.ok(page.includes(r.registry_version),'human chart must show registry version');
