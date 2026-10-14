@@ -1,6 +1,6 @@
 # Appointment — DCEO-DELIVERY
 
-**ชื่อแชทที่ผู้รับแต่งตั้งต้องเสนอทันที:** `ANT | <ROLE_ID_จริง>` โดยใช้ Role ID เฉพาะบุคคลจาก Appointment Issue เท่านั้น ตาม [Chat Naming](../docs/CHAT-NAMING.md). ตอบรับด้วย `ชื่อแชทแนะนำ: ANT | <ROLE_ID_จริง>` เป็นบรรทัดแรกของคำตอบ; ถ้าไม่มีเครื่องมือ Rename แชท ให้เสนอชื่อเท่านั้นและรายงานตามจริง. ห้าม Owner ต้องคิดชื่อเองหรือให้ AI อ้างว่าตั้งชื่อสำเร็จโดยไม่มีเครื่องมือ.
+**ชื่อแชทที่ผู้รับแต่งตั้งต้องเสนอทันที:** `<ROLE_ID_จริง>` โดยใช้ Role ID เฉพาะบุคคลจาก Appointment Issue เท่านั้น ตาม [Chat Naming](../docs/CHAT-NAMING.md). ตอบรับด้วย `ชื่อแชทแนะนำ: <ROLE_ID_จริง>` เป็นบรรทัดแรกของคำตอบ; ถ้าไม่มีเครื่องมือ Rename แชท ให้เสนอชื่อเท่านั้นและรายงานตามจริง. ห้าม Owner ต้องคิดชื่อเองหรือให้ AI อ้างว่าตั้งชื่อสำเร็จโดยไม่มีเครื่องมือ.
 
 `AI CEO → DCEO-DELIVERY | APPOINTMENT_ISSUED / AWAITING ACK`
 Fill: Round ID (or STANDBY), approved capacity envelope ID, appointment Issue permalink, effective roster version, authorized Domain slots, own direct parent `CEO` and next recipient.

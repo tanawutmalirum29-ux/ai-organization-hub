@@ -13,7 +13,7 @@
 
 **AI ทุกตัวต้องอ่าน [ROLE START HERE](docs/ROLE-START-HERE.md) ก่อนรับแต่งตั้ง/งานจริง** และตอบว่าตนเป็นตำแหน่งใด อยู่ใต้ใคร มีทักษะ/เครื่องมือที่ตรวจได้จริงอะไรบ้าง ขอบเขตห้ามแก้คืออะไร และหลังทำงานเสร็จจะส่งใคร.
 
-- [ชื่อแชทมาตรฐานตาม Role ID](docs/CHAT-NAMING.md) — AI ต้องเสนอชื่อ `ANT | <ROLE_ID>` ตอนรับแต่งตั้ง; หากไม่มีสิทธิ Rename ให้ Owner เปลี่ยนใน UI เอง
+- [ชื่อแชทมาตรฐานตาม Role ID](docs/CHAT-NAMING.md) — AI ต้องเสนอชื่อ `<ROLE_ID>` ตอนรับแต่งตั้ง; หากไม่มีสิทธิ Rename ให้ Owner เปลี่ยนใน UI เอง
 - [Skills & Scope ของแต่ละ Role](docs/ROLE-SKILLS-AND-SCOPE.md) — ทักษะที่ตำแหน่งต้องใช้ สิทธิ์ และสิ่งที่ห้ามทำ
 - [หลังจบงานต้องทำอะไร](docs/TASK-STATE-AND-HANDOFF.md) — ทุก Status → เจ้าของงานถัดไป
 - [ชุดข้อความ 3 บรรทัดให้ Owner ส่งต่อ](docs/RELAY-TEMPLATES.md) — AI เขียนเอง ระบุ `Next recipient` ทีละชั้น

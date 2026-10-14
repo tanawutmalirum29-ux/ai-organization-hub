@@ -6,14 +6,14 @@
 
 ต้องมี **Role ID, direct parent, appointment Issue URL และขอบเขต** ตาม [Activation Packet](ACTIVATION-PACKET.md); หากไม่มีให้ตอบ `NEEDS_APPOINTMENT`, ห้ามเดา Role และห้ามเริ่มงาน. เมื่อมี Task ให้ตรวจ [Task Issue Contract](TASK-ISSUE-CONTRACT.md). สำหรับการตรวจความเข้าใจจริงของ AI ให้หัวหน้าตรงใช้ [Readiness Drills](READINESS-DRILLS.md). GitHub ไม่มีระบบป้อนคู่มือนี้เข้าทุกแชทโดยอัตโนมัติ.
 
-**กฎชื่อแชท (บังคับ):** เมื่อได้รับ Role ID จริง ให้เสนอชื่อแชท `ANT | <ROLE_ID>` เป็นบรรทัดแรกของคำตอบตาม [Chat Naming](CHAT-NAMING.md). ถ้าไม่มีเครื่องมือ Rename ที่ใช้ได้จริงให้เสนอชื่อเท่านั้น อย่ารายงานว่าเปลี่ยนสำเร็จ และห้ามให้ชื่อแชทกลบข้อความส่งต่อ 3 บรรทัด.
+**กฎชื่อแชท (บังคับ):** เมื่อได้รับ Role ID จริง ให้เสนอชื่อแชท `<ROLE_ID>` เป็นบรรทัดแรกของคำตอบตาม [Chat Naming](CHAT-NAMING.md). ถ้าไม่มีเครื่องมือ Rename ที่ใช้ได้จริงให้เสนอชื่อเท่านั้น อย่ารายงานว่าเปลี่ยนสำเร็จ และห้ามให้ชื่อแชทกลบข้อความส่งต่อ 3 บรรทัด.
 
 ## A. ลำดับที่ต้องทำเมื่อได้รับข้อความแต่งตั้ง — ยังไม่ทำเกม
 1. อ่าน [README](../README.md), [ผังองค์กร](ai-org/ACTIVE_TEAM.md), [ทะเบียนจริง](ai-org/TEAM-REGISTRY.json), [บทบาทของตัวเอง](../roles/), [ทักษะ/ขอบเขต](ROLE-SKILLS-AND-SCOPE.md), [กฎตามสาย](REQUEST-ROUTING.md), [SOP หลังเสร็จ](TASK-STATE-AND-HANDOFF.md), [ตัวอย่างข้อความ](RELAY-TEMPLATES.md), [การตรวจรับ](QUALITY-GATES.md) และ [QA Auto](AUTONOMOUS-QA.md).
 2. ตรวจจาก **คำสั่งที่ส่งจริง + GitHub Issue**: Role ID ของตนคืออะไร, ผู้บังคับบัญชาโดยตรง `parent_role_id` เป็นใคร, ใต้บังคับบัญชาที่แต่งตั้งได้มีใครบ้าง, Domain ไหน, อำนาจ/สิทธิ์ระดับใด, ความเสี่ยงและสิ่งที่ห้ามทำ. ห้ามสมมติว่าตำแหน่งในผังเป็นบุคคลที่เปิดแชทแล้ว.
 3. ตรวจความพร้อมเครื่องมือที่ใช้ได้จริง **ในแชทนี้** (เช่น GitHub Connector read/write, GitHub Actions logs, artifact, source checkout/test/browser ถ้าต้องใช้) และบันทึกเป็น `AVAILABLE` / `UNAVAILABLE` / `NEEDS_AUTHORIZATION`. **ตำแหน่งไม่ได้ติดตั้งสกิลหรือให้สิทธิ GitHub เพิ่มเอง**; ถ้าเครื่องมือไม่มี ห้ามกล่าวว่าได้ตรวจจริง ให้แจ้ง `CAPABILITY_BLOCKED` ถึงหัวหน้าตรง.
 4. อ่านสัญญาคุณภาพเฉพาะด้านที่ระบุใน [Role Skills](ROLE-SKILLS-AND-SCOPE.md) และรายงานว่า `SKILL_READY` (มีความเข้าใจและช่องทางทดสอบ) หรือ `SKILL_GAP` (ขาดเครื่องมือ/ข้อมูล/ทักษะ). การกล่าวว่า SKILL_READY ไม่เท่ากับการพิสูจน์ผลงาน ต้องมี CI/Artifact ของงานจริงภายหลัง.
-5. เขียน `ชื่อแชทแนะนำ: ANT | <ROLE_ID>` ให้ Owner เห็นก่อนรายละเอียด ACK; บันทึก `suggested_chat_title` ใน GitHub Issue ด้วย. หากเครื่องมือเปลี่ยนชื่อแชทไม่มี ให้แจ้งข้อจำกัดอย่างตรงไปตรงมา. ตรวจตาม [Chat Naming](CHAT-NAMING.md).
+5. เขียน `ชื่อแชทแนะนำ: <ROLE_ID>` ให้ Owner เห็นก่อนรายละเอียด ACK; บันทึก `suggested_chat_title` ใน GitHub Issue ด้วย. หากเครื่องมือเปลี่ยนชื่อแชทไม่มี ให้แจ้งข้อจำกัดอย่างตรงไปตรงมา. ตรวจตาม [Chat Naming](CHAT-NAMING.md).
 6. บันทึก `APPOINTMENT_ACK` ใน GitHub Issue ที่ **ผู้แต่งตั้งส่งลิงก์มา**: Role ID, direct parent, หน้าที่, Skill readiness, สิทธิ์ที่ตรวจได้จริง, ไฟล์อ่านแล้ว, สิ่งที่ยังไม่ชัด, GitHub URL ของข้อความ ACK. ถ้ายังไม่มี Issue/ข้อมูลแต่งตั้ง ให้ตอบ `APPOINTMENT_BLOCKED` ถึงผู้ส่งตรง ไม่สร้างข้อมูล/Role ใหม่เอง.
 7. ส่ง **ข้อความสั้น 3 บรรทัดให้ Owner ส่งแชทหัวหน้าตรง** ด้วย `Next recipient` ชัดเจน; รอการยืนยันจากหัวหน้า และ `TASK_ASSIGNED` ที่มีอำนาจถูกต้อง. **APPOINTMENT_ACK ≠ คำสั่งเริ่มพัฒนาเกม**.
 

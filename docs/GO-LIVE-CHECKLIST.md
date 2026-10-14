@@ -16,7 +16,7 @@
 | Independent signer identity | NOT_CRYPTOGRAPHIC | บัญชี GitHub เดียวกันไม่พิสูจน์ว่าผู้ลงนามเป็น AI แชทคนละตัว; ต้องยอมรับเป็น organizational receipt หรือจัดบัญชี/permission แยกตามนโยบาย |
 | Actual gameplay Release readiness | NOT_EVALUATED | Governance QA ไม่ใช่ Runtime/Gameplay QA; ต้องตรวจแยกกับ Source ที่จะ Release |
 
-**กฎชื่อแชท:** เมื่อแชทใดรับตำแหน่ง ให้เสนอชื่อ `ANT | <ROLE_ID>` ตาม [Chat Naming](CHAT-NAMING.md) และยืนยัน Tool ข้อจำกัดตามจริง. ชื่อใน GitHub ไม่เท่ากับเปลี่ยนชื่อแชท ChatGPT สำเร็จ.
+**กฎชื่อแชท:** เมื่อแชทใดรับตำแหน่ง ให้เสนอชื่อ `<ROLE_ID>` ตาม [Chat Naming](CHAT-NAMING.md) และยืนยัน Tool ข้อจำกัดตามจริง. ชื่อใน GitHub ไม่เท่ากับเปลี่ยนชื่อแชท ChatGPT สำเร็จ.
 
 ## ขั้นตอนขั้นต่ำที่ Owner และ CEO ต้องทำ
 1. **Owner:** บอกเป้าหมายเกมรอบใหม่และแชทที่จะให้เป็น CEO เพียงคนเดียวเมื่อพร้อม; ส่งต่อข้อความแบบ 3 บรรทัดตามที่ AI แต่ละตัวเขียนให้. Owner ไม่ทำ CI/PR/ZIP.
