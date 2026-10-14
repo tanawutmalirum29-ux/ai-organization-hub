@@ -1,7 +1,7 @@
 # Ant Kingdom — Team Map / Current command chain
-**Current state: COLONY-NEXT-01 / ORG_SETUP_AUTHORIZED / IMPLEMENTATION_HOLD.** Two real executive chat ACKs are verified: CEO (Issue #5) and DCEO-DELIVERY (Issue #6). Four Domain personal Issues #9–#12 are **PENDING_ACK**; these are NOT active chats. ROYAL-01 completed in game main at `7d2458a13154716b09649903d1b26c86c8848845`. No COLONY-NEXT-01 product implementation authorized.
+**Current state: COLONY-NEXT-01 / SIX_ACTUAL_ACKS / DIRECTOR_SETUP_ONLY / IMPLEMENTATION_HOLD.** CEO, DCEO-DELIVERY and all four Domain Deputies have personal ACK evidence in governance Issues #5/#6/#9–#12. Only direct parent → one Director per domain may be appointed next; no Director is yet ACKed or ACTIVE. ROYAL-01 game main remains `7d2458a13154716b09649903d1b26c86c8848845`. No COLONY-NEXT-01 game implementation authorized.
 
-**Registry version:** `GOV-V2-COLONY-NEXT-01-001` (real CEO and Delivery ACK; Domain Issues issued, not activated)
+**Registry version:** `GOV-V2-COLONY-NEXT-01-002` (CEO, Delivery and SYS/EXP/PLAT/QA Deputies personally ACKed; next Director appointments unissued)
 
 **ชื่อแชทของทุก Role:** `<ROLE_ID>` จากคำสั่งแต่งตั้งจริง; ดู [Chat Naming](../CHAT-NAMING.md). AI ต้องเสนอชื่อทันทีที่ ACK แต่ไม่มีคำสั่ง Rename ChatGPT โดยตรงใน GitHub Connector.
 
@@ -9,7 +9,7 @@
 
 **Machine-readable live roster:** [TEAM-REGISTRY.json](TEAM-REGISTRY.json) · [Signed Release Board](RELEASE-SIGNATURES.md) · [Governance V2 charter](../V2-GOVERNANCE.md)
 
-## Approved chain / staffing blueprint (ONLY CEO + DELIVERY are currently real ACKed active roles)
+## Approved chain / staffing blueprint (CEO + DELIVERY + FOUR DEPUTIES have verified ACKs; downstream roles are proposals)
 ```mermaid
 flowchart TD
   Owner["Project Owner - goals / relay"] --> CEO["AI CEO - mandate / capacity / main gate"] --> D["DCEO-DELIVERY - final signer"]
@@ -42,23 +42,21 @@ flowchart TD
 
 **ทุกแชทต้องตรวจ GitHub Tool/CI/Skill ที่ใช้ได้จริงด้วยตัวเอง, โพสต์ APPOINTMENT_ACK, และใช้ [ข้อความส่งต่องาน](../RELAY-TEMPLATES.md).** รายการนี้เป็นสัญญา Skill ของตำแหน่ง **ไม่ใช่หลักฐานว่าบุคคลใหม่ได้รับงานหรือเครื่องมือแล้ว**. หลังงานจบ ถ้าไม่มีคำสั่งใหม่ → STANDBY.
 
-## Actual appointments (verified real-chat ACKs)
-| Role ID | Immediate parent | Actual ACK | Status |
+## Actual appointments — recipient ACKs verified from GitHub
+| Role ID | Immediate parent | Actual ACK | Current organizational authority |
 | --- | --- | --- | --- |
-| `CEO` | Project Owner (registry root `null`) | [ACK #5](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5#issuecomment-6157635338) | `ACTIVE` — strategy and staffing; not gameplay code |
-| `DCEO-DELIVERY` | `CEO` | [ACK #6](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157936418), [CEO verified](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157968920) | `ACTIVE` — organization setup only, product `IMPLEMENTATION_HOLD` |
+| `CEO` | Project Owner (`null` root) | [#5](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/5#issuecomment-6157635338) | `ACTIVE / STRATEGY_ONLY` |
+| `DCEO-DELIVERY` | `CEO` | [#6](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157936418), [CEO acceptance](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157968920) | `ACTIVE / ORG_SETUP_ONLY` |
+| `DCEO-SYS` | `DCEO-DELIVERY` | [#9](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158081984) | `ACTIVE / DIRECTOR_APPOINTMENT_ONLY / IMPLEMENTATION_HOLD` |
+| `DCEO-EXP` | `DCEO-DELIVERY` | [#10](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158081848) | `ACTIVE / DIRECTOR_APPOINTMENT_ONLY / IMPLEMENTATION_HOLD` |
+| `DCEO-PLAT` | `DCEO-DELIVERY` | [#11](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158090772) | `ACTIVE / DIRECTOR_APPOINTMENT_ONLY / IMPLEMENTATION_HOLD` |
+| `DCEO-QA` | `DCEO-DELIVERY` | [#12](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158094709) | `ACTIVE / DIRECTOR_APPOINTMENT_ONLY / IMPLEMENTATION_HOLD` |
 
-## Direct Deputy personal Issues — NOT yet activated
-| Role ID | Immediate parent | Personal appointment Issue | Status |
-| --- | --- | --- | --- |
-| `DCEO-SYS` | `DCEO-DELIVERY` | [#9](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9) | `PENDING_ACK / AWAITING_OWNER_RELAY` |
-| `DCEO-EXP` | `DCEO-DELIVERY` | [#10](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10) | `PENDING_ACK / AWAITING_OWNER_RELAY` |
-| `DCEO-PLAT` | `DCEO-DELIVERY` | [#11](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11) | `PENDING_ACK / AWAITING_OWNER_RELAY` |
-| `DCEO-QA` | `DCEO-DELIVERY` | [#12](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12) | `PENDING_ACK / AWAITING_OWNER_RELAY` |
+**Staffing budget:** `CAP-COLONY-NEXT-01-22` permits at most **22 distinct role chats** (CEO 1 + Delivery 1 + Deputies 4 + Directors 4 + Leads 4 + Core Engineers 8). Exactly **6 real personal ACKs** recorded above. Exactly **16 downstream slots remain unappointed**, consisting of four Directors, four Leads and eight Engineers. No extra Assistant/Steward chat approved.
 
-**Capacity:** `CAP-COLONY-NEXT-01-22` = 22 total approved chats, 1 CEO + 1 Delivery + 4 Deputies + 4 Directors + 4 Leads + 8 Engineers; no Assistants or separate Roster Steward chat. Per-deputy subordinate appointment can start only after that real chat ACK is verified by its immediate parent, and every next appointment follows exactly one parent-child edge.
+**Next one-hop staffing:** `DCEO-SYS → one SYS Director`, `DCEO-EXP → one EXP Director`, `DCEO-PLAT → one PLAT Director`, `DCEO-QA → one QA Director` **only** after Delivery's accepted ACK directive and registry reconciliation. Each Deputy creates the Director's separate personal Issue + ready Owner relay. Owner relays each to a separate receiving chat; its real ACK must be validated and roster synchronized before the Director appoints its own Lead. No Deputy can appoint a Lead or Engineer, no role can claim a chat is active merely because an Issue exists.
 
-**Important distinction:** `role_slots[].slot_status=TEMPLATE_ONLY_NOT_APPOINTED` describes template rows used for future assignments. The verified real-chat receipts are recorded separately under `appointments[]`; `pending_appointment_issues[]` are issued-only, not activated chats. Governance structural CI checks layout, not distinct AI identities or product QA. No `SIGNATURE_READY` release gate is installed yet; game release remains `HOLD`.
+**State and release limits:** `role_slots[].slot_status=TEMPLATE_ONLY_NOT_APPOINTED` remains the original slot blueprint by structural-CI contract; actual roles are in `appointments[]`. `pending_appointment_issues[]` is currently empty because all four issued Deputy roles have real ACK. No product Task, code, Browser QA, Source CI, signature, cleanup, Release or `ant-project/main` mutation from this organizational update; `SIGNATURE_READY=NOT_IMPLEMENTED`, `IMPLEMENTATION_HOLD` and `RELEASE_HOLD`.
 
 ## Rules for the Roster Steward
 1. Owner/CEO approves governance and round staffing envelope. CEO appoints Delivery; Delivery appoints domain Deputies; Deputies appoint Directors; Directors appoint Leads; Leads appoint two core Engineers. Helper only after permitted capacity.
