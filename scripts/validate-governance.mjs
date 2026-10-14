@@ -112,12 +112,12 @@ if (!roundBranch) {
       fail(`${expected}: DECISION requires proposal reply, status and rationale`);
     if (m.sequence === 1 && (m.from_role !== 'OWNER' || m.to_role !== 'CEO' || m.kind !== 'APPOINTMENT')) fail('Message 000001 must be Owner→CEO bootstrap.');
     if (autonomyFrom != null && m.sequence >= autonomyFrom) {
-      if (m.from_role === 'OWNER') fail(`${expected}: Owner is a courier, not a sender of implementation/decision messages in V7`);
+      if (m.from_role === 'OWNER' && m.kind !== 'CONSULTATION_REQUEST') fail(`${expected}: Owner is a courier, not a sender of implementation/decision messages in V7`);
       if (m.kind === 'DECISION' && m.to_role === 'OWNER')
         fail(`${expected}: Owner cannot receive a request to adjudicate decisions`);
-      if (m.kind === 'CONSULTATION_REQUEST' && (m.from_role !== 'CEO' || m.to_role !== 'GAME-ADVISOR' ||
+      if (m.kind === 'CONSULTATION_REQUEST' && (!['OWNER','CEO'].includes(m.from_role) || m.to_role !== 'GAME-ADVISOR' ||
           typeof m.consultation?.topic !== 'string' || !m.consultation.topic.trim()))
-        fail(`${expected}: CONSULTATION_REQUEST must be CEO to GAME-ADVISOR with topic`);
+        fail(`${expected}: CONSULTATION_REQUEST must be OWNER or CEO to GAME-ADVISOR with topic`);
       if (m.kind === 'MISSION_CHARTER') {
         const required=['scope','non_goals','source_proposals','acceptance_criteria','qa_plan'];
         if (m.from_role !== 'CEO' || !/^DIR-[A-Z]+$/.test(m.to_role) ||

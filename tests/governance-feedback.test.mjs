@@ -164,3 +164,31 @@ test('V7 historical owner instruction remains valid before adoption sequence',()
   const result=validateV7([CEO,DIR],msgs,3);
   assert.equal(result.status,0,result.stderr);
 });
+
+test('V7 permits direct Owner-to-advisor read-only question followed by advisor-to-CEO proposal',()=>{
+  const msgs=[
+    bootstrap,
+    message(2,'OWNER','GAME-ADVISOR','CONSULTATION_REQUEST',{consultation:{topic:'Suggest new research loops'}}),
+    message(3,'GAME-ADVISOR','CEO','PROPOSAL',{in_reply_to:'TEST-01-M000002',proposal}),
+    message(4,'CEO','GAME-ADVISOR','DECISION',{in_reply_to:'TEST-01-M000003',decision})
+  ];
+  const result=validateV7([CEO,ADVISOR],msgs);
+  assert.equal(result.status,0,result.stderr);
+});
+
+test('V7 rejects Owner consultation request to Engineer',()=>{
+  const result=validateV7([CEO,DIR,TL,ENG],[
+    bootstrap,message(2,'OWNER','E-A1-1','CONSULTATION_REQUEST',{consultation:{topic:'Do this work'}})
+  ]);
+  assert.notEqual(result.status,0);
+  assert.match(result.stderr,/CONSULTATION_REQUEST must be OWNER or CEO to GAME-ADVISOR/);
+});
+
+test('V7 rejects Owner-issued release even if it has QA evidence',()=>{
+  const release={pr_url:'PR',qa_evidence:'QA',ci_evidence:'CI',rationale:'Owner cannot authorize this'};
+  const result=validateV7([CEO,DIR],[
+    bootstrap,message(2,'OWNER','DIR-A','RELEASE',{release})
+  ]);
+  assert.notEqual(result.status,0);
+  assert.match(result.stderr,/Owner is a courier/);
+});

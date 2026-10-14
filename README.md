@@ -38,7 +38,7 @@ There is **no global AI-chat headcount cap**. One DIR has at most **two** TLs. O
 
 ## 4. Consultation → collective evaluation → CEO decision → delivery
 
-1. **Idea request:** Owner may ask for an idea by requesting that CEO send the advisor a saved, numbered `CONSULTATION_REQUEST` relay. CEO may also initiate it. Owner forwards it to the advisor chat; the advisor responds with a saved `PROPOSAL` to CEO and Owner forwards that response. This is a **request for advice, not an Owner decision or implementation order**. See [advisor consultation template](appointments/CEO-TO-GAME-ADVISOR-CONSULT.md).
+1. **Idea request:** Owner may request a recommendation **directly from GAME-ADVISOR**, with a saved numbered `OWNER→GAME-ADVISOR CONSULTATION_REQUEST`; CEO as round-ledger coordinator records the Owner's *verbatim question* first, and Owner forwards it. CEO may also issue its own numbered consultation request. Neither form is a decision or approval. Owner forwards it to the advisor chat; the advisor responds with a saved `PROPOSAL` to CEO and Owner forwards that response. This is a **request for advice, not an Owner decision or implementation order**. See [advisor consultation template](appointments/CEO-TO-GAME-ADVISOR-CONSULT.md).
 2. **Debate:** Any Engineer/TL/DIR/Advisor may submit grounded `FEEDBACK` or structured `PROPOSAL`. Engineers go to own TL → DIR → CEO; advisor and DIR go to CEO. Managers retain original authorship and examine costs, gameplay balance, technical feasibility, alternatives, acceptance criteria and QA risks.
 3. **Decision:** CEO responds with a numbered `DECISION` to the original reporting AI and selects its own implementation mission. Before game implementation, CEO records a **numbered `MISSION_CHARTER` addressed to the responsible DIR**, including scope, non-goals, relevant proposals, constraints, measurable acceptance and QA plan. A proposed change alone is never a task.
 4. **Execution:** DIR/TL appoint/assign within their role limits using numbered `TASK` messages against the selected charter. Engineers can start only after their own authenticated scoped TASK and the CEO's charter; `IMPLEMENTATION_HOLD` remains in force until that internal gate opens. Unapproved changes cannot be introduced by suggestion alone.
@@ -58,7 +58,7 @@ For existing active V6/older rounds, do **not** rewrite old numbered messages. C
 - [Numbered messages, identity checks, consultations and closeout](MESSAGE-PROTOCOL.md)
 - [Gameplay feedback and AI decision process](FEEDBACK-PROTOCOL.md)
 - [CEO](roles/CEO.md) · [Game Advisor](roles/GAME-ADVISOR.md) · [DIR](roles/DIR.md) · [TL](roles/TL.md) · [Engineer](roles/ENGINEER.md)
-- [Owner → CEO administrative bootstrap](appointments/OWNER-TO-CEO.md) · [CEO → Advisor appointment](appointments/CEO-TO-GAME-ADVISOR.md) · [CEO → Advisor consultation](appointments/CEO-TO-GAME-ADVISOR-CONSULT.md)
+- [Owner → CEO administrative bootstrap](appointments/OWNER-TO-CEO.md) · [CEO → Advisor appointment](appointments/CEO-TO-GAME-ADVISOR.md) · [CEO → Advisor consultation](appointments/CEO-TO-GAME-ADVISOR-CONSULT.md) · [Owner → Advisor question](appointments/OWNER-TO-GAME-ADVISOR-CONSULT.md)
 - [CEO → DIR](appointments/CEO-TO-DIR.md) · [DIR → TL](appointments/DIR-TO-TL.md) · [TL → Engineer](appointments/TL-TO-ENGINEER.md)
 - [Round examples](examples/README.md) · [Governance validator](scripts/validate-governance.mjs)
 
