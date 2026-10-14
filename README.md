@@ -8,6 +8,14 @@
 
 The work/game repository `tanawutmalirum29-ux/ant-project` is separate: authorized developers may use it for real coding tasks/PRs according to the project Owner's current assignment. The restriction above specifically protects `appointment-CEO`.
 
+## RULE: NEW CEO = NEW ENTIRE ORGANIZATION
+
+**Binding Owner instruction:** Appointing a **NEW CEO** means **rebuilding EVERY staffed subordinate level with NEW ChatGPT conversations**. Do not keep, reuse or reactivate a previous CEO generation's DIR, TL, Engineer or their old acknowledgments. The new CEO must not stop at its own acceptance: it **must appoint new DIRs**, those new DIRs **must appoint new TLs**, and those new TLs **must appoint new Engineers** where needed. Each appointment is a separate Owner-forwarded message into an actually new chat and an actual reply in that chat.
+
+**Mandatory cascade:** `OWNER → NEW CEO → NEW DIR-[D] → NEW TL-[D][1|2] → NEW E-[D][N]-[1|2]`. A DIR controls up to two TLs; a TL controls up to two Engineers. At least one fully accepted `CEO→DIR→TL→Engineer` chain is necessary before describing a coding organization as ready. Build as many complete staffed branches as necessary **within the global ten-AI maximum**; old AI chats NEVER count as freshly appointed. Do not fill unneeded sample branches or claim fictitious ACKs. When capacity prevents an additional Engineer, management may implement with an independent reviewer, but report the constraint.
+
+**No GitHub registration or appointment Issues:** the appointing AI prepares the exact relay, Owner forwards it to a new conversation, the receiver accepts in CHAT. Record accepted/headcount status within CEO's own conversation only, not this repo. CEO's first message after accepting should be its first NEW DIR appointment relay and status `CEO_ACTIVE / ORG_BUILDING`. `ORGANIZATION_READY` requires actual subordinate acceptances. None of the canceled old game tasks return automatically; a separate Owner mandate is required to write new game code.
+
 ## Exact organizational hierarchy (FOUR role levels only)
 
 ```text
