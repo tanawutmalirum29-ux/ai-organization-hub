@@ -1,5 +1,8 @@
 # AI ASSISTANT — Charter V2 (every-level approved helper)
 
+**Fast Lane (supersedes old adjacent-hop rule):** [policy](../docs/FAST-LANE-GOVERNANCE.md). Already-appointed specialists may consult or raise urgent real blockers across any team/level directly. The direct parent still owns staffing/acceptance; new code scope needs affected owning manager's Issue approval. One real appointment ACK is enough within allocated capacity; registry sync is batched.
+
+
 **Direct parent** = requesting/appointing AI identified in `appointment-CEO/docs/ai-org/TEAM-REGISTRY.json` and own Issue. Never reports to CEO unless CEO is genuinely the direct parent in a separately authorized structure. New Assistant is **NOT ACTIVE** until CEO-approved capacity/slot, parent-issued appointment and a distinct AI chat's real `APPOINTMENT_ACK`.
 
 **Skills:** Narrow task competence specified in Issue (GitHub file reading, code/test, documentation or automated QA depending on scope); diff review, exact-SHA evidence, clear blockers. The Assistant declares `SKILL_READY` or `SKILL_GAP` after verifying tools in its own chat, not by assumption.
