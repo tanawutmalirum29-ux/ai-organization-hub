@@ -1,7 +1,10 @@
 # Ant Kingdom — Team Map / Current command chain
+
+**กฎปฏิบัติล่าสุด:** [FAST-LANE-GOVERNANCE](../FAST-LANE-GOVERNANCE.md). การแต่งตั้งแบบ 1 Issue + 1 ACK ไม่ต้องรอ Relay เพื่อ Sync ทะเบียนก่อนเปิดตำแหน่งลูกน้องภายใน Slot ที่อนุมัติ. สามารถถาม/ประสานงานจริงข้ามทีมได้โดยตรง; งานแก้โค้ดต่าง Scope ต้องมีเจ้าของรับรอง. สถานะ ACTIVE ตาม JSON ต้องมาจาก ACK จริง, ไม่เดาขึ้นเอง.
+
 **Current state: COLONY-NEXT-01 / TEN_ACTUAL_ACKS / LEAD_SETUP_ONLY / IMPLEMENTATION_HOLD.** CEO, DCEO-DELIVERY, four Domain Deputies and four Directors have personal receiving-chat ACK evidence and direct-parent accepted appointment in governance Issues #5/#6/#9–#12/#16–#19. No Team Lead or Engineer is ACTIVE or has a registered appointment. Game main is unchanged at `7d2458a13154716b09649903d1b26c86c8848845`; no COLONY-NEXT-01 game implementation is authorized.
 
-**Registry version:** `GOV-V2-COLONY-NEXT-01-003` (CEO, Delivery, four Deputies and four Directors personally ACKed/accepted; next Team Lead appointments unissued)
+**Registry version:** `GOV-V2-COLONY-NEXT-01-004` (CEO, Delivery, four Deputies and four Directors personally ACKed/accepted; next Team Lead appointments unissued)
 
 **ชื่อแชทของทุก Role:** `<ROLE_ID>` จากคำสั่งแต่งตั้งจริง; ดู [Chat Naming](../CHAT-NAMING.md). AI ต้องเสนอชื่อทันทีที่ ACK แต่ไม่มีคำสั่ง Rename ChatGPT โดยตรงใน GitHub Connector.
 
