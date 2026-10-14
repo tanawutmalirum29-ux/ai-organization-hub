@@ -1,8 +1,8 @@
 # Central AI Team Registry — appointment-CEO (authoritative)
 
-**Team capacity rule:** [Adaptive team sizing](TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md). `work_teams[]` บันทึกทีมที่เริ่มทำงานจริงเท่านั้น: `team_id`, `accountable_lead_role_id`, `active_member_role_ids`, `task_issue_url`; รวมผู้บริหารที่ลงมาทำงานในทีม, สูงสุด 10 คน/ทีม, ไม่มีขั้นต่ำ Engineers. Organizational roster 22 slots is **not** one team and unfilled slots are optional.
+**Global capacity rule:** [ALL-ORGANIZATION ten-AI cap](TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md). Count EVERY staffed ChatGPT AI role across departments, including standby and verified-but-unregistered ACK roles. `work_teams[]` are *assignments of these same existing <=10 globally staffed people*, never separate ten-person allowances. Ten ACTIVE rows plus four verified Lead ACKs have a reconciliation HOLD; no more appointments until roles are formally consolidated/retired. Historical 22 slots are superseded.
 
-**Latest operational rule:** [Fast Lane](FAST-LANE-GOVERNANCE.md). One Issue + one ACK, batched registry updates, direct relevant technical/urgent requests across teams. The JSON `ACTIVE` claim must remain backed by actual ACK permalink; operational ACK verification may precede a batch merge. The registry is an authoritative **persisted snapshot**, not a per-person onboarding approval gate.
+**Latest operational rule (subject to global cap and staffing freeze):** [Fast Lane](FAST-LANE-GOVERNANCE.md). One Issue + one ACK, batched registry updates, direct relevant technical/urgent requests across teams. The JSON `ACTIVE` claim must remain backed by actual ACK permalink; operational ACK verification may precede a batch merge. The registry is an authoritative **persisted snapshot**, not a per-person onboarding approval gate.
 
 **Organizational records, appointments, charter and release-signature dashboard are owned by THIS repository (`appointment-CEO`), not the game repository.** `ant-project` remains the source of truth for game code, work Issues/PRs, CI runs and concrete release evidence.
 
