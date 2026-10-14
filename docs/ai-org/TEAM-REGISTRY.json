@@ -188,7 +188,7 @@
       "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157968920",
       "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9",
       "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158081984",
-      "appointment_verification_url": null,
+      "appointment_verification_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158183714",
       "round_id": "COLONY-NEXT-01",
       "domain": "SYS",
       "status": "ACTIVE",
@@ -197,7 +197,7 @@
       "skill_status": "SKILL_READY",
       "suggested_chat_title": "DCEO-SYS",
       "governance_sha_at_ack": "a0d40ff28351b603f52246ebbe40054538bedf21",
-      "notes": "Actual personal ACK verified by direct parent DCEO-DELIVERY; organization appointment active, downstream Director setup limited to one direct child; Implementation HOLD. Parent acceptance permalink will be recorded as a subsequent ORG_DELTA audit."
+      "notes": "ACK personally submitted and DIRECT_PARENT DCEO-DELIVERY verified in own GitHub Issue; only one-direct-Director organizational appointment authorized, Implementation HOLD."
     },
     {
       "appointment_id": "DCEO-EXP-COLONY-NEXT-01-01",
@@ -208,7 +208,7 @@
       "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157968920",
       "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10",
       "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158081848",
-      "appointment_verification_url": null,
+      "appointment_verification_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158184263",
       "round_id": "COLONY-NEXT-01",
       "domain": "EXP",
       "status": "ACTIVE",
@@ -217,7 +217,7 @@
       "skill_status": "SKILL_READY",
       "suggested_chat_title": "DCEO-EXP",
       "governance_sha_at_ack": "a0d40ff28351b603f52246ebbe40054538bedf21",
-      "notes": "Actual personal ACK verified by direct parent DCEO-DELIVERY; organization appointment active, downstream Director setup limited to one direct child; Implementation HOLD. Parent acceptance permalink will be recorded as a subsequent ORG_DELTA audit."
+      "notes": "ACK personally submitted and DIRECT_PARENT DCEO-DELIVERY verified in own GitHub Issue; only one-direct-Director organizational appointment authorized, Implementation HOLD."
     },
     {
       "appointment_id": "DCEO-PLAT-COLONY-NEXT-01-01",
@@ -228,7 +228,7 @@
       "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157968920",
       "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11",
       "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158090772",
-      "appointment_verification_url": null,
+      "appointment_verification_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158184729",
       "round_id": "COLONY-NEXT-01",
       "domain": "PLAT",
       "status": "ACTIVE",
@@ -237,7 +237,7 @@
       "skill_status": "SKILL_READY",
       "suggested_chat_title": "DCEO-PLAT",
       "governance_sha_at_ack": "a0d40ff28351b603f52246ebbe40054538bedf21",
-      "notes": "Actual personal ACK verified by direct parent DCEO-DELIVERY; organization appointment active, downstream Director setup limited to one direct child; Implementation HOLD. Parent acceptance permalink will be recorded as a subsequent ORG_DELTA audit."
+      "notes": "ACK personally submitted and DIRECT_PARENT DCEO-DELIVERY verified in own GitHub Issue; only one-direct-Director organizational appointment authorized, Implementation HOLD."
     },
     {
       "appointment_id": "DCEO-QA-COLONY-NEXT-01-01",
@@ -248,7 +248,7 @@
       "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6157968920",
       "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12",
       "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158094709",
-      "appointment_verification_url": null,
+      "appointment_verification_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158185570",
       "round_id": "COLONY-NEXT-01",
       "domain": "QA",
       "status": "ACTIVE",
@@ -257,7 +257,7 @@
       "skill_status": "SKILL_READY",
       "suggested_chat_title": "DCEO-QA",
       "governance_sha_at_ack": "a0d40ff28351b603f52246ebbe40054538bedf21",
-      "notes": "Actual personal ACK verified by direct parent DCEO-DELIVERY; organization appointment active, downstream Director setup limited to one direct child; Implementation HOLD. Parent acceptance permalink will be recorded as a subsequent ORG_DELTA audit."
+      "notes": "ACK personally submitted and DIRECT_PARENT DCEO-DELIVERY verified in own GitHub Issue; only one-direct-Director organizational appointment authorized, Implementation HOLD."
     }
   ],
   "pending_staffing_requests": [],
@@ -331,8 +331,26 @@
       "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158090772",
       "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158094709"
     ],
-    "status": "ACK_VERIFIED_ORG_SETUP_ONLY",
+    "status": "ACK_VERIFIED_PARENT_ACCEPTED_AND_ROSTER_RECONCILED",
     "forbidden": "Game implementation, main merge, QA PASS and release signing remain unauthorized",
-    "note": "GitHub personal receipts are organizational assertions; shared account cannot cryptographically identify individual ChatGPT chats."
+    "note": "GitHub personal receipts are organizational assertions; shared account cannot cryptographically identify individual ChatGPT chats.",
+    "parent_acceptance_comments": [
+      {
+        "role_id": "DCEO-SYS",
+        "url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9#issuecomment-6158183714"
+      },
+      {
+        "role_id": "DCEO-EXP",
+        "url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10#issuecomment-6158184263"
+      },
+      {
+        "role_id": "DCEO-PLAT",
+        "url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/11#issuecomment-6158184729"
+      },
+      {
+        "role_id": "DCEO-QA",
+        "url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/12#issuecomment-6158185570"
+      }
+    ]
   }
 }
