@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 const errors = [];
 const fail = s => errors.push(s);
@@ -48,6 +49,7 @@ if (!roundBranch) {
   const names = fs.existsSync(dir) ? fs.readdirSync(dir).sort() : [];
   if (!names.length) fail('At least bootstrap message 000001.json required.');
   const eventKeys = new Set();
+  const receiptKeys = new Set();
   const msgIds = new Set();
   const msgs = [];
   for (let i = 0; i < names.length; i++) {
@@ -78,15 +80,33 @@ if (!roundBranch) {
        !m.relay_text.includes(`TO_APPOINTMENT_ID: ${m.to_appointment_id}`) ||
        !m.relay_text.includes(`TASK_REF: ${m.task_ref}`) ||
        !m.relay_text.includes('IN_REPLY_TO:')) fail(`${expected}: missing mandatory copy-ready relay fields`);
+    if (m.kind === 'APPOINTMENT' && m.to_role !== 'CEO' && known.get(m.to_role)?.parent_role !== m.from_role)
+      fail(`${expected}: appointment must be issued by direct parent`);
     if (m.sequence === 1 && (m.from_role !== 'OWNER' || m.to_role !== 'CEO' || m.kind !== 'APPOINTMENT')) fail('Message 000001 must be Owner→CEO bootstrap.');
   }
   for (const m of msgs) {
     if (m.in_reply_to != null) {
+      if (['ACK', 'RESULT', 'REJECTED'].includes(m.kind)) {
+        const receipt = [m.from_appointment_id, m.kind, m.in_reply_to].join('::');
+        if (receiptKeys.has(receipt)) fail(`Duplicate processed receipt: ${m.message_id}`);
+        receiptKeys.add(receipt);
+      }
       const target = msgs.find(v => v.message_id === m.in_reply_to);
       if (!target || target.sequence >= m.sequence) fail(`Bad reply link: ${m.message_id}`);
       else if (m.from_role !== target.to_role || m.from_appointment_id !== target.to_appointment_id)
         fail(`Reply sender mismatch: ${m.message_id}`);
     } else if (['ACK','RESULT','REJECTED'].includes(m.kind)) fail(`Reply type requires in_reply_to: ${m.message_id}`);
+  }
+  // Append-only enforcement on GitHub pushes. Branch protection is still needed
+  // against actors who can bypass CI or rewrite history.
+  const before = process.env.BEFORE_SHA;
+  if (process.env.GITHUB_EVENT_NAME === 'push' && /^[0-9a-f]{40}$/.test(before || '') && !/^0{40}$/.test(before)) {
+    try {
+      const changes = execFileSync('git', ['diff', '--name-status', before, 'HEAD', '--', 'workspace/messages'], {encoding: 'utf8'});
+      for (const line of changes.trim().split('\n').filter(Boolean)) {
+        if (!line.startsWith('A\t')) fail(`Prior message modification/deletion forbidden: ${line}`);
+      }
+    } catch (e) { fail(`Could not verify append-only history: ${e.message}`); }
   }
 }
 if (errors.length) { for (const e of errors) console.error('ERROR:', e); process.exit(1); }
