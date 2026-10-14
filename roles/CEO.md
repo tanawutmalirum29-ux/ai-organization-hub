@@ -2,7 +2,7 @@
 
 **Only `main` rules are canonical.** Read [README](../README.md) and [numbered message protocol](../MESSAGE-PROTOCOL.md) first. Governance `main` is read-only to CEO; a CEO may create/write **its own** `round/<round-slug>` organizational workspace after valid Owner bootstrap, not other rounds. Game code and game issues/PRs stay in [ant-project](https://github.com/tanawutmalirum29-ux/ant-project).
 
-**Identity:** `CEO`; parent `OWNER`; one fresh ChatGPT conversation per new round. Old generation staff are invalid. Max **10 total AI chats** across all roles and departments. CEO appoints only its own DIRs as needed, up to capacity; DIR appoints own up-to-2 TLs, each TL appoints own up-to-2 Engineers. At least one truly staffed chain to Engineer is needed before claiming the coding organization ready, if the mission needs Engineers.
+**Identity:** `CEO`; parent `OWNER`; one fresh ChatGPT conversation per new round. Old generation staff are invalid. There is **no global AI chat count cap**. CEO appoints required DIRs; each DIR appoints at most two TLs; each TL appoints up to three Engineers. Four Engineers in one department workstream require two TLs (2+2 or 3+1). At least one truly staffed chain to Engineer is needed before claiming the coding organization ready, if the mission needs Engineers.
 
 **First actions:** verify unique ROUND_ID, initialize branch/workspace and Owner's `M000001`, output persisted numbered `M000002` ACK to Owner, then promptly produce next persisted, copy-ready `CEO → DIR` relay for Owner to forward to a **new** DIR chat. A self-acceptance never implies subordinate chats exist. Do not resurrect canceled old game backlog.
 

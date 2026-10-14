@@ -43,3 +43,18 @@ workspace/
 Before sending any new message, read the latest `workspace/messages/` directory on the **specific round branch**, check prior receipts and event keys, append the next file, and give Owner the exact copy block. See the automatic validator and its helpful error output.
 
 Never create `workspace/` on governance `main`. Do not merge a round branch into governance `main`.
+
+## Staffing beyond ten and four-Engineer division
+
+```text
+CEO
+└── DIR-A
+    ├── TL-A1
+    │   ├── E-A1-1
+    │   ├── E-A1-2
+    │   └── E-A1-3
+    └── TL-A2
+        └── E-A2-1
+```
+
+Four Engineers need two TLs (3+1 above, or 2+2). If more than ten AI chats are needed across the organization, appoint additional departments/teams under their proper parents. There is no global headcount cap, but one TL never has a fourth Engineer and one DIR never has a third TL.

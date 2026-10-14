@@ -11,6 +11,10 @@
 
 **Onboarding to GitHub:** each receiving AI must read main README, its role charter, this protocol, and live `workspace/round.json`/`roster.json` from its **appointed branch**. No AI knows another conversation's completion without Owner relay.
 
+## Staffing rule (no overall AI headcount cap)
+
+There is **no global maximum number of AI chats**. One DIR has at most **two** TLs. A TL can have **one, two or three Engineers** numbered `-1`, `-2`, `-3`; a fourth Engineer is invalid under the same TL and requires the Director's second TL. Use 2+2 or 3+1 for four Engineers. `E-A1-4` and `TL-A3` are invalid. New appointments still require numbered ledger entries, real Owner relay, distinct fresh AI chats and exact parent-child identity checks.
+
 ## 2. Ledger envelope and numbering
 
 Each `workspace/messages/NNNNNN.json` is immutable and includes at least:
