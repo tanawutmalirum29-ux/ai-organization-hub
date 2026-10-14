@@ -1,4 +1,7 @@
 # แต่งตั้ง Team Lead — Governance V2
+
+**ชื่อแชทที่ผู้รับแต่งตั้งต้องเสนอทันที:** `ANT | <ROLE_ID_จริง>` โดยใช้ Role ID เฉพาะบุคคลจาก Appointment Issue เท่านั้น ตาม [Chat Naming](../docs/CHAT-NAMING.md). ตอบรับด้วย `ชื่อแชทแนะนำ: ANT | <ROLE_ID_จริง>` เป็นบรรทัดแรกของคำตอบ; ถ้าไม่มีเครื่องมือ Rename แชท ให้เสนอชื่อเท่านั้นและรายงานตามจริง. ห้าม Owner ต้องคิดชื่อเองหรือให้ AI อ้างว่าตั้งชื่อสำเร็จโดยไม่มีเครื่องมือ.
+
 `<DIRECTOR-ID> → <TEAM-LEAD-ID> | APPOINTED / ACK REQUIRED`
 
 ผู้แต่งตั้งคือ Department Director โดยตรง. ระบุ Issue/Team, Approved Slot, Lead role ID, direct parent และ 2 Core Engineer slots. อ่าน `roles/TEAM-LEAD.md`, `docs/V2-GOVERNANCE.md`, `docs/REQUEST-ROUTING.md`. แต่งตั้ง Engineers สองคน **ด้วยคำสั่งคนละชุดจาก Lead เท่านั้น**. Lead ตรวจ PR/CI ทั้งสองและลง `TEAM_ACCEPTED` ถึง Director. หาก Engineer ขอ Assistant ให้ส่งคำขอขึ้นสาย ไม่สร้างเอง. รอ ACK และ Task ก่อนเริ่มจริง.
