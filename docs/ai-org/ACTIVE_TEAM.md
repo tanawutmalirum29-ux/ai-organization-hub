@@ -1,19 +1,19 @@
 # Ant Kingdom — Live AI Organization / CEO Succession
 
-**Registry version:** `GOV-V2-COLONY-NEXT-01-007`  
-**Status:** `9 ACK-BACKED ACTIVE + 1 CEO PENDING_ACK` / `GLOBAL MAX 10` / `IMPLEMENTATION_HOLD` / `RELEASE_HOLD`  
+**Registry version:** `GOV-V2-COLONY-NEXT-01-008`  
+**Status:** `10 ACK-BACKED ACTIVE / ZERO OPEN SLOTS` / `GLOBAL MAX 10` / `IMPLEMENTATION_HOLD` / `RELEASE_HOLD`  
 **Single source of organizational role state:** [TEAM-REGISTRY.json](TEAM-REGISTRY.json)  
 **Owner new CEO instruction:** [CEO succession Issue #28](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28)  
 **Game mission (previously planned, not implemented):** [ant-project Master Issue #93](https://github.com/tanawutmalirum29-ux/ant-project/issues/93)  
 **Rules:** [Global ten-AI cap](../TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md), [FAST-LANE-GOVERNANCE](../FAST-LANE-GOVERNANCE.md), [Role Start](../ROLE-START-HERE.md), [Role Skills](../ROLE-SKILLS-AND-SCOPE.md), [Task States & Handoff](../TASK-STATE-AND-HANDOFF.md), [Chat Naming](../CHAT-NAMING.md), [Release Signatures](../RELEASE-SIGNATURES.md).
 
-**No new AI role is automatically created in ChatGPT by GitHub.** The new CEO role is only `PENDING_ACK` until the receiving chat posts its own verified ACK on Issue #28. The old CEO's role was retired with a separate governance receipt; the four formerly acknowledged but unregistered Leads were retired with their ACK history preserved. Their actual ChatGPT conversations remain visible unless the Owner stops using them; GitHub writes cannot close chats.
+**No new AI role is automatically created in ChatGPT by GitHub.** The successor CEO posted a real `APPOINTMENT_ACK / SKILL_READY` on [Issue #28 comment 6159767293](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28#issuecomment-6159767293), and the successor issued the executable M0 mandate on [Issue #6 comment 6159817347](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6159817347). The old CEO's role was retired with a separate governance receipt; the four formerly acknowledged but unregistered Leads were retired with their ACK history preserved. Their actual ChatGPT conversations remain visible unless the Owner stops using them; GitHub writes cannot close chats.
 
 ## Global headcount — one organization, hard maximum TEN
 
 | Role ID / suggested chat name | Status | Personal Issue | Actual scope |
 | --- | --- | --- | --- |
-| `CEO` (replacement `CEO-V2-20261014-02`) | **PENDING_ACK — reserved seat #10, no merge/staffing authority yet** | [#28](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28) | Owner strategy, Round approval after gates, sole `ant-project/main` merge |
+| `CEO` (replacement `CEO-V2-20261014-02`) | **ACTIVE / ACK verified — seat #10** | [#28](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28) | Owner strategy, Round approval after gates, sole `ant-project/main` merge |
 | `DCEO-DELIVERY` | ACTIVE / verified | [#6](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6) | Integration, cross-domain coordination, QA receipts, sign LAST |
 | `DCEO-SYS` | ACTIVE / verified | [#9](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/9) | Simulation, persistence, task AI |
 | `DCEO-EXP` | ACTIVE / verified | [#10](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/10) | Save/UI, UX and controls |
@@ -24,7 +24,7 @@
 | `PLAT-DIR` | ACTIVE / verified | [#17](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17) | Scoped Platform implementation and review |
 | `QA-DIR` | ACTIVE / verified | [#19](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19) | Independent regression/testing implementation, separate QA evaluation |
 
-**Exactly nine other operational seats remain**; when new CEO ACK is validated, total becomes ten. `PENDING_ACK` does NOT mean the new CEO has actually accepted or acquired tools. No Team Lead, Engineer, Assistant, Steward, replacement Deputy, duplicate CEO or secret parallel specialist can be newly appointed. The earlier 22-slot envelope is superseded, not additional capacity.
+**Ten of ten authorized operational seats are filled:** the ACK-backed CEO successor and nine previously ACTIVE staff. No additional appointment is permitted. The CEO successor's actual ACK is already posted; the governing roster is now reconciled to it. No Team Lead, Engineer, Assistant, Steward, replacement Deputy, duplicate CEO or secret parallel specialist can be newly appointed. The earlier 22-slot envelope is superseded, not additional capacity.
 
 ## Archived (no operational authority; historical ACK retained)
 
@@ -39,6 +39,9 @@
 Old chats cannot be deleted or disabled using the GitHub Connector; if opened they should read their RETIRED receipts and avoid continuing tasks. This records **organizational authority**, not a claim that ChatGPT history has been erased.
 
 ## Work flow and project status
+
+**Governance M0 succession sync:** CEO ACK #28/6159767293 reconciled in registry `GOV-V2-COLONY-NEXT-01-008`; retired predecessor and four former Leads remain retired. Global ten-person cap evidence reviewed; `IMPLEMENTATION_HOLD / RELEASE_HOLD` remain until explicit Task/CI/QA readiness authorization. 
+
 
 - **SAVE/LOAD (P0)**: `DCEO-SYS + SYS-DIR1` code with independent reviewer; `DCEO-EXP + EXP-DIR` compact UI.
 - **SMARTER ANT AI (P1)**: `DCEO-SYS + SYS-DIR1`, coordinated with existing EXP roles.
