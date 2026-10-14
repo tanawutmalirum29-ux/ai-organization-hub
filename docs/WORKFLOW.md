@@ -1,6 +1,6 @@
 # Operational workflow — V2 Fast Lane
 
-**Size/management authority:** [Adaptive team staffing](TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md). Team membership is based on the work: 1–10 active AI **including Lead/Engineer/Assistant/hands-on managers**. No fixed two-Engineer minimum; managers can implement bounded tasks when separately reviewed. Split large modules into several teams under Delivery.
+**GLOBAL CAP:** [10 AI across the ENTIRE organization](TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md), not 10 per Team. CEO + Delivery + all Departments + technical staff + standby + verified unregistered ACKs count together. STAFFING_FREEZE pending reconciliation; giant jobs are split into tasks performed by these SAME 10 AI, not new chats. Managers can write scoped code with independent reviewer; no fixed Engineer pair.
 
 **Authoritative:** [Fast Lane](FAST-LANE-GOVERNANCE.md), [Activation](ACTIVATION-PACKET.md), [Request routing](REQUEST-ROUTING.md), [Task scope](TASK-ISSUE-CONTRACT.md).
 
