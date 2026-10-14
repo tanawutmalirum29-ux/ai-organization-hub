@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
-  "registry_version": "GOV-V2-COLONY-NEXT-01-007",
-  "governance_status": "ALL_FOUR_DIRECTORS_ACK_VERIFIED_LEAD_SETUP_ONLY",
+  "registry_version": "GOV-V2-COLONY-NEXT-01-008",
+  "governance_status": "CEO_SUCCESSION_ACK_VERIFIED_GLOBAL_MAX10_IMPLEMENTATION_HOLD",
   "round_id": "COLONY-NEXT-01",
-  "round_status": "ORG_SETUP_IMPLEMENTATION_HOLD",
+  "round_status": "M0_SCOPING_IMPLEMENTATION_HOLD",
   "baseline_main_sha": "7d2458a13154716b09649903d1b26c86c8848845",
   "canonical_governance": "https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/docs/V2-GOVERNANCE.md",
   "role_slots": [
@@ -144,17 +144,17 @@
       "capacity_slot_id": "GOV-V2-CEO-SINGLETON",
       "approval_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28",
       "appointment_issue_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28",
-      "ack_comment_url": null,
-      "appointment_verification_url": null,
+      "ack_comment_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/28#issuecomment-6159767293",
+      "appointment_verification_url": "https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/6#issuecomment-6159817347",
       "round_id": "COLONY-NEXT-01",
       "domain": "STRATEGY",
-      "status": "PENDING_ACK",
+      "status": "ACTIVE",
       "scope": "CEO strategy, capacity approvals, signature gate and sole ant-project/main merge",
       "owned_paths": [],
-      "skill_status": "PENDING_SELF_CHECK",
+      "skill_status": "SKILL_READY",
       "suggested_chat_title": "CEO",
-      "governance_sha_at_ack": null,
-      "notes": "Owner-directed replacement of old CEO. This CEO chat DOES NOT exist operationally until real ACK in Issue #28; global singleton slot reserved, no extra staffing. Pending CEO has no gameplay/main-merge authority before ACK."
+      "governance_sha_at_ack": "ae89acd3ec0c0540e688c0ff38bf3183b772337f",
+      "notes": "Real successor CEO personal ACK verified at #28/6159767293. Subsequent CEO operational M0 mandate #6/6159817347 serves as succession execution receipt (not independent cryptographic proof of a ChatGPT identity). Predecessor #5 and former Leads #21-24 remain RETIRED; no eleventh staff, no game implementation authorization."
     },
     {
       "appointment_id": "DCEO-DELIVERY-COLONY-NEXT-01-01",
@@ -395,7 +395,7 @@
     "allow_more_than_max_for_large_work": false,
     "new_appointments_frozen_until_reconciled": true,
     "require_external_ack_reconciliation": true,
-    "global_cap_compliance_verified": false,
+    "global_cap_compliance_verified": true,
     "succession_only_appointment_id": "CEO-V2-20261014-02",
     "global_capacity_remaining_after_succession": 0
   },
@@ -486,11 +486,11 @@
     }
   ],
   "work_teams": [],
-  "staffing_status": "CEO_SUCCESSION_PENDING_ACK / NINE_EXISTING_ACTIVE / NO_ADDITIONAL_APPOINTMENTS",
+  "staffing_status": "TEN_ACK_BACKED_ACTIVE / GLOBAL_MAX10 / NO_NEW_APPOINTMENTS / IMPLEMENTATION_HOLD",
   "global_staffing_limit": 10,
   "previously_authorized_22_slot_envelope": "SUPERSEDED_BY_OWNER_GLOBAL_CAP_10",
   "unreconciled_verified_ack_issues": [],
-  "global_staffing_reconciliation_note": "Owner retired predecessor CEO role #5 and four Lead appointments #21–#24 with actual GitHub receipts. Nine other registered roles retained ACTIVE. Successor CEO #28 is a PENDING_ACK placeholder for the singleton 10th slot and has zero operational authority before real personal ACK. New staffing is frozen; ChatGPT UI chats cannot be automatically closed by GitHub.",
+  "global_staffing_reconciliation_note": "Confirmed real CEO ACK #28 comment 6159767293, successor mandate #6 comment 6159817347, nine previously ACTIVE appointments, five RETIRED records (#5, #21-#24). 10 distinct operational roles; no unmatched verified ACKs recorded. GitHub evidence does not close archived ChatGPT conversations; inactive archive evidence retained.",
   "retired_appointments": [
     {
       "appointment_id": "CEO-V2-20261014-01",
@@ -558,8 +558,8 @@
     }
   ],
   "staffing_snapshot": {
-    "registered_active_roles": 9,
-    "successor_ceo_pending_ack": 1,
+    "registered_active_roles": 10,
+    "successor_ceo_pending_ack": 0,
     "retired_ack_evidence_count": 5,
     "global_cap": 10,
     "additional_staffing_authorized": false
