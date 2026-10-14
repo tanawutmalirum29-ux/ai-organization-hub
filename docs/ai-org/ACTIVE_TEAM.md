@@ -4,13 +4,15 @@
 
 **Current state: COLONY-NEXT-01 / TEN_ACTUAL_ACKS / LEAD_SETUP_ONLY / IMPLEMENTATION_HOLD.** CEO, DCEO-DELIVERY, four Domain Deputies and four Directors have personal receiving-chat ACK evidence and direct-parent accepted appointment in governance Issues #5/#6/#9–#12/#16–#19. No Team Lead or Engineer is ACTIVE or has a registered appointment. Game main is unchanged at `7d2458a13154716b09649903d1b26c86c8848845`; no COLONY-NEXT-01 game implementation is authorized.
 
-**Registry version:** `GOV-V2-COLONY-NEXT-01-004` (CEO, Delivery, four Deputies and four Directors personally ACKed/accepted; next Team Lead appointments unissued)
+**Registry version:** `GOV-V2-COLONY-NEXT-01-005` (CEO, Delivery, four Deputies and four Directors personally ACKed/accepted; next Team Lead appointments unissued)
 
 **ชื่อแชทของทุก Role:** `<ROLE_ID>` จากคำสั่งแต่งตั้งจริง; ดู [Chat Naming](../CHAT-NAMING.md). AI ต้องเสนอชื่อทันทีที่ ACK แต่ไม่มีคำสั่ง Rename ChatGPT โดยตรงใน GitHub Connector.
 
 **เริ่มงาน AI ใหม่:** [คู่มือ Role Start](../ROLE-START-HERE.md) · [ทักษะแต่ละบทบาท](../ROLE-SKILLS-AND-SCOPE.md) · [วิธีส่งต่องาน](../TASK-STATE-AND-HANDOFF.md) · [Owner Relay](../RELAY-TEMPLATES.md). ทุก AI ต้อง ACK เครื่องมือและขอบเขตก่อนรับงานจริง.
 
 **Machine-readable live roster:** [TEAM-REGISTRY.json](TEAM-REGISTRY.json) · [Signed Release Board](RELEASE-SIGNATURES.md) · [Governance V2 charter](../V2-GOVERNANCE.md)
+
+**Work-team size:** [adaptive capacity policy](../TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md): team ≤10 AI ที่ร่วมลงมือทำจริง รวม Lead/Assistant/ผู้บริหารช่วยงาน; ไม่มี Engineer ขั้นต่ำ และไม่ต้องใช้ทุก Slot. สิบตำแหน่ง ACTIVE ในทะเบียนเป็น **คนในองค์กร** ไม่ใช่ทีมปฏิบัติงานหนึ่งทีม. ถ้าทีมใหญ่เกิน 10 ให้แยกเป็นหลายทีม. ผู้บริหารทำงานเทคนิคได้แต่ต้องมี Reviewer อิสระ.
 
 ## Approved chain / staffing blueprint (CEO + DELIVERY + FOUR DEPUTIES + FOUR DIRECTORS ACKed; Leads/Engineers remain unappointed)
 ```mermaid
@@ -20,10 +22,10 @@ flowchart TD
   D --> EXP["DCEO-EXP - UI/graphics"]
   D --> PLAT["DCEO-PLAT - CI/performance"]
   D --> QA["DCEO-QA - independent QA/HOLD"]
-  SYS --> SD["SYS Directors -> Leads -> 2 Engineers"]
-  EXP --> ED["EXP Directors -> Leads -> 2 Engineers"]
-  PLAT --> PD["PLAT Directors -> Leads -> 2 Engineers"]
-  QA --> QD["QA Directors -> Leads -> 2 Engineers"]
+  SYS --> SD["SYS Directors -> Leads -> right-sized teams <=10"]
+  EXP --> ED["EXP Directors -> Leads -> right-sized teams <=10"]
+  PLAT --> PD["PLAT Directors -> Leads -> right-sized teams <=10"]
+  QA --> QD["QA Directors -> Leads -> right-sized teams <=10"]
 ```
 
 **Schematic only:** each of the four Director nodes represents a **separate position class in its own domain**, not an individual appointment. Every real Director/Lead/Engineer/Assistant must have exactly one `parent_role_id` in the JSON when appointed. Formal code ownership remains under an accountable manager. Real technical consultations and urgent blocker notices may go directly to a related active role across any level; out-of-scope writes need affected file owner's acceptance.
@@ -59,14 +61,16 @@ flowchart TD
 | `PLAT-DIR` | `DCEO-PLAT` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158307027) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158346850) — `ACTIVE / ONE direct Team Lead authorized; legacy registry-sync wait superseded by Fast Lane / IMPLEMENTATION_HOLD` |
 | `QA-DIR` | `DCEO-QA` | [ACK](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158321086) | [Accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158360737) — `ACTIVE / ONE direct Team Lead authorized; legacy registry-sync wait superseded by Fast Lane / IMPLEMENTATION_HOLD` |
 
-**Approved organizational capacity:** `CAP-COLONY-NEXT-01-22`: **10 real recipient ACKs / 22 total slots**, consisting of 1 CEO, 1 Delivery, 4 Deputies and 4 Directors. Exactly **12 unappointed** slots remain: 4 Team Leads + 8 Core Engineers. No separate Assistant/Steward chat authorized. `appointments[]` is the only active identity roster; `role_slots[].slot_status` describes unused template archetypes required by existing schema CI.
+**Capacity interpretation:** 22 total approved organizational slots are an upper envelope, NOT a requirement to activate all the remaining 12 slots or a single 22-person working team. Existing appointments are preserved. Actual teams get their membership listed in JSON `work_teams[]` when implementation is authorized; current empty array does not invent any active gameplay team.
+
+**Approved organizational capacity:** `CAP-COLONY-NEXT-01-22`: **10 real recipient ACKs / 22 total slots**, consisting of 1 CEO, 1 Delivery, 4 Deputies and 4 Directors. Exactly **12 unappointed** slots remain: 4 Team Leads + 8 previously budgeted optional Engineer slots. No separate Assistant/Steward chat authorized. `appointments[]` is the only active identity roster; `role_slots[].slot_status` describes unused template archetypes required by existing schema CI.
 
 **Director org deltas processed together:** [SYS-DIR1 source ACK #16](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158297046) and [parent accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/16#issuecomment-6158323793); [EXP-DIR source ACK #18](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158299961) and [parent accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/18#issuecomment-6158337385); [PLAT-DIR source ACK #17](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158307027) and [parent accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/17#issuecomment-6158346850); [QA-DIR source ACK #19](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158321086) and [parent accepted](https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/19#issuecomment-6158360737). Direct Deputies reported each accepted Director through Issues #9–#12. No duplicate role/slot, and all four parents are active. New authorized next hop, subject to registry merge confirmation: `SYS-DIR1→SYS-TL1`, `EXP-DIR→EXP Team Lead`, `PLAT-DIR→PLAT Team Lead`, `QA-DIR→QA Team Lead` — one each. Each Director issues its own personal Lead appointment Issue and 3-line Owner relay. Each separate Lead MUST send its own `APPOINTMENT_ACK` to its direct Director; registration remains Delivery's responsibility. No skip-level directions.
 
 **IMPLEMENTATION_HOLD / RELEASE_HOLD:** no engineer product Tasks, code changes, product PR/QA PASS, new candidate, source SHA signatures, branch cleanup, or `ant-project/main` merge. `SIGNATURE_READY` machine gate is not implemented. Structural roster CI proves organizational syntax only, not ChatGPT actor identity or gameplay quality. Shared integration entrypoint path leases for `src/core/game.js`, `src/main.js`, `src/ui/app.js` remain unissued.
 
 ## Rules for the Roster Steward
-1. Owner/CEO approves governance and round staffing envelope. CEO appoints Delivery; Delivery appoints domain Deputies; Deputies appoint Directors; Directors appoint Leads; Leads appoint two core Engineers. Helper only after permitted capacity.
+1. Owner/CEO approves governance and round staffing envelope. CEO appoints Delivery; Delivery appoints domain Deputies; Deputies appoint Directors; Directors appoint Leads; Leads appoint only contributors actually needed; each work team is capped at 10 AI including hands-on managers. No mandatory two Engineers.
 2. Real chat receives appointment via Owner's short relay and posts `APPOINTMENT_ACK` with Issue permalink. Only then add a row with `ACTIVE`. A proposed role slot is NOT an activated person.
 3. Direct managers report verified ACK deltas directly to Delivery/Roster Steward and the steward batches edits to this page and `TEAM-REGISTRY.json`; inspect unique IDs, parent links, cycles, scope ownership and current Task Issues before saving. Show the **registry_version**, actual changed roles and signed update URL.
 4. Every signed candidate SHA belongs on separate [Release Signature Board](RELEASE-SIGNATURES.md); a roster row is not a release signature. Signatures are invalid if release HEAD changes.

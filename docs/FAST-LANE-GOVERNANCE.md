@@ -1,5 +1,7 @@
 # Governance V2 Fast Lane — simple appointments and direct work coordination
 
+**Latest Owner staffing rule:** [Adaptive team capacity](TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md) supersedes old references to fixed pairs of core Engineers. Every active working team is **at most 10 actual contributors including its Lead and managers when hands-on**, with a task-dependent count. Manager AI may execute scoped technical work but may not self-review or substitute for independent QA. Separate teams are allowed for larger projects; do not treat a 22-slot organizational envelope as one team.
+
 **OWNER POLICY, effective after this document is merged into `appointment-CEO/main`.** This page OVERRIDES older rules that require adjacent-hop relays for every inquiry or an individual registry-merge approval between appointments. It does not reopen work or bypass scope, CI, independent QA, release signatures or the CEO-only `ant-project/main` merge.
 
 ## 1. Fast appointment: ONE Issue, ONE real ACK, batch registry sync
@@ -8,7 +10,7 @@
 2. Owner only relays the manager's prepared **three-line message** to the new ChatGPT conversation. The receiving AI reads the Issue, checks actual access/skills and posts **one `APPOINTMENT_ACK` comment** with `role_id`, `parent_role_id`, `SKILL_READY / SKILL_GAP` and tool limitations. If the Issue already includes the actual person's scope, no repeated onboarding form is needed.
 3. After the direct manager verifies the actual ACK and approved staffing slot, this role is **ACK_VERIFIED / OPERATIONALLY_ACTIVE** in GitHub evidence; it may perform authorized work or appoint its own allocated subordinates **immediately**, even while the shared JSON roster update is pending. **No separate `REGISTRY_SYNCED` unlock message or repeated upstream authorization for each depth.** Roster Steward/Delivery records the new roles in a **batched PR**, such as after a wave of appointments, and resolves any duplicates/conflicts before release. **Do not mark `ACTIVE` in JSON without a verified ACK.**
 4. If Role ID is duplicate, proposed parent unauthorized, capacity unapproved, Issue/ACK absent or tools unavailable for the proposed task: mark `PENDING_ACK / STAFFING_BLOCKED / CAPABILITY_BLOCKED` appropriately. Do not use a chat title or AI's statement as proof of ACK. Unconfirmed recipients cannot be assumed to exist or be instructed.
-5. Existing real ACKs/Issue URLs **remain valid**. Adopting this policy does not ask already appointed people to ACK again, cancel old work, or grant new capacity. For teams needing 2 core Engineers, an authorized Lead may issue both appointment Issues in parallel when slots are already approved. An ACK verifies that person; it does not start unassigned gameplay work.
+5. Existing real ACKs/Issue URLs **remain valid**. Adopting this policy does not ask already appointed people to ACK again, cancel old work, or grant new capacity. For teams needing multiple Engineers, an authorized Lead may issue the genuinely needed appointment Issues in parallel when slots are already approved; zero or one Engineer is valid for small work, and the working-team cap includes hands-on managers. An ACK verifies that person; it does not start unassigned gameplay work.
 
 ## 2. Direct contact allowed — distinguish request from code authority
 

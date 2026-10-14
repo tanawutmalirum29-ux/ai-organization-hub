@@ -1,5 +1,7 @@
 # Appointment — Domain Deputy SYS / EXP / PLAT / QA
 
+**Team sizing:** [Adaptive team policy](../docs/TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md). A work team has max 10 real active contributors including hands-on managers. Engineering support scales with the task, with independent code review and QA.
+
 **Fast Lane current policy:** [Simple appointment + direct work routing](../docs/FAST-LANE-GOVERNANCE.md). หนึ่ง Issue + หนึ่ง ACK จริงก็เพียงพอใน Slot ที่อนุมัติ; หัวหน้าตรวจ ACK แล้วแต่งตั้งลูกทีมตาม Slot ต่อได้ทันที ไม่ต้องรอทะเบียน Sync ทีละชั้น. ติดต่อข้ามทีม/ข้ามระดับที่ตรงงานหรือเร่งด่วนได้; เขียนโค้ดนอก Scope ต้องให้เจ้าของงานอนุมัติ. `IMPLEMENTATION_HOLD` และ Release Gate ยังอยู่.
 
 

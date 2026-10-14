@@ -4,6 +4,8 @@
 
 | Gate | How to check |
 | --- | --- |
+| Actual work-team size | Each work team ≤10 participating AI including Lead and hands-on managers; number of Engineers is task-driven, not fixed; teams must be independently scoped and identifiable in registry when activated |
+| Management doing code | Named Task with allowed paths, separate real qualified reviewer and independent QA; no self-signoff or self-approval |
 | Person really exists | Owner relayed appointment to distinct AI chat; real `APPOINTMENT_ACK` comment appears on its individual Issue |
 | Manager can appoint next child | Verified actual ACK + approved capacity slot; **no per-level `REGISTRY_SYNCED` unlock** |
 | Registry accuracy | Delivery/Roster Steward batch merges verified issue/ACK evidence; never marks unacknowledged person ACTIVE; checks parent/cycles and duplicate Role ID |

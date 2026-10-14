@@ -1,5 +1,7 @@
 # แต่งตั้ง Department Director — Governance V2
 
+**Team sizing:** [Adaptive team policy](../docs/TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md). Do not appoint Engineers by a mandatory two-person rule: one work team has up to 10 active AI total including Lead, Assistants and hands-on management. A manager can implement scoped work with a separate reviewer.
+
 **Fast Lane current policy:** [Simple appointment + direct work routing](../docs/FAST-LANE-GOVERNANCE.md). หนึ่ง Issue + หนึ่ง ACK จริงก็เพียงพอใน Slot ที่อนุมัติ; หัวหน้าตรวจ ACK แล้วแต่งตั้งลูกทีมตาม Slot ต่อได้ทันที ไม่ต้องรอทะเบียน Sync ทีละชั้น. ติดต่อข้ามทีม/ข้ามระดับที่ตรงงานหรือเร่งด่วนได้; เขียนโค้ดนอก Scope ต้องให้เจ้าของงานอนุมัติ. `IMPLEMENTATION_HOLD` และ Release Gate ยังอยู่.
 
 

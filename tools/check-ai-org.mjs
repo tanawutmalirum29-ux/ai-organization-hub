@@ -204,6 +204,63 @@ for (const m of r.appointments) {
     assert.ok(p, 'appointed parent not found for '+m.role_id);
   }
 }
+// Owner-defined cap applies PER WORKING TEAM, not to the organization-wide role graph.
+// Structural roster assertions cannot prove actual ChatGPT identity or invisible help.
+const capacityDoc='docs/TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md';
+assert.ok(existsSync(new URL(capacityDoc,repoRoot)), 'missing adaptive staffing policy');
+assert.ok(mainReadme.includes(capacityDoc), 'README lacks adaptive team staffing policy');
+assert.equal(r.policy.max_active_ai_per_work_team, 10, 'work team may have at most 10 active AI');
+assert.equal(r.policy.min_core_engineers_per_lead, 0, 'zero Engineer minimum required');
+assert.equal(r.policy.fixed_two_engineers_required, false, 'fixed Engineer pair prohibited');
+assert.equal(r.policy.team_size_scope, 'per_work_team_not_entire_organization');
+for(const flag of ['split_workstream_if_exceeds_max',
+  'management_hands_on_contribution_allowed','implementer_cannot_self_approve',
+  'independent_quality_required_when_manager_codes',
+  'owner_only_can_change_team_cap'])assert.equal(r.policy[flag],true,'policy flag '+flag);
+assert.equal(r.policy.team_size_basis,'active_contributors_including_hands_on_managers');
+assert.ok(Array.isArray(r.work_teams), 'activated working team roster must be array');
+const teamIds=new Set();
+for(const team of r.work_teams){
+  assert.ok(typeof team.team_id==='string'&&team.team_id.length>0,'working team needs ID');
+  assert.ok(!teamIds.has(team.team_id),'duplicate working team '+team.team_id);
+  teamIds.add(team.team_id);
+  assert.ok(Array.isArray(team.active_member_role_ids) && team.active_member_role_ids.length>0,
+    'activated working team requires actual members');
+  assert.ok(team.active_member_role_ids.length<=10, 'TEAM_SIZE_EXCEEDED: '+team.team_id);
+  const members=new Set(team.active_member_role_ids);
+  assert.equal(members.size,team.active_member_role_ids.length,
+    'duplicate participant within working team '+team.team_id);
+  assert.ok(typeof team.accountable_lead_role_id==='string'&&members.has(team.accountable_lead_role_id),
+    'accountable team owner must be a counted active member: '+team.team_id);
+  assert.ok(issueUrl.test(team.task_issue_url||''),'team missing actual task Issue '+team.team_id);
+  for(const id of members){
+    assert.equal(appointed.get(id)?.status,'ACTIVE','team participant has no verified ACTIVE roster appointment: '+id);
+  }
+  const managerContributors=team.hands_on_management_role_ids||[];
+  assert.ok(Array.isArray(managerContributors),'hands-on manager roles must be array');
+  for(const id of managerContributors){
+    assert.ok(members.has(id),'hidden hands-on manager not counted in team: '+id);
+  }
+  for(const roleId of team.implementation_owner_role_ids||[]){
+    assert.ok(members.has(roleId), 'unregistered implementer not counted: '+roleId);
+  }
+}
+for(const name of ['appointments/APPOINT-TEAM-LEAD.md',
+  'roles/TEAM-LEAD.md','docs/STAFFING.md','docs/V2-GOVERNANCE.md']){
+  const body=readFileSync(new URL(name,repoRoot),'utf8');
+  assert.ok(body.includes('TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md')||
+     name==='appointments/APPOINT-TEAM-LEAD.md'&&body.includes('10 AI'),
+    'active staffing instructions missing adaptive policy: '+name);
+  assert.ok(!body.includes('exactly two core Engineers') &&
+            !body.includes('two core Engineers per') &&
+            !body.includes('แต่งตั้ง Engineers สองคน'),
+    'obsolete mandatory engineer pair still present: '+name);
+}
+console.log('ADAPTIVE_WORK_TEAM_CAPACITY_PASS',{
+  max_per_team:10, no_fixed_engineer_pair:true,
+  live_organization_members:appointed.size,activated_work_teams:r.work_teams.length
+});
+
 assert.ok(page.includes(r.registry_version),'human chart must show registry version');
 assert.ok(page.includes('TEAM-REGISTRY.json'),'chart must link JSON');
 assert.ok(release.includes('No new release candidate') || release.includes('candidate_sha'),'release board missing');
