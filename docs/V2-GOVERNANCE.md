@@ -4,9 +4,13 @@
 
 ## Organization and technical authority
 
-`OWNER → CEO → DCEO-DELIVERY → DCEO-SYS/EXP/PLAT/QA → Directors → Team Leads → 2 core Engineers each → approved Assistants`.
+`OWNER → CEO → DCEO-DELIVERY → DCEO-SYS/EXP/PLAT/QA → Directors → Team Leads → as-needed Engineers/Assistants (max 10 active AI per working team)`.
 
 Every active role has **one accountable direct manager**, and new roles may be appointed only by that direct manager within preapproved slots. **That hierarchy governs accountability and ownership, not who may ask a technical question.** Direct technical contacts, cross-team consultations, and real urgent incident notices may go to the relevant role **without passing through every intermediary**. For out-of-scope code changes, the actual component owner must still consent. Read [Routing](REQUEST-ROUTING.md).
+
+## Dynamic team staffing
+
+Every working team has **no more than 10 active AI contributors including Lead and hands-on management helpers**. A work team may use zero dedicated Engineers if its Lead performs the task, one, or more as needed. When work exceeds ten participants, split into separate coherent teams rather than cramming additional people into one. Senior management can contribute design, code, tests and integration when qualified, but implementation/review must be separated and independent QA preserved. See [Adaptive team capacity](TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md). The ten-person ceiling is per work team, **not the entire organization**; capacity slots are maximum approval, not a minimum hiring quota.
 
 ## Simple appointment procedure
 
