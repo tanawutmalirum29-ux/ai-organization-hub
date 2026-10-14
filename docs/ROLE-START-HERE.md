@@ -1,5 +1,7 @@
 # Role Start — simplified first response (Governance V2)
 
+**LATEST CAP:** [GLOBAL MAX 10 AI](TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md) for **all roles across the entire organization**, no exception for large jobs. Under current `STAFFING_FREEZE`, do not appoint any new AI or assume previously approved 22 slots still offer capacity. Ten registered plus four verified Lead ACKs must be reconciled first. Existing roles may assist with code inside scope and with independent review.
+
 **Read first:** [FAST-LANE-GOVERNANCE](FAST-LANE-GOVERNANCE.md), [Role Skills](ROLE-SKILLS-AND-SCOPE.md), your own charter linked by your [Appointment Issue](ACTIVATION-PACKET.md), [Chat Naming](CHAT-NAMING.md), [Handoff](TASK-STATE-AND-HANDOFF.md). GitHub policy files do **not** load themselves into another chat.
 
 ## One personal Issue and one ACK
