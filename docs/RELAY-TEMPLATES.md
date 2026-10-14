@@ -1,5 +1,7 @@
 # Short Owner Relay — choose actual relevant recipient (Governance V2 Fast Lane)
 
+**STAFFING HOLD:** Owner's latest [GLOBAL 10-AI rule](TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md) overrides all old 22-slot staffing and team-based headcount examples. Send no appointment relay to a new AI while ten registered staff + four verified unregistered Lead ACKs await CEO/Delivery reconciliation. Direct consultations among EXISTING staffed AI are still allowed.
+
 **Rule:** [Fast Lane](FAST-LANE-GOVERNANCE.md). Default work acceptance reports to accountable parent/reviewer, but a real technical request/incident may **directly** address a relevant active role across teams or levels. One relay per actual target chat — never force unnecessary hop-by-hop forwarding.
 
 ```text
