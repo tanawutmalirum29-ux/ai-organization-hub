@@ -1,5 +1,7 @@
 # แต่งตั้ง Engineer — Governance V2
 
+**OWNER STAFFING FREEZE:** [GLOBAL MAX 10 AI organization-wide](../docs/TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md) covers ALL existing roles, not one team. Old 22 slots and verified Lead ACKs do not permit Engineer appointment now. Do NOT open any Engineer AI chat until CEO/Delivery has verified and freed an actual global seat; never waive due to large task.
+
 **Fast Lane current policy:** [Simple appointment + direct work routing](../docs/FAST-LANE-GOVERNANCE.md). หนึ่ง Issue + หนึ่ง ACK จริงก็เพียงพอใน Slot ที่อนุมัติ; หัวหน้าตรวจ ACK แล้วแต่งตั้งลูกทีมตาม Slot ต่อได้ทันที ไม่ต้องรอทะเบียน Sync ทีละชั้น. ติดต่อข้ามทีม/ข้ามระดับที่ตรงงานหรือเร่งด่วนได้; เขียนโค้ดนอก Scope ต้องให้เจ้าของงานอนุมัติ. `IMPLEMENTATION_HOLD` และ Release Gate ยังอยู่.
 
 
