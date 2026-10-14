@@ -1,5 +1,7 @@
 # CEO → DIR — Message template
 
+**REQUIRED FOR A NEW CEO:** Address this appointment to a **NEW, separate DIR ChatGPT conversation**; no previous CEO-generation DIR chat may be reused. New DIR must, after accepting, immediately prepare NEW TL appointment messages and route them through Owner, then instruct each NEW TL to appoint NEW Engineers. This is a mandatory organizational restart, not only a CEO replacement. Respect max ten AI total. The only valid receipt is the new chat's reply, not prior GitHub ACK. `appointment-CEO` is READ ONLY to all newly appointed AI.
+
 Replace all bracketed values with real details. The CEO must not appoint an unneeded department or exceed TEN AI in the whole organization.
 
 ```text
