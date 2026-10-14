@@ -126,6 +126,25 @@ if (!roundBranch) {
         fail(`DECISION must answer original feedback/proposal author: ${m.message_id}`);
     } else if (['ACK','RESULT','REJECTED'].includes(m.kind)) fail(`Reply type requires in_reply_to: ${m.message_id}`);
   }
+  // V6: closed rounds are terminal, including explicit Owner-cancelled unshipped missions.
+  if (round?.state === 'CLOSED') {
+    if (!['MISSION_COMPLETED', 'OWNER_CANCELLED'].includes(round.closure_reason))
+      fail('CLOSED round requires valid V6 closure_reason');
+    if (roles?.some(r => r.status !== 'CLOSED'))
+      fail('CLOSED round must retire every role, including pending relay appointments');
+    const final = msgs[msgs.length - 1];
+    if (!final || final.kind !== 'ROUND_CLOSED' || final.from_role !== 'CEO' ||
+        final.to_role !== 'OWNER' || final.closure_reason !== round.closure_reason)
+      fail('CLOSED round requires final CEO to OWNER ROUND_CLOSED ledger record with matching closure reason');
+    if (round.closure_reason === 'MISSION_COMPLETED') {
+      if (!/^[0-9a-f]{40}$/.test(round.final_game_main_sha || '') ||
+          typeof round.closure_evidence_url !== 'string' || !round.closure_evidence_url)
+        fail('MISSION_COMPLETED requires verified final game main SHA and durable closure evidence');
+    }
+    if (round.closure_reason === 'OWNER_CANCELLED' &&
+        (typeof round.owner_cancellation_evidence !== 'string' || !round.owner_cancellation_evidence))
+      fail('OWNER_CANCELLED requires explicit Owner cancellation evidence');
+  }
   // Append-only enforcement on GitHub pushes. Branch protection is still needed
   // against actors who can bypass CI or rewrite history.
   const before = process.env.BEFORE_SHA;
