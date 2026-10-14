@@ -1,5 +1,8 @@
 # Domain Deputies — DCEO-SYS / DCEO-EXP / DCEO-PLAT
 
+**Fast Lane (supersedes old adjacent-hop rule):** [policy](../docs/FAST-LANE-GOVERNANCE.md). Already-appointed specialists may consult or raise urgent real blockers across any team/level directly. The direct parent still owns staffing/acceptance; new code scope needs affected owning manager's Issue approval. One real appointment ACK is enough within allocated capacity; registry sync is batched.
+
+
 **Direct parent:** DCEO-DELIVERY. **Direct subordinates:** own Department Directors only (within approved CEO capacity). Each deputy genuinely verifies its domain's integrated code and tests; cannot just stamp PASS.
 
 - DCEO-SYS: world, resources, conservation, worker/colony AI, combat, pathfinding and simulation determinism.
