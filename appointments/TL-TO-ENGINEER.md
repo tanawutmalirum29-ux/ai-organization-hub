@@ -1,5 +1,7 @@
 # TL → Engineer — Message template
 
+**REQUIRED FOR A NEW CEO GENERATION:** This appointment must be sent to a **NEW Engineer ChatGPT conversation**, not to an old `E-...` conversation from the prior CEO/DIR/TL hierarchy. The role only becomes appointed after it replies in its own new chat. A valid `E-A1-2` belongs only to the new `TL-A1` appointed by new `DIR-A` under new CEO. Old GitHub ACKs, chat titles or historical role claims cannot be counted. Global TEN AI total and read-only `appointment-CEO` policy remain binding.
+
 Only the owning TL may appoint up to two **correctly numbered own team Engineers**. Never confuse team and department.
 
 ```text
