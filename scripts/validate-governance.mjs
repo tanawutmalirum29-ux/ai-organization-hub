@@ -27,16 +27,25 @@ if (!roundBranch) {
   const roles = roster?.roles;
   const known = new Map();
   const ids = new Set();
-  if (!Array.isArray(roles) || roles.length < 1 || roles.length > 10) fail('Roster must have 1..10 AI roles total.');
+  if (!Array.isArray(roles) || roles.length < 1) fail('Roster must contain CEO; no global AI count cap.');
   else for (const r of roles) {
     if (!r.role_id || known.has(r.role_id)) fail(`Duplicate/missing role_id ${r.role_id}`);
     if (!r.appointment_id || ids.has(r.appointment_id)) fail(`Duplicate/missing appointment ID ${r.appointment_id}`);
     if (!['ACTIVE', 'PENDING_RELAY', 'CLOSED'].includes(r.status)) fail(`Invalid status for ${r.role_id}`);
-    if (r.role_id === 'CEO' && r.parent_role !== 'OWNER') fail('CEO parent must be OWNER');
-    else if (/^DIR-[A-Z]$/.test(r.role_id) && r.parent_role !== 'CEO') fail(`DIR wrong parent: ${r.role_id}`);
-    else if (/^TL-([A-Z])[12]$/.test(r.role_id) && r.parent_role !== `DIR-${RegExp.$1}`) fail(`TL wrong parent: ${r.role_id}`);
-    else if (/^E-([A-Z][12])-[12]$/.test(r.role_id) && r.parent_role !== `TL-${RegExp.$1}`) fail(`Engineer wrong parent: ${r.role_id}`);
-    else if (r.role_id !== 'CEO' && !/^(DIR-[A-Z]|TL-[A-Z][12]|E-[A-Z][12]-[12])$/.test(r.role_id)) fail(`Invalid role_id ${r.role_id}`);
+    const dir = /^DIR-([A-Z]+)$/.exec(r.role_id || '');
+    const tl = /^TL-([A-Z]+)([12])$/.exec(r.role_id || '');
+    const eng = /^E-([A-Z]+)([12])-([123])$/.exec(r.role_id || '');
+    if (r.role_id === 'CEO') {
+      if (r.parent_role !== 'OWNER') fail('CEO parent must be OWNER');
+    } else if (dir) {
+      if (r.parent_role !== 'CEO') fail(`DIR wrong parent: ${r.role_id}`);
+    } else if (tl) {
+      if (r.parent_role !== `DIR-${tl[1]}`) fail(`TL wrong parent: ${r.role_id}`);
+    } else if (eng) {
+      if (r.parent_role !== `TL-${eng[1]}${eng[2]}`) fail(`Engineer wrong parent: ${r.role_id}`);
+    } else {
+      fail(`Invalid role_id ${r.role_id}: two TL per DIR and three Engineers per TL only`);
+    }
     known.set(r.role_id, r); ids.add(r.appointment_id);
   }
   if (!known.has('CEO')) fail('Round must contain CEO');
