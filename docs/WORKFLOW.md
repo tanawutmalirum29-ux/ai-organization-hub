@@ -1,5 +1,7 @@
 # Operational workflow — V2 Fast Lane
 
+**Size/management authority:** [Adaptive team staffing](TEAM-CAPACITY-AND-MANAGEMENT-CONTRIBUTORS.md). Team membership is based on the work: 1–10 active AI **including Lead/Engineer/Assistant/hands-on managers**. No fixed two-Engineer minimum; managers can implement bounded tasks when separately reviewed. Split large modules into several teams under Delivery.
+
 **Authoritative:** [Fast Lane](FAST-LANE-GOVERNANCE.md), [Activation](ACTIVATION-PACKET.md), [Request routing](REQUEST-ROUTING.md), [Task scope](TASK-ISSUE-CONTRACT.md).
 
 1. **Owner → CEO:** Owner defines goal or changing product priorities. CEO plans approved round scope, budget and release-required domains. Owner remains messenger only for AI inter-chat traffic.
