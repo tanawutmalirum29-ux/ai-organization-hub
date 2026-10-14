@@ -23,6 +23,9 @@ if (!roundBranch) {
   if (roster?.round_id !== id) fail('Roster round_id mismatch.');
   if (round?.game_repository !== 'tanawutmalirum29-ux/ant-project') fail('Unsupported game_repository: explicit Owner policy required.');
   if (!['ACTIVE', 'RELEASED', 'CLOSED'].includes(round?.state)) fail('Invalid round state.');
+  const autonomyFrom = round?.owner_relay_only_from_sequence;
+  if (autonomyFrom != null && (!Number.isSafeInteger(autonomyFrom) || autonomyFrom < 2))
+    fail('owner_relay_only_from_sequence must be an integer >= 2 (bootstrap exception).');
 
   const roles = roster?.roles;
   const known = new Map();
@@ -79,7 +82,7 @@ if (!roundBranch) {
       if (role === 'OWNER') { if (a !== 'OWNER') fail(`${expected}: OWNER ID must be OWNER`); }
       else if (!known.has(role) || known.get(role).appointment_id !== a) fail(`${expected}: invalid ${side} role/appointment`);
     }
-    if (!['APPOINTMENT','ACK','TASK','RESULT','BLOCKED','REJECTED','REPORT','REVIEW','RELEASE','ROUND_CLOSED','FEEDBACK','PROPOSAL','DECISION'].includes(m.kind)) fail(`${expected}: invalid kind`);
+    if (!['APPOINTMENT','ACK','TASK','RESULT','BLOCKED','REJECTED','REPORT','REVIEW','RELEASE','ROUND_CLOSED','FEEDBACK','PROPOSAL','DECISION','CONSULTATION_REQUEST','MISSION_CHARTER'].includes(m.kind)) fail(`${expected}: invalid kind`);
     if (typeof m.task_ref !== 'string' || !m.task_ref) fail(`${expected}: missing task_ref`);
     if (typeof m.summary !== 'string' || !m.summary) fail(`${expected}: missing summary`);
     if (typeof m.relay_text !== 'string' ||
@@ -108,6 +111,26 @@ if (!roundBranch) {
         typeof m.decision.rationale !== 'string' || !m.decision.rationale.trim()))
       fail(`${expected}: DECISION requires proposal reply, status and rationale`);
     if (m.sequence === 1 && (m.from_role !== 'OWNER' || m.to_role !== 'CEO' || m.kind !== 'APPOINTMENT')) fail('Message 000001 must be Owner→CEO bootstrap.');
+    if (autonomyFrom != null && m.sequence >= autonomyFrom) {
+      if (m.from_role === 'OWNER') fail(`${expected}: Owner is a courier, not a sender of implementation/decision messages in V7`);
+      if (m.kind === 'DECISION' && m.to_role === 'OWNER')
+        fail(`${expected}: Owner cannot receive a request to adjudicate decisions`);
+      if (m.kind === 'CONSULTATION_REQUEST' && (m.from_role !== 'CEO' || m.to_role !== 'GAME-ADVISOR' ||
+          typeof m.consultation?.topic !== 'string' || !m.consultation.topic.trim()))
+        fail(`${expected}: CONSULTATION_REQUEST must be CEO to GAME-ADVISOR with topic`);
+      if (m.kind === 'MISSION_CHARTER') {
+        const required=['scope','non_goals','source_proposals','acceptance_criteria','qa_plan'];
+        if (m.from_role !== 'CEO' || !/^DIR-[A-Z]+$/.test(m.to_role) ||
+            !m.mission || required.some(k=>typeof m.mission[k] !== 'string' || !m.mission[k].trim()))
+          fail(`${expected}: MISSION_CHARTER requires CEO to DIR with scoped mission and QA evidence plan`);
+      }
+      if (m.kind === 'RELEASE') {
+        const required=['pr_url','qa_evidence','ci_evidence','rationale'];
+        if (m.from_role !== 'CEO' || !/^DIR-[A-Z]+$/.test(m.to_role) ||
+            !m.release || required.some(k=>typeof m.release[k] !== 'string' || !m.release[k].trim()))
+          fail(`${expected}: RELEASE must be CEO to DIR with PR, QA, CI and rationale`);
+      }
+    }
   }
   for (const m of msgs) {
     if (m.in_reply_to != null) {
@@ -128,7 +151,7 @@ if (!roundBranch) {
   }
   // V6: closed rounds are terminal, including explicit Owner-cancelled unshipped missions.
   if (round?.state === 'CLOSED') {
-    if (!['MISSION_COMPLETED', 'OWNER_CANCELLED'].includes(round.closure_reason))
+    if (!['MISSION_COMPLETED', 'OWNER_CANCELLED', 'AI_CANCELLED'].includes(round.closure_reason))
       fail('CLOSED round requires valid V6 closure_reason');
     if (roles?.some(r => r.status !== 'CLOSED'))
       fail('CLOSED round must retire every role, including pending relay appointments');
@@ -143,7 +166,12 @@ if (!roundBranch) {
     }
     if (round.closure_reason === 'OWNER_CANCELLED' &&
         (typeof round.owner_cancellation_evidence !== 'string' || !round.owner_cancellation_evidence))
-      fail('OWNER_CANCELLED requires explicit Owner cancellation evidence');
+      fail('Historical OWNER_CANCELLED requires archived Owner cancellation evidence');
+    if (round.closure_reason === 'AI_CANCELLED' &&
+        (typeof round.ai_cancellation_evidence_url !== 'string' || !round.ai_cancellation_evidence_url))
+      fail('AI_CANCELLED requires CEO decision evidence URL');
+    if (autonomyFrom != null && round.closure_reason === 'OWNER_CANCELLED')
+      fail('V7 rounds cannot close with OWNER_CANCELLED; CEO decides AI_CANCELLED');
   }
   // Append-only enforcement on GitHub pushes. Branch protection is still needed
   // against actors who can bypass CI or rewrite history.

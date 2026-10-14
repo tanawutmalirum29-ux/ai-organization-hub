@@ -18,7 +18,8 @@ workspace/
   "round_id": "COLONY-NEXT-02",
   "game_repository": "tanawutmalirum29-ux/ant-project",
   "state": "ACTIVE",
-  "owner_mandate": "OWNER_APPOINTMENT",
+  "bootstrap_type": "OWNER_ADMINISTRATIVE_APPOINTMENT",
+  "owner_relay_only_from_sequence": 2,
   "base_governance_ref": "main"
 }
 ```
@@ -59,6 +60,10 @@ CEO
 
 Four Engineers need two TLs (3+1 above, or 2+2). If more than ten AI chats are needed across the organization, appoint additional departments/teams under their proper parents. There is no global headcount cap, but one TL never has a fourth Engineer and one DIR never has a third TL.
 
-## New advisory lane (V5)
+## New advisory lane (V7)
 
 After the CEO bootstrap `M000002`, the CEO may appoint exactly one `GAME-ADVISOR` as a separate chat with `role_id: "GAME-ADVISOR"`, `parent_role: "CEO"` and `appointment_id: "<ROUND_ID>-GAME-ADVISOR-01"`. This is an additional roster row **after** the actual numbered appointment, not part of the CEO-only bootstrap example above. CEO must receive its real numbered ACK before marking ACTIVE. GAME-ADVISOR sends `FEEDBACK`/`PROPOSAL` straight to CEO; other staff forward through their direct parents. See [feedback SOP](../FEEDBACK-PROTOCOL.md).
+
+## CEO autonomous mission records
+
+Owner is only a courier. CEO first requests proposals with a `CONSULTATION_REQUEST`, receives their `PROPOSAL` and issues a structured `MISSION_CHARTER` to the responsible DIR. That DIR delegates TASK only inside its charter. When independent QA/CI passes CEO issues a `RELEASE` to that DIR, verifies game-main merge and closes the round on its own. **No Owner game approval or cancellation event** is required or allowed after the M000001 administrative bootstrap. New V7 rounds use `owner_relay_only_from_sequence: 2`; existing rounds adopting V7 use the real next available message sequence, retaining historical messages.

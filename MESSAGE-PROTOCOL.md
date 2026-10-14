@@ -1,13 +1,13 @@
-# V6 — Mandatory numbered inter-chat communication protocol
+# V7 — Numbered inter-chat communication; AI governance, Owner courier
 
 **Scope:** ALL CEO/GAME-ADVISOR/DIR/TL/Engineer outbound instructions, appointments, ACKs, game feedback, proposals, decisions, work reports, QA verdicts, blockers, refusals and release handoffs. Owner manually transports the copy block between separate ChatGPT chats. GitHub is the source of truth for sequence/receipts, not shared chat memory.
 
 ## 1. Round bootstrap
 
-1. Owner chooses a **new unique** `ROUND_ID` (`[A-Z0-9][A-Z0-9-]{2,39}`) for ONE CEO generation, e.g. `COLONY-NEXT-02`, and its specific game repository. Owner's initial new-CEO appointment is explicitly numbered `<ROUND_ID>-M000001` (bootstrap exception: a branch does not exist *yet*).
+1. Owner transmits a **new unique** `ROUND_ID` (`[A-Z0-9][A-Z0-9-]{2,39}`) for ONE CEO generation, e.g. `COLONY-NEXT-02`, and its specific game repository. Owner's initial new-CEO appointment is explicitly numbered `<ROUND_ID>-M000001` (bootstrap exception: a branch does not exist *yet*).
 2. The appointed CEO must verify that the proposed `round/<lowercase-round-id>` branch does **not** already exist. If it exists, halt and ask Owner to resolve the collision: never hijack a previous round.
 3. CEO creates its round branch from governance `main`, creates `workspace/round.json`, `workspace/roster.json`, and persists the original Owner→CEO appointment as `workspace/messages/000001.json`, **verbatim** (including copy-ready relay). Record CEO's own new `APPOINTMENT_ID` in roster. After accepting, CEO generates and persists its ACK as `000002.json` and provides the Owner the copy-ready ACK.
-4. All subsequent append-only messages use the branch's sequential ledger. Do not modify governance `main`, inherit any prior-round message number, or merge this branch to `main`.
+4. For a new V7 round, `workspace/round.json` sets `owner_relay_only_from_sequence: 2`; for an existing round adopting V7, set it to the next available sequence, preserving old records. All subsequent append-only messages use the branch's sequential ledger. Do not modify governance `main`, inherit any prior-round message number, or merge this branch to `main`.
 
 **Onboarding to GitHub:** each receiving AI must read main README, its role charter, this protocol, [feedback protocol](FEEDBACK-PROTOCOL.md), and live `workspace/round.json`/`roster.json` from its **appointed branch**. No AI knows another conversation's completion without Owner relay.
 
@@ -47,11 +47,14 @@ Each `workspace/messages/NNNNNN.json` is immutable and includes at least:
 
 Use exactly the same numbered, GitHub-persisted copy-ready relay as any other action. [FEEDBACK-PROTOCOL.md](FEEDBACK-PROTOCOL.md) defines the full template and triage.
 
-- `FEEDBACK`: a specific observation or concern, **to one's direct parent only** (CEO to OWNER, GAME-ADVISOR/DIR to CEO, TL to DIR, Engineer to TL). May be unsolicited or in reply to assigned work.
+- `FEEDBACK`: a specific observation or concern, **to one's direct parent only** (GAME-ADVISOR/DIR to CEO, TL to DIR, Engineer to TL). CEO may send a non-decision REPORT to Owner, not submit proposals for Owner adjudication. May be unsolicited or in reply to assigned work.
 - `PROPOSAL`: a concrete recommendation to the same direct parent, with a mandatory `proposal` object containing nonempty `subject`, `observed_problem`, `suggested_change`, `expected_effect`, `risks`, and `evidence` strings. Proposals may be escalated by the recipient to their own parent using a **new numbered message** and a link/reference to the original; do not impersonate the original author.
 - `DECISION`: direct parent's numbered response to an existing earlier FEEDBACK/PROPOSAL addressed to them. Must reply with `in_reply_to` pointing to that exact message, return **to its author**, and include `decision.status` from `ACCEPTED_FOR_SCOPING`, `DEFERRED`, `REJECTED`, or `NEEDS_DATA`, plus a nonempty `decision.rationale`. `ACCEPTED_FOR_SCOPING` permits drafting plans **only**, not source changes.
 - `IN_REPLY_TO` for FEEDBACK/PROPOSAL may be `NONE` if unsolicited, or a valid received message if relevant. Reply-link verification still applies. For DECISION it is mandatory.
-- **No suggestion changes TASK permissions, Owner mandate, protected branches, or implementation/release gates.** All ideas remain proposals until separately authorized through the ordinary chain.
+- `CONSULTATION_REQUEST`: sent by CEO to GAME-ADVISOR, optionally in response to an Owner's question, and containing `consultation.topic` (nonempty). Advisor replies with `PROPOSAL` to CEO, citing the consultation message as `in_reply_to`.
+- `MISSION_CHARTER`: from CEO to an appointed DIR with structured `mission.scope`, `mission.non_goals`, `mission.source_proposals`, `mission.acceptance_criteria`, `mission.qa_plan` (nonempty strings). It is CEO's independently made game-development authorization after consultation.
+- `RELEASE`: only CEO to DIR for game-main integration, with `release.pr_url`, `release.qa_evidence`, `release.ci_evidence`, `release.rationale`. Do not merge without the stated gate and verified evidence.
+- **No suggestion alone grants implementation rights;** the CEO's MISSION_CHARTER, delegated tasks, independent QA and CEO RELEASE control delivery. Owner approval is not part of any of these gates.
 
 ## 3. Mandatory receiving gate — BEFORE any work
 
@@ -59,7 +62,7 @@ For *every* forwarded request in a ChatGPT conversation, read current round bran
 
 1. `ROUND_ID` is your active generation; `MESSAGE_ID` exists in that branch's ledger with identical content, correct six-digit sequence and not revoked.
 2. `TO_ROLE` equals your own appointment's `role_id`; `TO_APPOINTMENT_ID` equals **your fresh-chat appointment ID**, not merely a reused title. Check round roster entry and source-parent authority. `OWNER` is an explicit endpoint, not a subordinate AI role.
-3. `FROM_ROLE`, `FROM_APPOINTMENT_ID`, `TASK_REF` and scope are valid. Only your direct parent can delegate regular work, except explicit authorized inter-team consultation that cannot grant extra write scope. A GAME-ADVISOR can advise the CEO but cannot delegate work; feedback and decisions never grant implementation rights.
+3. `FROM_ROLE`, `FROM_APPOINTMENT_ID`, `TASK_REF` and scope are valid. Only your direct parent can delegate regular work, except explicitly numbered AI consultation that cannot grant extra write scope. A GAME-ADVISOR can advise the CEO but cannot delegate work; feedback and decisions never grant implementation rights.
 4. Check for an existing receipt/processing record: if an `ACK`, `RESULT` or `REJECTED` from **your same appointment** already references this `MESSAGE_ID` for the same action, it has been handled. An old message pasted twice is **not a new command**.
 
 **Decision:** 
@@ -98,21 +101,16 @@ LIMITS: <SCOPE_AND_MERGE_GATES>
 
 Never send placeholders such as `<ACTUAL...>` in a live relay.
 
-## 5. V6 Closeout — ONE mission per CEO round, automatic team dissolution
+## 5. V7 Closeout — ONE mission per round, self-directed by AI
 
-The full [V6 organization closeout rule](README.md#v6--one-mission-per-ceo-generation-automatic-organization-closeout) is binding. A successful mission closes only after independent QA, separately authorized game-main merge, verified game-main SHA, completed game task Issues/PRs, durable game-repository release summary and safe ownership/relay reconciliation. **After those gates, the CEO automatically dissolves the entire appointed team without asking Owner for another dissolution command.**
+A successful mission closes only after **CEO-authorized** merge to `ant-project/main`, independent QA and CI, exact final main SHA verification, completed game task Issues/PRs, permanent release/evidence summary and safe relay reconciliation. **No Owner approval or signature is part of scope, merge, QA acceptance or team dissolution.**
 
-**Mandatory execution order for MISSION_COMPLETED:**
-1. Verify exact release main SHA and QA/Owner merge evidence. Close completed game issues, archive a compact game-side handoff and remove only safe merged/obsolete temporary game branches.
-2. Check all direct/indirect roles for unrelayed instructions, open work, pending ACKs and unresolved blockers. If a safety/blocking task remains unresolved, record `CLOSEOUT_HOLD`; never pretend that unforwarded messages were read.
-3. Append exactly one new sequential `CEO→OWNER` final message with `kind=ROUND_CLOSED`, `task_ref` of this mission, `closure_reason=MISSION_COMPLETED`, immutable release SHA/PR/CI references, each role's end status and exact full copy-ready relay. Give it to Owner as a terminal report, **not** a request for permission to disband.
-4. Mark all `workspace/roster.json` `roles[].status=CLOSED`, including advisor and all pending-but-initiated appointments, and `workspace/round.json` `state=CLOSED`, `closure_reason=MISSION_COMPLETED`, `final_game_main_sha` and `closure_evidence_url`. Preserve append-only prior messages. Run governance validation.
-5. Invalidate the entire old organization's authority immediately: CEO, GAME-ADVISOR, DIR, TL, Engineer. If permitted and safely archived, delete only that CLOSED round branch; otherwise `BRANCH_CLEANUP_PENDING` and keep it as read-only historical record. No new work or new appointments in closed rounds.
+1. Verify the saved CEO `RELEASE` message, PR/CI/independent-QA evidence, actual merged game-main SHA and game-side summary. If any condition is missing, record `CLOSEOUT_HOLD`.
+2. Check all appointed Advisor/DIR/TL/Engineer chats' remaining work and relays; never assume other chats read GitHub automatically.
+3. Append a new sequential `CEO→OWNER` `ROUND_CLOSED` report with `closure_reason=MISSION_COMPLETED`, verified exact SHA and links, and full Owner-copy-ready status. **It is a notification, not a request for authorization.**
+4. Mark every roster role, including CEO/Advisor/pending appointments, `CLOSED`; set round `state=CLOSED`, final game SHA, and durable `closure_evidence_url`. Validate the round and preserve append-only history.
+5. Retire the generation without prompting Owner. If branch cleanup is safe and permitted, delete only this CLOSED round branch; otherwise report `BRANCH_CLEANUP_PENDING`.
 
-**No Owner dissolution approval is required** once that mission is genuinely completed. **Owner approval for the preceding game-main release MERGE remains mandatory**, never implied by any other instruction.
+**Unshipped cancellation:** CEO may cancel a mission after recording its own consultation-backed reason as `AI_CANCELLED`. Preserve game issues/PRs, close work as `not_planned`, never claim a shipped SHA, issue terminal `ROUND_CLOSED`, close the roster and supply `ai_cancellation_evidence_url`. Legacy closed `OWNER_CANCELLED` entries remain valid historical records but are **not** a V7 Owner veto or decision mechanism.
 
-**Owner-cancelled mission:** Explicit Owner cancellation can close an unimplemented/unmerged mission **without pretending code was shipped**. Post a clear `CANCELLED / NOT_IMPLEMENTED / HISTORY_PRESERVED` summary in game Issue and close it with `not_planned`, not `completed`. Append a `CEO→OWNER` `ROUND_CLOSED` ledger report with `closure_reason=OWNER_CANCELLED`, source Owner instruction, no asserted release SHA, and copy-ready status; close all roster identities including PENDING_RELAY; mark round CLOSED. Preserve prior GitHub logs. Do not delete or modify game main; only optional safe old-round-branch cleanup after evidence archival.
-
-**Round validator / audit:** The final `ROUND_CLOSED` message is a terminal administrative record, not a further game mandate. Closed rosters must have no ACTIVE or PENDING_RELAY staff. Future rounds use a wholly NEW Owner-provided `ROUND_ID`, new CEO chat, new `M000001` bootstrap and new subordinate appointments. The old CEO may only draft the next bootstrap on Owner request; this does not restore its prior role or allow writes into the next CEO's ledger. New missions from an Advisor or other sources are **proposals until the Owner authorizes them**.
-
-**Automatic vs physical deletion:** Closing the round and retiring everyone is the required automatic action. Physical Git branch deletion is optional and tool/permissions-dependent; never falsely claim it happened. If deletion is impossible, report its precise status to Owner rather than asking Owner to issue an extra team-dismissal order.
+The next mission requires a new CEO round, new chat and new appointments. Owner only transports the new administrative bootstrap and future relay blocks. An old CEO may draft a new bootstrap as a retired scribe, with no continuing decision authority. Old messages never transfer authority into a new round.

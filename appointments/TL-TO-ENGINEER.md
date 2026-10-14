@@ -17,7 +17,7 @@ REQUESTED_ACTION:
   รับตำแหน่ง Engineer ในแชทใหม่ อ่าน main README, MESSAGE-PROTOCOL, roles/ENGINEER.md
   เช็ค GitHub round, ผู้รับ, appointment ID, หมายเลข, หลักฐาน ก่อนทำอะไร
   ส่ง ACK ที่สร้างเลขใหม่จริงให้ Owner คัดลอกส่งกลับ TL ของตน
-  เมื่อได้อนุมัติงานโค้ดเกมใหม่จึงพัฒนาเฉพาะไฟล์ที่มอบหมายใน ant-project
+  เมื่อ CEO ออก MISSION_CHARTER และ TL มอบ TASK ที่ผ่านสายงานแล้ว จึงพัฒนาเฉพาะไฟล์ที่มอบหมายใน ant-project; ห้ามรอ/ขออนุมัติ OWNER
   เมื่อเสร็จ/ติดขัด ให้สร้าง RESULT/BLOCKED เลขใหม่และส่งข้อความพร้อมคัดลอกถึง TL เดิม
 LIMITS: TL แต่งตั้ง Engineer ได้สูงสุด 3 คน; คนที่ 4 ต้องอยู่ใต้ TL คนที่สอง (2+2 หรือ 3+1); Engineer ไม่มีสิทธิ์แต่งตั้งลูกทีม/merge game main/แก้ governance main/round อื่น
 ```

@@ -1,12 +1,12 @@
-# V5 — Game design feedback, proposals and CEO evaluation
+# V7 — AI game design consultation, proposals and final CEO decisions
 
-This protocol supplements [README](README.md) and [MESSAGE-PROTOCOL](MESSAGE-PROTOCOL.md). It allows **all AI positions to make gameplay suggestions** without assigning new work or bypassing the CEO/Owner release gates.
+This protocol supplements [README](README.md) and [MESSAGE-PROTOCOL](MESSAGE-PROTOCOL.md). It allows **all AI positions to make gameplay suggestions** without assigning new work or bypassing the CEO's internal implementation/QA/release gates.
 
 ## 1. Who may comment and where it goes
 
 ```text
-                           OWNER (final new-game mandate / approvals)
-                             ↑
+             OWNER (copies messages; requests ideas; no veto)
+                             ↕ relay
                             CEO ← GAME-ADVISOR (direct recommendations)
                              ↑
                             DIR
@@ -17,7 +17,7 @@ This protocol supplements [README](README.md) and [MESSAGE-PROTOCOL](MESSAGE-PRO
 ```
 
 - Every active role may identify balance/technical/design issues and question conclusions respectfully. **Ideas are welcome; hierarchy controls execution, not thought.**
-- Engineers write to their own TL, TL to own DIR, DIR to CEO, GAME-ADVISOR directly to CEO, CEO to Owner if a new game scope/authorization is needed.
+- Engineers write to their own TL, TL to own DIR, DIR to CEO, GAME-ADVISOR directly to CEO. CEO decides; OWNER receives copies/status only and never approves features, missions, scope, QA or merges.
 - Managers assess and may forward a proposal upward as a *new* `PROPOSAL` with source message ID, author, assessment and evidence preserved. This is a new message from the manager, **not** an impersonation. Sending an idea to a different chat still requires the Owner to manually paste the verified numbered relay.
 - Advisor may request a scoped read-only design review from CEO (via a numbered TASK), but has no veto, staffing powers, game write privileges or authority to order Engineers.
 - An AI finishing a task should inspect game impact and identify material improvements; if no material concerns, it may say "no game-design concerns observed" in RESULT rather than creating noise. A real gameplay/QA defect remains a BLOCKED/REVIEW finding under normal gates.
@@ -77,11 +77,15 @@ The direct recipient evaluates each proposal and records one numbered response t
 
 A `DECISION` must have `in_reply_to` pointing to the actual PROPOSAL/FEEDBACK, be addressed back to the sender of that message, and include `decision: {"status": "...", "rationale": "..." }`. Forward the exact saved numbered DECISION block through Owner to the original submitting chat. Intermediate managers may also escalate high-value proposals to their parent and independently send a `DECISION` (e.g. `DEFERRED` awaiting CEO verdict) to the subordinate.
 
-CEO collects significant proposals, merges overlapping suggestions without losing attribution, assesses systemic balance and implementation capacity, and only **after existing Owner game mandate / explicit gate** converts chosen items to ant-project tasks. Owner decides new mission scope. During `IMPLEMENTATION_HOLD`, even `ACCEPTED_FOR_SCOPING` cannot start code or expand assigned files.
+CEO collects significant proposals, merges overlapping suggestions without losing attribution, consults teams, then **independently selects a mission** and records a numbered `MISSION_CHARTER` for a designated DIR. CEO decides the new mission scope and may authorize scoped development. During `IMPLEMENTATION_HOLD`, even `ACCEPTED_FOR_SCOPING` cannot start code until that CEO charter and downstream TASK delegation are verified. After independent QA, only CEO may record a `RELEASE` decision for game-main integration; Owner acts solely as courier.
 
 ## 5. Hard safeguards
 
-- No new task, GitHub game mutation, role appointment, code change, merge, deployment or balance-value edit may be justified solely by a recommendation, reaction or CEO's design-interest message. Existing Owner mandates and task authorization must independently permit it.
+- No new task, GitHub game mutation, role appointment, code change, merge, deployment or balance-value edit may be justified solely by an unaccepted recommendation. The saved CEO mission charter, direct-manager scoped TASK, independent review/QA and CEO release gate grant authority at their respective stages; no Owner sign-off is needed.
 - No overwriting numbered historical messages or reporting that another chat received an unforwarded message.
 - The separate `appointment-CEO/main` remains governance-only; log actual proposals/decisions on **the active round branch**, not `main`.
-- Existing rounds adopt this policy through verified Owner→CEO relay and normal current-round ledger; do not silently rewrite old role charters or message history.
+- Existing rounds may adopt V7 prospectively through a recorded CEO governance-adoption/status relay and `owner_relay_only_from_sequence` in round.json. No Owner approval is needed. Do not rewrite old role charters or message history.
+
+## 6. Decision disagreements and transparent accountability
+
+CEO solicits substantive objections from Advisor and DIR before choosing a mission and again before releasing. If opinions differ, CEO records the competing viewpoints, source evidence, test results, reason for selection, and acceptance metrics; **CEO makes the final call**. DIR/TL can decide details inside an approved charter, not silently add a new feature or veto CEO. Unresolved P0 test failures force `RELEASE_HOLD` until fixed or scope is safely revised and re-tested. Owner simply transports the corresponding numbered relays.

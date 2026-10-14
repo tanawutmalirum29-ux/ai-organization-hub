@@ -1,6 +1,6 @@
 # CEO → GAME-ADVISOR — appoint one independent design advisor
 
-Use only after an appointed CEO has bootstrapped its own round branch. Verify a free `GAME-ADVISOR` role ID (maximum one per round), register its fresh appointment in the round roster as `PENDING_RELAY`, fetch the *actual* next ledger number, save the APPOINTMENT message, verify the saved URL, and give Owner this fully substituted relay for a **new dedicated advisor chat**. Do not reuse any past round's advisor. Owner can waive the advisor requirement for a round.
+Use only after an appointed CEO has bootstrapped its own round branch. Verify a free `GAME-ADVISOR` role ID (maximum one per round), register its fresh appointment in the round roster as `PENDING_RELAY`, fetch the *actual* next ledger number, save the APPOINTMENT message, verify the saved URL, and give Owner this fully substituted relay for a **new dedicated advisor chat**. Do not reuse any past round's advisor. The CEO may leave the slot vacant only when appointing the advisor is genuinely unnecessary for the selected round, recording a rationale; Owner does not decide staffing.
 
 ```text
 ROUND_ID: <VERIFIED_ROUND_ID>
@@ -24,4 +24,4 @@ LIMITS:
   round อื่น หรือสร้างงานโค้ดใหม่; ต้องรอคำสั่งจาก CEO หากต้องการ scope งานเฉพาะ
 ```
 
-Replace ALL placeholders with verified GitHub values; do not call an unrecorded example a live appointment. Advisor emits separate numbered ACK to CEO, and only then CEO marks the advisor ACTIVE. Advisor appointment is not an Owner implementation mandate.
+Replace ALL placeholders with verified GitHub values; do not call an unrecorded example a live appointment. Advisor emits separate numbered ACK to CEO, and only then CEO marks the advisor ACTIVE. Advisor appointment is not implementation permission; CEO independently decides a mission after consultation.

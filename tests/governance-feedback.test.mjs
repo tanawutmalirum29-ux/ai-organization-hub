@@ -19,7 +19,7 @@ const proposal = {
   suggested_change:'Test +10% unit upkeep', expected_effect:'Increase unit diversity',
   risks:'Potential early economy squeeze', evidence:'Example issue and repeatable scenario'
 };
-const decision = {status:'ACCEPTED_FOR_SCOPING',rationale:'Testable; request separate Owner mandate for implementation'};
+const decision = {status:'ACCEPTED_FOR_SCOPING',rationale:'Testable; CEO may scope a charter after consulting the team'};
 
 function message(n,from,to,kind,opts={}) {
   const msgid='TEST-01-M'+String(n).padStart(6,'0');
@@ -40,12 +40,12 @@ function message(n,from,to,kind,opts={}) {
   };
 }
 
-function validate(roles,messages) {
+function validate(roles,messages, autonomyFrom=null) {
   const cwd=mkdtempSync(join(tmpdir(),'game-advisor-'));
   try {
     mkdirSync(join(cwd,'workspace','messages'),{recursive:true});
     writeFileSync(join(cwd,'workspace','round.json'),JSON.stringify({
-      round_id:'TEST-01',game_repository:'tanawutmalirum29-ux/ant-project',state:'ACTIVE'
+      round_id:'TEST-01',game_repository:'tanawutmalirum29-ux/ant-project',state:'ACTIVE',...(autonomyFrom == null ? {} : {owner_relay_only_from_sequence:autonomyFrom})
     }));
     writeFileSync(join(cwd,'workspace','roster.json'),JSON.stringify({round_id:'TEST-01',roles}));
     messages.forEach((m,i)=>writeFileSync(join(cwd,'workspace','messages',String(i+1).padStart(6,'0')+'.json'),JSON.stringify(m)));
@@ -114,4 +114,50 @@ test('DECISION without status or rationale fails validation',()=>{
   ]);
   assert.notEqual(result.status,0);
   assert.match(result.stderr,/DECISION requires proposal reply/);
+});
+
+const validateV7 = (roles,messages,from=2)=>validate(roles,messages,from);
+
+test('V7 rejects Owner decision after initial administrative bootstrap',()=>{
+  const msgs=[bootstrap,message(2,'OWNER','CEO','TASK')];
+  const result=validateV7([CEO],msgs);
+  assert.notEqual(result.status,0);
+  assert.match(result.stderr,/Owner is a courier/);
+});
+
+test('V7 permits CEO advisor consultation followed by advisor proposal to CEO',()=>{
+  const msgs=[bootstrap,
+    message(2,'CEO','GAME-ADVISOR','CONSULTATION_REQUEST',{consultation:{topic:'Evaluate resource balance'}}),
+    message(3,'GAME-ADVISOR','CEO','PROPOSAL',{in_reply_to:'TEST-01-M000002',proposal}),
+    message(4,'CEO','GAME-ADVISOR','DECISION',{in_reply_to:'TEST-01-M000003',decision})
+  ];
+  const result=validateV7([CEO,ADVISOR],msgs);
+  assert.equal(result.status,0,result.stderr);
+});
+
+test('V7 accepts CEO mission and release without Owner approval',()=>{
+  const mission={scope:'Balance troop supply',non_goals:'No new art',source_proposals:'TEST-01-M000002',acceptance_criteria:'AI balances within 10%',qa_plan:'Independent regression coverage'};
+  const release={pr_url:'https://github.com/example/repo/pull/1',qa_evidence:'Independent reviewer passed',ci_evidence:'Tests passed',rationale:'Ready after verification'};
+  const msgs=[bootstrap,
+    message(2,'DIR-A','CEO','PROPOSAL',{proposal}),
+    message(3,'CEO','DIR-A','MISSION_CHARTER',{mission}),
+    message(4,'CEO','DIR-A','RELEASE',{release})
+  ];
+  const result=validateV7([CEO,DIR],msgs);
+  assert.equal(result.status,0,result.stderr);
+});
+
+test('V7 rejects subordinate attempting to release to main',()=>{
+  const msgs=[bootstrap,message(2,'TL-A1','DIR-A','RELEASE',{release:{
+    pr_url:'PR',qa_evidence:'QA',ci_evidence:'CI',rationale:'Ready'
+  }})];
+  const result=validateV7([CEO,DIR,TL],msgs);
+  assert.notEqual(result.status,0);
+  assert.match(result.stderr,/RELEASE must be CEO to DIR/);
+});
+
+test('V7 historical owner instruction remains valid before adoption sequence',()=>{
+  const msgs=[bootstrap,message(2,'OWNER','CEO','TASK'),message(3,'CEO','DIR-A','REPORT')];
+  const result=validateV7([CEO,DIR],msgs,3);
+  assert.equal(result.status,0,result.stderr);
 });
