@@ -58,3 +58,7 @@ CEO
 ```
 
 Four Engineers need two TLs (3+1 above, or 2+2). If more than ten AI chats are needed across the organization, appoint additional departments/teams under their proper parents. There is no global headcount cap, but one TL never has a fourth Engineer and one DIR never has a third TL.
+
+## New advisory lane (V5)
+
+After the CEO bootstrap `M000002`, the CEO may appoint exactly one `GAME-ADVISOR` as a separate chat with `role_id: "GAME-ADVISOR"`, `parent_role: "CEO"` and `appointment_id: "<ROUND_ID>-GAME-ADVISOR-01"`. This is an additional roster row **after** the actual numbered appointment, not part of the CEO-only bootstrap example above. CEO must receive its real numbered ACK before marking ACTIVE. GAME-ADVISOR sends `FEEDBACK`/`PROPOSAL` straight to CEO; other staff forward through their direct parents. See [feedback SOP](../FEEDBACK-PROTOCOL.md).

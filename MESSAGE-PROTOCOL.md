@@ -1,6 +1,6 @@
-# V4 — Mandatory numbered inter-chat communication protocol
+# V5 — Mandatory numbered inter-chat communication protocol
 
-**Scope:** ALL CEO/DIR/TL/Engineer outbound instructions, appointments, ACKs, work reports, QA verdicts, blockers, refusals and release handoffs. Owner manually transports the copy block between separate ChatGPT chats. GitHub is the source of truth for sequence/receipts, not shared chat memory.
+**Scope:** ALL CEO/GAME-ADVISOR/DIR/TL/Engineer outbound instructions, appointments, ACKs, game feedback, proposals, decisions, work reports, QA verdicts, blockers, refusals and release handoffs. Owner manually transports the copy block between separate ChatGPT chats. GitHub is the source of truth for sequence/receipts, not shared chat memory.
 
 ## 1. Round bootstrap
 
@@ -9,11 +9,11 @@
 3. CEO creates its round branch from governance `main`, creates `workspace/round.json`, `workspace/roster.json`, and persists the original Owner→CEO appointment as `workspace/messages/000001.json`, **verbatim** (including copy-ready relay). Record CEO's own new `APPOINTMENT_ID` in roster. After accepting, CEO generates and persists its ACK as `000002.json` and provides the Owner the copy-ready ACK.
 4. All subsequent append-only messages use the branch's sequential ledger. Do not modify governance `main`, inherit any prior-round message number, or merge this branch to `main`.
 
-**Onboarding to GitHub:** each receiving AI must read main README, its role charter, this protocol, and live `workspace/round.json`/`roster.json` from its **appointed branch**. No AI knows another conversation's completion without Owner relay.
+**Onboarding to GitHub:** each receiving AI must read main README, its role charter, this protocol, [feedback protocol](FEEDBACK-PROTOCOL.md), and live `workspace/round.json`/`roster.json` from its **appointed branch**. No AI knows another conversation's completion without Owner relay.
 
 ## Staffing rule (no overall AI headcount cap)
 
-There is **no global maximum number of AI chats**. One DIR has at most **two** TLs. A TL can have **one, two or three Engineers** numbered `-1`, `-2`, `-3`; a fourth Engineer is invalid under the same TL and requires the Director's second TL. Use 2+2 or 3+1 for four Engineers. `E-A1-4` and `TL-A3` are invalid. New appointments still require numbered ledger entries, real Owner relay, distinct fresh AI chats and exact parent-child identity checks.
+There is **no global maximum number of AI chats**. Exactly one role ID `GAME-ADVISOR` may be appointed per round (directly by CEO; no subordinates; does not consume a DIR/TL/Engineer seat). One DIR has at most **two** TLs. A TL can have **one, two or three Engineers** numbered `-1`, `-2`, `-3`; a fourth Engineer is invalid under the same TL and requires the Director's second TL. Use 2+2 or 3+1 for four Engineers. `E-A1-4` and `TL-A3` are invalid. New appointments still require numbered ledger entries, real Owner relay, distinct fresh AI chats and exact parent-child identity checks.
 
 ## 2. Ledger envelope and numbering
 
@@ -43,13 +43,23 @@ Each `workspace/messages/NNNNNN.json` is immutable and includes at least:
 - A message is **NOT ISSUED** until the file write succeeded and its permanent GitHub URL is verified. If tooling prevents write/verification, **stop and report `HANDOFF_BLOCKED`**. Automated [validation](scripts/validate-governance.mjs) checks sequences, IDs, duplicate event keys, identities, reply links, and mandatory relay fields.
 - Any ACK/RESULT/REJECTED for an incoming message uses a **new** message ID and `in_reply_to` set to the incoming ID; do not reuse the incoming ID as the outgoing reply. Further STATUS updates need distinct `event_key` values and true new evidence.
 
+## 2A. Feedback message types (V5)
+
+Use exactly the same numbered, GitHub-persisted copy-ready relay as any other action. [FEEDBACK-PROTOCOL.md](FEEDBACK-PROTOCOL.md) defines the full template and triage.
+
+- `FEEDBACK`: a specific observation or concern, **to one's direct parent only** (CEO to OWNER, GAME-ADVISOR/DIR to CEO, TL to DIR, Engineer to TL). May be unsolicited or in reply to assigned work.
+- `PROPOSAL`: a concrete recommendation to the same direct parent, with a mandatory `proposal` object containing nonempty `subject`, `observed_problem`, `suggested_change`, `expected_effect`, `risks`, and `evidence` strings. Proposals may be escalated by the recipient to their own parent using a **new numbered message** and a link/reference to the original; do not impersonate the original author.
+- `DECISION`: direct parent's numbered response to an existing earlier FEEDBACK/PROPOSAL addressed to them. Must reply with `in_reply_to` pointing to that exact message, return **to its author**, and include `decision.status` from `ACCEPTED_FOR_SCOPING`, `DEFERRED`, `REJECTED`, or `NEEDS_DATA`, plus a nonempty `decision.rationale`. `ACCEPTED_FOR_SCOPING` permits drafting plans **only**, not source changes.
+- `IN_REPLY_TO` for FEEDBACK/PROPOSAL may be `NONE` if unsolicited, or a valid received message if relevant. Reply-link verification still applies. For DECISION it is mandatory.
+- **No suggestion changes TASK permissions, Owner mandate, protected branches, or implementation/release gates.** All ideas remain proposals until separately authorized through the ordinary chain.
+
 ## 3. Mandatory receiving gate — BEFORE any work
 
 For *every* forwarded request in a ChatGPT conversation, read current round branch and confirm:
 
 1. `ROUND_ID` is your active generation; `MESSAGE_ID` exists in that branch's ledger with identical content, correct six-digit sequence and not revoked.
 2. `TO_ROLE` equals your own appointment's `role_id`; `TO_APPOINTMENT_ID` equals **your fresh-chat appointment ID**, not merely a reused title. Check round roster entry and source-parent authority. `OWNER` is an explicit endpoint, not a subordinate AI role.
-3. `FROM_ROLE`, `FROM_APPOINTMENT_ID`, `TASK_REF` and scope are valid. Only your direct parent can delegate regular work, except explicit authorized inter-team consultation that cannot grant extra write scope.
+3. `FROM_ROLE`, `FROM_APPOINTMENT_ID`, `TASK_REF` and scope are valid. Only your direct parent can delegate regular work, except explicit authorized inter-team consultation that cannot grant extra write scope. A GAME-ADVISOR can advise the CEO but cannot delegate work; feedback and decisions never grant implementation rights.
 4. Check for an existing receipt/processing record: if an `ACK`, `RESULT` or `REJECTED` from **your same appointment** already references this `MESSAGE_ID` for the same action, it has been handled. An old message pasted twice is **not a new command**.
 
 **Decision:** 

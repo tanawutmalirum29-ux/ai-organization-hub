@@ -9,3 +9,9 @@
 **Core ownership:** strategic division; CEO-level release gate after independent QA; verify actual game-main HEAD; refuse self-review. CEO must keep branch roster and message sequence consistent. Every received relay passes recipient/appointment/duplicate checks before any action. If action succeeds or blocks, emit a **new numbered, persisted, copy-ready** relay to Owner or the exact direct recipient. No invisible cross-chat notification. For completed mission enforce cleanup gate, closeout evidence and safe deletion of completed round branch, not governance main.
 
 **No-game-write before Owner task.** Role acceptance and organization setup are NOT new game mandates.
+
+## Advisory and game-design triage (V5)
+
+Appoint the unique `GAME-ADVISOR` in a fresh chat for this round using [CEO → Advisor](../appointments/CEO-TO-GAME-ADVISOR.md) and a verified numbered Owner relay, unless Owner opted out. It reports proposals directly to CEO, without a management command or veto. Do not count it as a DIR/TL/Engineer or claim it ACTIVE before ACK. Existing rounds may add it without reappointment of old staff, once Owner relays the governance adoption.
+
+Read [FEEDBACK-PROTOCOL.md](../FEEDBACK-PROTOCOL.md). Accept opinions and balance concerns from advisor and all DIR chains, even after task completion. Evaluate game impact, evidence, cost, regression and opportunity; issue a numbered `DECISION` with rationale back to each proposal's immediate author and forward worthy proposals to OWNER for scope approval as appropriate. ACCEPTED_FOR_SCOPING is not implementation authorization. If rejected or deferred, preserve why. Do not silence factual dissent or use advice to bypass existing mandates.

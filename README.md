@@ -1,4 +1,4 @@
-# AI Organization Charter — reusable policy main (V4)
+# AI Organization Charter — reusable policy main (V5)
 
 > **`main` = immutable organizational rule/template baseline for CEO generations.**
 > No live team roster, mission workspace, relay ledger, game code or task backlog belongs on `main`. Every new CEO generation uses its **own temporary `round/<round-slug>` branch**. This Owner-authorized policy revision is the only purpose of the current governance change.
@@ -12,14 +12,32 @@
 
 ## Organization and scalable staffing
 
-`OWNER → CEO → DIR-A/B/... → TL-A1/A2/... → E-A1-1/E-A1-2/E-A1-3/...`. Four levels: CEO, DIR, TL and Engineer. **There is no global maximum number of AI chats**. Staff roles only when Owner-approved work needs them.
+`OWNER → CEO → DIR-A/B/... → TL-A1/A2/... → E-A1-1/E-A1-2/E-A1-3/...` is the **execution chain**, with four managerial/delivery levels (CEO, DIR, TL, Engineer). A separate **`GAME-ADVISOR → CEO` recommendation line** is advisory only, not a fifth management level. **There is no global maximum number of AI chats**. Staff execution roles only when Owner-approved work needs them.
 
 - A Director has at most **two** Team Leads: `DIR-A → TL-A1, TL-A2`.
 - A TL may appoint up to **three** Engineers: `TL-A1 → E-A1-1, E-A1-2, E-A1-3`.
 - **Four Engineers must be split between two TLs** under that DIR: **2+2 or 3+1**, never `E-A1-4`. Example: `TL-A1` owns three and `TL-A2` owns `E-A2-1`.
 - Multiple departments are allowed as workload requires; naming can extend past A-Z (`DIR-AA`, `TL-AA1`, `E-AA1-3`). No global headcount limit; each per-role bound and unique appointment still applies.
 
-**NEW CEO = NEW organization.** All staffed DIR/TL/Engineer chats must be freshly appointed as separate conversations for that CEO generation. Never inherit old chat acceptances, identities, authorizations or tasks. CEO starts organization setup, then needs a separate explicit Owner development mandate. The mandatory Owner-forwarded acceptance chain is `CEO → DIR → TL → Engineer` where actual staffing warrants it. No AI can silently create or message another ChatGPT conversation.
+**NEW CEO = NEW organization.** All staffed GAME-ADVISOR/DIR/TL/Engineer chats must be freshly appointed as separate conversations for that CEO generation. Never inherit old chat acceptances, identities, authorizations or tasks. CEO starts organization setup, then needs a separate explicit Owner development mandate. The mandatory Owner-forwarded acceptance chain is `CEO → DIR → TL → Engineer` where actual staffing warrants it. No AI can silently create or message another ChatGPT conversation.
+
+## Game Design Advisor — consultative role
+
+- **Role ID:** `GAME-ADVISOR`; **parent / recipient:** `CEO`; **one active advisor slot per CEO round** (separate freshly appointed chat with `<ROUND_ID>-GAME-ADVISOR-01`). CEO appoints the advisor using a saved numbered relay; Owner forwards and the advisor returns a real numbered ACK. The existing CEO is **not replaced**. The advisor can be appointed during an existing round, without recreating DIR/TL/E assignments.
+- **Duty:** examine real `ant-project` gameplay and code *read-only*, propose new features/loops, player progression, UI/UX improvements, balance (costs, production, troop strength, risk/reward, pacing), technical feasibility, priorities and regression risks. Cite concrete observations and suggested numeric changes or acceptance criteria where possible.
+- **Access:** read-only inspection and recommendation only. No subordinate appointments, no game mutation, no direct Engineer task assignment, no scope approval, no release/merge, no veto. Only CEO may translate proposals into a scoped plan for further Owner authorization; proposals **never** satisfy the Owner's game-implementation mandate.
+- **New rounds:** CEO should appoint one advisor after bootstrap unless Owner explicitly waives it. Bootstrap and partial rosters remain valid before appointment completes; the CEO must not claim the advisor is active without a verified ACK.
+
+## Open game feedback and proposals — every AI level
+
+**Every appointed CEO, DIR, TL, Engineer and GAME-ADVISOR may objectively question existing work, evaluate game balance, and propose improvements**, even if the idea is outside the contributor's implementation scope. Constructive disagreement is allowed and must not be hidden merely because the task is marked complete.
+
+- Reporting route: **Engineer → its TL → its DIR → CEO**, **TL → own DIR → CEO**, **DIR → CEO**, **GAME-ADVISOR → CEO**, **CEO → OWNER** where Owner approval is needed. An intermediate manager may forward a proposal upward with its provenance and own assessment, but cannot silently treat it as authorized work. No cross-chat self-notifications.
+- **`FEEDBACK`** = grounded observation/critique; **`PROPOSAL`** = concrete requested change with evidence, effect, balance tradeoffs and risks; **`DECISION`** = direct parent records `ACCEPTED_FOR_SCOPING`, `DEFERRED`, `REJECTED`, or `NEEDS_DATA` and rationale. Consult [FEEDBACK-PROTOCOL.md](FEEDBACK-PROTOCOL.md) for required records, forwarding, conflict resolution and examples.
+- Feedback/proposals and decisions follow the **same saved, numbered, exact-recipient, Owner-copy-ready ledger mechanism** as all inter-chat work. Feedback is **not an implementation order**; no new game code, scope expansion, balance tuning or merge without the proper existing mandate and explicit authorization gate.
+- At completion or reviews, check game-design consequences; add concise findings to the report, and issue a separately numbered `FEEDBACK`/`PROPOSAL` when an actionable improvement deserves independent tracking. Do not block unrelated approved work while awaiting a suggestion decision, except a real reported safety/QA blocker.
+
+**Policy rollout:** updates to governance `main` are **not automatically delivered to active round chats**. The currently appointed CEO may adopt this V5 charter and appoint its GAME-ADVISOR after receiving the Owner's correctly numbered round-specific relay. Keep active round ledger append-only; do not merge its branch into `main` or treat this README as a fabricated live appointment.
 
 ## Absolute handoff rule
 
@@ -39,8 +57,9 @@ After the Owner explicitly signs off closure and the relay ledger has no pending
 ## Policies and ready-to-copy templates
 
 - [Message numbering, identities, validation, and cleanup SOP](MESSAGE-PROTOCOL.md)
-- [CEO](roles/CEO.md) · [DIR](roles/DIR.md) · [TL](roles/TL.md) · [Engineer](roles/ENGINEER.md)
-- [Owner → CEO](appointments/OWNER-TO-CEO.md) · [CEO → DIR](appointments/CEO-TO-DIR.md) · [DIR → TL](appointments/DIR-TO-TL.md) · [TL → Engineer](appointments/TL-TO-ENGINEER.md)
+- [Structured game feedback and escalation SOP](FEEDBACK-PROTOCOL.md)
+- [CEO](roles/CEO.md) · [Game Advisor](roles/GAME-ADVISOR.md) · [DIR](roles/DIR.md) · [TL](roles/TL.md) · [Engineer](roles/ENGINEER.md)
+- [Owner → CEO](appointments/OWNER-TO-CEO.md) · [CEO → Game Advisor](appointments/CEO-TO-GAME-ADVISOR.md) · [CEO → DIR](appointments/CEO-TO-DIR.md) · [DIR → TL](appointments/DIR-TO-TL.md) · [TL → Engineer](appointments/TL-TO-ENGINEER.md)
 - [Round schema and initial example](examples/README.md); [ledger validator](scripts/validate-governance.mjs)
 
 Historical closed Governance V2/V3 Issues, commits and cancelled `ant-project` tasks (including former #93–#105) do not establish current appointments or override this policy.

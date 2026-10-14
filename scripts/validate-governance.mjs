@@ -37,6 +37,8 @@ if (!roundBranch) {
     const eng = /^E-([A-Z]+)([12])-([123])$/.exec(r.role_id || '');
     if (r.role_id === 'CEO') {
       if (r.parent_role !== 'OWNER') fail('CEO parent must be OWNER');
+    } else if (r.role_id === 'GAME-ADVISOR') {
+      if (r.parent_role !== 'CEO') fail('GAME-ADVISOR parent must be CEO');
     } else if (dir) {
       if (r.parent_role !== 'CEO') fail(`DIR wrong parent: ${r.role_id}`);
     } else if (tl) {
@@ -77,7 +79,7 @@ if (!roundBranch) {
       if (role === 'OWNER') { if (a !== 'OWNER') fail(`${expected}: OWNER ID must be OWNER`); }
       else if (!known.has(role) || known.get(role).appointment_id !== a) fail(`${expected}: invalid ${side} role/appointment`);
     }
-    if (!['APPOINTMENT','ACK','TASK','RESULT','BLOCKED','REJECTED','REPORT','REVIEW','RELEASE','ROUND_CLOSED'].includes(m.kind)) fail(`${expected}: invalid kind`);
+    if (!['APPOINTMENT','ACK','TASK','RESULT','BLOCKED','REJECTED','REPORT','REVIEW','RELEASE','ROUND_CLOSED','FEEDBACK','PROPOSAL','DECISION'].includes(m.kind)) fail(`${expected}: invalid kind`);
     if (typeof m.task_ref !== 'string' || !m.task_ref) fail(`${expected}: missing task_ref`);
     if (typeof m.summary !== 'string' || !m.summary) fail(`${expected}: missing summary`);
     if (typeof m.relay_text !== 'string' ||
@@ -91,6 +93,20 @@ if (!roundBranch) {
        !m.relay_text.includes('IN_REPLY_TO:')) fail(`${expected}: missing mandatory copy-ready relay fields`);
     if (m.kind === 'APPOINTMENT' && m.to_role !== 'CEO' && known.get(m.to_role)?.parent_role !== m.from_role)
       fail(`${expected}: appointment must be issued by direct parent`);
+    if (['FEEDBACK','PROPOSAL'].includes(m.kind)) {
+      const allowedParent = known.get(m.from_role)?.parent_role;
+      if (!allowedParent || m.to_role !== allowedParent)
+        fail(`${expected}: feedback/proposal must go to direct parent`);
+    }
+    if (m.kind === 'PROPOSAL') {
+      const fields = ['subject','observed_problem','suggested_change','expected_effect','risks','evidence'];
+      if (!m.proposal || fields.some(k => typeof m.proposal[k] !== 'string' || !m.proposal[k].trim()))
+        fail(`${expected}: PROPOSAL missing structured game-design fields`);
+    }
+    if (m.kind === 'DECISION' && (!m.in_reply_to || !m.decision ||
+        !['ACCEPTED_FOR_SCOPING','DEFERRED','REJECTED','NEEDS_DATA'].includes(m.decision.status) ||
+        typeof m.decision.rationale !== 'string' || !m.decision.rationale.trim()))
+      fail(`${expected}: DECISION requires proposal reply, status and rationale`);
     if (m.sequence === 1 && (m.from_role !== 'OWNER' || m.to_role !== 'CEO' || m.kind !== 'APPOINTMENT')) fail('Message 000001 must be Owner→CEO bootstrap.');
   }
   for (const m of msgs) {
@@ -104,6 +120,10 @@ if (!roundBranch) {
       if (!target || target.sequence >= m.sequence) fail(`Bad reply link: ${m.message_id}`);
       else if (m.from_role !== target.to_role || m.from_appointment_id !== target.to_appointment_id)
         fail(`Reply sender mismatch: ${m.message_id}`);
+      if (m.kind === 'DECISION' && target &&
+        (!['PROPOSAL','FEEDBACK'].includes(target.kind) ||
+         m.to_role !== target.from_role || m.to_appointment_id !== target.from_appointment_id))
+        fail(`DECISION must answer original feedback/proposal author: ${m.message_id}`);
     } else if (['ACK','RESULT','REJECTED'].includes(m.kind)) fail(`Reply type requires in_reply_to: ${m.message_id}`);
   }
   // Append-only enforcement on GitHub pushes. Branch protection is still needed
