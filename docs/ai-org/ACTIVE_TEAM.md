@@ -70,7 +70,7 @@ flowchart TD
 **IMPLEMENTATION_HOLD / RELEASE_HOLD:** no engineer product Tasks, code changes, product PR/QA PASS, new candidate, source SHA signatures, branch cleanup, or `ant-project/main` merge. `SIGNATURE_READY` machine gate is not implemented. Structural roster CI proves organizational syntax only, not ChatGPT actor identity or gameplay quality. Shared integration entrypoint path leases for `src/core/game.js`, `src/main.js`, `src/ui/app.js` remain unissued.
 
 ## Rules for the Roster Steward
-1. Owner/CEO approves governance and round staffing envelope. CEO appoints Delivery; Delivery appoints domain Deputies; Deputies appoint Directors; Directors appoint Leads; Leads appoint two core Engineers. Helper only after permitted capacity.
+1. Owner/CEO approves governance and round staffing envelope. CEO appoints Delivery; Delivery appoints domain Deputies; Deputies appoint Directors; Directors appoint Leads; Leads appoint only contributors actually needed; each work team is capped at 10 AI including hands-on managers. No mandatory two Engineers.
 2. Real chat receives appointment via Owner's short relay and posts `APPOINTMENT_ACK` with Issue permalink. Only then add a row with `ACTIVE`. A proposed role slot is NOT an activated person.
 3. Direct managers report verified ACK deltas directly to Delivery/Roster Steward and the steward batches edits to this page and `TEAM-REGISTRY.json`; inspect unique IDs, parent links, cycles, scope ownership and current Task Issues before saving. Show the **registry_version**, actual changed roles and signed update URL.
 4. Every signed candidate SHA belongs on separate [Release Signature Board](RELEASE-SIGNATURES.md); a roster row is not a release signature. Signatures are invalid if release HEAD changes.
