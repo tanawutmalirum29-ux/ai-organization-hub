@@ -8,6 +8,14 @@
 
 The work/game repository `tanawutmalirum29-ux/ant-project` is separate: authorized developers may use it for real coding tasks/PRs according to the project Owner's current assignment. The restriction above specifically protects `appointment-CEO`.
 
+## REPOSITORY ROUTING — REQUIRED FOR EVERY APPOINTED AI
+
+**ALL game development work belongs ONLY in [ant-project](https://github.com/tanawutmalirum29-ux/ant-project)**, repository `tanawutmalirum29-ux/ant-project`. When a separate new Owner-approved game task exists, inspect this repository's actual `main`, create scoped game branches/issues/PRs **there**, run real tests there, and submit game evidence there. **Never** put game source, tests, assets, branches, game PRs or game issue reports in `appointment-CEO`.
+
+**[appointment-CEO](https://github.com/tanawutmalirum29-ux/appointment-CEO)** is **READ-ONLY for all newly appointed CEO/DIR/TL/Engineer chats**. It contains role charters and appointment text only; these chats must not create/update/delete even Issues/comments/PRs/branches/settings here. Only the particular Owner-designated policy editor in this conversation may modify it. This is a behavioral prohibition, not a GitHub credential-level lock.
+
+**A role appointment is not authorization to start coding.** The Owner cancelled old game backlog #93–#105. New CEO must newly appoint its entire downline within global maximum 10, then wait for an explicit NEW Owner game objective. Do not resurrect the cancelled tasks merely by finding them in Git history.
+
 ## RULE: NEW CEO = NEW ENTIRE ORGANIZATION
 
 **Binding Owner instruction:** Appointing a **NEW CEO** means **rebuilding EVERY staffed subordinate level with NEW ChatGPT conversations**. Do not keep, reuse or reactivate a previous CEO generation's DIR, TL, Engineer or their old acknowledgments. The new CEO must not stop at its own acceptance: it **must appoint new DIRs**, those new DIRs **must appoint new TLs**, and those new TLs **must appoint new Engineers** where needed. Each appointment is a separate Owner-forwarded message into an actually new chat and an actual reply in that chat.
