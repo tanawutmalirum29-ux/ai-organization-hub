@@ -12,7 +12,7 @@ test('Exactly one current full organization rulebook lives at governance/main/RU
  assert.match(rule,/DCEO-A/);
  assert.match(rule,/CCCC DB/);
  assert.match(rule,/PF/);
- assert.match(rule,/SIM/);
+ assert.match(rule,/QA/);
 });
 test('Main contains a single charter and one CEO appointment',()=>{
  assert.equal(fs.existsSync('roles'),false);
