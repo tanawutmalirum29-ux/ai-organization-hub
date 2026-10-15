@@ -123,7 +123,8 @@ if (!roundBranch) {
       fail(`${expected}: DECISION requires proposal reply, status and rationale`);
     if (m.sequence === 1 && (m.from_role !== 'OWNER' || m.to_role !== 'CEO' || m.kind !== 'APPOINTMENT')) fail('Message 000001 must be Owner→CEO bootstrap.');
     if (autonomyFrom != null && m.sequence >= autonomyFrom) {
-      if (m.from_role === 'OWNER' && m.kind !== 'CONSULTATION_REQUEST') fail(`${expected}: Owner is a courier, not a sender of implementation/decision messages in V7`);
+      if (m.from_role === 'OWNER' && m.kind !== 'CONSULTATION_REQUEST' &&
+          !(m.kind === 'APPOINTMENT' && m.to_role === 'ORG-ADVISOR')) fail(`${expected}: Owner is a courier, not a sender of implementation/decision messages in V7`);
       if (m.kind === 'DECISION' && m.to_role === 'OWNER')
         fail(`${expected}: Owner cannot receive a request to adjudicate decisions`);
       if (m.kind === 'CONSULTATION_REQUEST' && (!['OWNER','CEO'].includes(m.from_role) || !['GAME-ADVISOR','ORG-ADVISOR'].includes(m.to_role) ||
