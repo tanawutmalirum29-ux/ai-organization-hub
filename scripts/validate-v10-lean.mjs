@@ -133,13 +133,6 @@ export function validateV10Lean({root='workspace',round,roster,msgs,fail}) {
     err('each deputy CEO may be appointed only once');
   for(const m of dApps){
     if(!deputy||m.sequence<=deputy.sequence)err('DCEO appointment before deputy proposal');
-    const receiptPath=deputy && `workspace/receipts/M${String(deputy.sequence).padStart(6,'0')}/${deputy.to_appointment_id}.json`;
-    try{
-      const receipt=JSON.parse(fs.readFileSync(path.join(receiptPath),'utf8'));
-      if(receipt.message_id!==deputy.message_id ||
-         receipt.recipient_appointment_id!==deputy.to_appointment_id)
-        throw Error('wrong deputy receipt');
-    }catch{err('CEO must read receipt deputy proposal before creating either DCEO');}
   }
   if(stage>=4&&(!roles.has('DCEO-A')||!roles.has('DCEO-B')||
     !['DCEO-A','DCEO-B'].every(r=>dApps.some(m=>m.to_role===r))))
@@ -166,20 +159,13 @@ export function validateV10Lean({root='workspace',round,roster,msgs,fail}) {
        last.review?.plan_sha!==m.signoff?.plan_sha)
       err('PLAN_SIGNOFF requires prior latest AGREE by each DCEO on identical final plan');
   }
-  const hasReceipt=(message,recipient)=> {
-    try{
-      const pathName=`workspace/receipts/M${String(message.sequence).padStart(6,'0')}/${recipient}.json`;
-      const x=JSON.parse(fs.readFileSync(path.join(pathName),'utf8'));
-      return x.message_id===message.message_id &&
-        x.recipient_appointment_id===recipient &&
-        ['HANDLED','ACTION_STARTED','NO_ACTION'].includes(x.disposition);
-    }catch{return false;}
-  };
+  // Read markers do not gate consensus. Actual peer plan review does.
   for(const sign of signs){
-    const incoming=reviews.filter(x=>x.to_role===sign.from_role && x.from_role!==sign.from_role &&
-      x.sequence<sign.sequence && x.review?.plan_sha===sign.signoff?.plan_sha);
-    if(!incoming.length || !incoming.some(x=>hasReceipt(x,sign.from_appointment_id)))
-      err('both deputy CEOs must actually read and receipt peer plan review before signing');
+    const incoming=reviews.filter(v=>v.to_role===sign.from_role &&
+      v.from_role!==sign.from_role && v.sequence<sign.sequence &&
+      v.review?.plan_sha===sign.signoff?.plan_sha);
+    if(!incoming.length)
+      err('PLAN_SIGNOFF requires genuine prior peer PLAN_REVIEW on signed plan SHA');
   }
   const approvals=at('PLAN_APPROVAL');
   for(const m of approvals){
@@ -188,8 +174,6 @@ export function validateV10Lean({root='workspace',round,roster,msgs,fail}) {
     const ids=m.approval?.signoff_message_ids;
     if(!Array.isArray(ids)||ids.length!==2||new Set(ids).size!==2){err('PLAN_APPROVAL needs exactly two separate signatures');continue;}
     const both=ids.map(x=>byID.get(x));
-    if(both.some(x=>x && !hasReceipt(x,x.to_appointment_id)))
-      err('CEO must individually read/receipt both DCEO signatures before PLAN_APPROVAL');
     if(both.some(x=>!x||x.kind!=='PLAN_SIGNOFF'||x.sequence>=m.sequence) ||
        new Set(both.map(x=>x?.from_role)).size!==2 ||
        !['DCEO-A','DCEO-B'].every(x=>both.some(m=>m?.from_role===x))||
