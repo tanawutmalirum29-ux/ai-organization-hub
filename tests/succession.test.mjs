@@ -10,7 +10,7 @@ function snapshot(){
   repository,default_branch:'main',archived:false,branches:['main'],all_branches_fetched:true,main_sha,
   open_pr_count:0,all_open_prs_fetched:true,open_issues:[],all_open_issues_fetched:true,ci_result:'success'
  });
- return {artifact_type:'CLOSEOUT_ARCHIVE',verified_at:new Date().toISOString(),
+ return {artifact_type:'CLOSEOUT_REVIEW',verified_at:new Date().toISOString(),
   repositories:[repo('tanawutmalirum29-ux/appointment-CEO',GOV),repo('tanawutmalirum29-ux/ant-project',SHA)],
   archive:{verified_on_governance_main:true,source_round_commit_sha:'c'.repeat(40),
    game_main_sha:SHA,workspace_file_count:55,paths_and_hashes_verified:true,
@@ -24,10 +24,10 @@ test('After user c and verified cleanup, generate Completed plus single fresh co
  const t=generateNewCeoHandoff(snapshot(),template,roundId);
  assert.ok(t.startsWith('Completed\n\nROUND_ID: '+roundId+'\n'));
  assert.ok(t.includes('TO_APPOINTMENT_ID: '+roundId+'-CEO-01'));
- assert.ok(t.includes('GAME_MAIN_SHA_AT_APPOINTMENT: '+SHA));
- assert.ok(t.includes('GOVERNANCE_MAIN_SHA_AT_APPOINTMENT: '+GOV));
+ assert.ok(t.includes('GAME_MAIN_SHA: '+SHA));
+ assert.ok(t.includes('GOVERNANCE_MAIN_SHA: '+GOV));
  assert.ok(t.includes('OWNER_HANDOFF_CHECK: https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/55'));
- assert.ok(t.includes('READ_SINGLE_RULES_FIRST'));
+ assert.ok(t.includes('RULES: https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/RULES.md'));
  assert.ok(!/<[^<>]*>/.test(t));
  // The exact first-line Completed and fresh ID are already asserted above.
 });
