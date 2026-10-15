@@ -74,7 +74,7 @@ const journal=[
 ];
 const allRoles=[CEO,AD,DEP,A,B],retired=[CEO,...[AD,DEP,A,B].map(r=>({...r,status:'CLOSED'}))];
 function validate({phase='EXECUTION',messages=toExec,roles=[...retired,E],ownerEvents=journal,
- deputyReceipt=true,peerReceipts=true,signatureReceipts=true,planContent=planBytes,extraPlan=null,legacy=false,batchRetired=true,activity=true}={}){
+ deputyReceipt=true,peerReceipts=true,signatureReceipts=true,planContent=planBytes,extraPlan=null,batchRetired=true,activity=true}={}){
  const cwd=mkdtempSync(join(tmpdir(),'org-planning-'));
  try{
    mkdirSync(join(cwd,'workspace','messages'),{recursive:true});
