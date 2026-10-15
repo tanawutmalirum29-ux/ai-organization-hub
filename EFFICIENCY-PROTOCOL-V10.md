@@ -68,3 +68,7 @@ Write `workspace/recovery/<CURRENT_APPOINTMENT_ID>.json` **only after reading th
 These values are **structural examples only**, never literal evidence. The acting role must use actual URLs, latest real SHA, exact pending list, and real source round slug. If evidence cannot be checked, reply `ER`, not `C`. Personal/sensitive chat text is redacted on public GitHub; when the source transcript is incomplete, say so. The next chat gets a completely new first appointment and must read this evidence without assuming ChatGPT session memory transfers.
 
 **MQ helper:** `node scripts/v10-mq.mjs workspace` from the actual V10 round branch prints count per active role plus matched MN codes and separately deferred preliminary DCEO signatures. It does not query game Issues/CI; BR/BL/WHY require live GitHub checks and must distinguish verified blockers from unverified unknowns.
+
+## Final two-repository cleanup courier (CCCC DB)
+
+After mission/game-main release, verified permanent governance/main archive, and round closure, output ONLY `CCCC DB`. OWNER deletes all branches other than main in both `appointment-CEO` and `ant-project`, replies `c` in the **previous CEO's chat**. That CEO is authorized only to verify live main-only branches/PRs/issue triage/CI/archive; then output `Completed` plus detailed one-time first CEO appointment. An archive must physically survive branch deletion, not just be identified by commit SHA. Any unverified property requires `B`/`ER`. [Binding cleanup protocol](CLOSEOUT-PROTOCOL-V10.md).
