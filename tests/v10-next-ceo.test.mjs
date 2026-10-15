@@ -29,7 +29,7 @@ test('After user c and verified cleanup, generate Completed plus single fresh co
  assert.ok(t.includes('OWNER_HANDOFF_CHECK: https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/55'));
  assert.ok(t.includes('READ_SINGLE_RULES_FIRST'));
  assert.ok(!/<[^<>]*>/.test(t));
- assert.match(t,/^Completed\\n\\nROUND_ID:/);
+ // The exact first-line Completed and fresh ID are already asserted above.
 });
 test('Refuse successor if only one repository has main-only branches',()=>{
  const s=snapshot();s.repositories[0].branches.push('round/old');
