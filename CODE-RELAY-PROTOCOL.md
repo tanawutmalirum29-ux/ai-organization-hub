@@ -1,6 +1,6 @@
-# V9 — Short-code, GitHub-first inter-chat transport (V8 transport retained)
+# V10 — Short-code, GitHub-first inter-chat transport (V8 transport retained)
 
-**Normative for every new V9 round with V8 message transport.** Read [phased startup](STARTUP-PROTOCOL-V9.md) first.  This overrides V7's instruction to paste full messages between chats. `main` contains the reusable template; the only live data is under each new `round/<round-id-lowercase>/workspace`. Old V6/V7 ledgers are immutable history, not migrated.
+**V10 short-code transport:** New V10 rounds retain V8/V9 message identity, real Owner relay and per-M receipt. **Create a new actionable M only when its recipient must do something.** Save ordinary status silently; do not MN CEO after only the first DCEO signoff. Read [V10 startup](STARTUP-PROTOCOL-V10.md) and [V10 efficiency](EFFICIENCY-PROTOCOL-V10.md). Legacy V9 is retained for old rounds.  Read [phased startup](STARTUP-PROTOCOL-V9.md) first.  This overrides V7's instruction to paste full messages between chats. `main` contains the reusable template; the only live data is under each new `round/<round-id-lowercase>/workspace`. Old V6/V7 ledgers are immutable history, not migrated.
 
 ## 1. What appears in ChatGPT
 
@@ -8,6 +8,12 @@
 
 | Code in chat | Direction | Meaning / action |
 |---|---|---|
+| `FAST` | OWNER → CEO/acting lead | เร่งเฉพาะงานในขอบเขตที่รับอนุมัติ ลด M/รายงานที่ไม่จำเป็น ไม่ข้าม QA. |
+| `BR` | OWNER → CEO | สรุป PHASE/WORK/NEXT ไม่เกิน 3 บรรทัด. |
+| `BL` | OWNER → CEO | ตรวจ blocker จริงจาก GitHub ตอบสั้น. |
+| `MQ` | OWNER → CEO | นับคิว M ที่ต้องส่ง MN จริงต่อบทบาท ไม่ปลุก CEO เมื่อ DCEO มีลายเซ็นคนเดียว. |
+| `SW` | OWNER → assigned AI | บันทึก recovery/handoff ใน GitHub จากข้อมูลจริง ก่อนย้ายแชท. |
+| `WHY` | OWNER → active AI | อธิบายเหตุผลของ gate ที่ติดอยู่แบบสั้น. |
 | `NP` | OWNER → GAME-ADVISOR | ขอคำเสนอพัฒนาเกม; ที่ปรึกษาตรวจเกมและแสดงข้อเสนอ **เต็มข้อความ** ให้ OWNER แล้วรอ `C` ก่อนส่งให้รองที่ปรึกษา. |
 | `I` | OWNER → any appointed active AI chat | แสดงรายการรหัสทั้งหมด + ความหมายสั้น ๆ ตาม [COMMANDS.md](COMMANDS.md); เป็นข้อยกเว้นสำหรับคู่มือย่อเท่านั้น ต้อง journal คำถามและคำตอบ, ไม่ใช่การขอรายงานยาว. |
 | `MN` | OWNER → target chat | "New Message": scan **every** valid pending message addressed to my active appointment in the live round; **not merely the newest**. Do not guess IDs. |
@@ -83,3 +89,7 @@ CEO ต้องตรวจ **Round ล่าสุดที่ยัง ACTIVE
 ## 5. V9 NP and special OWNER C
 
 New CEO hires only GAME-ADVISOR and GAME-ADVISOR-DEPUTY, then pauses. OWNER sends `NP` or an idea to GAME-ADVISOR. GAME-ADVISOR must present the full proposal to OWNER and archive this exception; a later OWNER `C` is an **acknowledgment to proceed**, not the normal AI-completion C and never a game release vote. Journal Owner's actual C **after** the visible presentation. Then create the numbered ADVISOR_HANDOFF for deputy, let deputy propose CEO, let two temporary DCEOs co-sign one SHA and retire all four planning roles before staffing. Codes: `MN-GAME-ADVISOR-DEPUTY`, `MN-CEO`, `MN-DCEO-A`, `MN-DCEO-B`. Otherwise codes/receipts remain identical to V8. [Startup requirements](STARTUP-PROTOCOL-V9.md).
+
+## 6. V10 lean notification precedence
+
+Do not create M for routine ACK, work-start, progress, courtesy CI green or per-role retirement. Save a read receipt for each M that **does** exist, and log silent work in GitHub. DCEO peer debate still requires genuine cross-chat MN when peer must act, but CEO sees only a **matched two-signature actionable notification**. Retire all four with one verified batch file after CEO approval. `I` shows the six new OWNER commands. Old V9 history remains unchanged. [Source of truth](EFFICIENCY-PROTOCOL-V10.md).
