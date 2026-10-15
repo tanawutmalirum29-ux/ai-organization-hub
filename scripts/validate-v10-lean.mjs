@@ -54,9 +54,22 @@ export function validateV10Lean({root='workspace',round,roster,msgs,fail}) {
     !['GAME-ADVISOR','GAME-ADVISOR-DEPUTY'].every(r=>advApps.some(m=>m.to_role===r))))
     err('new CEO must appoint ONLY both advisors before proceeding');
   const presentations=at('ADVISOR_PRESENTATION');
+  const presentationOf=m=>m.presentation || (
+    typeof m.presentation_text==='string' &&
+    typeof m.owner_request_event_path==='string' &&
+    typeof m.advisor_presentation_event_path==='string' &&
+    /^[0-9a-f]{40}$/.test(m.source_game_main_sha||'')
+       ? {source:'OWNER_IDEA',proposal_text:m.presentation_text,
+          observed_game_evidence:m.source_game_main_sha} : null);
+  const handoffOf=m=>m.handoff || (
+    typeof m.advisor_presentation_message_id==='string' &&
+    typeof m.owner_c_event_path==='string'
+       ? {presentation_message_id:m.advisor_presentation_message_id,
+          owner_c_journal_path:m.owner_c_event_path} : null);
   if(presentations.some(m=>!named(m,'GAME-ADVISOR','OWNER') ||
-    !['NP','OWNER_IDEA'].includes(m.presentation?.source) ||
-    !nonblank(m.presentation?.proposal_text) || !nonblank(m.presentation?.observed_game_evidence)))
+    !['NP','OWNER_IDEA'].includes(presentationOf(m)?.source) ||
+    !nonblank(presentationOf(m)?.proposal_text) ||
+    !nonblank(presentationOf(m)?.observed_game_evidence)))
     err('presentation must be advisor full proposal to Owner from NP or idea');
   // The advisor must actually receive NP or an Owner idea and display the
   // complete saved proposal to Owner before advancing to wait-for-C.
@@ -66,14 +79,15 @@ export function validateV10Lean({root='workspace',round,roster,msgs,fail}) {
       const events=fs.readdirSync(dir).sort()
         .filter(name=>/^[0-9]{6}[.]json$/.test(name))
         .map(name=>JSON.parse(fs.readFileSync(path.join(dir,name),'utf8')));
-      const shown=events.findIndex(x=>x.speaker==='AI'&&x.appointment_id===p.from_appointment_id &&
+      const shown=events.findIndex(x=>(x.speaker==='AI'||x.speaker===p.from_role)&&
+        x.appointment_id===p.from_appointment_id &&
         Array.isArray(x.message_refs)&&x.message_refs.includes(p.message_id) &&
-        (x.text.trim()===p.presentation.proposal_text.trim() ||
+        (x.text.trim()===presentationOf(p)?.proposal_text?.trim() ||
           (x.redacted===true && nonblank(x.reason))));
       if(shown<1)throw Error('missing complete Owner-visible proposal journal');
       const ownerRequests=events.slice(0,shown).filter(x=>x.speaker==='OWNER');
       const hasOwnerRequest=ownerRequests.some(x=>
-        p.presentation.source==='NP' ? x.text.trim().toUpperCase()==='NP' :
+        presentationOf(p)?.source==='NP' ? x.text.trim().toUpperCase()==='NP' :
           nonblank(x.text) && !['NP','C','I','NX','MN','ST','SYNC'].includes(x.text.trim().toUpperCase()));
       if(!hasOwnerRequest)throw Error('NP or Owner game idea did not precede proposal');
     }catch(e){err('advisor must wait for real NP/idea and visibly present full proposal: '+e.message);}
@@ -81,11 +95,11 @@ export function validateV10Lean({root='workspace',round,roster,msgs,fail}) {
   const handoffs=at('ADVISOR_HANDOFF');
   for(const m of handoffs) {
     if(!named(m,'GAME-ADVISOR','GAME-ADVISOR-DEPUTY'))err('advisor handoff recipient invalid');
-    const p=byID.get(m.handoff?.presentation_message_id);
+    const p=byID.get(handoffOf(m)?.presentation_message_id);
     if(!p||p.kind!=='ADVISOR_PRESENTATION'||p.sequence>=m.sequence) {
       err('handoff must reference earlier advisor presentation');continue;
     }
-    const journal=m.handoff?.owner_c_journal_path||'';
+    const journal=handoffOf(m)?.owner_c_journal_path||'';
     const prefix='workspace/chats/'+m.from_appointment_id+'/events/';
     if(!journal.startsWith(prefix)||!/^\d{6}\.json$/.test(journal.slice(prefix.length))){
       err('handoff missing safe advisor Owner C journal path');continue;
@@ -101,7 +115,8 @@ export function validateV10Lean({root='workspace',round,roster,msgs,fail}) {
       let presentationShown=false;
       for(let n=1;n<idx;n++){
         const item=JSON.parse(fs.readFileSync(path.join(eventsDir,String(n).padStart(6,'0')+'.json'),'utf8'));
-        if(item.speaker==='AI' && Array.isArray(item.message_refs) &&
+        if((item.speaker==='AI'||item.speaker===m.from_role) &&
+           Array.isArray(item.message_refs) &&
            item.message_refs.includes(p.message_id) && nonblank(item.text) &&
            item.text!=='C' && item.text!=='[UNAVAILABLE]')presentationShown=true;
       }
@@ -159,13 +174,12 @@ export function validateV10Lean({root='workspace',round,roster,msgs,fail}) {
        last.review?.plan_sha!==m.signoff?.plan_sha)
       err('PLAN_SIGNOFF requires prior latest AGREE by each DCEO on identical final plan');
   }
-  // Read markers do not gate consensus. Actual peer plan review does.
+  // READ is only an inbox bookmark; actual peer PLAN_REVIEW is required.
   for(const sign of signs){
-    const incoming=reviews.filter(v=>v.to_role===sign.from_role &&
-      v.from_role!==sign.from_role && v.sequence<sign.sequence &&
-      v.review?.plan_sha===sign.signoff?.plan_sha);
-    if(!incoming.length)
-      err('PLAN_SIGNOFF requires genuine prior peer PLAN_REVIEW on signed plan SHA');
+    const incoming=reviews.filter(x=>x.to_role===sign.from_role &&
+      x.from_role!==sign.from_role && x.sequence<sign.sequence &&
+      x.review?.plan_sha===sign.signoff?.plan_sha);
+    if(!incoming.length)err('PLAN_SIGNOFF requires genuine prior peer PLAN_REVIEW on signed plan SHA');
   }
   const approvals=at('PLAN_APPROVAL');
   for(const m of approvals){
