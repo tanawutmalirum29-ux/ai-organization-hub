@@ -29,4 +29,4 @@ function verify(mode='valid'){
  }finally{rmSync(root,{recursive:true,force:true});}
 }
 test('Organization SW packet with actual last chat event and exact M inbox passes',()=>assert.deepEqual(verify(),[]));
-test('Organization SW refuses to silently omit unreceipted M',()=>assert.match(verify('wrong').join(' '),/pending M snapshot disagrees/));
+test('Organization SW refuses to omit actionable M without recorded response',()=>assert.match(verify('wrong').join(' '),/actionable M snapshot disagrees/));
