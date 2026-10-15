@@ -1,5 +1,8 @@
 # V9 — Dynamic shallow execution appointment (ONE-time full message)
 
+> **V10 Lean execution-stage first appointment override:** NEVER appoint before both DCEO signoffs, CEO PLAN_APPROVAL and one checked retirement batch with four CLOSED planners. Appoint this execution role only in the smallest suitable direct-parent chain. One initial full appointment, then only action-triggered M/MN; routine ACK/status/tests stay in Issue/PR or append-only activity. Do not message CEO for a fixable Engineer subtask within authorized scope. QA independence/CI/exact-head release still mandatory. See [V10 Lean](../EFFICIENCY-PROTOCOL-V10.md).
+
+
 Use only **after** two DCEO signatures on the exact same plan blob, CEO PLAN_APPROVAL and ROLE_RETIRED of all four temporary planners. The actual signer plan suggests roles and scopes; CEO may choose an appropriately different smaller team with recorded rationale, but no pre-approval engineering. A fresh appointed role can be direct CEO or a matching DIR/TL as needed — no forced hierarchy levels.
 
 Allowed structures:
