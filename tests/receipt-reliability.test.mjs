@@ -40,12 +40,15 @@ test('repeating a saved valid READ returns already_read instead of rewriting',()
  assert.equal(r.already_read,true);
  assert.equal(r.record,null);
 }));
-test('existing invalid bookmark must not silently count as read',()=>fixture(ws=>{
+test('existing invalid bookmark stays unread and can be repaired by actual recipient',()=>fixture(ws=>{
  const p=path.join(ws,'receipts','M000001',ap+'.json');
  mkdirSync(path.dirname(p),{recursive:true});
  writeFileSync(p,JSON.stringify({round_id:rid,message_id:id(2),
  recipient_appointment_id:ap,read_at:now}));
- assert.throws(()=>prepareReceiptDraft(base(ws)),/invalid marker/);
+ const repaired=prepareReceiptDraft(base(ws));
+ assert.equal(repaired.already_read,false);
+ assert.equal(repaired.repair_existing,true);
+ assert.deepEqual(receiptShapeErrors(repaired.record,rid),[]);
 }));
 test('legacy disposition is optional for reading and does not gate result',()=>fixture(ws=>{
  const record=prepareReceiptDraft({...base(ws),disposition:'BLOCKED',reason:'unused',evidenceRef:'unused'}).record;
