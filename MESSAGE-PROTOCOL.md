@@ -66,6 +66,10 @@ Each read receipt is a **separate immutable** `workspace/receipts/M000000/<appoi
 
 If the recipient's `MN` includes multiple incoming messages, all must be checked/receipted before the chat response `C`; if work is still ongoing, record it in GitHub and use `P` / `B`. No message is silently dropped merely because it was superseded by a newer directive. Where GitHub cannot be accessed, report `ER`, not false success. See the complete [V8 checklist](CODE-RELAY-PROTOCOL.md).
 
+## 3.0 Quick command reference via `I`
+
+OWNER sends `I` to an appointed active AI chat to receive the short [canonical command list](COMMANDS.md) in-chat. This small reference-only reply is an explicit exception to routine code-only replies; **never** include an actual full M body, report, QA evidence or chat log. Journal the OWNER's `I` and the returned concise cheat sheet. This is not an AI-to-AI message and creates no extra global message record.
+
 ## 3A. Organization-wide status and courier instructions via `NX`
 
 OWNER sends `NX` to the **current CEO** to ask "Where is work up to, and whom should I MN next?" CEO must inspect the live roster, all messages, all individual receipts, open game Issues/PR/CI, first appointments and outstanding tasks; write detailed findings **only to GitHub**. Reply with **all** relevant short `MN-ROLE` codes, `AP-ROLE` for an initial appointment requiring its full one-time text, or `C`/`P`/`B`/`ER` if none to route. Never direct OWNER to a retired chat, never mark another chat's message read, and never assume a GitHub-saved message was physically relayed. [Full NX rules](CODE-RELAY-PROTOCOL.md#2a-nx--ใครต้องได้รับ-mn-ต่อ-ownerceo).
