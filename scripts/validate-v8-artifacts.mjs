@@ -64,6 +64,33 @@ export function validateV8Artifacts({root='workspace',round,roster,msgs,fail}) {
     }
   }
 
+  if (round.protocol_version === 'V10') {
+    const activityDir=path.join(root,'activity');
+    for (const appointment of list(activityDir)) {
+      const dir=path.join(activityDir,appointment);
+      if(!safeAppointment.test(appointment)||!fs.statSync(dir).isDirectory()||
+         !validHistoric(appointment,(roster.roles||[]).find(r=>r.appointment_id===appointment)?.role_id
+           ||(Array.isArray(historic)?historic.find(h=>h.appointment_id===appointment)?.role_id:null)))
+        {issue('invalid silent activity appointment '+appointment);continue;}
+      let n=0;
+      for(const name of list(dir)){
+        n++;
+        if(name!==String(n).padStart(6,'0')+'.json'){
+          issue('silent activity sequence gap '+appointment+'/'+name);continue;
+        }
+        const a=read(path.join(dir,name));if(!a)continue;
+        if(a.sequence!==n||a.round_id!==rid||a.appointment_id!==appointment||
+           !validHistoric(appointment,a.role_id)||!date(a.logged_at)||
+           !isNonempty(a.summary)||
+           !['STATUS','PROGRESS','QA','BLOCKER','RECOVERY','FAST','BR','BL','MQ','WHY','SW'].includes(a.kind))
+          issue('invalid silent activity event '+appointment+'/'+name);
+        if(a.evidence_url!=null && (!isNonempty(a.evidence_url) ||
+           !a.evidence_url.startsWith('https://github.com/')))
+          issue('silent activity evidence_url must be verified Github HTTPS');
+      }
+    }
+  }
+
   for (const appointment of list(chats)) {
     const dir=path.join(chats,appointment);
     if (!safeAppointment.test(appointment)||!fs.statSync(dir).isDirectory()) {issue('bad journal appointment directory '+appointment);continue;}
