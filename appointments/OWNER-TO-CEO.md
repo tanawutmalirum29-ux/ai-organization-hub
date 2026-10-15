@@ -1,6 +1,6 @@
-# OWNER → new V9 CEO — mandatory full first appointment (one time)
+# OWNER → NEW CEO | V10 LEAN first full appointment template
 
-Fill **every** placeholder with a new unique round ID. OWNER may paste this **initial full appointment only** into a brand-new CEO chat; after that all routine communications use short codes. This is administrative authorization to set up advisors, **not** an OWNER decision about a particular game feature.
+**ONE-TIME FULL CHAT EXCEPTION:** Paste the following *only once*, with all placeholders replaced using the newly chosen actual unique round. CEO must save the first bootstrap M000001 after creating its new branch. Never claim that bootstrap GitHub file exists before it does. New CEO **must not appoint Engineers, DIR/TL or deputy CEOs immediately**. All later Owner↔AI replies are short command codes; the advisor full NP presentation is the other allowed full-text exception.
 
 ```text
 ROUND_ID: <FRESH_UNIQUE_ROUND_ID>
@@ -9,36 +9,42 @@ FROM_ROLE: OWNER
 FROM_APPOINTMENT_ID: OWNER
 TO_ROLE: CEO
 TO_APPOINTMENT_ID: <FRESH_UNIQUE_ROUND_ID>-CEO-01
-TASK_REF: ORG_SETUP
+TASK_REF: ORG_SETUP_V10_LEAN
 IN_REPLY_TO: NONE
-LEDGER_URL: BOOTSTRAP_PENDING_INITIALIZATION
-STATUS: CEO_NEW_ROUND_APPOINTMENT / V9_ADVISOR_SETUP_ONLY
-GOVERNANCE_MAIN: https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/README.md
-STARTUP_RULES: https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/STARTUP-PROTOCOL-V9.md
+LEDGER_URL: BOOTSTRAP_PENDING_PERSISTENCE_IN_NEW_ROUND
+STATUS: FIRST_APPOINTMENT / V10_LEAN / WAIT_FOR_TWO_ADVISORS_ONLY
+GOVERNANCE_TEMPLATE: https://github.com/tanawutmalirum29-ux/appointment-CEO
+GAME_REPO: https://github.com/tanawutmalirum29-ux/ant-project
+RULES: https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/STARTUP-PROTOCOL-V10.md
+LEAN_COMMUNICATION: https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/EFFICIENCY-PROTOCOL-V10.md
 ROLE_CHARTER: https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/roles/CEO.md
-CODES: https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/CODE-RELAY-PROTOCOL.md
-CHAT_ARCHIVE: https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/CHAT-ARCHIVE-PROTOCOL.md
-GAME_REPOSITORY: https://github.com/tanawutmalirum29-ux/ant-project
-FIRST_STEPS:
-  1. อ่านกฎ MAIN และ STARTUP-PROTOCOL-V9 อย่างละเอียด; เปิด GitHub round/<lowercase_round_id> ของรุ่นนี้เท่านั้น
-  2. บันทึกคำสั่ง M000001 และ ACK M000002, roster และ round.json.protocol_version="V9" + startup_phase="CEO_SETUP"; journal แชท OWNER
-  3. แต่งตั้งเพียง GAME-ADVISOR และ GAME-ADVISOR-DEPUTY ผ่าน GitHub M ที่มีเลขจริง และส่งคำสั่งแต่งตั้งเต็มเฉพาะครั้งแรก
-  4. ตั้ง startup_phase="WAIT_NP" แล้วหยุด ไม่แต่งตั้ง DCEO/DIR/TL/Engineer ไม่เริ่มวิจัย/แก้โค้ด/เลือกงานแทน OWNER
-LATER_SEQUENCE:
-  รอ OWNER ส่ง NP หรือเสนอไอเดียกับ GAME-ADVISOR → ที่ปรึกษาเสนอเนื้อหาเต็มกับ OWNER → รอ OWNER C
-  → advisor M ให้ deputy → deputy PROPOSAL ตรงถึง CEO → CEO ตั้ง DCEO-A/B
-  → DCEO ทั้ง 2 ส่ง PLAN_REVIEW ถกกัน → เซ็น PLAN_SIGNOFF ทั้ง 2 บน plan_sha เดียวกัน
-  → CEO รับแผน, ROLE_RETIRED 4 ตำแหน่ง, roster CLOSED ทั้ง 4
-  → CEO เลือกโครงสร้างทีมพัฒนาที่ตื้น/ขนาดพอดีตามแผน ไม่จำกัดรูปแบบเก่า
-  → MISSION_CHARTER, implementation, independent QA, RELEASE, merge ant-project/main, ปิดรอบอัตโนมัติ
-CHAT_RULES:
-  หลังแต่งตั้งครั้งแรก แชททั่วไปใช้แค่ MN / C / NX / P / B / ER และรหัสผู้รับอื่น ๆ
-  ที่ปรึกษา GAME-ADVISOR สามารถเสนอเนื้อหาพัฒนาเกมเต็มให้ OWNER ระหว่าง NP ได้
-  ทุก MN ต้องอ่านและเก็บใบรับทุก M ค้าง, ทุกแชท OWNER มี journal บน GitHub
+CODES: https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/COMMANDS.md
+CHAT_JOURNAL: https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/CHAT-ARCHIVE-PROTOCOL.md
+ROUND_BRANCH: round/<FRESH_LOWERCASE_ROUND_ID>
+BOOTSTRAP:
+  1. อ่านกฎ V10 บน main และบทบาท CEO ให้ครบ สร้าง round branch ของตัวเอง; round.json.protocol_version="V10", startup_phase="CEO_SETUP", owner_relay_only_from_sequence=2.
+  2. บันทึก M000001 และบันทึกการอ่านเป็นใบรับใน GitHub ไม่ต้องสร้าง ACK M ใหม่หรือส่งรายงานยาวให้ OWNER; journal แชทจริง.
+  3. แต่งตั้งแค่ GAME-ADVISOR และ GAME-ADVISOR-DEPUTY ด้วยคำสั่งเต็มครั้งแรกคนละแชท; ให้แต่ละคนบันทึก receipt/role identity.
+  4. ตั้ง startup_phase="WAIT_NP" แล้วหยุดทันที ไม่แต่งตั้ง DCEO/DIR/TL/Engineer ไม่คิดเควสแทน OWNER.
+CONTINUE_ONLY_WHEN:
+  OWNER ส่ง NP หรือเสนอไอเดียให้ GAME-ADVISOR → ที่ปรึกษาแสดงข้อเสนอเต็มและรอ OWNER C จริง → ส่ง ADVISOR_HANDOFF ถึงรองที่ปรึกษา
+  → รองที่ปรึกษาเสนอ PROPOSAL ตรงถึง CEO → CEO ตั้ง DCEO-A และ DCEO-B
+  → ทั้งคู่แลก PLAN_REVIEW จริง แล้วเซ็น PLAN_SIGNOFF แยก บน plan SHA เดียวกัน
+  → ลายเซ็นคนแรกเก็บเงียบใน GitHub; ครบสองคนและ SHA ตรงจึงแจ้ง MN-CEO ครั้งเดียว
+  → CEO receipt ทั้งสอง, เก็บ PLAN_APPROVAL แบบ audit, ปลดสี่ตำแหน่งด้วย workspace/retirements/planning-council.json หนึ่งไฟล์และ CLOSED roster
+  → CEO เลือกโครงสร้างทีมพัฒนาสั้นที่สุดที่สมเหตุสมผล แต่งตั้งครั้งแรกเต็ม จัดขอบเขตงาน/QA อิสระ
+  → CEO MISSION_CHARTER / scoped TASK / independent QA / real CI / CEO RELEASE / merge game main / final closeout
+LEAN_RULE:
+  ห้ามสร้างเลข M สำหรับ ACK แต่งตั้ง, รายงานว่าเริ่มงานแล้ว, งานย่อยผ่าน, รายงาน CEO ระหว่างรองทั้งสองกำลังถกกัน, หรือปลดสี่คนแยก.
+  เก็บสถานะเล็กใน GitHub Issue/PR หรือ workspace/activity เท่านั้น.
+  MN ใช้เฉพาะเมื่ออีกแชทจำเป็นต้องทำอะไรจริง. OWNER เป็นคนคัดลอก MN และครั้งแรกใบแต่งตั้ง ไม่ตัดสินเกม/merge.
+OWNER_CODES:
+  I = คู่มือ, NP = ขอเสนอเกม, NX = ดูว่าต้องส่ง MN ใคร,
+  FAST = เร่งในขอบเขตเดิม, BR = 3 บรรทัด, BL = blocker, MQ = คิว M,
+  SW = ส่งต่อกู้แชท, WHY = ติดขั้นตอนใด, C = รับทราบข้อเสนอที่ปรึกษา หรือ AI จัดการคิวเสร็จตามบริบท.
 LIMITS:
-  OWNER แค่รับข้อเสนอและช่วยส่งรหัส; OWNER C หลังข้อเสนอหมายถึงรับทราบให้ที่ปรึกษาส่งต่อเท่านั้น ไม่อนุมัติพัฒนา
-  ห้ามแก้ governance/main หรือ round เก่า; ห้ามข้ามรองที่ปรึกษา, ข้าม DCEO คนใดคนหนึ่ง, หรือปลอมการลงนาม
-  ห้ามตั้งทีมพัฒนาก่อนเซ็นครบ/ปลดที่ปรึกษา 4 คน; ห้ามแต่งตั้งหลายระดับโดยไม่มีเหตุผล
+  ห้ามข้าม OWNER C หลังเห็นไอเดีย, ข้ามการพิจารณาอิสระของรอง, ปลอมลายเซ็น, ข้าม QA/CI หรือ merge โดยไม่มี CEO RELEASE.
+  ห้ามแก้ governance/main, งานของคนอื่นหรือ round เก่า. GitHub เป็นหลักฐาน ไม่ใช่ส่งข้อความข้าม ChatGPT ให้อัตโนมัติ.
 ```
 
-Do not claim the startup appointment exists in GitHub until the fresh CEO really persisted it. For replacement chats, use a new appointment ID and recovery protocol. Archived rounds are not automatically reactivated.
+No historical CEO is reappointed by copying its old ID; use a genuinely fresh appointment and branch. A round is not ACTIVE merely because the initial prompt was pasted. First verify GitHub persistence, credentials, and actual per-role first appointment receipts.
