@@ -91,7 +91,7 @@ export function buildLeanMessage(input){
     // Preserve mandatory kind-specific schema fields without allowing envelope overrides.
     const extra=input.extra??{};
     if(!extra||typeof extra!=='object'||Array.isArray(extra))throw new Error('extra must be object');
-    const reserved=new Set([...Object.keys(msg),'relay_text','recorded_at']);
+    const reserved=new Set([...Object.keys(msg),'relay_text','recorded_at','__proto__','constructor','prototype']);
     for(const [key,value] of Object.entries(extra)){
       if(reserved.has(key)||!/^[_a-zA-Z][_a-zA-Z0-9]*$/.test(key))
         throw new Error('Extra field would override a protected envelope property');
@@ -103,10 +103,15 @@ export function buildLeanMessage(input){
   return msg;
 }
 export function checkMessageForWrite(message,{existingIds=[],planSha=null}={}){
+  if(!Array.isArray(existingIds))throw new Error('Fetch a complete real GitHub messages list');
   if(existingIds.includes(message.message_id))throw new Error('Message already exists: never overwrite');
-  const next=existingIds.map(id=>Number(id.slice(-6))).filter(Number.isSafeInteger);
-  if(next.length && Math.max(...next)+1!==message.sequence)
-    throw new Error('Message sequence stale: refetch GitHub directory');
+  if(existingIds.length!==message.sequence-1)
+    throw new Error('Message sequence stale or incomplete: refetch GitHub directory');
+  for(let i=0;i<existingIds.length;i++){
+    const expected=message.round_id+'-M'+String(i+1).padStart(6,'0');
+    if(existingIds[i]!==expected)
+      throw new Error('Message sequence gap or foreign round: refetch GitHub directory');
+  }
   const ref=message.review||message.signoff;
   if(ref&&planSha!==ref.plan_sha)throw new Error('Real plan Git blob SHA not confirmed');
   return true;
