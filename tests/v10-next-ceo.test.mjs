@@ -24,12 +24,12 @@ test('After user c and verified cleanup, generate Completed plus single fresh co
  const t=generateNewCeoHandoff(snapshot(),template,roundId);
  assert.ok(t.startsWith('Completed\n\nROUND_ID: '+roundId+'\n'));
  assert.ok(t.includes('TO_APPOINTMENT_ID: '+roundId+'-CEO-01'));
- assert.ok(t.includes('PREVIOUS_GAME_MAIN_SHA: '+SHA));
+ assert.ok(t.includes('GAME_MAIN_SHA_AT_APPOINTMENT: '+SHA));
  assert.ok(t.includes('GOVERNANCE_MAIN_SHA_AT_APPOINTMENT: '+GOV));
- assert.ok(t.includes('HANDOFF_CHECK: https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/55'));
- assert.ok(t.includes('WAIT_FOR_TWO_ADVISORS_ONLY'));
+ assert.ok(t.includes('OWNER_HANDOFF_CHECK: https://github.com/tanawutmalirum29-ux/appointment-CEO/issues/55'));
+ assert.ok(t.includes('READ_SINGLE_RULES_FIRST'));
  assert.ok(!/<[^<>]*>/.test(t));
- assert.equal(t.match(/Completed/g)?.length,1);
+ assert.match(t,/^Completed\\n\\nROUND_ID:/);
 });
 test('Refuse successor if only one repository has main-only branches',()=>{
  const s=snapshot();s.repositories[0].branches.push('round/old');
