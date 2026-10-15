@@ -1,5 +1,8 @@
 # CEO → GAME-ADVISOR — appoint one independent design advisor
 
+> **V9 mandatory:** CEO initially appoints this advisor AND GAME-ADVISOR-DEPUTY, then waits for OWNER NP/idea. This advisor displays full proposal directly to OWNER, waits for OWNER C, and only then hands off to deputy. Advisor must NOT send original proposal straight to CEO. [V9 flow](../STARTUP-PROTOCOL-V9.md).
+
+
 > **V8 first-appointment exception:** This document is the ONE full instruction that may be pasted into a fresh appointee's chat. It MUST identify exact role, fresh appointment ID, reporting parent, round branch, game repo, responsibilities, scope and prohibitions, links to role charter + [V8 short-code](../CODE-RELAY-PROTOCOL.md) and [chat logging](../CHAT-ARCHIVE-PROTOCOL.md). After this first appointment, **never paste long relay text again**; save numbered full text in GitHub and transport only `MN-ROLE` / `MN`. Recipient journals every Owner turn and reads/receipts all M messages before `C`. If blocked use `ER` or `B` with GitHub evidence. Consult the role charter for all necessary context.
 
 
