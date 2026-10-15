@@ -195,13 +195,14 @@ test('V10 rejects mismatched second SHA, changed blob and later revision',()=>{
  blocked(validate({planContent:planBytes+'x'}),/actual plan blob|invalid plan/);
  blocked(validate({extraPlan:{...plan,revision:2}}),/superseded by later plan revision/);
 });
-test('V10 must actually receipt peer PLAN_REVIEW and both CEO signatures',()=>{
- blocked(validate({peerReceipts:false}),/read and receipt peer plan review/);
- blocked(validate({signatureReceipts:false}),/CEO must individually read\/receipt both/);
+test('V10 missing READ bookmarks do not block valid planning and approval',()=>{
+  pass(validate({peerReceipts:false,signatureReceipts:false,deputyReceipt:false}));
 });
-test('V10 receipt of deputy PROPOSAL is required before DCEO appointment',()=>blocked(validate({
- phase:'DCEO_CONSENSUS',messages:toDceo,roles:allRoles,deputyReceipt:false,batchRetired:false}),
- /CEO must read receipt deputy proposal/));
+test('V10 plan gates still reject absent genuine peer review',()=>{
+  const missingPeer=toApproval.filter(x=>!(x.kind==='PLAN_REVIEW'&&x.to_role==='DCEO-A'));
+  blocked(validate({phase:'DCEO_CONSENSUS',messages:missingPeer,roles:allRoles,batchRetired:false}),
+    /prior peer PLAN_REVIEW|PLAN_SIGNOFF/);
+});
 test('V10 preserves V9 validators: old protocol not changed by Lean variant',()=>pass(validate({
  legacy:true,phase:'CEO_SETUP',messages:[bootstrap],roles:[CEO],
  ownerEvents:[],deputyReceipt:false,batchRetired:false,planContent:null,activity:false})));
