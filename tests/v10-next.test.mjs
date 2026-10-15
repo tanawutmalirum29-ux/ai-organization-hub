@@ -5,6 +5,7 @@ import {tmpdir} from 'node:os';
 import {dirname,join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {nextCourierPlan} from '../scripts/v8-next.mjs';
+import {messageQueueCounts} from '../scripts/v10-mq.mjs';
 
 const round='V10-QUEUE', app=role=>round+'-'+role+'-01';
 const names=['CEO','GAME-ADVISOR','GAME-ADVISOR-DEPUTY','DCEO-A','DCEO-B'];
@@ -71,5 +72,21 @@ test('V10 with first signoff already receipted still routes second once pair is 
  const r=nextCourierPlan(join(root,'workspace'));
  assert.deepEqual(r.mn_codes,['MN-CEO']);
  assert.deepEqual(r.routing[0].message_ids,[round+'-M000003']);
+ }finally{rmSync(root,{recursive:true,force:true});}
+});
+
+test('V10 MQ reports zero actionable CEO messages and one deferred signature',()=>{
+ const root=fixture();try{
+ const r=messageQueueCounts(join(root,'workspace'));
+ assert.match(r.text,/CEO:0/);
+ assert.equal(r.deferred_dceo_signoffs,1);
+ assert.deepEqual(r.mn_codes,[]);
+ }finally{rmSync(root,{recursive:true,force:true});}
+});
+test('V10 MQ counts both valid signoffs as actionable and then excludes closed staff',()=>{
+ const root=fixture({both:true});try{
+ const r=messageQueueCounts(join(root,'workspace'));
+ assert.match(r.text,/CEO:2/);
+ assert.deepEqual(r.mn_codes,['MN-CEO']);
  }finally{rmSync(root,{recursive:true,force:true});}
 });
