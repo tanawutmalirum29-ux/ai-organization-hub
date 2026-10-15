@@ -1,5 +1,8 @@
 # TL → New Engineer (same TL only)
 
+> **V8 first-appointment exception:** This document is the ONE full instruction that may be pasted into a fresh appointee's chat. It MUST identify exact role, fresh appointment ID, reporting parent, round branch, game repo, responsibilities, scope and prohibitions, links to role charter + [V8 short-code](../CODE-RELAY-PROTOCOL.md) and [chat logging](../CHAT-ARCHIVE-PROTOCOL.md). After this first appointment, **never paste long relay text again**; save numbered full text in GitHub and transport only `MN-ROLE` / `MN`. Recipient journals every Owner turn and reads/receipts all M messages before `C`. If blocked use `ER` or `B` with GitHub evidence. Consult the role charter for all necessary context.
+
+
 Check your own round roster and newest persisted numbered message first; create one distinct pending Engineer appointment. Persist the message BEFORE Owner-forwarding.
 
 ```text
@@ -19,6 +22,7 @@ REQUESTED_ACTION:
   ส่ง ACK ที่สร้างเลขใหม่จริงให้ Owner คัดลอกส่งกลับ TL ของตน
   เมื่อ CEO ออก MISSION_CHARTER และ TL มอบ TASK ที่ผ่านสายงานแล้ว จึงพัฒนาเฉพาะไฟล์ที่มอบหมายใน ant-project; ห้ามรอ/ขออนุมัติ OWNER
   เมื่อเสร็จ/ติดขัด ให้สร้าง RESULT/BLOCKED เลขใหม่และส่งข้อความพร้อมคัดลอกถึง TL เดิม
+V8_COMMUNICATION: ครั้งแรกแต่งตั้งอธิบายบทบาทเต็มได้เท่านั้น; หลังจากนั้น AI ตอบ OWNER สั้นที่สุดเพียง C / MN-ROLE / P / B / ER; OWNER ส่ง MN ให้ผู้รับอ่าน GitHub ทุก M ที่ค้าง เขียนใบรับทุก M และบันทึกแชทกับ OWNER ใน workspace/chats/<appointment_id>/events; ห้ามนำ relay_text ยาวมาแสดงในแชทอีก
 LIMITS: TL แต่งตั้ง Engineer ได้สูงสุด 3 คน; คนที่ 4 ต้องอยู่ใต้ TL คนที่สอง (2+2 หรือ 3+1); Engineer ไม่มีสิทธิ์แต่งตั้งลูกทีม/merge game main/แก้ governance main/round อื่น
 ```
 
