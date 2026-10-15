@@ -31,10 +31,19 @@ export function preflight(snapshot){
   else for(const b of r.branch_risks){
    if(!live.includes(b.name)||!sha(b.head_sha)||b.compared_against_sha!==r.main_sha||
       b.compare_complete!==true)problems.push(name+': unverified compare for '+b.name);
-   if(b.ahead_by>0 && !(b.recoverable===true&&trusted(b.future_issue_url)&&
-     trusted(b.durable_patch_url)&&b.code_and_tests_preserved===true))
+   const archivedOwnRound=(name===REPOS[0] && b.name.startsWith('round/') &&
+      snapshot.archive?.source_round_branch===b.name &&
+      snapshot.archive?.source_round_sha===b.head_sha &&
+      snapshot.archive?.stored_on_governance_main===true &&
+      snapshot.archive?.all_files_verified===true &&
+      snapshot.archive?.privacy_review_passed===true &&
+      trusted(snapshot.archive?.manifest_url));
+   const deferredCode=b.recoverable===true&&trusted(b.future_issue_url)&&
+      trusted(b.durable_patch_url)&&b.code_and_tests_preserved===true;
+   if(b.ahead_by>0 && !archivedOwnRound && !deferredCode)
     problems.push(name+': unique unmerged code on '+b.name+' is not durably preserved');
-   else pending.push({repository:name,branch:b.name,ahead_by:b.ahead_by,archive_link:b.durable_patch_url||null});
+   else pending.push({repository:name,branch:b.name,ahead_by:b.ahead_by,
+     archive_link:archivedOwnRound?snapshot.archive.manifest_url:(b.durable_patch_url||null)});
   }
   if(r.release_ci!=='success'||r.release_qa!=='success')
    problems.push(name+': latest relevant release/CI/QA checks not verified');
