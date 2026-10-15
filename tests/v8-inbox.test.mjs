@@ -28,8 +28,9 @@ test('MN returns every pending M in increasing order, not just newest',()=>{
 test('MN repeated skips exact individually receipted M and retains other two',()=>{
  setup(root=>{
    const p=join(root,'receipts','M000002');mkdirSync(p,{recursive:true});
-   writeFileSync(join(p,id+'.json'),JSON.stringify({message_id:rid+'-M000002',recipient_role:role,
-     recipient_appointment_id:id,disposition:'NO_ACTION'}));
+   writeFileSync(join(p,id+'.json'),JSON.stringify({round_id:rid,message_id:rid+'-M000002',
+     recipient_role:role,recipient_appointment_id:id,trigger:'MN',disposition:'NO_ACTION',
+     reason:'Read and no action required',read_at:'2026-10-15T01:00:00Z'}));
    const r=getPendingInbox(root,role,id);
    assert.deepEqual(r.pending.map(x=>x.message_id),[rid+'-M000001',rid+'-M000003']);
    assert.equal(r.already_receipted_count,1);

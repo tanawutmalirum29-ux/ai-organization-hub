@@ -37,11 +37,13 @@ function fixture({both=false,mismatch=false,receiptFirst=false}={}){
  add('DCEO-A');if(both)add('DCEO-B');
  messages.forEach((m,i)=>save(cwd,'workspace/messages/'+String(i+1).padStart(6,'0')+'.json',m));
  save(cwd,'workspace/receipts/M000001/'+app('CEO')+'.json',{
-   message_id:messages[0].message_id,recipient_role:'CEO',
-   recipient_appointment_id:app('CEO'),disposition:'HANDLED'});
+   round_id:round,message_id:messages[0].message_id,recipient_role:'CEO',
+   recipient_appointment_id:app('CEO'),trigger:'APPOINTMENT',disposition:'HANDLED',
+   reason:'CEO received original appointment',read_at:'2026-10-15T01:00:00Z'});
  if(receiptFirst)save(cwd,'workspace/receipts/M000002/'+app('CEO')+'.json',{
-  message_id:messages[1].message_id,recipient_role:'CEO',
-  recipient_appointment_id:app('CEO'),disposition:'HANDLED'});
+  round_id:round,message_id:messages[1].message_id,recipient_role:'CEO',
+  recipient_appointment_id:app('CEO'),trigger:'MN',disposition:'HANDLED',
+  reason:'Received first DCEO signoff',read_at:'2026-10-15T01:01:00Z'});
  return cwd;
 }
 test('V10 NX suppresses first DCEO signature and reports deferred count, not an MN to CEO',()=>{

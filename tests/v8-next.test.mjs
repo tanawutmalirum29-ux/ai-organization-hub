@@ -20,8 +20,11 @@ function setup(fn,config={}){
   items.forEach((m,i)=>writeFileSync(join(root,'messages',String(i+1).padStart(6,'0')+'.json'),JSON.stringify(m)));
   const acknowledge=(n,to)=>{
    const dir=join(root,'receipts','M'+String(n).padStart(6,'0'));mkdirSync(dir,{recursive:true});
-   writeFileSync(join(dir,id(to)+'.json'),JSON.stringify({message_id:rid+'-M'+String(n).padStart(6,'0'),
-     recipient_role:to,recipient_appointment_id:id(to),disposition:'HANDLED'}));
+   writeFileSync(join(dir,id(to)+'.json'),JSON.stringify({
+     round_id:rid,message_id:rid+'-M'+String(n).padStart(6,'0'),
+     recipient_role:to,recipient_appointment_id:id(to),trigger:n===1?'APPOINTMENT':'MN',
+     disposition:'HANDLED',reason:'Read real message and classified it',
+     read_at:'2026-10-15T01:00:00Z'}));
   };
   return fn(root,acknowledge);
  }finally{rmSync(root,{recursive:true,force:true});}
