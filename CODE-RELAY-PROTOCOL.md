@@ -22,6 +22,10 @@
 | `MN-A1-TL` | sender → OWNER | New GitHub message(s) for TL-A1. |
 | `MN-A1-1-E` | sender → OWNER | New GitHub message(s) for E-A1-1. |
 | `MN-GAME-ADVISOR` / `MN-ORG-ADVISOR` | sender → OWNER | New message(s) for that advisor. |
+| `CCCC` | CEO → OWNER | ยืนยันปิดภารกิจ สำรองประวัติถาวรครบ ก่อนออก DB. |
+| `DB` | CEO → OWNER | อนุญาตให้ OWNER ลบ non-main branches เองในทั้ง 2 GitHub repositories หลัง CCCC. |
+| `c` / `C` หลัง DB | OWNER → CEO เดิม | แจ้งว่าลบ branches เองแล้ว; ขอให้ CEO ตรวจ GitHub สด. |
+| `Completed` | CEO เดิม → OWNER | ตรวจพร้อมทั้งสอง repo สำเร็จ แล้วส่งใบแต่งตั้ง CEO ใหม่แบบเต็มครั้งเดียว. |
 | `C` | AI → OWNER | All incoming messages actually delivered in this turn have been read, individually receipted, and dispositioned; any action, future work, or blockers documented in GitHub. **Not** a blanket claim that an entire mission completed. |
 | `C MN-CEO` | AI → OWNER | Previous condition satisfied **and** new saved message awaits CEO. Multiple `MN-ROLE` tokens are permitted for distinct recipients. |
 | `P` | AI → OWNER | Processing is incomplete / GitHub work in progress. Cannot emit `C` before receipts are saved. |
@@ -95,3 +99,7 @@ New CEO hires only GAME-ADVISOR and GAME-ADVISOR-DEPUTY, then pauses. OWNER send
 Do not create M for routine ACK, work-start, progress, courtesy CI green or per-role retirement. Save a read receipt for each M that **does** exist, and log silent work in GitHub. DCEO peer debate still requires genuine cross-chat MN when peer must act, but CEO sees only a **matched two-signature actionable notification**. Retire all four with one verified batch file after CEO approval. `I` shows the six new OWNER commands. Old V9 history remains unchanged. [Source of truth](EFFICIENCY-PROTOCOL-V10.md).
 
 **V10 MQ/NX source:** [scripts/v10-mq.mjs](scripts/v10-mq.mjs) and [scripts/v8-next.mjs](scripts/v8-next.mjs) are read-only helpers for genuinely active V10 branches. They never send ChatGPT notifications, invent AI actions or assume a single pending DCEO signature is ready for CEO. Owner must still relay any returned `MN` into the specified real chat.
+
+## 7. Two-repository post-mission cleanup handshake
+
+For V10 closeout only: `CCCC DB` follows game/main release, complete permanent governance/main archive and closed round. OWNER manually deletes all non-main branches of **both** repositories and responds `c` to the same old CEO chat. This cleanup `c` is distinct from OWNER's NP proposal acknowledgement and from a role's routine `C`. CEO must verify live both repos have only `main`, zero open PR, future-only Issues, archive and green relevant release checks, then writes `Completed` followed by ONE full new CEO appointment (only first-appointment full-text exception). Else `B`/`ER`. No automatic ChatGPT interchat or branch deletion. [Complete policy](CLOSEOUT-PROTOCOL-V10.md).
