@@ -50,7 +50,7 @@ const sigA=m(11,'DCEO-A','CEO','PLAN_SIGNOFF',
  {signoff:{...refs,decision:'APPROVED',signature_role:'DCEO-A',signature_appointment_id:app('DCEO-A'),rationale:'Agreed design'}});
 const sigB=m(12,'DCEO-B','CEO','PLAN_SIGNOFF',
  {signoff:{...refs,decision:'APPROVED',signature_role:'DCEO-B',signature_appointment_id:app('DCEO-B'),rationale:'Agreed implementation and tests'}});
-const approve=m(13,'CEO','DCEO-A','PLAN_APPROVAL',
+const approve=m(13,'CEO','OWNER','PLAN_APPROVAL',
  {approval:{...refs,signoff_message_ids:[id(11),id(12)],rationale:'Exact signed plan is safe to staff'}});
 const retirees=['GAME-ADVISOR','GAME-ADVISOR-DEPUTY','DCEO-A','DCEO-B'].map((role,i)=>
  m(14+i,'CEO','OWNER','ROLE_RETIRED',{retirement:{role_id:role,appointment_id:app(role),
@@ -77,7 +77,7 @@ const journal=[
 ];
 const allRoles=[CEO,AD,DEP,A,B],retired=[CEO,...[AD,DEP,A,B].map(r=>({...r,status:'CLOSED'}))];
 function validate({phase='EXECUTION',messages=toExec,roles=[...retired,E],ownerEvents=journal,
- deputyReceipt=true,planContent=planBytes,extraPlan=null,legacy=false}={}){
+ deputyReceipt=true,peerReceipts=true,signatureReceipts=true,planContent=planBytes,extraPlan=null,legacy=false}={}){
  const cwd=mkdtempSync(join(tmpdir(),'v9-planning-'));
  try{
    mkdirSync(join(cwd,'workspace','messages'),{recursive:true});
@@ -97,6 +97,20 @@ function validate({phase='EXECUTION',messages=toExec,roles=[...retired,E],ownerE
      writeFileSync(join(d,app('CEO')+'.json'),JSON.stringify({round_id:rid,message_id:id(6),
        recipient_role:'CEO',recipient_appointment_id:app('CEO'),trigger:'MN',
        disposition:'HANDLED',reason:'Read and checked deputy proposal',read_at:'2026-10-15T01:03:00Z'}));
+   }
+   for(const message of messages){
+     if(![9,10,11,12].includes(message.sequence))continue;
+     if(message.kind==='PLAN_REVIEW' && !peerReceipts)continue;
+     if(message.kind==='PLAN_SIGNOFF' && !signatureReceipts)continue;
+     if(!['PLAN_REVIEW','PLAN_SIGNOFF'].includes(message.kind))continue;
+     const recipient=message.to_appointment_id;
+     const d=join(cwd,'workspace','receipts','M'+String(message.sequence).padStart(6,'0'));
+     mkdirSync(d,{recursive:true});
+     writeFileSync(join(d,recipient+'.json'),JSON.stringify({round_id:rid,
+       message_id:message.message_id,recipient_role:message.to_role,
+       recipient_appointment_id:recipient,trigger:'MN',disposition:'HANDLED',
+       reason:'Independent peer/CEO acknowledged the saved message',
+       read_at:'2026-10-15T01:04:00Z'}));
    }
    if(planContent!==null){
      const p=join(cwd,planPath);mkdirSync(dirname(p),{recursive:true});writeFileSync(p,planContent);
@@ -173,3 +187,8 @@ test('V9 refuses deputy CEOs debating before their recorded appointments',()=>{
  m(9,'CEO','DCEO-B','APPOINTMENT')];
  blocked(validate({phase:'DCEO_CONSENSUS',messages:outOfOrder,roles:allRoles}),/before actual appointment/);
 });
+
+test('V9 two DCEO signatures are insufficient if CEO never read/receipted them',()=>blocked(validate({
+ signatureReceipts:false}),/CEO must individually read\/receipt both DCEO signatures/));
+test('V9 signoff is refused when neither deputy read counterpart PLAN_REVIEW',()=>blocked(validate({
+ peerReceipts:false}),/read and receipt peer plan review/));
