@@ -41,9 +41,13 @@ export function evaluateCloseoutSnapshot(s){
     blockers.push(name+': current main code/validation not verified');
  }
  if(new Set(seen).size!==2)blockers.push('Duplicate or incomplete repository snapshot');
- if(s.release?.merged!==true||s.release?.independent_qa_passed!==true||
+ const cancelled=s.closure_type==='CANCELLED';
+ if(cancelled){
+  if(s.release?.merged!==false||s.release?.no_cancelled_game_changes_on_main!==true)
+   blockers.push('Cancelled work must not be merged into game main');
+ }else if(s.release?.merged!==true||s.release?.independent_qa_passed!==true||
     s.release?.critical_checks_passed!==true||s.release?.all_future_failures_triaged!==true)
-   blockers.push('Release must be verified (or cancellation must be separately and truthfully verified)');
+   blockers.push('Release evidence and independent QA must be verified');
  if(s.no_durable_archive!==true)
    blockers.push('Durable round archives/backup/manifest are forbidden');
  return {ok:blockers.length===0,action:blockers.length===0?'Completed':'B',blockers};
