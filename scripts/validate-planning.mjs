@@ -174,7 +174,7 @@ export function validatePlanning({root='workspace',round,roster,msgs,fail}) {
        last.review?.plan_sha!==m.signoff?.plan_sha)
       err('PLAN_SIGNOFF requires prior latest AGREE by each DCEO on identical final plan');
   }
-  // READ is only an inbox bookmark; actual peer PLAN_REVIEW is required.
+  // A real peer PLAN_REVIEW and matching signatures are required; reading messages is not an approval.
   for(const sign of signs){
     const incoming=reviews.filter(x=>x.to_role===sign.from_role &&
       x.from_role!==sign.from_role && x.sequence<sign.sequence &&

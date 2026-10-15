@@ -23,7 +23,7 @@ test('Routine OWNER/AI turns need NO Chat Event file under canonical event-minim
  validate();
  assert.deepEqual(errors,[]);
 }));
-test('Real actionable M still accepts a separately persisted individual recipient receipt',()=>fixture(({workspace,validate,errors})=>{
+test('Existing historical files do not require new acknowledgement writes',()=>fixture(({workspace,validate,errors})=>{
  const dir=path.join(workspace,'receipts','M000001');fs.mkdirSync(dir,{recursive:true});
  fs.writeFileSync(path.join(dir,app+'.json'),JSON.stringify({round_id:rid,message_id:rid+'-M000001',
    recipient_role:'CEO',recipient_appointment_id:app,trigger:'APPOINTMENT',
@@ -38,9 +38,9 @@ test('Cannot manufacture Chat Event to falsely claim a missing M was read',()=>f
    message_refs:[rid+'-M000999']}));
  validate();assert.match(errors.join(' '),/journal references missing ledger message/);
 }));
-test('Canonical RULES defines READ as only inbox bookmark and preserves minimal journals',()=>{
+test('Canonical RULES requires no Receipt per MN and preserves minimal journals',()=>{
  const s=fs.readFileSync('RULES.md','utf8');
  assert.match(s,/ไม่ต้องสร้าง Chat Event เพิ่ม/);
- assert.match(s,/เครื่องหมายในกล่องข้อความ/);
- assert.match(s,/การรับอ่านเป็นเพียง/);
+ assert.match(s,/ไม่ต้องสร้าง Receipt/);
+ assert.match(s,/ผลงานที่ได้บันทึกจริง/);
 });

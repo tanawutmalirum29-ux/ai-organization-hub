@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
-import {isMessageRead} from './receipt-contract.mjs';
 
 /**
  * Records round-scoped audit checks. Not a ChatGPT transcript capture service:
@@ -14,7 +13,6 @@ export function validateRecords({root='workspace',round,roster,msgs,fail}) {
   const roles = new Map((roster?.roles ?? []).map(x => [x.appointment_id,x.role_id]));
   const byId = new Map(msgs.map(m => [m.message_id,m]));
   const six = /^M\d{6}$/;
-  const fileName = /^M\d{6}$/;
   const safeAppointment = /^([A-Z0-9]+(?:-[A-Z0-9]+)*)$/;
   const date = s => typeof s === 'string' && !Number.isNaN(Date.parse(s)) && /^\d{4}-\d{2}-\d{2}T/.test(s);
   const read = p => { try { return JSON.parse(fs.readFileSync(p,'utf8')); } catch(e){ issue('Unreadable JSON '+p+': '+e.message); return null; } };
@@ -36,34 +34,10 @@ export function validateRecords({root='workspace',round,roster,msgs,fail}) {
   const validHistoric = (app,role) =>
     roles.get(app)===role ||
     (Array.isArray(historic) && historic.some(h=>h.appointment_id===app && h.role_id===role));
-  const receipts = path.join(root,'receipts');
   const chats = path.join(root,'chats');
 
-  for (const folder of list(receipts)) {
-    const dir = path.join(receipts,folder);
-    if (!fileName.test(folder) || !fs.statSync(dir).isDirectory()) {
-      console.warn('WARN: unknown read marker directory '+folder);continue;
-    }
-    const number = Number(folder.slice(1));
-    const msg=msgs[number-1];
-    if (!msg || msg.message_id !== rid+'-'+folder) {
-      console.warn('WARN: read marker for missing message '+folder);continue;
-    }
-    for (const name of list(dir)) {
-      if (!name.endsWith('.json') || !safeAppointment.test(name.slice(0,-5))) {
-        console.warn('WARN: invalid read marker filename '+name);continue;
-      }
-      const appointment=name.slice(0,-5);
-      let r;
-      try{r=JSON.parse(fs.readFileSync(path.join(dir,name),'utf8'));}
-      catch{console.warn('WARN: invalid/unread read marker '+folder+'/'+name);continue;}
-      // READ bookmarks only: never fail unrelated CI because of unread/bad marker.
-      // Invalid markers are ignored by inbox and surfaced as unread.
-      if(!validHistoric(appointment,msg.to_role) || !isMessageRead(r,msg,appointment))
-        console.warn('WARN: invalid/unread read marker '+folder+'/'+name);
-    }
-  }
-
+  // Historic receipt files may remain in archived workspaces, but read
+  // acknowledgment is not required or interpreted as a work gate.
   {
     const activityDir=path.join(root,'activity');
     for (const appointment of list(activityDir)) {
@@ -114,18 +88,16 @@ export function validateRecords({root='workspace',round,roster,msgs,fail}) {
          packet.pending_message_ids.some(x=>typeof x!=='string' || !byId.has(x)))
         issue('recovery refers to missing ledger M '+name);
       else{
-        const pending=msgs.filter(m=>m.to_appointment_id===appointment&&
-          m.to_role===packet.role_id &&
-          !(() => {
-            try {
-              const marker=JSON.parse(fs.readFileSync(path.join(root,'receipts','M'+String(m.sequence).padStart(6,'0'),appointment+'.json'),'utf8'));
-              return isMessageRead(marker,m,appointment);
-            }catch{return false;}
-          })())
+        const addressed=msgs.filter(m=>m.to_appointment_id===appointment &&
+          m.to_role===packet.role_id);
+        const unresponded=addressed.filter(m=>!msgs.some(out=>
+          out.from_appointment_id===appointment&&out.from_role===packet.role_id&&
+          out.sequence>m.sequence&&
+          (out.in_reply_to===m.message_id || m.kind==='APPOINTMENT')))
           .map(m=>m.message_id).sort();
         const saved=packet.pending_message_ids.slice().sort();
-        if(JSON.stringify(pending)!==JSON.stringify(saved))
-          issue('SW recovery pending M snapshot disagrees with GitHub receipts '+name);
+        if(JSON.stringify(unresponded)!==JSON.stringify(saved))
+          issue('SW recovery actionable M snapshot disagrees with recorded replies '+name);
       }
       const last=packet.last_chat_event_path;
       const pref='workspace/chats/'+appointment+'/events/';

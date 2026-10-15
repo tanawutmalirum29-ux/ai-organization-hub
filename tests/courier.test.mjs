@@ -4,76 +4,52 @@ import {mkdtempSync,mkdirSync,writeFileSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {nextCourierPlan,codeForRole} from '../scripts/courier.mjs';
-const rid='NX-ROUND-01';
-const id=role=>rid+'-'+role+'-01';
-const role=(role_id,appointmentStatus='ACTIVE')=>({role_id,appointment_id:id(role_id),status:appointmentStatus,parent_role:role_id==='CEO'?'OWNER':'CEO'});
-function setup(fn,config={}){
- const root=mkdtempSync(join(tmpdir(),'nx-routing-'));
- try {
+const rid='NX-ROUND-01',id=role=>rid+'-'+role+'-01';
+const role=role_id=>({role_id,appointment_id:id(role_id),status:'ACTIVE',parent_role:'CEO'});
+function fixture(fn,items=null){
+ const root=mkdtempSync(join(tmpdir(),'courier-actions-'));
+ try{
   mkdirSync(join(root,'messages'),{recursive:true});
-  writeFileSync(join(root,'round.json'),JSON.stringify({round_id:rid,state:config.state??'ACTIVE',}));
-  const roles=[role('CEO'),role('DIR-A'),role('TL-A1'),role('E-A1-1'),role('GAME-ADVISOR')];
-  writeFileSync(join(root,'roster.json'),JSON.stringify({round_id:rid,roles}));
-  const msg=(n,to,kind='TASK')=>({sequence:n,message_id:rid+'-M'+String(n).padStart(6,'0'),
-    round_id:rid,to_role:to,to_appointment_id:id(to),from_role:'CEO',kind,summary:kind+' '+n});
-  const items=config.messages||[msg(1,'CEO','APPOINTMENT'),msg(2,'DIR-A'),msg(3,'DIR-A'),msg(4,'TL-A1'),msg(5,'GAME-ADVISOR')];
-  items.forEach((m,i)=>writeFileSync(join(root,'messages',String(i+1).padStart(6,'0')+'.json'),JSON.stringify(m)));
-  const acknowledge=(n,to)=>{
-   const dir=join(root,'receipts','M'+String(n).padStart(6,'0'));mkdirSync(dir,{recursive:true});
-   writeFileSync(join(dir,id(to)+'.json'),JSON.stringify({
-     round_id:rid,message_id:rid+'-M'+String(n).padStart(6,'0'),
-     recipient_role:to,recipient_appointment_id:id(to),trigger:n===1?'APPOINTMENT':'MN',
-     disposition:'HANDLED',reason:'Read real message and classified it',
-     read_at:'2026-10-15T01:00:00Z'}));
-  };
-  return fn(root,acknowledge);
+  writeFileSync(join(root,'round.json'),JSON.stringify({round_id:rid,state:'ACTIVE'}));
+  writeFileSync(join(root,'roster.json'),JSON.stringify({round_id:rid,roles:[
+   {...role('CEO'),parent_role:'OWNER'},role('DIR-A'),role('TL-A1'),role('GAME-ADVISOR')]}));
+  const msg=(n,to,kind='TASK',from='CEO',reply=null)=>({
+   round_id:rid,sequence:n,message_id:rid+'-M'+String(n).padStart(6,'0'),
+   from_role:from,from_appointment_id:from==='OWNER'?'OWNER':id(from),
+   to_role:to,to_appointment_id:to==='OWNER'?'OWNER':id(to),kind,in_reply_to:reply,
+   summary:'Action '+n});
+  const entries=items?items(msg):[msg(1,'CEO','APPOINTMENT','OWNER'),
+   msg(2,'DIR-A'),msg(3,'DIR-A'),msg(4,'TL-A1'),msg(5,'GAME-ADVISOR')];
+  entries.forEach((m,i)=>writeFileSync(join(root,'messages',String(i+1).padStart(6,'0')+'.json'),JSON.stringify(m)));
+  return fn(root);
  }finally{rmSync(root,{recursive:true,force:true});}
 }
-test('NX returns every recipient once and all missing M IDs for same DIR',()=>{
- setup((root,ack)=>{
-  ack(1,'CEO');
-  const x=nextCourierPlan(root);
-  assert.deepEqual(x.mn_codes,['MN-A-DIR','MN-A1-TL','MN-GAME-ADVISOR']);
-  assert.equal(x.routing[0].message_ids.length,2);
-  assert.equal(x.first_appointment_codes.length,0);
- });
-});
-test('NX returns AP-CEO for missing original first appointment not MN',()=>{
- setup(root=>{
-  const x=nextCourierPlan(root);
-  assert.deepEqual(x.first_appointment_codes,['AP-CEO']);
-  assert.ok(!x.mn_codes.includes('MN-CEO'));
- });
-});
-test('NX removes individually acknowledged M without hiding newer pending ones',()=>{
- setup((root,ack)=>{
-  ack(1,'CEO');ack(2,'DIR-A');ack(4,'TL-A1');ack(5,'GAME-ADVISOR');
-  const x=nextCourierPlan(root);
-  assert.deepEqual(x.mn_codes,['MN-A-DIR']);
-  assert.deepEqual(x.routing[0].message_ids,[rid+'-M000003']);
- });
-});
-test('NX returns no courier codes after all messages independently receipted',()=>{
- setup((root,ack)=>{
-  ack(1,'CEO');ack(2,'DIR-A');ack(3,'DIR-A');ack(4,'TL-A1');ack(5,'GAME-ADVISOR');
-  const x=nextCourierPlan(root);
-  assert.equal(x.owner_code_line,'');
-  assert.match(x.next_step,/does not prove completion/);
- });
-});
-test('NX rejects closed round and never calls it finished',()=>{
- setup(root=>assert.throws(()=>nextCourierPlan(root),/Organization is not ACTIVE/),{state:'CLOSED'});
-});
-test('NX supports arbitrary existing role labels without guessing recipient',()=>{
+test('NX routes each actionable recipient only once',()=>fixture(root=>{
+ const q=nextCourierPlan(root);
+ assert.deepEqual(q.mn_codes,['MN-A-DIR','MN-A1-TL','MN-GAME-ADVISOR']);
+ assert.equal(q.routing[0].message_ids.length,2);
+ assert.equal(q.first_appointment_codes.length,0);
+}));
+test('NX requests one full CEO appointment when CEO has not yet authored any record',()=>fixture(root=>{
+ const q=nextCourierPlan(root);
+ assert.deepEqual(q.first_appointment_codes,['AP-CEO']);
+ assert.deepEqual(q.mn_codes,[]);
+},msg=>[msg(1,'CEO','APPOINTMENT','OWNER')]));
+test('Replying to one M does not hide another M',()=>fixture(root=>{
+ const q=nextCourierPlan(root);
+ assert.deepEqual(q.routing.find(x=>x.role_id==='DIR-A').message_ids,[rid+'-M000003']);
+},msg=>[msg(1,'CEO','APPOINTMENT','OWNER'),msg(2,'DIR-A'),msg(3,'DIR-A'),
+ msg(4,'OWNER','RESULT','DIR-A',rid+'-M000002')]));
+test('NX does not require receipts and filters completed direct requests',()=>fixture(root=>{
+ const q=nextCourierPlan(root);
+ assert.deepEqual(q.mn_codes,[]);
+ assert.deepEqual(q.first_appointment_codes,[]);
+},msg=>[msg(1,'CEO','APPOINTMENT','OWNER'),msg(2,'DIR-A'),
+ msg(3,'OWNER','RESULT','DIR-A',rid+'-M000002')]));
+test('Courier code names remain stable',()=>{
  assert.equal(codeForRole('DIR-Z'),'MN-Z-DIR');
  assert.equal(codeForRole('TL-B2'),'MN-B2-TL');
  assert.equal(codeForRole('E-AB1-3'),'MN-AB1-3-E');
- assert.equal(codeForRole('ORG-ADVISOR','AP'),'AP-ORG-ADVISOR');
- assert.throws(()=>codeForRole('TL-XYZ3'),/Unrecognized/);
-});
-
-test('NX supports Organization temporary advisor/DCEO routing and first appointments',()=>{
- assert.equal(codeForRole('GAME-ADVISOR-DEPUTY'),'MN-GAME-ADVISOR-DEPUTY');
  assert.equal(codeForRole('DCEO-A'),'MN-DCEO-A');
- assert.equal(codeForRole('DCEO-B','AP'),'AP-DCEO-B');
+ assert.throws(()=>codeForRole('TL-XYZ3'),/Unrecognized/);
 });

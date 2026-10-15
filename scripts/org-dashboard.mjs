@@ -16,14 +16,14 @@ export function renderOrgDashboard(workspace,generatedAt=new Date().toISOString(
  `**Round:** ${safe(round.round_id)} · **phase:** ${safe(round.startup_phase)} · **state:** ${safe(round.state)}`,
  `**Last M:** ${safe(messages.at(-1)?.message_id??'none')} · **Pending actionable notifications:** ${safe(pending.owner_code_line||'none')}`,
  `**Deferred first DCEO signoffs:** ${pending.deferred_partial_signoffs||0}`,
- '', '## Current appointments and pending actionable work','',
- '| Role | Appointment | State | Pending actionable M |','|---|---|---|---:|'];
+ '', '## Current appointments and outstanding reply work','',
+ '| Role | Appointment | State | M without recorded reply |','|---|---|---|---:|'];
  for(const role of roster.roles){
-  const work=pending.unread_roles.find(r=>r.role_id===role.role_id);
+  const work=pending.actionable_roles.find(r=>r.role_id===role.role_id);
   notes.push(`| ${safe(role.role_id)} | ${safe(role.appointment_id)} | ${safe(role.status)} | ${work?.total??0} |`);
  }
  notes.push('','## Current gate / next action','',
-   'Use **NX** to check the actual GitHub message queue before relaying any MN.',
+   'Use **NX** to check the actionable message queue before relaying MN. The queue cannot confirm private-chat delivery.',
    pending.next_owner_hint||pending.next_step,
    '','## Source of truth','',
    '- Organization policy: [single canonical RULES.md](https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/RULES.md)',

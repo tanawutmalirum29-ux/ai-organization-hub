@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Read-only courier plan. Read-only: it NEVER ACKs another AI's messages.
+// Read-only routing based on real messages and their direct replies.
 // A real CEO must additionally verify game Issues/PR/CI for status/blockers.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -22,7 +22,7 @@ export function nextCourierPlan(workspace) {
   const roster=load(path.join(workspace,'roster.json'));
   if(round.state!=='ACTIVE')throw Error('Organization is not ACTIVE');
   if(round.round_id!==roster.round_id||!Array.isArray(roster.roles))throw Error('Round/roster mismatch');
-  //  suppresses notifying CEO for an unmatched first DCEO PLAN_SIGNOFF.
+  // Wait for a matching independent pair before notifying CEO of planning signoffs.
   // Both independently authored messages, the exact plan blob, and fresh IDs
   // must match before the ONE Owner courier notification is appropriate.
   let pendingApprovalReady = true, deferredSignoffs = 0;
@@ -55,7 +55,7 @@ export function nextCourierPlan(workspace) {
     }
     deferredSignoffs=pendingApprovalReady?0:sig.length;
   }
-  const routing=[], firstAppointments=[], unread=[];
+  const routing=[], firstAppointments=[], actionable=[];
   const seen=new Set();
   for(const r of roster.roles) {
     if(r.status==='CLOSED')continue;
@@ -69,16 +69,15 @@ export function nextCourierPlan(workspace) {
     if(!first.length && !ordinary.length)continue;
     if(first.length)firstAppointments.push({code:codeForRole(r.role_id,'AP'),
       role_id:r.role_id,appointment_id:r.appointment_id,message_ids:first.map(x=>x.message_id)});
-    // For a newly appointed chat, deliver its one-time full APPOINTMENT first,
-    // then MN is appropriate for any other pending M after appointment ACK.
+    // Deliver the first full appointment when no later authored activity establishes onboarding.
     if(ordinary.length && !first.length)routing.push({code:codeForRole(r.role_id),
       role_id:r.role_id,appointment_id:r.appointment_id,message_ids:ordinary.map(x=>x.message_id)});
-    unread.push({role_id:r.role_id,total:first.length+ordinary.length});
+    actionable.push({role_id:r.role_id,total:first.length+ordinary.length});
   }
-  return {round_id:round.round_id,source:'verified GitHub round workspace, not proof of physical chat delivery',
+  return {round_id:round.round_id,source:'GitHub actionable-message snapshot; not proof of private-chat delivery or reading',
     first_appointment_codes:firstAppointments.map(x=>x.code),
     mn_codes:routing.map(x=>x.code),
-    unread_roles:unread,first_appointments:firstAppointments,routing,
+    actionable_roles:actionable,first_appointments:firstAppointments,routing,
     deferred_partial_signoffs:deferredSignoffs,
     owner_code_line:[...firstAppointments.map(x=>x.code),...routing.map(x=>x.code)].join(' '),
     startup_phase:round.startup_phase??null,
@@ -86,8 +85,8 @@ export function nextCourierPlan(workspace) {
       ? 'P — advisor awaits OWNER NP or Owner game idea; CEO must not hire execution team'
       : round.startup_phase==='WAIT_OWNER_C'
         ? 'P — GAME-ADVISOR awaits OWNER C after full visible proposal'
-        : 'Check active Issues/PR/CI; absence of unread messages does not mean delivery is complete',
-    next_step:'CEO must still independently check active task/Issue/PR/CI status; zero unread does not prove completion'};
+        : 'Check active Issues/PR/CI; absence of unanswered messages does not prove delivery or completion',
+    next_step:'CEO must still independently check active task/Issue/PR/CI status; zero pending messages does not prove delivery or completion'};
 }
 if (process.argv[1] && path.resolve(process.argv[1])===fileURLToPath(import.meta.url)) {
   try {
