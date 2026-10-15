@@ -8,6 +8,8 @@ After the game PR is **actually merged into game/main**, CEO checks exact merged
 
 ### BEFORE any DB permission: protect history permanently
 
+**Limited writing authority:** The outgoing CEO may append only its own immutable `archives/<OLD_ROUND_ID>/` data and a successor-handoff GitHub Issue on governance/main. It may not edit governance main template, scripts, role charters, other archives, or live workspace. This narrow archival exception is expressly part of V10 OWNER-authorized closeout, despite the normal prohibition on a CEO editing canonical governance policy.
+
 The governance round branch is about to be deleted. A branch-only `workspace/messages`, read receipts, Owner conversation journals, signed plans and issue references can become unrecoverable when its ref is deleted. **Do not emit `DB` until an immutable, actually verified archive of the round is saved on `appointment-CEO/main`** under `archives/<OLD_ROUND_ID>/`. Archive the **full round workspace tree**, not only a summary: messages, roster, round.json, receipts, chats, plans, retirements, activity and recovery packets where present, with public-repo privacy redaction of sensitive user details *before* publishing any protected data. Archive filenames and contents must be copied byte-for-byte for already public/approved artifacts; any redaction is documented in the manifest and source confidential bytes remain in separately approved private storage, never claimed to be publicly preserved.
 
 Required `archives/<OLD_ROUND_ID>/MANIFEST.json` at minimum:
