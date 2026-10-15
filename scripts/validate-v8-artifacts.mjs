@@ -140,7 +140,7 @@ export function validateV8Artifacts({root='workspace',round,roster,msgs,fail}) {
       if (!e) continue;
       if (e.round_id!==rid || e.appointment_id!==appointment ||
           !validHistoric(appointment,e.role_id) || e.sequence!==lastNum ||
-          !['OWNER','AI'].includes(e.speaker) || !isNonempty(e.text) || !date(e.logged_at))
+          !(['OWNER','AI'].includes(e.speaker) || e.speaker===e.role_id) || !isNonempty(e.text) || !date(e.logged_at))
         issue('invalid journal envelope '+appointment+'/'+name);
       if (e.redacted!==true && e.redacted!==false) issue('journal redacted must be boolean '+name);
       if (e.redacted===true && !isNonempty(e.reason)) issue('redacted journal requires reason');

@@ -95,6 +95,14 @@ test('V8 accepts a reasoned superseded receipt for older order',()=>{
   const r=run({messages:two,receipts:[receipt(2,'DIR-A','SUPERSEDED',{evidence_ref:id(3)})]});
   assert.equal(r.status,0,r.stderr);
 });
+test('V8 recognizes exact role-named AI journal speaker without rewriting old events',()=>{
+  const r=run({messages:two,events:[event(1,'DIR-A','DIR-A')]});
+  assert.equal(r.status,0,r.stderr);
+});
+test('V8 rejects misleading role-named journal speaker',()=>{
+  const r=run({messages:two,events:[event(1,'DIR-A','CEO')]});
+  assert.notEqual(r.status,0);assert.match(r.stderr,/invalid journal envelope/);
+});
 test('V8 rejects gapped appointment journal sequence',()=>{
   const r=run({messages:two,events:[event(2,'DIR-A','AI')]});
   assert.notEqual(r.status,0);assert.match(r.stderr,/chat journal gap/);
