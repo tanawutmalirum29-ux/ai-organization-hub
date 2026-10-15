@@ -1,8 +1,10 @@
-# V9 — AI game design consultation, proposals and final CEO decisions
+# V10 — AI game design consultation, proposals and final CEO decisions
 
 > **V8 delivery:** Full proposals, balances, code review and evidence are written to GitHub as numbered messages. OWNER sees ONLY short `MN-ROLE` notifications; the recipient reads on `MN`, receipts every message and answers `C`/`MN-ROLE`. Never paste a long proposal into routine chat. ORG-ADVISOR↔OWNER organization brainstorming is the only full-language exception. See [Code Protocol](CODE-RELAY-PROTOCOL.md).
 
-**V9 precedence:** the primary GAME-ADVISOR presents full work to OWNER after NP/Owner idea, waits for Owner C, sends ADVISOR_HANDOFF to deputy; the deputy advisor alone submits the initial independent PROPOSAL directly CEO; CEO then uses two DCEO independent signoffs. Old generic 'advisor directly to CEO' shortcuts below apply only to earlier rounds. See [V9 phases](STARTUP-PROTOCOL-V9.md).
+**V10 precedence:** Advice still goes via GAME-ADVISOR→DEPUTY→CEO and the DCEO two signatures, but only actionable dependencies should create a numbered M. Routine review drafts/short status are silent GitHub records, and no early CEO MN for incomplete signatures. No four retirement messages; use batch archive. See [V10 Lean](EFFICIENCY-PROTOCOL-V10.md).
+
+**V9 precedence (historic):** the primary GAME-ADVISOR presents full work to OWNER after NP/Owner idea, waits for Owner C, sends ADVISOR_HANDOFF to deputy; the deputy advisor alone submits the initial independent PROPOSAL directly CEO; CEO then uses two DCEO independent signoffs. Old generic 'advisor directly to CEO' shortcuts below apply only to earlier rounds. See [V9 phases](STARTUP-PROTOCOL-V9.md).
 
 This protocol supplements [README](README.md) and [MESSAGE-PROTOCOL](MESSAGE-PROTOCOL.md). It allows **all AI positions to make gameplay suggestions** without assigning new work or bypassing the CEO's internal implementation/QA/release gates.
 
