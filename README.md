@@ -59,7 +59,7 @@ For existing active V6/older rounds, do **not** rewrite old numbered messages. C
 
 ## Policies and templates
 
-- **[V8 short command codes, MN routing, full inbox scan](CODE-RELAY-PROTOCOL.md)**
+- **[V8 short command codes, MN routing, full inbox scan](CODE-RELAY-PROTOCOL.md)** · [Read-only inbox enumerator](scripts/v8-inbox.mjs)
 - **[V8 chat journal, per-message read receipts and crash recovery](CHAT-ARCHIVE-PROTOCOL.md)**
 - [Numbered messages, identity checks, consultations and closeout](MESSAGE-PROTOCOL.md)
 - [Gameplay feedback and AI decision process](FEEDBACK-PROTOCOL.md)
@@ -75,3 +75,5 @@ Closed historical Issues and cancelled game tasks are evidence, **never active a
 Every **new round** sets `workspace/round.json.protocol_version = "V8"` and `owner_relay_only_from_sequence = 2`. Its CEO persists the single detailed first appointment, then uses the short-code protocol exclusively; subsequent role first appointments are full **once each**. Optional `ORG-ADVISOR` is independent and may discuss organization with Owner in full sentences. Each code/turn is archived in the acting role's own `workspace/chats/<appointment_id>/events/`, and each delivered `M` gets a `workspace/receipts/M000000/<appointment_id>.json` record; no old message rewrite.
 
 **Do not activate V8 retroactively on CLOSED older rounds.** V6/V7 history remains read-only and valid under its own original conventions. For a still ACTIVE V7 round, any migration must be recorded as a new CEO decision and a prospective protocol version switch with careful compatibility review; never hide earlier relay history or an unfinished task. No separate approvals from Owner for game decisions.
+
+**V8 inbox helper (optional):** From the checked-out *active round branch* run `node scripts/v8-inbox.mjs workspace <ROLE_ID> <APPOINTMENT_ID>` to enumerate all unreceipted messages for that exact live chat. If working through the GitHub connector in ChatGPT, scan those same directories directly; no assumption that a background process will deliver new messages. Each role still must journal the Owner turn and save one receipt per handled M before replying `C`.
