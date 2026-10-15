@@ -2,58 +2,50 @@ import {fileURLToPath} from 'node:url';
 import fs from 'node:fs';
 import path from 'node:path';
 
-// Pure read-only branch and release handoff gate over a just-fetched snapshot.
-// Actual CEO must fetch live data directly from both GitHub repos upon OWNER C.
+// Pure read-only gate. All counters must come from COMPLETE live GitHub pagination.
+// A GitHub branch reset/issue close is NOT a purge of PRs, issues or commit history.
 const REPOS=['tanawutmalirum29-ux/appointment-CEO','tanawutmalirum29-ux/ant-project'];
 const sha=s=>typeof s==='string'&&/^[a-f0-9]{40}$/.test(s);
 export function evaluateCloseoutSnapshot(s){
- const blockers=[],names=[];
+ const blockers=[],seen=[];
  if(s?.artifact_type!=='CLOSEOUT_REVIEW')blockers.push('Invalid review data');
  if(!s?.verified_at||!Number.isFinite(Date.parse(s.verified_at)))
    blockers.push('Missing live verification time');
  if(!Array.isArray(s?.repositories)||s.repositories.length!==2)
    blockers.push('Both repositories required');
- for(const repoName of REPOS){
-  const r=(s.repositories||[]).find(x=>x.repository===repoName);
-  if(!r){blockers.push('Repository missing: '+repoName);continue}
-  names.push(r.repository);
+ for(const name of REPOS){
+  const r=(s.repositories||[]).find(x=>x.repository===name);
+  if(!r){blockers.push('Repository missing: '+name);continue}
+  seen.push(r.repository);
   if(r.default_branch!=='main'||r.archived===true)
-   blockers.push(repoName+': main must be default, repository must not be archived');
-  if(!Array.isArray(r.branches)||r.branches.length!==1||r.branches[0]!=='main'||
-    r.all_branches_fetched!==true)
-   blockers.push(repoName+': branches not EXACTLY [main] with complete pagination');
-  if(!sha(r.main_sha))blockers.push(repoName+': invalid verified main SHA');
-  if(!Number.isSafeInteger(r.open_pr_count)||r.open_pr_count!==0||
-     r.all_open_prs_fetched!==true)
-   blockers.push(repoName+': open PRs must be zero with complete pagination');
-  if(!Array.isArray(r.open_issues)||r.all_open_issues_fetched!==true)
-   blockers.push(repoName+': all open issues must be listed');
-  else for(const i of r.open_issues){
-    if(!Number.isSafeInteger(i.number)||!Array.isArray(i.labels)||
-      !i.labels.some(l=>['future-work','backlog','next-mission'].includes(l))||
-      i.release_blocker===true)
-      blockers.push(repoName+': untriaged or release-blocking issue #'+i.number);
-  }
-  if(r.ci_result!=='success' && !(r.ci_result==='waived'&&
-    Array.isArray(r.waiver_issue_urls)&&r.waiver_issue_urls.length>0 &&
-    r.waiver_issue_urls.every(x=>typeof x==='string'&&x.startsWith('https://github.com/'))&&
-    r.release_smoke_result==='success' ))
-    blockers.push(repoName+': main head CI/release smoke not verified green');
+    blockers.push(name+': main must be default and active');
+  if(!Array.isArray(r.branches)||r.branches.length!==1||r.branches[0]!=='main'||r.all_branches_fetched!==true)
+    blockers.push(name+': branches must be EXACTLY [main], fully paginated');
+  if(!sha(r.main_sha))blockers.push(name+': missing verified main SHA');
+  if(r.all_issues_fetched!==true||r.total_issues!==0)
+    blockers.push(name+': all historic/open/closed Issues must be deleted, not merely closed');
+  if(r.all_prs_fetched!==true||r.total_prs!==0)
+    blockers.push(name+': all historic/open/merged PRs must be absent (repository recreation may be necessary)');
+  if(r.all_tags_fetched!==true||!Array.isArray(r.tags)||r.tags.length!==0)
+    blockers.push(name+': old tags still exist or unverified');
+  if(r.all_releases_fetched!==true||!Array.isArray(r.releases)||r.releases.length!==0)
+    blockers.push(name+': old releases still exist or unverified');
+  if(r.all_action_runs_fetched!==true||r.old_project_workflow_run_count!==0||
+      r.all_artifacts_fetched!==true||r.old_project_workflow_artifact_count!==0)
+    blockers.push(name+': historic workflow runs/artifacts remain or are not exhaustively verified');
+  if(r.no_project_files_on_main!==true)
+    blockers.push(name+': old project reports/archive/workspace/history remain on main');
+  if(r.history_clean_verified!==true)
+    blockers.push(name+': previous Git/PR history not proved clean; consider clean repository recreation');
+  if(r.ci_result!=='success'&&r.release_smoke_result!=='success')
+    blockers.push(name+': current main code/validation not verified');
  }
- if(new Set(names).size!==2)blockers.push('Duplicate/ambiguous repository snapshot');
- const arch=s.archive;
- if(!arch||arch.verified_on_governance_main!==true ||
-   !sha(arch.source_round_commit_sha)||!sha(arch.game_main_sha)||
-   !Number.isSafeInteger(arch.workspace_file_count)||arch.workspace_file_count<1||
-   arch.paths_and_hashes_verified!==true||
-   !/^archives\/[A-Z0-9][A-Z0-9-]{2,39}\/MANIFEST[.]json$/.test(arch.manifest_path||''))
-   blockers.push('Round archive not verified on governance/main');
- const game=(s.repositories||[]).find(x=>x.repository===REPOS[1]);
- if(game&&arch&&game.main_sha!==arch.game_main_sha)
-   blockers.push('Game main changed since archived release; require fresh release verification and archive revision');
+ if(new Set(seen).size!==2)blockers.push('Duplicate or incomplete repository snapshot');
  if(s.release?.merged!==true||s.release?.independent_qa_passed!==true||
-   s.release?.critical_checks_passed!==true||s.release?.all_future_failures_triaged!==true)
-   blockers.push('Actual game release and outstanding critical issues not cleared');
+    s.release?.critical_checks_passed!==true||s.release?.all_future_failures_triaged!==true)
+   blockers.push('Release must be verified (or cancellation must be separately and truthfully verified)');
+ if(s.no_durable_archive!==true)
+   blockers.push('Durable round archives/backup/manifest are forbidden');
  return {ok:blockers.length===0,action:blockers.length===0?'Completed':'B',blockers};
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
