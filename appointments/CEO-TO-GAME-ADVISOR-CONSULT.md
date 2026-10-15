@@ -1,5 +1,8 @@
 # CEO → GAME-ADVISOR — request a game design recommendation (V7)
 
+> **V8 short-code transport:** This long consultation sample is stored in the GitHub message only, NOT pasted into OWNER↔AI chats after appointment. Send `MN-ROLE` and Owner relays `MN`; log Owner↔AI turns and one read receipt per M. Read [V8 codes](../CODE-RELAY-PROTOCOL.md).
+
+
 OWNER may ask a question/request an update suggestion, but must **not approve a game plan**. For a direct OWNER→Advisor question, use [OWNER-TO-GAME-ADVISOR-CONSULT.md](OWNER-TO-GAME-ADVISOR-CONSULT.md). For a CEO-authored question, CEO saves this `CONSULTATION_REQUEST` using the **next real** numbered ledger entry on the current round. OWNER copies the saved relay to the currently appointed GAME-ADVISOR chat. The advisor responds with a numbered `PROPOSAL` **to CEO**; OWNER then forwards it. CEO consults the team and independently decides.
 
 ```text
