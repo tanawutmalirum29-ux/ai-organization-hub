@@ -166,13 +166,30 @@ export function validateV9Startup({root='workspace',round,roster,msgs,fail}) {
        last.review?.plan_sha!==m.signoff?.plan_sha)
       err('PLAN_SIGNOFF requires prior latest AGREE by each DCEO on identical final plan');
   }
+  const hasReceipt=(message,recipient)=> {
+    try{
+      const pathName=`workspace/receipts/M${String(message.sequence).padStart(6,'0')}/${recipient}.json`;
+      const x=JSON.parse(fs.readFileSync(path.join(pathName),'utf8'));
+      return x.message_id===message.message_id &&
+        x.recipient_appointment_id===recipient &&
+        ['HANDLED','ACTION_STARTED','NO_ACTION'].includes(x.disposition);
+    }catch{return false;}
+  };
+  for(const sign of signs){
+    const incoming=reviews.filter(x=>x.to_role===sign.from_role && x.from_role!==sign.from_role &&
+      x.sequence<sign.sequence && x.review?.plan_sha===sign.signoff?.plan_sha);
+    if(!incoming.length || !incoming.some(x=>hasReceipt(x,sign.from_appointment_id)))
+      err('both deputy CEOs must actually read and receipt peer plan review before signing');
+  }
   const approvals=at('PLAN_APPROVAL');
   for(const m of approvals){
-    if(!named(m,'CEO','DCEO-A')||!nonblank(m.approval?.rationale)||
+    if(!named(m,'CEO','OWNER')||!nonblank(m.approval?.rationale)||
       !actualPlan(m.approval))err('PLAN_APPROVAL invalid plan or CEO path');
     const ids=m.approval?.signoff_message_ids;
     if(!Array.isArray(ids)||ids.length!==2||new Set(ids).size!==2){err('PLAN_APPROVAL needs exactly two separate signatures');continue;}
     const both=ids.map(x=>byID.get(x));
+    if(both.some(x=>x && !hasReceipt(x,x.to_appointment_id)))
+      err('CEO must individually read/receipt both DCEO signatures before PLAN_APPROVAL');
     if(both.some(x=>!x||x.kind!=='PLAN_SIGNOFF'||x.sequence>=m.sequence) ||
        new Set(both.map(x=>x?.from_role)).size!==2 ||
        !['DCEO-A','DCEO-B'].every(x=>both.some(m=>m?.from_role===x))||
