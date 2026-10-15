@@ -155,3 +155,21 @@ test('V9 revised plan invalidates old signoffs before execution',()=>blocked(val
  extraPlan:{...plan,revision:2}}),/superseded by later plan revision/));
 test('V8 legacy tests remain outside V9 phase requirements',()=>pass(validate({
  legacy:true,messages:[bootstrap],roles:[CEO],ownerEvents:[],deputyReceipt:false,planContent:null})));
+
+test('V9 refuses invented NP: proposal shown without actual Owner request',()=>blocked(validate({
+ phase:'WAIT_OWNER_C',messages:toPresentation,roles:[CEO,AD,DEP],
+ ownerEvents:[{...journal[0],text:'I'},journal[1]],deputyReceipt:false,planContent:null}),
+ /NP or Owner game idea did not precede proposal/));
+test('V9 rejects incomplete two-person CEO approval when one signature is absent',()=>{
+ const truncated=[...toReviews,sigA,m(12,'CEO','DCEO-A','PLAN_APPROVAL',{
+   approval:{...refs,signoff_message_ids:[id(11)],rationale:'Too early'}})];
+ blocked(validate({phase:'DCEO_CONSENSUS',messages:truncated,roles:allRoles}),
+   /exactly two separate signatures/);
+});
+test('V9 refuses deputy CEOs debating before their recorded appointments',()=>{
+ const outOfOrder=[...toDeputy,m(7,'DCEO-A','DCEO-B','PLAN_REVIEW',{
+ review:{...refs,verdict:'AGREE',assessment:'Too early',references:'No appointment'}}),
+ m(8,'CEO','DCEO-A','APPOINTMENT'),
+ m(9,'CEO','DCEO-B','APPOINTMENT')];
+ blocked(validate({phase:'DCEO_CONSENSUS',messages:outOfOrder,roles:allRoles}),/before actual appointment/);
+});
