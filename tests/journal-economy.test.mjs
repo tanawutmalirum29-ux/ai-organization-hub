@@ -40,7 +40,7 @@ test('Cannot manufacture Chat Event to falsely claim a missing M was read',()=>f
 }));
 test('Canonical RULES defines READ as only inbox bookmark and preserves minimal journals',()=>{
  const s=fs.readFileSync('RULES.md','utf8');
- assert.match(s,/Do not archive every OWNER↔AI turn/);
- assert.match(s,/READ.*inbox bookmark/);
- assert.match(s,/never authorizes work/);
+ assert.match(s,/ไม่ต้องสร้าง Chat Event เพิ่ม/);
+ assert.match(s,/เครื่องหมายในกล่องข้อความ/);
+ assert.match(s,/การรับอ่านเป็นเพียง/);
 });
