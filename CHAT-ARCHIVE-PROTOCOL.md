@@ -67,3 +67,5 @@ Rotations within one round should preserve historical IDs and validate their eff
 ## 4. Archive quality / CI
 
 The template validator checks new V8 round `workspace/receipts` and `workspace/chats` records for valid role/appointment references, exact message recipients, unique filenames, contiguous per-chat event numbers, timestamps, sensible dispositions, no undocumented empty records, and safe path shape. It cannot independently prove that a ChatGPT UI showed a message. GitHub push CI checks that past ledger, receipt and chat event JSON files were not modified or removed. A direct GitHub admin bypass of branch protection can still rewrite history; preserve access controls and backups.
+
+**V10 SW schema:** [V10 efficiency, SW packet](EFFICIENCY-PROTOCOL-V10.md#sw-recovery-packet-schema-verified-by-ci). V10 CI checks optional `workspace/recovery/<APPOINTMENT>.json` for exact archived last chat event and pending-M list, and protects previous recovery/activity/retirement files from replacement. A role must never archive private/hidden model reasoning, which isn't a saved user chat message.
