@@ -21,7 +21,7 @@ test('Main contains a single charter and one CEO appointment',()=>{
  const rules=fs.readFileSync('RULES.md','utf8');
  assert.match(rules,/ANT KINGDOM/);
  assert.match(rules,/ข้อบังคับ/);
- assert.doesNotMatch(rules,/\\bV(?:6|7|8|9|10)\\b/);
+ assert.doesNotMatch(rules,/กฎเดิม|เอกสารเดิม/);
 });
 test('Current public docs and CEO bootstrap link to the sole rulebook',()=>{
  for(const p of ['README.md','COMMANDS.md','appointments/OWNER-TO-CEO.md']){
