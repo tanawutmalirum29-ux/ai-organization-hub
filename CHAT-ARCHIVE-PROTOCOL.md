@@ -1,6 +1,8 @@
-# V9/V8 — Per-appointment Owner conversation journal, receipts and chat recovery
+# V10/V9/V8 — Per-appointment Owner conversation journal, receipts and chat recovery
 
 > **V9 proposal gate:** GAME-ADVISOR journals the OWNER's actual `NP` or own game idea, then the exact full visible AI proposal with its `ADVISOR_PRESENTATION` message reference, then the OWNER's **later literal `C`** as a separate event. The advisor may create `ADVISOR_HANDOFF` only when that evidence exists; `C` from OWNER is not game implementation approval. DCEO peers and CEO also individually receipt counterpart `PLAN_REVIEW`/`PLAN_SIGNOFF` messages before signing/approving. See [STARTUP-PROTOCOL-V9](STARTUP-PROTOCOL-V9.md).
+
+**V10 Lean:** record actionable M receipts as before, but ordinary subtask progress may be append-only `workspace/activity/<appointment-id>/NNNNNN.json` or GitHub Issue/PR evidence **instead of an extra M**. The four planners retire via a single `workspace/retirements/planning-council.json` document, never four new courtesy M. OWNER and AI chat journal events remain mandatory, and chat recovery `SW` must persist a verifiable packet. [V10 details](EFFICIENCY-PROTOCOL-V10.md).
 
 Applies to CEO, GAME-ADVISOR, optional ORG-ADVISOR, every DIR/TL/Engineer; **all conversations with OWNER**, including codes and Owner free-form requests, must be recorded as the receiving AI actually sees them. GitHub cannot capture other ChatGPT chats automatically.
 
