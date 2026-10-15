@@ -1,103 +1,97 @@
-# ANT KINGDOM — OFFICIAL RULES
+# ANT KINGDOM
+## ข้อบังคับการบริหารองค์กร AI
 
-**Only authoritative organization policy.** These rules live at `appointment-CEO/main/RULES.md` and are linked, **not copied**, from `ant-project`. Do not use versioned handbooks, retired AI chat instructions, old Round 2 staffing templates, past Issues or historical chat logs as current policy. Existing evidence of older rounds is preserved for audit but carries no authority over a new CEO appointment. Only the OWNER-designated governance editor may change this file on an explicit OWNER administrative request. A live CEO may write its round branch and archive its OWN closed round in the designated immutable namespace, not amend organization policy. Read this document once before executing any new work.
+**เอกสารควบคุม:** `appointment-CEO/main/RULES.md`  
+**โครงการเกม:** [Ant Kingdom](https://github.com/tanawutmalirum29-ux/ant-project)  
+**คลังบริหารองค์กร:** [appointment-CEO](https://github.com/tanawutmalirum29-ux/appointment-CEO)
 
-**Game:** [tanawutmalirum29-ux/ant-project](https://github.com/tanawutmalirum29-ux/ant-project). **Organization:** [appointment-CEO](https://github.com/tanawutmalirum29-ux/appointment-CEO). OWNER is a courier and design-idea requester, not a vote, release approver or arbitrator. **No AI chat receives another chat's GitHub messages automatically**; user-forwarded `MN` is necessary when the recipient must act.
+### 1. อำนาจหน้าที่และขอบเขต
 
-## 1. One mission, fresh appointments, minimum hierarchy
+1. **OWNER** กำหนดโจทย์และเสนอแนวคิดด้านเกม ส่งข้อความระหว่างแชท AI และดำเนินการลบ Branch เมื่อได้รับรายงานปิดภารกิจที่ผ่านการตรวจสอบแล้ว OWNER ไม่ทำหน้าที่ตัดสินข้อขัดแย้งทางเทคนิค อนุมัติแผนแทน AI หรือรับรองผลงานแทน QA
+2. **CEO** รับผิดชอบภารกิจทั้งหมด แต่งตั้งและกำกับดูแลสมาชิก ตรวจแผน อนุมัติการเข้าสู่ขั้นพัฒนา ตรวจรับหลักฐาน QA และส่งงานเข้า `ant-project/main` เมื่อผ่านเงื่อนไข
+3. **สมาชิก AI** ตัดสินใจและปฏิบัติงานอย่างอิสระภายในอำนาจของตน เสนอข้อปรับปรุงได้ และต้องส่งปัญหาที่เกินขอบเขตไปยังผู้บังคับบัญชาโดยตรง
+4. การแก้ไขข้อบังคับองค์กรใน `main` เป็นงานบริหารที่ OWNER มอบหมายโดยตรง CEO และผู้ใต้บังคับบัญชาจัดการข้อมูลภารกิจบน Branch ที่ได้รับแต่งตั้งเท่านั้น เว้นแต่การเพิ่มหลักฐานปิดงานในพื้นที่จัดเก็บที่กำหนด
 
-A new CEO receives a **single full first appointment** from the retiring CEO's prepared handoff, or from OWNER for the first round. The CEO reads this entire RULES.md, inspects actual game code and initializes a fresh unique `round/<round-id-lowercase>` from governance/main. Persist `workspace/round.json` with `protocol_version:"V10"` **only as an internal validator/schema compatibility value** (the organizational rule document itself has no edition number), `startup_phase:"CEO_SETUP"`, `state:"ACTIVE"`, `owner_relay_only_from_sequence:2`. Preserve unique appointment identities; `workspace/roster.json` and all numbered M records live only in its round branch.
+### 2. การเริ่มภารกิจและการแต่งตั้ง
 
-**At first CEO hires exactly 2 temporary roles, nothing else:**
-- `GAME-ADVISOR`: independently reads game and waits for OWNER's `NP` or free-form game suggestion. Then shows OWNER the **full proposed feature/design** with observed game evidence, alternatives, balance, acceptance and QA. It journals OWNER's request + exact displayed proposal in its GitHub chat event records; **waits for OWNER's literal `C`**. That C means *read/continue to deputy*, not implementation approval. Save actual C in later Owner journal event before creating an actionable GitHub `ADVISOR_HANDOFF` M to deputy. OWNER forwards `MN-GAME-ADVISOR-DEPUTY`.
-- `GAME-ADVISOR-DEPUTY`: appointed separately by CEO, parent is GAME-ADVISOR for research intake. Only after a C-gated handoff, researches independently, improves feasibility/QA/balance, and sends its **own** `PROPOSAL` M directly to CEO; OWNER forwards `MN-CEO`.
+CEO เริ่มจากข้อความแต่งตั้งเต็มที่มีตัวตนใหม่และหมายเลข `ROUND_ID` ไม่ซ้ำ ตรวจข้อบังคับนี้และสถานะ GitHub จริง ก่อนเปิด Branch `round/<round-id-lowercase>` และสร้าง:
+- `workspace/round.json`: ข้อมูลภารกิจ สถานะ และขั้นตอนปัจจุบัน
+- `workspace/roster.json`: รายชื่อสมาชิก ตำแหน่ง ผู้บังคับบัญชา และรหัสแต่งตั้ง
+- `workspace/messages/000001.json`: ข้อความแต่งตั้ง CEO และข้อความที่ส่งต่อหลังจากนั้นตามลำดับ
 
-CEO verifies the genuine deputy proposal and **only then** hires two equal, temporary `DCEO-A` and `DCEO-B`. They examine proposals independently, exchange actual numbered `PLAN_REVIEW` between their two ChatGPT chats **when the peer must act**, and resolve objections without routine courtesy reports to CEO. A single immutable revision of `workspace/plans/<PLAN_ID>/rN.json` states scope, non-goals, acceptance criteria, QA, balance, risk, resolution and **recommended team/roles/exclusive scopes**. Each deputy records its own `PLAN_SIGNOFF` M with identical real Git blob SHA and filename, and the genuine peer's PLAN_REVIEW on that exact plan. The **first signature is saved silently**; notify CEO via **one `MN-CEO` only when both real signed M records match**. CEO independently verifies both genuine signatures, SHA and final revision, then records audit-only `PLAN_APPROVAL`.
+การแต่งตั้งทุกตำแหน่งต้องมีข้อความแต่งตั้งเต็มหนึ่งครั้ง พร้อม `ROUND_ID`, `MESSAGE_ID`, ผู้ส่ง ผู้รับ `APPOINTMENT_ID`, ภารกิจ ขอบเขตงาน แหล่งข้อมูล และผู้รับผิดชอบตรวจรับ ต่อจากนั้นใช้คำสั่งสั้นและข้อความ M ใน GitHub
 
-CEO saves one immutable `workspace/retirements/planning-council.json` with exact four role/appointment IDs, approving plan SHA/M ID, reason and time, and marks **GAME-ADVISOR, GAME-ADVISOR-DEPUTY, DCEO-A, DCEO-B CLOSED**. These four are temporary; no messages/tasks to their retired ChatGPT chats again.
+### 3. คณะที่ปรึกษาและการกำหนดแผน
 
-CEO then appoints the **smallest sufficient execution team**, chosen for the signed plan rather than fixed numbers/levels. Simple `CEO→Engineer`, `CEO→TL→Engineer`, `CEO→DIR→Engineer`, or `CEO→DIR→TL→Engineers` are allowed when justified. When present, a DIR supervises at most 2 TLs, a TL at most 3 Engineers; no arbitrary global headcount cap. Roles can propose improvements and decisions in their delegated scope; route blockers outside delegated authority to parent. A single accountable implementing role cannot independently give the final QA signoff on its own changes. Each new chat receives a single **full initial appointment** with exact `ROUND_ID`, `MESSAGE_ID`, sender/recipient role and appointment IDs, GitHub ledger URL, parent, task, scope, file ownership, QA reviewer and repository links. Subsequent messages are codes only.
+**ขั้นที่หนึ่ง — ศึกษาและเสนอระบบเกม**
 
-## 2. GitHub messages, receipts and communication economy
+CEO แต่งตั้งสองตำแหน่ง:
+- **GAME-ADVISOR** ตรวจระบบเกมจริง รับ `NP` หรือแนวคิดจาก OWNER จัดทำข้อเสนอฉบับเต็มพร้อมหลักฐาน ข้อดีข้อเสีย สมดุลเกม และเงื่อนไขทดสอบ นำเสนอให้ OWNER อ่านก่อน เมื่อได้รับ `C` จึงส่งข้อความ `ADVISOR_HANDOFF` ไปยังรองที่ปรึกษา
+- **GAME-ADVISOR-DEPUTY** รับข้อมูลจากที่ปรึกษาหลัก ตรวจทานและค้นคว้าอย่างอิสระ จัดทำ `PROPOSAL` ส่งให้ CEO พร้อมเหตุผลและหลักฐาน
 
-A cross-chat `M` is needed only when another **active** AI must act. Persist actual numbered `M` messages in `workspace/messages/000001.json` onwards. OWNER forwards `MN` to the **exact recipient's ChatGPT chat**; GitHub alone does not deliver cross-chat messages.
+`C` ที่ OWNER ส่งให้ที่ปรึกษาหมายถึงได้อ่านข้อเสนอและอนุญาตให้ส่งต่อในกระบวนการศึกษา ไม่ใช่การอนุมัติพัฒนาเกม
 
-**`MN` = unread messages only, READ = inbox bookmark only.** On `MN`, the appointed recipient scans all messages addressed to its own `to_appointment_id`, reads only those lacking a valid per-message READ bookmark, and saves one bookmark **after the actual read** under `workspace/receipts/M000001/<APPOINTMENT_ID>.json`. Minimal READ JSON requires only `round_id`, `message_id`, `recipient_appointment_id`, and `read_at`. The file means **read** and nothing else: no status, disposition, reason, evidence, approval, task lock, QA, signoff, implementation permission or completion. When a valid marker exists, skip that M; when none exists, show/read that M. If no unread M, reply `C`. A later new M appears on the next MN even if earlier M have been read. Use a separate marker for each message; do not store a single last-seen sequence because gaps and out-of-order relay must not hide unread messages.
+**ขั้นที่สอง — วิเคราะห์แผนร่วมกัน**
 
-Never mark something READ just because the M file was created, another chat saw it, or GitHub CI passed. Only the **actual appointed recipient** after actual OWNER delivery/read may save a marker. Never impersonate the recipient. Optional historical receipt fields (such as `disposition`) are ignored for READ status; previously stored files stay unchanged. A malformed or wrongly addressed marker is considered **unread**, should be reported briefly, and **must not fail unrelated CI or freeze otherwise authorized work**. The actual recipient may correct only its invalid READ bookmark after genuinely reading the same M; Git history preserves prior revisions. This is a repairable bookmark, not an immutable task lock; do not overwrite a valid marker or alter numbered M, genuine signoffs, or QA evidence. Only the receipt of the affected M remains unresolved. Read-only helper: `node scripts/org-receipt.mjs workspace <MESSAGE_ID> <APPOINTMENT_ID>` produces the four-field marker template where a terminal is available, but does **not** save/deliver anything. No mandatory dry run for every MN. Save a correct marker directly after actual read; if the write fails, never claim it was saved, and the M will remain unread next time.
+หลังรับข้อเสนอจากรองที่ปรึกษา CEO แต่งตั้ง **DCEO-A** และ **DCEO-B** ให้ทบทวนระบบเกม วิเคราะห์ต้นทุน ข้อจำกัด สมดุล ความเสี่ยง และการทดสอบอย่างอิสระ แลกเปลี่ยน `PLAN_REVIEW` ระหว่างกันเมื่อมีประเด็นต้องตัดสิน
 
-**READ never authorizes work.** Decisions and readiness are verified from real M proposal, peer PLAN_REVIEW, distinct DCEO PLAN_SIGNOFFs for the identical actual plan SHA, CEO PLAN_APPROVAL, independent QA, CI and release/merge evidence. Do not add a Receipt/READ requirement as a separate signoff/implementation/release gate. Receipt write errors must not stop separate authorized tasks. Do not create numbered M for routine ACK, testing green, in-scope progress, courtesy status or repeats. Genuine work lives in Issues/PRs and actionable numbered messages. **Do not archive every OWNER↔AI turn.** Journal only genuine OWNER NP/design input, advisor's full actual proposal, subsequent literal OWNER C, or similarly necessary unique scope changes. Do not invent user/AI messages or republish private chat transcripts into public GitHub. Historical journals are immutable; legitimate AI speaker labels are `AI` or the exact actor's role. Safety-tool rejections must be reported truthfully and never evaded with disguised payloads, alternate paths or proxy acknowledgements.
+จัดทำแผนเป็น `workspace/plans/<PLAN_ID>/rN.json` ระบุขอบเขต สิ่งที่ไม่ทำ เกณฑ์รับงาน QA ความเสี่ยง ข้อสรุปที่เห็นพ้อง และการจัดสรรทีมพัฒนา DCEO ทั้งสองต้องออก `PLAN_SIGNOFF` แยกกันโดยอ้างอิงไฟล์และ Git blob SHA ของแผนฉบับเดียวกัน
 
-Command reference (Owner-facing):
-| Code | Meaning / recipient |
-|---|---|
-| `I` | Show short current command reference; any active AI |
-| `NP` | Ask primary game advisor for a full game-design proposal |
-| `C` | Owner confirms advisor proposal, or role confirms inbox; after DB Owner asks old CEO to verify cleanup (`c` accepted) |
-| `MN` | Read only M without valid READ marker for this appointment; record actual read using four fields |
-| `MN-ROLE` | Sender asks OWNER to deliver MN to named AI |
-| `AP-ROLE` | A new chat must receive one full first appointment, not bare MN |
-| `NX` | Current CEO checks organization inboxes and says which ACTIONABLE MN/AP OWNER must send |
-| `FAST` | Continue delegated, authorized tasks without redundant status reports; never skip QA/signatures |
-| `BR` | CEO gives max 3 lines: PHASE, WORK, NEXT |
-| `BL` | CEO checks verifiable blockers, concise role/reason |
-| `MQ` | CEO lists actionable pending M counts, excluding unmatched premature DCEO signature |
-| `SW` | Prepare actual signed, archived chat recovery handoff; no invisible cross-chat memory |
-| `WHY` | Briefly explain which verified gate blocks progress |
-| `PF` | CEO performs comprehensive pre-deletion release/PR/branch/archive/secret safety check; `B` if any danger |
-| `SIM` | CEO runs the offline whole-cycle organizational contract tests and records results; not a substitute for live chat/browser QA |
-| `ST` | Ask recipient for current scoped status |
-| `Q` | Request relevant question; detail saved in GitHub |
-| `H` | Ask role for help / escalated blocker |
-| `RV` | Request independent review |
-| `CI` | Check pinned SHA CI results |
-| `SYNC` | Reconcile real GitHub ledger/receipts/roles |
-| `RC` | Recover a broken chat from real historical journal and new distinct appointment |
-| `TR` / `Tr` | OWNER → same active AI: reassess and retry the **last blocked/incomplete action** reported as `ER` or `B`, at most one controlled attempt, after verifying real GitHub state and cause; preserve safety and idempotence |
-| `P` | Active/pending; `B` blocked; `ER` GitHub/source inaccessible |
-| `CCCC DB` | CEO: mission released, history permanently archived, PF ready — OWNER may delete non-main branches in BOTH repos |
-| `c` | OWNER tells same retired CEO they manually deleted branches in both repos; verify live |
-| `Completed` | Old CEO verified cleanup safe and attaches full first appointment for next, unappointed CEO |
+เมื่อมีลายเซ็นที่ถูกต้องทั้งสองฝ่าย CEO ตรวจไฟล์แผนและหลักฐานจริง จากนั้นบันทึก `PLAN_APPROVAL` เมื่ออนุมัติแล้ว CEO ปิดตำแหน่งชั่วคราวทั้งสี่และบันทึกการสิ้นสุดหน้าที่ใน `workspace/retirements/planning-council.json`
 
-`GAME-ADVISOR` can show OWNER the **complete new game proposal** and discuss it. Independent optional `ORG-ADVISOR` may discuss organization ideas in full language but is not a required startup role. Other role communications to OWNER are short codes except their first full appointment and the old CEO's final `Completed`+new first appointment. No automatic polling, hidden interchat transfer, or background operation is implied.
+### 4. โครงสร้างทีมปฏิบัติการ
 
-### TR — retry after ER/B (OWNER → same AI chat)
+CEO แต่งตั้งทีมพัฒนาตามปริมาณและความซับซ้อนของงาน โดยสามารถจัดสายบังคับบัญชาเป็น CEO → Engineer, CEO → TL → Engineer, CEO → DIR → Engineer หรือ CEO → DIR → TL → Engineers
 
-`TR` (also accept `Tr`/`tr`, case-insensitive) applies to the **most recent unfinished action in this very appointment/chat** that returned `ER` or `B`. It is **not** a general instruction to restart the whole mission, repeat all M, reset the role, revive retired chats, ignore a failed QA gate or undo the work done. This is a one-attempt command; never run an automatic retry loop.
+- **DIR** รับผิดชอบการกำกับแผนกและตรวจรับงานในสายงาน สามารถกำกับ TL ได้สูงสุด 2 ตำแหน่ง
+- **TL** แบ่งงานทางเทคนิค กำกับ Engineers และตรวจผลเบื้องต้น สามารถกำกับ Engineers ได้สูงสุด 3 ตำแหน่ง
+- **Engineer** พัฒนาและทดสอบงานตามขอบเขตไฟล์ที่ได้รับมอบหมาย
+- **QA Reviewer** ตรวจงานอย่างเป็นอิสระจากผู้ลงมือเขียนงานที่กำลังรับรอง
 
-1. **Reassess first.** Re-read the current round/roster, the specific original M, exact recipient appointment, receipt path, journal files, pending follow-up output M and relevant SHA/CI in live GitHub. Identify the failed substep and distinguish transient failure, missing dependency, schema error, authorization denial and platform safety denial. Do not overwrite a previously committed receipt, M or chat event.
-2. **Resume idempotently.** If that substep has since succeeded, **do not repeat it**; proceed only to the next actually incomplete authorized step. For an absent READ marker, only the real recipient after actually reading may create it; for an absent result M, choose the next real contiguous ledger number and use normal identity/CI checks. If the dependency is still missing, return `B`, not a fabricated `C`.
-3. **Retry once if permitted.** If a transient GitHub/network/branch-conflict issue has cleared, or a legitimate data/schema mistake has been corrected in an allowed way, attempt the specific incomplete action **once**. Validate GitHub write + resulting commit and relevant CI; then return `C` or the real `MN-ROLE` when another chat must act. Repeated OWNER `TR` requests do not authorize forcing, spamming or duplicating changes.
-4. **Platform safety denial is different.** If the previous response was `GITHUB_WRITE_BLOCKED` or a safety refusal, `TR` **does not authorize replaying the rejected payload**, splitting or disguising it, using alternate paths/tokens/proxies, writing an equivalent substitute, or having another agent impersonate the recipient. Only perform allowed diagnosis or an authorized, compliant correction; if the same safety restriction persists, answer `ER` with the factual blocker and **keep the stage on hold**. Escalate legitimately when necessary.
-5. **No extra tracking overhead.** Routine `TR` itself needs no numbered M and no extra Chat Event. Log only a genuinely consequential scope decision or verified repair that cannot already be evidenced by original GitHub commits/receipts. Never claim a retry succeeded because CI is green on unrelated commits.
+ต้องระบุผู้รับผิดชอบและขอบเขตไฟล์ให้ชัดเจนก่อนเขียนโค้ด หลีกเลี่ยงการแก้ไฟล์ซ้อนกันและการส่งรายงานขั้นย่อยที่ไม่จำเป็น
 
-If no failed/incomplete `ER`/`B` action can be identified for this chat, return `B` with the minimal reason instead of picking another task. OWNER can send `TR` after an actual error or blocker is resolved without re-sending the entire original assignment.
+### 5. ระบบข้อความและการรับอ่าน
 
-### Event-minimal operational guidance
+การส่งงานระหว่างแชทมีขั้นตอนดังนี้
 
-- `GAME-ADVISOR` logs only the **actual OWNER request → full visible proposal → OWNER C** sequence because the deputy's handoff depends on it; it does not need to log every later `MN` or every routine reply.
-- `GAME-ADVISOR-DEPUTY`, DCEO, CEO and execution roles normally use the **original actionable M and their own individual receipts**, without creating duplicate Chat Event files for the same read/status. For a genuine new USER decision changing scope, log only the minimal authorized event.
-- A role receiving `MN` reads only unmarked M for its appointment and saves a four-field READ bookmark after each actual read. No second Chat Event or approval is needed for acknowledging delivery.
-- **Writing rejected by OpenAI/GitHub safety:** treat this as a platform write failure distinct from CI failure. No workaround via alternate paths, embedded duplicate receipt in other artifacts or proxy signatures. Keep the affected message unread and report the exact refusal; do not block unrelated authorized work or impersonate the recipient.
+1. ผู้ส่งบันทึกข้อความ M พร้อมผู้รับและเลขลำดับที่ถูกต้องใน `workspace/messages/`
+2. ผู้ส่งแจ้งรหัส `MN-ROLE` ให้ OWNER
+3. OWNER เปิดแชทของผู้รับตามรหัสแต่งตั้งจริงแล้วส่ง `MN`
+4. ผู้รับอ่านเฉพาะข้อความที่ยังไม่มีข้อมูล `READ` ของตน แล้วบันทึกว่าอ่านจริงใน `workspace/receipts/M000001/<APPOINTMENT_ID>.json`
+5. ผู้รับดำเนินงานตามข้อความและส่งผลเฉพาะเมื่อมีการตัดสินใจหรือข้อมูลที่ต้องส่งต่อจริง
 
-## 3. Independent implementation/release gates
+ข้อมูลรับอ่านประกอบด้วย `round_id`, `message_id`, `recipient_appointment_id` และ `read_at` การรับอ่านเป็นเพียงเครื่องหมายในกล่องข้อความ ไม่ใช่ผลการทำงาน คำอนุมัติ หรือเงื่อนไขปล่อยงาน
 
-Use actual game Issues and PRs scoped by path. An implementation task/mission charter cites both DCEO signoffs, actual CEO plan approval SHA, exclusive write scope, non-goals, completion conditions, and independently accountable QA role. Engineers may finish all delegated substeps without interrupting the chain for routine acknowledgments. Integration must show head SHA, native tests, build, and actual Chromium/browser checks for UI changes; analyze failures rather than invent green checks. A reviewer may reject/redesign scoped implementation; CEO can only release after independent QA, CI success on pinned head, checked changed files, and real code merged into `ant-project/main`. Game/main SHA, actual merge evidence, and issue triage are recorded before closure. No Owner permission for release/merge, no source modification beyond mandate, no new unrelated mission within same round.
+ตรวจข้อความแยกตามหมายเลข M ไม่ใช้หมายเลขล่าสุดแทนข้อความทั้งหมด หากไม่มีข้อความใหม่ให้ตอบ `C` สั้น ๆ ข้อมูลรับอ่านที่ไม่ถูกต้องให้ถือว่าข้อความนั้นยังไม่อ่านและให้ผู้รับที่แท้จริงแก้ไขเมื่ออ่านข้อความแล้ว โดยไม่หยุดงานอื่นที่ดำเนินการได้
 
-Dashboard: use `node scripts/org-dashboard.mjs workspace` in the **active round branch** to render a read-only evidence-linked `workspace/DASHBOARD.md`. It shows current phase, role status, receipts, pending actionable M, signed plan state, blockers and task links. Dashboard is a **snapshot only**, not a vote, auto-delivery, or a replacement for live Issues/CI; date/SHA explicitly shown. `NX`/`MQ` use the actual message/receipt ledger and must not trust an obsolete snapshot.
+การเปิดแชทใหม่และการส่งข้อความข้ามแชทยังต้องใช้การดำเนินการจริงของ OWNER เครื่องมือใน GitHub ไม่สามารถยืนยันว่า AI อีกแชทเห็นข้อความแล้วโดยอัตโนมัติ
 
-SIM: run `node scripts/org-sim.mjs` to execute existing full contract regression suite and adversarial scenarios (fake approval, missing C, no receipt, branch/cleanup failure). This is an **offline simulation of artifacts and gates**, NOT proof that separate ChatGPT conversations can interact or that game browser tests passed. Must pass before first deployment of a changed organization policy. Protect actual live work with the normal independent QA gate.
+### 6. การตัดสินใจ การพัฒนา และการควบคุมคุณภาพ
 
-## 4. End of mission: archive → PF → CCCC DB → OWNER c → Completed
+การเข้าสู่ขั้นพัฒนาต้องมีแผนที่ CEO อนุมัติจากหลักฐานการเห็นพ้องของ DCEO สองฝ่าย แยกการรับอ่านออกจากการอนุมัติอย่างชัดเจน
 
-CEO verifies game/main merge, QA/CI exact head, remaining Issue triage and final `ROUND_CLOSED` M, marks all roster appointees CLOSED. **Before deleting any round/feature branch**, save full approved historical workspace **on governance main** under `archives/<ROUND_ID>/workspace/` with immutable `MANIFEST.json` listing every file's SHA256 and exact actual release evidence; **never** rely on branch SHA alone as a durable backup. This is the only CEO exception to editing governance main: append its own archive and successor handoff Issue, never rules or another archive. If private/sensitive chat data is present, protect it: do not silently republish sensitive data on a public repository; use a verified private archive and a public redacted/audit manifest. Preserve ledger identity and document any redactions; do not claim complete preservation unless private-source evidence exists.
+ใช้ Issues และ Pull Requests ในคลังเกมเพื่อแบ่งงาน การส่งมอบต้องแสดงการเปลี่ยนแปลงจริง Commit SHA และหลักฐานทดสอบตามขอบเขต สำหรับงาน UI ให้มีการทดสอบบนเบราว์เซอร์และขนาดหน้าจอที่เกี่ยวข้อง ผู้ตรวจรับอิสระสามารถขอแก้ไขหรือปฏิเสธงานได้
 
-PF is mandatory before `DB`: check both actual repos, pending PRs, changes that exist only on feature branch, unmerged files/commits, archive hashes/full message+chat receipts, private/public exposure, source round closure and critical QA/CI. Block on unmerged unique work until verified preserved or a future-scope Issue has usable recovery artifacts; otherwise no `DB`.
+CEO ตรวจความครบถ้วนของแผน QA, CI, Pull Request, ความเสี่ยงและผลรวมเข้ากับเกมก่อนส่งงานเข้า `ant-project/main` ไม่รายงานความสำเร็จจากผลทดสอบหรือ GitHub Commit ที่ยังไม่ได้ยืนยันจริง
 
-When all checks passed, CEO replies **`CCCC DB`**. OWNER personally deletes **all non-main branches in both repositories**, then types **`c`** (or C) in the old CEO chat. Old CEO has only limited cleanup/handoff authority; it must query both live GitHub repos with complete pagination, confirm **exactly `main`** remains, zero open PRs, only explicitly triaged future Issues, current main CI/QA and permanent archive. If verification fails respond `B` or `ER` and do not appoint. If true, respond **`Completed` followed by the complete first appointment of one genuinely NEW CEO** with unique unused round ID, matching game/main/governance SHA and links. The handoff is a draft for OWNER to copy into a NEW ChatGPT chat; the new round branch is created only after that. Never delete branches or open new AI chats without OWNER's action.
+### 7. การบันทึกหลักฐานและการกู้คืน
 
-## 5. Source-of-truth, recovery and privacy boundaries
+บันทึกเฉพาะหลักฐานที่จำเป็นต่อการตัดสินใจและสืบย้อนผลของภารกิจ ข้อความสนทนาประจำวัน `MN`, `C`, `ST` หรือการตอบรับทั่วไปไม่ต้องสร้าง Chat Event เพิ่ม
 
-Only `RULES.md` on governance/main defines current organization behavior. Game README links here; older game research, gameplay docs, closed round Issues and test fixtures may remain as **historical or technical evidence**, NEVER organization directives. No non-main rule document may override this. Read-only legacy validators/test fixtures may recognize older schema IDs solely to validate historic evidence; their embedded identifiers are **not active policy editions**.
+สำหรับขั้นเสนอระบบของที่ปรึกษา ให้บันทึกการเสนอแนวคิดจริงของ OWNER ข้อเสนอฉบับเต็มที่แสดงจริง และการตอบ `C` ที่เกิดขึ้นจริงเพื่อยืนยันลำดับขั้นตอน
 
-Sensitive secrets, health/identity details, private conversations and OAuth tokens do NOT belong in public GitHub. Archive tooling must explicitly block suspected secrets or unreviewed journal content; if a verified private destination is unavailable, abort `DB`. Preserve SOURCE round files until safe archival is confirmed. Implementers may improve game based on technical requirements but cannot infer policy from past AI-HEAD/17-chat materials. Never falsify receipts, signoffs, CI, browser runs, branch cleanup or actual user messages.
+การกู้คืนแชทต้องใช้ข้อมูลใน GitHub ที่ตรวจสอบได้ รหัสแต่งตั้งต้องไม่ซ้ำ และต้องไม่สร้างการอ่าน การลงมติ หรือลายเซ็นแทน AI อื่น หากการเขียน GitHub ถูกปฏิเสธ ให้รายงาน `ER` ตามข้อเท็จจริงและแก้เฉพาะข้อผิดพลาดที่ได้รับอนุญาต ห้ามหลบเลี่ยงระบบตรวจสอบความปลอดภัย
+
+### 8. การสิ้นสุดภารกิจและส่งต่องาน
+
+เมื่อเกมผ่าน QA และเข้าสู่ `ant-project/main` แล้ว CEO ตรวจรายการงานค้างและผล CI ปิดภารกิจพร้อมบันทึก `ROUND_CLOSED` และปิดสมาชิกที่ยังปฏิบัติหน้าที่
+
+CEO เก็บข้อมูลสำคัญของภารกิจไว้ในคลังหลักฐานถาวรโดยตรวจความครบถ้วนและความปลอดภัยของข้อมูล ก่อนแจ้ง `CCCC DB` ต้องทำ `PF` ตรวจ Branch, PR, Commit, งานค้าง และหลักฐานทั้งสอง Repository
+
+หลังได้รับ `CCCC DB` OWNER ดำเนินการลบ Branch ตามขั้นตอน แล้วส่ง `c` ให้ CEO เดิมตรวจผล GitHub จริง เมื่อครบจึงตอบ `Completed` พร้อมข้อความแต่งตั้ง CEO คนใหม่ฉบับเต็มสำหรับภารกิจถัดไป ไม่ถือว่าการลบสำเร็จจากคำรายงานโดยไม่มีการตรวจสอบ
+
+### 9. การกำกับดูแลข้อมูล
+
+Repository นี้เป็นสาธารณะ บันทึกเฉพาะข้อมูลที่จำเป็นและตรวจทานความลับก่อน Commit ห้ามเผยแพร่ Token รหัสผ่าน ข้อมูลอ่อนไหว หรือบทสนทนาส่วนตัวลงพื้นที่สาธารณะโดยไม่มีสิทธิ์และความจำเป็นทางงาน
+
+สำหรับรายละเอียดคำสั่งให้ใช้ [COMMANDS.md](COMMANDS.md) และการเริ่มองค์กรให้ใช้ [OWNER-TO-CEO.md](appointments/OWNER-TO-CEO.md) โดยเอกสารทั้งสองอยู่ภายใต้ข้อบังคับนี้
