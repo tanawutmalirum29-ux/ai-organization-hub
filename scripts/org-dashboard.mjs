@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {nextCourierPlan} from './v8-next.mjs';
+import {nextCourierPlan} from './courier.mjs';
 const read=p=>JSON.parse(fs.readFileSync(p,'utf8'));
 const safe=x=>String(x??'unknown').replace(/[\r\n|]/g,' ').slice(0,160);
 export function renderOrgDashboard(workspace,generatedAt=new Date().toISOString()){
