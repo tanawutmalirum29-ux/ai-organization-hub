@@ -1,5 +1,8 @@
 # V9 one-time full GAME-ADVISOR-DEPUTY first appointment
 
+> **V10 Lean first-appointment override:** This is the ONE full first appointment for a NEW V10 round (never an instruction to reuse V9 round identity). Read [V10 startup](../STARTUP-PROTOCOL-V10.md) and [efficiency](../EFFICIENCY-PROTOCOL-V10.md). Initial role acknowledgement is a **per-message read receipt**, NOT a new ACK M. Do not send courtesy progress to CEO. DCEO first PLAN_SIGNOFF is saved silently, and only a verified matching second signature triggers one `MN-CEO`. After CEO receipts and approves both, all four planners retire through a single batch record, not four M. Substantive peer PLAN_REVIEW/independent analysis and OWNER NP/C are still mandatory. Exact role/round/appointment IDs must replace every placeholder before presenting this full appointment.
+
+
 ```text
 ROUND_ID: <ACTUAL_ROUND_ID>
 MESSAGE_ID: <SAVED_M_ID>
