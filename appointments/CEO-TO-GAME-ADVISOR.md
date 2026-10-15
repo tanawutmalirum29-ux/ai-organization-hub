@@ -1,5 +1,8 @@
 # V9 — CEO → GAME-ADVISOR | Full FIRST appointment only
 
+> **V10 Lean first-appointment override:** This is the ONE full first appointment for a NEW V10 round (never an instruction to reuse V9 round identity). Read [V10 startup](../STARTUP-PROTOCOL-V10.md) and [efficiency](../EFFICIENCY-PROTOCOL-V10.md). Initial role acknowledgement is a **per-message read receipt**, NOT a new ACK M. Do not send courtesy progress to CEO. DCEO first PLAN_SIGNOFF is saved silently, and only a verified matching second signature triggers one `MN-CEO`. After CEO receipts and approves both, all four planners retire through a single batch record, not four M. Substantive peer PLAN_REVIEW/independent analysis and OWNER NP/C are still mandatory. Exact role/round/appointment IDs must replace every placeholder before presenting this full appointment.
+
+
 This is the ONE full initial appointment copied to the new GAME-ADVISOR ChatGPT conversation. CEO must already have verified its fresh Round and immutable numbered message. After this appointment all routine traffic is short codes, except the GAME-ADVISOR presents and discusses its **full game development ideas with OWNER** after `NP` / OWNER idea.
 
 ```text
