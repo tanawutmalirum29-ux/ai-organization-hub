@@ -157,7 +157,7 @@ export function validatePlanning({root='workspace',round,roster,msgs,fail}) {
     if(!((named(m,'DCEO-A','DCEO-B'))||(named(m,'DCEO-B','DCEO-A'))) ||
       !nonblank(m.review?.assessment) || !nonblank(m.review?.references) ||
       !['DISCUSS','AGREE','NEEDS_REVISION'].includes(m.review?.verdict) ||
-      !actualPlan(m.review))err('PLAN_REVIEW must exchange actual versioned plan between both deputies');
+      !actualPlan(m.review))err('PLAN_REVIEW must exchange actual signed plan revision between both deputies');
   }
   const signs=at('PLAN_SIGNOFF');
   for(const m of signs){
