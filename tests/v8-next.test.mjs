@@ -68,3 +68,9 @@ test('NX supports arbitrary existing role labels without guessing recipient',()=
  assert.equal(codeForRole('ORG-ADVISOR','AP'),'AP-ORG-ADVISOR');
  assert.throws(()=>codeForRole('TL-XYZ3'),/Unrecognized/);
 });
+
+test('NX supports V9 temporary advisor/DCEO routing and first appointments',()=>{
+ assert.equal(codeForRole('GAME-ADVISOR-DEPUTY'),'MN-GAME-ADVISOR-DEPUTY');
+ assert.equal(codeForRole('DCEO-A'),'MN-DCEO-A');
+ assert.equal(codeForRole('DCEO-B','AP'),'AP-DCEO-B');
+});
