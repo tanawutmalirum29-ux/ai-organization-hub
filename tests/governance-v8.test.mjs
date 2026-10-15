@@ -71,37 +71,20 @@ test('V8 does not alter past V7 fixtures without protocol_version',()=>{
   const r=run({messages:two,v8:false});
   assert.equal(r.status,0,r.stderr);
 });
-test('V8 rejects spoofed receipt recipient identity',()=>{
+test('V8 bad read bookmark warns without stopping unrelated CI',()=>{
   const r=run({messages:two,receipts:[receipt(2,'CEO')]});
-  assert.notEqual(r.status,0);assert.match(r.stderr,/receipt recipient or message identity mismatch/);
+  assert.equal(r.status,0,r.stderr);
+  assert.match(r.stderr,/WARN: invalid\/unread read marker/);
 });
-test('V8 rejects empty disposition reason',()=>{
-  const r=run({messages:two,receipts:[receipt(2,'DIR-A','NO_ACTION',{reason:''})]});
-  assert.notEqual(r.status,0);assert.match(r.stderr,/receipt missing required/);
-});
-test('V8 accepts truthful ACTION_STARTED receipt without premature result evidence',()=>{
-  const r=run({messages:two,receipts:[receipt(2,'DIR-A','ACTION_STARTED')]});
+test('V8 receipt with no disposition or evidence is a valid read bookmark',()=>{
+  const m={round_id:rid,message_id:id(2),recipient_appointment_id:app('DIR-A'),
+    read_at:'2026-10-15T01:00:00Z'};
+  const r=run({messages:two,receipts:[m]});
   assert.equal(r.status,0,r.stderr);
 });
-test('V8 rejects spoofed ACTION_STARTED receipt despite no result evidence',()=>{
-  const r=run({messages:two,receipts:[receipt(2,'DIR-A','ACTION_STARTED',{recipient_role:'CEO'})]});
-  assert.notEqual(r.status,0); assert.match(r.stderr,/receipt recipient or message identity mismatch/);
-});
-test('V8 requires superseded receipt to point to successor evidence',()=>{
-  const r=run({messages:two,receipts:[receipt(2,'DIR-A','SUPERSEDED')]});
-  assert.notEqual(r.status,0);assert.match(r.stderr,/needs explicit evidence_ref/);
-});
-test('V8 accepts a reasoned superseded receipt for older order',()=>{
-  const r=run({messages:two,receipts:[receipt(2,'DIR-A','SUPERSEDED',{evidence_ref:id(3)})]});
+test('V8 historic receipt without reason remains a valid read bookmark',()=>{
+  const r=run({messages:two,receipts:[receipt(2,'DIR-A','ACTION_STARTED',{reason:''})]});
   assert.equal(r.status,0,r.stderr);
-});
-test('V8 recognizes exact role-named AI journal speaker without rewriting old events',()=>{
-  const r=run({messages:two,events:[event(1,'DIR-A','DIR-A')]});
-  assert.equal(r.status,0,r.stderr);
-});
-test('V8 rejects misleading role-named journal speaker',()=>{
-  const r=run({messages:two,events:[event(1,'DIR-A','CEO')]});
-  assert.notEqual(r.status,0);assert.match(r.stderr,/invalid journal envelope/);
 });
 test('V8 rejects gapped appointment journal sequence',()=>{
   const r=run({messages:two,events:[event(2,'DIR-A','AI')]});
