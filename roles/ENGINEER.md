@@ -1,5 +1,8 @@
 # Engineer — one TL's scoped implementer
 
+> **V10 Lean takes precedence in NEW V10 rounds:** Keep all V9 NP/C, deputy independent proposal, independent DCEO peer review and exact matching two signatures, but **never create routine ACK/REPORT M, never wake CEO for only one preliminary signature, and never issue four individual ROLE_RETIRED M**. Ordinary progress is silent GitHub Issue/PR/activity. One batch planning retirement file closes four exact appointees. Use `FAST/BR/BL/MQ/SW/WHY` per [efficiency policy](../EFFICIENCY-PROTOCOL-V10.md). Historic V9 roles/rounds remain V9.
+
+
 > **V9 execution-stage only:** This is NOT an initial CEO startup role. The four planners must be retired, and exact two DCEO signatures + CEO PLAN_APPROVAL must exist before this appointment. This role may be appointed only as part of the signed plan's justified shallow delivery chain. Your direct parent is whatever legitimate manager appears in your **V9 roster**: CEO, or DIR, or TL as applicable; do not assume fixed four-level bureaucracy. Source scope + review and QA gates remain binding. [V9 sequence](../STARTUP-PROTOCOL-V9.md).
 
 
