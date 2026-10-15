@@ -41,14 +41,22 @@ export function validateV8Artifacts({root='workspace',round,roster,msgs,fail}) {
 
   for (const folder of list(receipts)) {
     const dir = path.join(receipts,folder);
-    if (!fileName.test(folder) || !fs.statSync(dir).isDirectory()) {issue('receipt folder not M000000: '+folder);continue;}
+    if (!fileName.test(folder) || !fs.statSync(dir).isDirectory()) {
+      console.warn('WARN: unknown read marker directory '+folder);continue;
+    }
     const number = Number(folder.slice(1));
     const msg=msgs[number-1];
-    if (!msg || msg.message_id !== rid+'-'+folder) {issue('receipt refers to missing or foreign message '+folder);continue;}
+    if (!msg || msg.message_id !== rid+'-'+folder) {
+      console.warn('WARN: read marker for missing message '+folder);continue;
+    }
     for (const name of list(dir)) {
-      if (!name.endsWith('.json') || !safeAppointment.test(name.slice(0,-5))) {issue('invalid receipt filename '+name);continue;}
-      const appointment=name.slice(0,-5),r=read(path.join(dir,name));
-      if (!r) continue;
+      if (!name.endsWith('.json') || !safeAppointment.test(name.slice(0,-5))) {
+        console.warn('WARN: invalid read marker filename '+name);continue;
+      }
+      const appointment=name.slice(0,-5);
+      let r;
+      try{r=JSON.parse(fs.readFileSync(path.join(dir,name),'utf8'));}
+      catch{console.warn('WARN: invalid/unread read marker '+folder+'/'+name);continue;}
       // READ bookmarks only: never fail unrelated CI because of unread/bad marker.
       // Invalid markers are ignored by inbox and surfaced as unread.
       if(!validHistoric(appointment,msg.to_role) || !isMessageRead(r,msg,appointment))
