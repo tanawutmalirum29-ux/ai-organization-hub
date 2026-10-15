@@ -113,3 +113,7 @@ The next mission requires a new CEO round, new chat and new appointments. Owner 
 For V9, OWNER's `NP` and the OWNER's response `C` to an advisor's full proposal are chat-journal interactions, not Owner signoff or cross-AI M messages. The advisor makes the full presentation before C and then the numbered handoff. Both DCEOs sign by separate M records, not long chat text. See [V9 startup](STARTUP-PROTOCOL-V9.md).
 
 **V10 note:** A silent activity or retirement artifact is not a message, so it does not require a new ledger number or an Owner relay. Every **real** M still has a unique gapless sequence and exact recipient receipt after actual delivery. No task can be secretly delegated via silent activity records.
+
+## 8. V10 CCCC DB and post-deletion c
+
+The final `ROUND_CLOSED` numbered M remains the last regular role-to-Owner record for that mission. Save complete history permanently to governance/main **before** any round branch deletion. CEO then emits only `CCCC DB` (two compact codes, no new M). OWNER deletes non-main branches in both repos and sends `c` to old CEO, who verifies GitHub live. If conditions pass, CEO outputs `Completed` and the full first CEO appointment for a **new** distinct round; this full appointment is explicitly an exception to compact code-only replies. The old CEO cannot auto-create another ChatGPT chat or claim a new roster was initialized. [Cleanup rule](CLOSEOUT-PROTOCOL-V10.md).
