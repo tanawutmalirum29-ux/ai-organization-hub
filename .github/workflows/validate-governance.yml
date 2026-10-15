@@ -1,12 +1,12 @@
-name: Validate Organization Governance
+name: Canonical Governance and Offline SIM
 on:
   push:
     branches:
       - main
       - 'round/**'
   pull_request:
-    branches:
-      - main
+    branches: [main]
+  workflow_dispatch:
 jobs:
   protocol:
     runs-on: ubuntu-latest
@@ -19,7 +19,35 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node --test tests/*.test.mjs
-      - run: node scripts/validate-governance.mjs
+      - name: Regression and schema gates
+        run: node --test tests/*.test.mjs
+      - name: Validate current source and archived rounds
+        run: node scripts/validate-governance.mjs
         env:
           BEFORE_SHA: ${{ github.event.before }}
+      - name: Simulate complete organization contract
+        if: github.ref_name == 'main'
+        run: node scripts/org-sim.mjs > org-sim-report.json
+      - name: Save offline SIM evidence
+        if: github.ref_name == 'main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: organization-simulation
+          path: org-sim-report.json
+          retention-days: 30
+      - name: Generate current-round dashboard snapshot
+        if: startsWith(github.ref_name, 'round/')
+        shell: bash
+        run: |
+          if [ -f workspace/round.json ] && node -e "const r=require('./workspace/round.json'); process.exit(r.protocol_version==='V10' ? 0:1)"; then
+            node scripts/org-dashboard.mjs workspace > organization-dashboard.md
+          else
+            printf 'No current-policy round workspace in this branch.\n' > organization-dashboard.md
+          fi
+      - name: Upload dashboard artifact for active branch
+        if: startsWith(github.ref_name, 'round/')
+        uses: actions/upload-artifact@v4
+        with:
+          name: organization-dashboard
+          path: organization-dashboard.md
+          retention-days: 30
