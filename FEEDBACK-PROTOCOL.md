@@ -1,4 +1,6 @@
-# V7 — AI game design consultation, proposals and final CEO decisions
+# V8 — AI game design consultation, proposals and final CEO decisions
+
+> **V8 delivery:** Full proposals, balances, code review and evidence are written to GitHub as numbered messages. OWNER sees ONLY short `MN-ROLE` notifications; the recipient reads on `MN`, receipts every message and answers `C`/`MN-ROLE`. Never paste a long proposal into routine chat. ORG-ADVISOR↔OWNER organization brainstorming is the only full-language exception. See [Code Protocol](CODE-RELAY-PROTOCOL.md).
 
 This protocol supplements [README](README.md) and [MESSAGE-PROTOCOL](MESSAGE-PROTOCOL.md). It allows **all AI positions to make gameplay suggestions** without assigning new work or bypassing the CEO's internal implementation/QA/release gates.
 
