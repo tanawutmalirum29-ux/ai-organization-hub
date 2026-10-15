@@ -1,5 +1,8 @@
 # OWNER → GAME-ADVISOR — direct read-only request for proposals (V7)
 
+> **V8 short-code transport:** This long consultation sample is stored in the GitHub message only, NOT pasted into OWNER↔AI chats after appointment. Send `MN-ROLE` and Owner relays `MN`; log Owner↔AI turns and one read receipt per M. Read [V8 codes](../CODE-RELAY-PROTOCOL.md).
+
+
 The Owner can ask the appointed Game Advisor for design ideas **without seeking or exercising any decision authority**. To obey the append-only relay protocol, Owner first sends the plain question to the active CEO as a recording request only. CEO looks up current `round.json`, roster and last numbered message and records an `OWNER→GAME-ADVISOR` `CONSULTATION_REQUEST` **verbatim**, without altering its scope or pretending to be the decision-maker. OWNER forwards that saved relay to the Advisor chat. Advisor reads the game and answers with a **new numbered `GAME-ADVISOR→CEO PROPOSAL`**, referencing the consultation request. OWNER forwards it to CEO for evaluation. CEO makes the decision after discussing with its AI team.
 
 ```text
