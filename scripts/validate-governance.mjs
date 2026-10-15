@@ -5,6 +5,7 @@ import { execFileSync } from 'node:child_process';
 import { validateV8Artifacts } from './validate-v8-artifacts.mjs';
 import { validateV9Startup } from './validate-v9-startup.mjs';
 import { validateV10Lean } from './validate-v10-lean.mjs';
+import { validateMainArchives } from './validate-closeout-archive.mjs';
 
 const errors = [];
 const fail = s => errors.push(s);
@@ -16,6 +17,7 @@ const exists = fs.existsSync(root);
 
 if (!roundBranch) {
   if (exists) fail('Governance main/policy PR must not contain workspace/: live rounds belong on round/<slug>.');
+  validateMainArchives({fail});
 } else {
   if (process.env.GITHUB_BASE_REF === 'main') fail('Round branch must NEVER be merged into governance main.');
   const round = read(path.join(root, 'round.json'));
