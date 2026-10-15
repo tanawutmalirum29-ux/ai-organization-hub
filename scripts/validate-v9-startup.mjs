@@ -64,7 +64,7 @@ export function validateV9Startup({root='workspace',round,roster,msgs,fail}) {
     const dir=path.join(root,'chats',p.from_appointment_id,'events');
     try{
       const events=fs.readdirSync(dir).sort()
-        .filter(name=>/^\\d{6}\\.json$/.test(name))
+        .filter(name=>/^[0-9]{6}[.]json$/.test(name))
         .map(name=>JSON.parse(fs.readFileSync(path.join(dir,name),'utf8')));
       const shown=events.findIndex(x=>x.speaker==='AI'&&x.appointment_id===p.from_appointment_id &&
         Array.isArray(x.message_refs)&&x.message_refs.includes(p.message_id) &&
