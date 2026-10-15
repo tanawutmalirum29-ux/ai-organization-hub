@@ -1,5 +1,8 @@
 # AI Organization Charter — V10 Lean: event-driven work and compact handoffs
 
+> **V10 final handoff — OWNER manual branch cleanup:** After verified game/main merge, closed round and [full archived history on governance/main](CLOSEOUT-PROTOCOL-V10.md), CEO outputs only **`CCCC DB`** (mission fully completed + OWNER may delete all non-main branches in **both** repositories). OWNER deletes those branches personally and sends lowercase **`c`** (or uppercase `C`) into the **same old CEO chat**. Retired CEO checks fresh live GitHub branch lists (exactly `main` in both), zero open PRs, CI/QA, retained main archive and future-only Issues. If ready, CEO responds **`Completed` plus ONE full first appointment for a FRESH CEO** without opening a new branch or self-appointing that CEO. If not ready, `B`/`ER`, never fake Completed. [Complete rules](CLOSEOUT-PROTOCOL-V10.md). This cleanup check is an administrative exception even after previous CEO's round CLOSED. No auto-delete and no hidden cross-chat transfer.
+
+
 > **V10 official new-round rule:** [STARTUP-PROTOCOL-V10.md](STARTUP-PROTOCOL-V10.md) + [EFFICIENCY-PROTOCOL-V10.md](EFFICIENCY-PROTOCOL-V10.md) supersede V9's excessive ACK/report and four retirement M requirements. Same two advisors, OWNER NP/C, two independent DCEO signatures on one Git blob, CEO approval, independent QA, CI and release. But **do not create M just to report already-persisted GitHub status**. Send MN only when another active chat must act, defer first signoff until second matches, and retire four planning roles with ONE immutable batch file. Commands FAST/BR/BL/MQ/SW/WHY are added. Only future rounds adopt V10; historical V9 rounds are not modified.
 
 > **V9 background (superseded where V10 differs):** [STARTUP-PROTOCOL-V9.md](STARTUP-PROTOCOL-V9.md) governs CEO onboarding and the whole planning council. CEO appoints **only GAME-ADVISOR + GAME-ADVISOR-DEPUTY** after first appointment, then waits for OWNER `NP` or game idea. Advisor presents **full proposal directly in its OWNER chat**, waits for `C`, hands off via numbered M to deputy advisor; deputy independently proposes CEO; only then two temporary DCEOs exchange revisions and separately sign the **same final plan**; CEO approves and permanently retires **all four planners** before dynamically appointing a lean execution team. V8 codes, receipts, journal, `I`/`NX` remain in force, plus `NP`. Legacy V8 orders to create DIR/TL/Engineers immediately are superseded **only for V9**. No code/mission staffing before joint signoff.
@@ -60,6 +63,7 @@ For existing active V6/older rounds, do **not** rewrite old numbered messages. C
 
 ## Policies and templates
 
+- **[V10 final closeout CCCC DB → c → Completed + fresh CEO appointment](CLOSEOUT-PROTOCOL-V10.md)**
 - **[V10 Lean startup, NP, dual signatures and one retirement batch](STARTUP-PROTOCOL-V10.md)**
 - **[V10 work economy, FAST/BR/BL/MQ/SW/WHY](EFFICIENCY-PROTOCOL-V10.md)**
 - [V9 historic design retained for prior rounds](STARTUP-PROTOCOL-V9.md)
