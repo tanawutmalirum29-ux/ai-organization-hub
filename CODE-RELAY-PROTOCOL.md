@@ -93,3 +93,5 @@ New CEO hires only GAME-ADVISOR and GAME-ADVISOR-DEPUTY, then pauses. OWNER send
 ## 6. V10 lean notification precedence
 
 Do not create M for routine ACK, work-start, progress, courtesy CI green or per-role retirement. Save a read receipt for each M that **does** exist, and log silent work in GitHub. DCEO peer debate still requires genuine cross-chat MN when peer must act, but CEO sees only a **matched two-signature actionable notification**. Retire all four with one verified batch file after CEO approval. `I` shows the six new OWNER commands. Old V9 history remains unchanged. [Source of truth](EFFICIENCY-PROTOCOL-V10.md).
+
+**V10 MQ/NX source:** [scripts/v10-mq.mjs](scripts/v10-mq.mjs) and [scripts/v8-next.mjs](scripts/v8-next.mjs) are read-only helpers for genuinely active V10 branches. They never send ChatGPT notifications, invent AI actions or assume a single pending DCEO signature is ready for CEO. Owner must still relay any returned `MN` into the specified real chat.
