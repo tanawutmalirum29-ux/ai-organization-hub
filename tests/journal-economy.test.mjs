@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {validateV8Artifacts} from '../scripts/validate-v8-artifacts.mjs';
+import {validateRecords} from '../scripts/validate-records.mjs';
 
 const rid='JOURNAL-MINIMAL-01',app=rid+'-CEO-01';
 function fixture(fn){
@@ -12,10 +12,10 @@ function fixture(fn){
  fs.mkdirSync(workspace,{recursive:true});
  const msgs=[{round_id:rid,sequence:1,message_id:rid+'-M000001',from_role:'OWNER',
    from_appointment_id:'OWNER',to_role:'CEO',to_appointment_id:app,kind:'APPOINTMENT'}];
- const round={protocol_version:'V10',round_id:rid,appointment_history:[]};
+ const round={round_id:rid,appointment_history:[]};
  const roster={roles:[{role_id:'CEO',appointment_id:app,status:'ACTIVE'}]};
  const errors=[];
- const validate=()=>validateV8Artifacts({root:workspace,round,roster,msgs,fail:x=>errors.push(x)});
+ const validate=()=>validateRecords({root:workspace,round,roster,msgs,fail:x=>errors.push(x)});
  try{return fn({workspace,round,roster,msgs,errors,validate})}
  finally{fs.rmSync(temp,{recursive:true,force:true})}
 }
