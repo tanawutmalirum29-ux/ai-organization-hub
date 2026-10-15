@@ -18,6 +18,8 @@
 | `C MN-CEO` | AI → OWNER | Previous condition satisfied **and** new saved message awaits CEO. Multiple `MN-ROLE` tokens are permitted for distinct recipients. |
 | `P` | AI → OWNER | Processing is incomplete / GitHub work in progress. Cannot emit `C` before receipts are saved. |
 | `B` | AI → OWNER | Blocked; the full reason and evidence are in a GitHub `BLOCKED` message/event. No invented success. |
+| `NX` | OWNER → CEO | ตรวจสถานะทั้งองค์กร + ข้อความ M ที่ยังไม่มีใบรับอ่านในทุกแชท; ตอบเฉพาะรหัส `MN-ROLE` ทุกผู้รับที่ค้าง, `AP-ROLE` สำหรับแต่งตั้งครั้งแรก, หรือ `C`/`P`/`B`/`ER`. |
+| `AP-ROLE` | CEO/ผู้แต่งตั้ง → OWNER | ต้องเปิดแชทบทบาทนั้นและส่งคำสั่งแต่งตั้งเต็มเพียงครั้งแรก ไม่ใช่ส่ง `MN` อย่างเดียว. |
 | `ST` | OWNER → role | Request current status; role writes status/evidence to GitHub, replies `C` or `C MN-ROLE` if it has sent a message. |
 | `Q` | OWNER → role | A question: journal Owner's actual follow-up text (may be written plainly) and store answer in GitHub; return `C` plus a short reference if needed. |
 | `H` | OWNER → role | Request help/unblock; role saves exact details/response in GitHub, sends `C` / `B` / recipient code. |
@@ -37,6 +39,22 @@
 4. Output **only** `MN-<RECIPIENT>` or `C MN-<RECIPIENT>` (and additional recipient tokens if necessary). Owner carries only `MN` to each target, not a message body. Do not say delivered until real Owner relay is known.
 
 **No notification via GitHub alone.** An originator's outgoing code is only a courier cue. The recipient must physically receive `MN` in its own chat and actively fetch GitHub. If an AI cannot write/read the connected GitHub, reply `ER` and do not fabricate a ledger message.
+
+## 2A. `NX` — ใครต้องได้รับ MN ต่อ (OWNER→CEO)
+
+**OWNER ส่ง `NX` เข้าแชท CEO คนปัจจุบันเท่านั้น** แปลว่า “ช่วยดูหน่อยงานถึงไหนแล้ว และตอนนี้ต้องส่ง `MN` ไปให้ใครบ้าง?” ไม่ใช่คำสั่งดำเนินงานหรืออนุมัติงาน.
+
+CEO ต้องตรวจ **Round ล่าสุดที่ยัง ACTIVE** พร้อม roster, complete `workspace/messages/`, receipts ของ **ทุก appointment**, Issue/PR/CI ที่เกี่ยวข้อง, สถานะงานค้างและการแต่งตั้งที่ยังไม่ส่งจริง. บันทึกการตรวจและผลสรุปเต็มลง GitHub ตามระบบ chat journal/status. แยกอย่างชัดเจนว่า:
+- `M` ที่ยัง **ไม่มี receipt** สำหรับ recipient appointment ที่ ACTIVE (OWNER ยังต้องส่ง `MN` ไปแชทนั้น) — รวมทุกตัว ไม่ใช่แค่ข้อความใหม่ที่สุด.
+- ข้อความ **ได้รับ/receipted แล้ว** แต่ TASK ยังทำไม่เสร็จ — **ไม่** ส่ง `MN` ซ้ำเพียงเพราะงานค้าง; ตรวจ Issue/PR/CI แล้วระบุคิวที่ต้องตามใน GitHub.
+- ข้อความยัง **ไม่ส่งจริงเข้าแชท** แม้มี GitHub record; การมี receipt บ่งชี้ว่าบทบาทนั้นได้อ่าน/จัดการแล้วตามที่บันทึก แต่ถ้าไม่มี receipt ก็ไม่อ้างว่า Owner ส่งแล้ว.
+- ข้อความถึง **appointment ที่เลิกใช้/ปิดแล้ว** — ห้ามส่ง `MN` ไปแชทเก่า; ลงรายละเอียดที่ค้างและส่งต่อให้ผู้แต่งตั้งออก appointment/reissued M ตามกฎ recovery.
+- ข้อความ `APPOINTMENT` ถึง AI ที่ **ยังไม่ได้เปิดแชท/รับแต่งตั้งครั้งแรก** — **ไม่ใช้ `MN` อย่างเดียว** ต้องให้ OWNER ส่ง **คำสั่งแต่งตั้งแบบเต็มครั้งแรก** เป็นข้อยกเว้น V8.
+- งาน `RELEASE_HOLD` / QA red ต้องแจ้งผ่านสถานะ `B` หรือ `P` และบันทึกหลักฐาน; อย่าอ้างว่าเสร็จ/เขียวเพียงเพราะไม่มีข้อความต้องส่ง.
+
+**คำตอบ CEO ในแชทต้องสั้นเท่านั้น:** ถ้ามีผู้รับอยู่ในคิว ให้ตอบ `MN-CEO MN-A-DIR MN-A1-TL` (เฉพาะผู้รับที่มี M ค้างจริง ไม่จำกัดหนึ่งคน), โดยไม่แสดงข้อความยาวหรือรายชื่อไฟล์. ถ้าเป็นเพียงงานกำลังรอผล ไม่มี MN ค้าง ให้ตอบ `P`; ถ้าไม่มีงานค้างและไม่ต้องส่ง MN ให้ตอบ `C`; ถ้ามี blocker `B`; GitHub access/identity error ตอบ `ER`. ถ้าเป็นคำสั่งแต่งตั้งแรก ให้ใช้ `AP-ROLE` แจ้ง OWNER ว่าต้องเปิดแชทใหม่และใช้คำสั่งแต่งตั้งเต็ม (ไม่แอบนับเป็น MN). CEO ไม่สร้าง receipt แทนบทบาทอื่น และไม่อ้างว่า AI อื่นได้อ่านข้อความเพียงเพราะตัวเองเห็น GitHub.
+
+`ST` = ขอความคืบหน้าจากแชทผู้รับนั้น ๆ, **`NX` = ให้ CEO ตรวจทั้งองค์กรและบอก OWNER ว่าต้องส่ง MN/เปิดแชทแรกถึงใครตอนนี้**. ทั้งคู่ต้อง journal คำขอและหลักฐานที่ตรวจจริง.
 
 ## 3. Receiving `MN` — handle *all* pending
 
