@@ -40,3 +40,18 @@ test('PF refusal when either repo has not fetched complete branch pages',()=>{
  const s=snap();s.repositories[0].all_branches_fetched=false;
  assert.equal(preflight(s).ready,false);
 });
+
+test('PF can retire own completed archived governance round branch without a fake future Issue',()=>{
+ const s=snap();const gov=s.repositories[0];gov.branches[1]='round/current-round';
+ gov.branch_risks=[{name:'round/current-round',head_sha:sha,compared_against_sha:sha,
+  compare_complete:true,ahead_by:3}];
+ s.archive.source_round_branch='round/current-round';
+ assert.equal(preflight(s).ready,true);
+});
+test('PF refuses claim that a different round branch was archived',()=>{
+ const s=snap();const gov=s.repositories[0];gov.branches[1]='round/current-round';
+ gov.branch_risks=[{name:'round/current-round',head_sha:sha,compared_against_sha:sha,
+  compare_complete:true,ahead_by:3}];
+ s.archive.source_round_branch='round/someone-else';
+ assert.equal(preflight(s).ready,false);
+});
