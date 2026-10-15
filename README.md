@@ -1,6 +1,8 @@
-# AI Organization Charter — V8: GitHub-first short-code communication; AI-led decisions
+# AI Organization Charter — V9: phased AI consultation, two-plan signatures, flexible execution
 
-> **V8 short-code mandate:** After each role's ONE detailed appointment, AI chats send **only compact codes** (`MN`, `MN-CEO`, `MN-A-DIR`, `C`, `B`, etc.), never full numbered relays or long routine reports to OWNER. Full data remains in GitHub; each inbound M gets an immutable read receipt; every OWNER↔AI turn is journaled by the acting AI in its round. [CODE-RELAY-PROTOCOL](CODE-RELAY-PROTOCOL.md) and [CHAT-ARCHIVE-PROTOCOL](CHAT-ARCHIVE-PROTOCOL.md) supersede old V7 long-relay instructions. **ORG-ADVISOR alone may discuss organizational ideas with OWNER in full prose.**
+> **V9 official change for NEW rounds:** [STARTUP-PROTOCOL-V9.md](STARTUP-PROTOCOL-V9.md) governs CEO onboarding and the whole planning council. CEO appoints **only GAME-ADVISOR + GAME-ADVISOR-DEPUTY** after first appointment, then waits for OWNER `NP` or game idea. Advisor presents **full proposal directly in its OWNER chat**, waits for `C`, hands off via numbered M to deputy advisor; deputy independently proposes CEO; only then two temporary DCEOs exchange revisions and separately sign the **same final plan**; CEO approves and permanently retires **all four planners** before dynamically appointing a lean execution team. V8 codes, receipts, journal, `I`/`NX` remain in force, plus `NP`. Legacy V8 orders to create DIR/TL/Engineers immediately are superseded **only for V9**. No code/mission staffing before joint signoff.
+
+> **V8 short-code mandate (retained transport rules):** After each role's ONE detailed appointment, AI chats send **only compact codes** (`MN`, `MN-CEO`, `MN-A-DIR`, `C`, `B`, etc.), never full numbered relays or long routine reports to OWNER. Full data remains in GitHub; each inbound M gets an immutable read receipt; every OWNER↔AI turn is journaled by the acting AI in its round. [CODE-RELAY-PROTOCOL](CODE-RELAY-PROTOCOL.md) and [CHAT-ARCHIVE-PROTOCOL](CHAT-ARCHIVE-PROTOCOL.md) supersede old V7 long-relay instructions. **GAME-ADVISOR may show full game proposals to OWNER during NP review; ORG-ADVISOR may discuss organization ideas.**
 
 > `appointment-CEO/main` is the reusable **governance template**, never a live organization's workspace. Each new CEO generation has its own `round/<slug>` branch and one mission. This V7 revision supersedes older Owner-approval wording in V4–V6 for **new actions**; preserve old historical ledger entries.
 
@@ -24,30 +26,31 @@
 - Actual game development, issues, code reviews, tests, PRs and merges happen in [ant-project](https://github.com/tanawutmalirum29-ux/ant-project). No old cancelled task is automatically resumed. GitHub repository permissions and branch protections remain technical constraints: no AI authority overrides them.
 - GitHub is the shared record; **different ChatGPT chats do not receive one another's messages automatically**. Every cross-chat instruction, consultation, proposal, QA decision, release and final report needs a *saved numbered GitHub message*. Sender replies only `MN-ROLE`; OWNER relays only `MN` to the intended live chat; target reads and saves a distinct immutable per-message receipt. See [V8 code routing](CODE-RELAY-PROTOCOL.md). Owner copies only the short routing code `MN` and never needs to decide its outcome.
 
-## 3. Organization and staffing
+## 3. V9 staffing: temporary planning vs flexible delivery
 
 ```text
-OWNER (courier + new-chat bootstrap; no game approval)
-  │  transports verified relay messages
-  └── CEO (final AI game decision and release)
-        ├── GAME-ADVISOR (one per round, advice only)
-        └── DIR-A / DIR-B / ... (as many departments as work requires)
-              ├── TL-A1 (at most three E-A1-1/-2/-3)
-              └── TL-A2 (at most three E-A2-1/-2/-3)
+STARTUP:  CEO
+          ├── GAME-ADVISOR ── GAME-ADVISOR-DEPUTY (appointed by CEO)
+          [No DIR/TL/Engineer or DCEO yet]
+
+NP/OWNER IDEA → advisor full proposal to OWNER → OWNER C
+   → advisor numbered handoff to deputy
+   → deputy independent proposal to CEO
+   → CEO appoints DCEO-A & DCEO-B
+      ↔ two-way GitHub debate; same plan SHA, two signatures
+   → CEO PLAN_APPROVAL → retire all four temporary roles
+
+EXECUTION (only then, and smallest adequate chain):
+  CEO → E        OR CEO → DIR → E       OR CEO → TL → E
+  CEO → DIR → TL → E    only when needed for real scale
+  + separate reviewer/QA and CEO release gate
 ```
 
-**Optional independent ORG-ADVISOR:** reports organizational recommendations to OWNER in full language; not a CEO game subordinate or a release approver. It does not count against DIR/TL/Engineer slots. Its AI-to-AI messages still use V8 codes and its Owner discussion is archived.
+**Hard startup gate:** CEO appoints *only* the two advisors initially and waits. DCEO-A/B are temporary co-reviewers, not a permanent layer. CEO must use two independent `PLAN_SIGNOFF` messages with the exact same immutable plan blob, then retire those four chats; no further MN to them. Crew size, departments and layers are recommended by signed plan but chosen by CEO according to workload. The old 2 TL per DIR / 3 Engineer per TL limits remain only where those levels are actually used; there is no company-wide headcount cap. Full governing details and phases: [V9 startup](STARTUP-PROTOCOL-V9.md).
 
-There is **no global AI-chat headcount cap**. One DIR has at most **two** TLs. One TL has at most **three** Engineers. Four Engineers in a department require two TLs (2+2 or 3+1), not `E-A1-4`. Every new generation gets **fresh, distinct chats, appointment IDs and acknowledgments**; do not inherit old staff. CEO appoints one GAME-ADVISOR (fresh chat) unless the role is already appointed this generation; CEO appoints DIRs, DIR appoints TLs, TL appoints Engineers. Owner never approves staffing decisions.
+## 4. Owner input and AI plan decision
 
-## 4. Consultation → collective evaluation → CEO decision → delivery
-
-1. **Idea request:** Owner may request a recommendation **directly from GAME-ADVISOR**, with a saved numbered `OWNER→GAME-ADVISOR CONSULTATION_REQUEST`; CEO as round-ledger coordinator records the Owner's *verbatim question* first, and Owner forwards it. CEO may also issue its own numbered consultation request. Neither form is a decision or approval. Owner sends `MN` to the advisor chat; the advisor responds with a saved `PROPOSAL` to CEO and Owner sends `MN` to CEO for that response. This is a **request for advice, not an Owner decision or implementation order**. See [advisor consultation template](appointments/CEO-TO-GAME-ADVISOR-CONSULT.md).
-2. **Debate:** Any Engineer/TL/DIR/Advisor may submit grounded `FEEDBACK` or structured `PROPOSAL`. Engineers go to own TL → DIR → CEO; advisor and DIR go to CEO. Managers retain original authorship and examine costs, gameplay balance, technical feasibility, alternatives, acceptance criteria and QA risks.
-3. **Decision:** CEO responds with a numbered `DECISION` to the original reporting AI and selects its own implementation mission. Before game implementation, CEO records a **numbered `MISSION_CHARTER` addressed to the responsible DIR**, including scope, non-goals, relevant proposals, constraints, measurable acceptance and QA plan. A proposed change alone is never a task.
-4. **Execution:** DIR/TL appoint/assign within their role limits using numbered `TASK` messages against the selected charter. Engineers can start only after their own authenticated scoped TASK and the CEO's charter; `IMPLEMENTATION_HOLD` remains in force until that internal gate opens. Unapproved changes cannot be introduced by suggestion alone.
-5. **Independent QA and release:** Another contributor who did not author the relevant change must review it, tests/CI must pass, critical QA blockers must be resolved, and CEO must record a `RELEASE` authorization with actual PR/test/QA evidence. CEO directs the authorized game-main integration, verifies the post-merge `ant-project/main` SHA, and reports result. **Do not request or wait for Owner merge approval.** A failed gate means `RELEASE_HOLD`, not a fake success.
-6. **Automatic dissolution:** After release reaches game main, evidence is archived, task issues are resolved, and all pending handoffs are reconciled, CEO *automatically* closes the full generation. Final `CEO→OWNER ROUND_CLOSED` is a status report **only**. No Owner approval for cleanup, merge or dissolution. If a mission is discontinued before shipment, CEO makes a documented `AI_CANCELLED` decision after consultation and archives the reason; never report it as shipped.
+OWNER sends `NP` or a concrete idea **to GAME-ADVISOR**. Advisor's **full** suggested feature/design is shown to OWNER directly and archived, then it waits for OWNER `C` before any `ADVISOR_HANDOFF`. This C merely means *proposal seen, continue to deputy review*; OWNER does not approve scope/implementation. Deputy advisor adds independent critique and proposes CEO. DCEO-A and DCEO-B debate by numbered messages through OWNER relay; each separately signs the exact final plan. CEO checks both and selects mission/teams without asking OWNER for game approval. Four temporary planning roles are retired before technical hiring. Engineer tasks, independent QA, CEO RELEASE, main merge and automatic dissolution follow existing safety policy.
 
 ## 5. One mission per CEO generation; archive and restart
 
@@ -59,23 +62,24 @@ For existing active V6/older rounds, do **not** rewrite old numbered messages. C
 
 ## Policies and templates
 
+- **[V9 phased startup, NP, double-signature plan and retirements](STARTUP-PROTOCOL-V9.md)**
 - **[I — ดูรายการคำสั่งทั้งหมดแบบสั้น](COMMANDS.md)**
 - **[V8 short command codes, MN routing, full inbox scan](CODE-RELAY-PROTOCOL.md)** · [Read-only inbox enumerator](scripts/v8-inbox.mjs)
 - **[V8 chat journal, per-message read receipts and crash recovery](CHAT-ARCHIVE-PROTOCOL.md)**
 - [Numbered messages, identity checks, consultations and closeout](MESSAGE-PROTOCOL.md)
 - [Gameplay feedback and AI decision process](FEEDBACK-PROTOCOL.md)
-- [CEO](roles/CEO.md) · [Game Advisor](roles/GAME-ADVISOR.md) · [Organization Advisor](roles/ORG-ADVISOR.md) · [DIR](roles/DIR.md) · [TL](roles/TL.md) · [Engineer](roles/ENGINEER.md)
+- [CEO](roles/CEO.md) · [Game Advisor](roles/GAME-ADVISOR.md) · [Deputy Advisor](roles/GAME-ADVISOR-DEPUTY.md) · [DCEO-A](roles/DCEO-A.md) · [DCEO-B](roles/DCEO-B.md) · [Organization Advisor](roles/ORG-ADVISOR.md) · [DIR](roles/DIR.md) · [TL](roles/TL.md) · [Engineer](roles/ENGINEER.md)
 - [Owner → CEO administrative bootstrap](appointments/OWNER-TO-CEO.md) · [CEO → Advisor appointment](appointments/CEO-TO-GAME-ADVISOR.md) · [CEO → Advisor consultation](appointments/CEO-TO-GAME-ADVISOR-CONSULT.md) · [Owner → Advisor question](appointments/OWNER-TO-GAME-ADVISOR-CONSULT.md)
-- [CEO → DIR](appointments/CEO-TO-DIR.md) · [DIR → TL](appointments/DIR-TO-TL.md) · [TL → Engineer](appointments/TL-TO-ENGINEER.md)
+- [CEO → Deputy Advisor](appointments/CEO-TO-GAME-ADVISOR-DEPUTY.md) · [CEO → DCEO A/B](appointments/CEO-TO-DCEO.md) · [CEO → DIR](appointments/CEO-TO-DIR.md) · [DIR → TL](appointments/DIR-TO-TL.md) · [TL → Engineer](appointments/TL-TO-ENGINEER.md)
 - [Round examples](examples/README.md) · [Governance validator](scripts/validate-governance.mjs)
 
 Closed historical Issues and cancelled game tasks are evidence, **never active appointments or current directives**.
 
-## V8 new-round bootstrap and compatibility
+## V9 new-round bootstrap, V8 transport and compatibility
 
-Every **new round** sets `workspace/round.json.protocol_version = "V8"` and `owner_relay_only_from_sequence = 2`. Its CEO persists the single detailed first appointment, then uses the short-code protocol exclusively; subsequent role first appointments are full **once each**. Optional `ORG-ADVISOR` is independent and may discuss organization with Owner in full sentences. Each code/turn is archived in the acting role's own `workspace/chats/<appointment_id>/events/`, and each delivered `M` gets a `workspace/receipts/M000000/<appointment_id>.json` record; no old message rewrite.
+Every **new round** sets `workspace/round.json.protocol_version = "V9"` and `startup_phase = "CEO_SETUP"` and `owner_relay_only_from_sequence = 2`. Its CEO persists the single detailed first appointment, then uses the short-code protocol exclusively; subsequent role first appointments are full **once each**. Optional `ORG-ADVISOR` is independent and may discuss organization with Owner in full sentences. Each code/turn is archived in the acting role's own `workspace/chats/<appointment_id>/events/`, and each delivered `M` gets a `workspace/receipts/M000000/<appointment_id>.json` record; no old message rewrite.
 
-**Do not activate V8 retroactively on CLOSED older rounds.** V6/V7 history remains read-only and valid under its own original conventions. For a still ACTIVE V7 round, any migration must be recorded as a new CEO decision and a prospective protocol version switch with careful compatibility review; never hide earlier relay history or an unfinished task. No separate approvals from Owner for game decisions.
+**Do not activate V9 retroactively on CLOSED older rounds.** V6/V7 history remains read-only and valid under its own original conventions. For a still ACTIVE V7 round, any migration must be recorded as a new CEO decision and a prospective protocol version switch with careful compatibility review; never hide earlier relay history or an unfinished task. No separate approvals from Owner for game decisions.
 
 **ตรวจงานและผู้รับถัดไป:** OWNER ส่ง `NX` ให้ CEO รุ่นที่ ACTIVE. CEO ตรวจทุก M/receipts และ Issue/PR/CI แล้วตอบเพียง `MN-ROLE` ให้ทุกแชทที่ต้องรับข้อความ หรือ `AP-ROLE` สำหรับบทบาทที่ต้องรับคำสั่งแต่งตั้งเต็มครั้งแรก; หากไม่มีให้ตอบ `C`/`P`/`B` ตามสถานะจริง. ไม่ใช่การอนุมัติงาน. รายละเอียดใน [V8 NX](CODE-RELAY-PROTOCOL.md#2a-nx--ใครต้องได้รับ-mn-ต่อ-ownerceo).
 
