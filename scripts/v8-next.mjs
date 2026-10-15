@@ -19,7 +19,7 @@ export function codeForRole(role,prefix='MN') {
 export function nextCourierPlan(workspace) {
   const round=load(path.join(workspace,'round.json'));
   const roster=load(path.join(workspace,'roster.json'));
-  if(round.state!=='ACTIVE'||!['V8','V9'].includes(round.protocol_version))throw Error('Not an ACTIVE V8 round (V9 also supported)');
+  if(round.state!=='ACTIVE'||!['V8','V9','V10'].includes(round.protocol_version))throw Error('Not an ACTIVE V8 round (V9 also supported)');
   if(round.round_id!==roster.round_id||!Array.isArray(roster.roles))throw Error('Round/roster mismatch');
   const routing=[], firstAppointments=[], unread=[];
   const seen=new Set();
@@ -44,10 +44,10 @@ export function nextCourierPlan(workspace) {
     mn_codes:routing.map(x=>x.code),
     unread_roles:unread,first_appointments:firstAppointments,routing,
     owner_code_line:[...firstAppointments.map(x=>x.code),...routing.map(x=>x.code)].join(' '),
-    startup_phase:round.protocol_version==='V9'?round.startup_phase:null,
-    next_owner_hint:round.protocol_version==='V9' && round.startup_phase==='WAIT_NP'
+    startup_phase:['V9','V10'].includes(round.protocol_version)?round.startup_phase:null,
+    next_owner_hint:['V9','V10'].includes(round.protocol_version) && round.startup_phase==='WAIT_NP'
       ? 'P — advisor awaits OWNER NP or Owner game idea; CEO must not hire execution team'
-      : round.protocol_version==='V9' && round.startup_phase==='WAIT_OWNER_C'
+      : ['V9','V10'].includes(round.protocol_version) && round.startup_phase==='WAIT_OWNER_C'
         ? 'P — GAME-ADVISOR awaits OWNER C after full visible proposal'
         : 'Check active Issues/PR/CI; absence of unread messages does not mean delivery is complete',
     next_step:'CEO must still independently check active task/Issue/PR/CI status; zero unread does not prove completion'};
