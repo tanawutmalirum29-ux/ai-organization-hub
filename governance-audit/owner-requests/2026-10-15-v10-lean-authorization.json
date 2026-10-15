@@ -1,0 +1,22 @@
+{
+  "document_type": "OWNER_ADMIN_INSTRUCTION_ARCHIVE",
+  "instruction_date": "2026-10-15",
+  "repository": "tanawutmalirum29-ux/appointment-CEO",
+  "visibility": "public",
+  "source": "Actual Owner reply in current ChatGPT conversation; no attempt to reconstruct hidden other chats.",
+  "exact_owner_message": "เอาแบบ ี่คุณว่าเลย",
+  "resolved_choice": "V10 Lean (option B recommended in immediately prior assistant proposal)",
+  "owner_authorized_changes": "Keep original two advisors and two independent DCEO signatures, remove unnecessary ACK/status/report messages, with one matching-signature CEO notification and one batch retirement file. Add FAST/BR/BL/MQ/SW/WHY, preserve V8 code/receipt/journal system and independent QA/CI/RELEASE.",
+  "scope": "Canonical appointment-CEO/main template only; applies to new V10 rounds. No fresh CEO chat, actual game implementation or changes to old rounds requested.",
+  "evidence_files": [
+    "STARTUP-PROTOCOL-V10.md",
+    "EFFICIENCY-PROTOCOL-V10.md",
+    "COMMANDS.md",
+    "scripts/validate-v10-lean.mjs",
+    "scripts/v10-mq.mjs",
+    "tests/governance-v10.test.mjs",
+    "tests/v10-next.test.mjs",
+    "tests/v10-recovery.test.mjs"
+  ],
+  "note": "The fact that GitHub has a record is not evidence that separate ChatGPT chats were automatically notified. Historical V9 workspaces and game main are untouched."
+}
