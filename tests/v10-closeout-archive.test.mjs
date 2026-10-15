@@ -16,7 +16,7 @@ function verify({badHash=false,badState=false,missingChat=false}={}){
    'workspace/round.json':{round_id:rid,state:badState?'ACTIVE':'CLOSED',closure_reason:'MISSION_COMPLETED',final_game_main_sha:game},
    'workspace/roster.json':{round_id:rid,roles:[{role_id:'CEO',appointment_id:rid+'-CEO-01',status:'CLOSED'}]},
    'workspace/messages/000001.json':{round_id:rid,message_id:rid+'-M000001',kind:'ROUND_CLOSED',from_role:'CEO',to_role:'OWNER'},
-   'workspace/chats/'+rid+'-CEO-01/events/000001.json':{round_id:rid,speaker:'OWNER',text:'MN',sequence:1}
+   ['workspace/chats/'+rid+'-CEO-01/events/000001.json']:{round_id:rid,speaker:'OWNER',text:'MN',sequence:1}
   };
   const hashes={},full=[];
   for(const [name,value] of Object.entries(files)){
