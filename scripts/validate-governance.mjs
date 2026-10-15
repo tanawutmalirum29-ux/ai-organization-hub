@@ -101,7 +101,7 @@ if (!roundBranch) {
       else if (!known.has(role) || !appointedAt(role,a,i+1)) fail(`${expected}: invalid ${side} role/appointment`);
     }
     if (['ACK','REPORT','REVIEW','ROLE_RETIRED'].includes(m.kind)) fail(`${expected}: Routine report or ACK not allowed; use receipt, activity, or batch retirement`);
-    if (!['APPOINTMENT','ACK','TASK','RESULT','BLOCKED','REJECTED','REPORT','REVIEW','RELEASE','ROUND_CLOSED','FEEDBACK','PROPOSAL','DECISION','CONSULTATION_REQUEST','MISSION_CHARTER','TASK_ACCEPTANCE',...'ADVISOR_PRESENTATION ADVISOR_HANDOFF PLAN_REVIEW PLAN_SIGNOFF PLAN_APPROVAL ROLE_RETIRED'.split(' ')].includes(m.kind)) fail(`${expected}: invalid kind`);
+    if (!['APPOINTMENT','ACK','TASK','RESULT','BLOCKED','REJECTED','REPORT','REVIEW','RELEASE','ROUND_CLOSED','FEEDBACK','PROPOSAL','DECISION','CONSULTATION_REQUEST','MISSION_CHARTER','TASK_ACCEPTANCE','ADVISOR_PRESENTATION','ADVISOR_HANDOFF','PLAN_REVIEW','PLAN_SIGNOFF','PLAN_APPROVAL','ROLE_RETIRED'].includes(m.kind)) fail(`${expected}: invalid kind`);
     if (typeof m.task_ref !== 'string' || !m.task_ref) fail(`${expected}: missing task_ref`);
     if (typeof m.summary !== 'string' || !m.summary) fail(`${expected}: missing summary`);
     const copyReady=typeof m.relay_text==='string' &&
@@ -117,6 +117,13 @@ if (!roundBranch) {
     // a full Owner-facing proposal inside relay_text. The planning validator
     // must still verify actual OWNER request, complete visible proposal and C.
     const structuredAdvisor = (
+      (m.kind==='ADVISOR_PRESENTATION' && m.from_role==='GAME-ADVISOR' &&
+        m.to_role==='OWNER' && typeof m.presentation?.proposal_text==='string' &&
+        m.presentation.proposal_text.trim().length>0) ||
+      (m.kind==='ADVISOR_HANDOFF' && m.from_role==='GAME-ADVISOR' &&
+        m.to_role==='GAME-ADVISOR-DEPUTY' &&
+        typeof m.handoff?.presentation_message_id==='string' &&
+        typeof m.handoff?.owner_c_journal_path==='string') ||
       (m.kind==='ADVISOR_PRESENTATION' && m.from_role==='GAME-ADVISOR' &&
         m.to_role==='OWNER' && typeof m.presentation_text==='string' &&
         m.presentation_text.trim().length>0 && !!m.owner_request_event_path &&
@@ -138,8 +145,12 @@ if (!roundBranch) {
     }
     if (m.kind === 'PROPOSAL') {
       const fields = ['subject','observed_problem','suggested_change','expected_effect','risks','evidence'];
-      if (!m.proposal || fields.some(k => typeof m.proposal[k] !== 'string' || !m.proposal[k].trim()))
-        fail(`${expected}: PROPOSAL missing structured game-design fields`);
+      const advisorDeputy = m.from_role==='GAME-ADVISOR-DEPUTY' &&
+        typeof m.independent_findings==='string' && m.independent_findings.trim().length>0;
+      const detailed = m.proposal && fields.every(k=>typeof m.proposal[k]==='string' &&
+        m.proposal[k].trim().length>0);
+      if(!advisorDeputy && !detailed)
+        fail(`${expected}: PROPOSAL requires independently documented findings or complete design fields`);
     }
     if (m.kind === 'DECISION' && (!m.in_reply_to || !m.decision ||
         !['ACCEPTED_FOR_SCOPING','DEFERRED','REJECTED','NEEDS_DATA'].includes(m.decision.status) ||
@@ -194,10 +205,9 @@ if (!roundBranch) {
             !target || target.kind !== 'TASK' ||
             target.to_role !== m.from_role || target.to_appointment_id !== m.from_appointment_id ||
             target.from_role !== expectedParent ||
-            false ||
             target.from_appointment_id !== m.to_appointment_id ||
             m.to_role !== expectedParent)
-          fail(`TASK_ACCEPTANCE must answer prior direct TL's exact Engineer TASK: ${m.message_id}`);
+          fail(`TASK_ACCEPTANCE must answer the appointed manager's exact Engineer TASK: ${m.message_id}`);
       }
       if (m.kind === 'DECISION' && target &&
         (!['PROPOSAL','FEEDBACK'].includes(target.kind) ||
