@@ -35,17 +35,22 @@ jobs:
           name: organization-simulation
           path: org-sim-report.json
           retention-days: 30
-      - name: Generate current-round dashboard snapshot
+      # Reporting belongs to a successfully CLOSED mission, never planning or active execution.
+      - name: Check completed mission report gate
+        id: report_gate
         if: startsWith(github.ref_name, 'round/')
         shell: bash
         run: |
-          if [ -f workspace/round.json ] && node -e "const r=require('./workspace/round.json'); process.exit(r.round_id && r.startup_phase ? 0:1)"; then
-            node scripts/org-dashboard.mjs workspace > organization-dashboard.md
+          if [ -f workspace/round.json ] && node -e "const r = require('./workspace/round.json'); process.exit(r.state === 'CLOSED' && r.closure_reason === 'MISSION_COMPLETED' ? 0 : 1)"; then
+            echo 'ready=true' >> "$GITHUB_OUTPUT"
           else
-            printf 'No active organization workspace in this branch.\n' > organization-dashboard.md
+            echo 'ready=false' >> "$GITHUB_OUTPUT"
           fi
-      - name: Upload dashboard artifact for active branch
-        if: startsWith(github.ref_name, 'round/')
+      - name: Generate completed mission report
+        if: steps.report_gate.outputs.ready == 'true'
+        run: node scripts/org-dashboard.mjs workspace > organization-dashboard.md
+      - name: Upload completed mission report
+        if: steps.report_gate.outputs.ready == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: organization-dashboard
