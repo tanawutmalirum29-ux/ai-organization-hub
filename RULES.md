@@ -18,6 +18,40 @@ CEO เริ่มจากข้อความแต่งตั้งเต�
 - `workspace/round.json`: ข้อมูลภารกิจ สถานะ และขั้นตอนปัจจุบัน
 - `workspace/roster.json`: รายชื่อสมาชิก ตำแหน่ง ผู้บังคับบัญชา และรหัสแต่งตั้ง
 - `workspace/messages/000001.json`: ข้อความแต่งตั้ง CEO และข้อความที่ส่งต่อหลังจากนั้นตามลำดับ
+ 
+**ข้อมูลเริ่มต้นของรอบงาน**
+
+`workspace/round.json`:
+
+```json
+{
+  "round_id": "<ROUND_ID>",
+  "game_repository": "tanawutmalirum29-ux/ant-project",
+  "state": "ACTIVE",
+  "startup_phase": "CEO_SETUP",
+  "owner_relay_only_from_sequence": 2,
+  "appointment_history": []
+}
+```
+
+`workspace/roster.json`:
+
+```json
+{
+  "round_id": "<ROUND_ID>",
+  "roles": [
+    {
+      "role_id": "CEO",
+      "appointment_id": "<ROUND_ID>-CEO-01",
+      "parent_role": "OWNER",
+      "status": "ACTIVE"
+    }
+  ]
+}
+```
+
+ข้อมูล `M000001` ต้องมี `sequence: 1`, `round_id`, `message_id`, `from_role`, `from_appointment_id`, `to_role`, `to_appointment_id`, `kind: "APPOINTMENT"`, `event_key`, `task_ref`, `in_reply_to`, `summary` และ `relay_text` ที่มีหมายเลขรอบงาน ผู้ส่ง ผู้รับ รหัสแต่งตั้งและเลขข้อความตรงกับข้อมูลจริง จากนั้นเพิ่มข้อความใหม่โดยใช้หมายเลขต่อเนื่องและไม่แก้บันทึก M ที่ส่งแล้ว
+
 
 การแต่งตั้งทุกตำแหน่งต้องมีข้อความแต่งตั้งเต็มหนึ่งครั้ง พร้อม `ROUND_ID`, `MESSAGE_ID`, ผู้ส่ง ผู้รับ `APPOINTMENT_ID`, ภารกิจ ขอบเขตงาน แหล่งข้อมูล และผู้รับผิดชอบตรวจรับ ต่อจากนั้นใช้คำสั่งสั้นและข้อความ M ใน GitHub
 
