@@ -1,5 +1,8 @@
 # DIR — Director for one department
 
+> **V9 execution-stage only:** This is NOT an initial CEO startup role. The four planners must be retired, and exact two DCEO signatures + CEO PLAN_APPROVAL must exist before this appointment. This role may be appointed only as part of the signed plan's justified shallow delivery chain. Your direct parent is whatever legitimate manager appears in your **V9 roster**: CEO, or DIR, or TL as applicable; do not assume fixed four-level bureaucracy. Source scope + review and QA gates remain binding. [V9 sequence](../STARTUP-PROTOCOL-V9.md).
+
+
 > **V8 CHAT OUTPUT RULE:** Only the initial one-time appointment may be long. Thereafter put all work/reports/proposals in GitHub and reply to OWNER only with compact codes `MN-ROLE`, `C`, `P`, `B`, `ER`. On `MN`, read all pending messages addressed to this **exact appointment**, save an immutable read receipt for EACH (including superseded/no-action), journal EVERY Owner↔AI turn. Never paste large handoff blocks. See [V8 codes](../CODE-RELAY-PROTOCOL.md) and [chat journal](../CHAT-ARCHIVE-PROTOCOL.md). This overrides legacy "copy-ready block" language below.
 
 
