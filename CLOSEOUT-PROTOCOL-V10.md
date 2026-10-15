@@ -34,12 +34,13 @@ Required `archives/<OLD_ROUND_ID>/MANIFEST.json` at minimum:
 ```
 Exact file count/hashes must be verified **against the source branch** at the pinned SHA and **against the copies** on main. No modifying/deleting previous archives. Keep canonical template files on main unaffected. If archive exceeds platform limits, create a durable verified archive in an explicitly approved private archive repository and link it from an immutable manifest on governance/main; **do not emit DB before verified preservation**. Saving only the commit SHA or a PR link is **not** a backup, because the unreferenced git objects may be garbage-collected after branch deletion.
 
-Once full archive, game release, future-issue triage, and clean round closure have been verified, CEO sends exactly:
+Once full archive, game release, future-issue triage, and clean round closure have been verified, CEO sends **exactly** the compact line:
 
 ```text
-CCCC
-DB
+CCCC DB
 ```
+
+Equivalent separate consecutive lines `CCCC` then `DB` may be accepted, but never interleave other codes or long commentary.
 
 `CCCC` means **mission completely shipped + archived + round closed**. `DB` means **OWNER is authorized to manually delete all non-main branches in BOTH repos**. Never use these strings before verification. CEO does not delete branches without OWNER's cleanup instruction; no need to relay anything else to the retired team.
 
@@ -51,13 +52,13 @@ OWNER visits BOTH:
 
 Delete **all branches except `main`** in each repository, including old feature, integration, QA and now-archived round branches. `main` must not be deleted, rebased or reset. Before deletion, ensure no open PR depends on a branch being deleted and every relevant non-main feature is merged to game/main or explicitly deferred as a *new future task* in an Issue. No deleting branches with sole copies of needed game code, tests, chats or evidence.
 
-Once OWNER actually performs the deletions, OWNER sends **literal `C`** to the **same just-finished CEO chat**. At this stage `C` is *the cleanup-check trigger*, not a game approval, not an authorization to merge, and not the advisor's proposal acknowledgement.
+Once OWNER actually performs the deletions, OWNER sends **`c` (lowercase) or `C` (uppercase), case-insensitive** to the **same just-finished CEO chat**. At this stage `C` is *the cleanup-check trigger*, not a game approval, not an authorization to merge, and not the advisor's proposal acknowledgement.
 
 ## CEO reaction to OWNER C — verify live, not from memory
 
 The previous CEO is retired **for game implementation**, but its chat retains **only a narrow administrative closeout verification/handoff permission**. It must not revive its engineers or change game code.
 
-On this specific `C` the CEO must re-read BOTH repositories' **live GitHub branch lists, paginating until complete**, not cached local refs:
+On this specific cleanup `c`/`C` the CEO must re-read BOTH repositories' **live GitHub branch lists, paginating until complete**, not cached local refs:
 
 1. Both repos have **exactly one branch: `main`** — no other refs matching branches, including stale release/feature/round refs. Tags may remain; this command is about branches, not tags.
 2. Both `main` branches are real, unarchived repo defaults; verify exact latest main commit SHA and release evidence. Game/main contains the merged validated feature. Any main updates since DB must undergo a fresh impact check and CI proof.
