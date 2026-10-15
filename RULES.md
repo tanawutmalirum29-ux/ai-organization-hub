@@ -47,12 +47,25 @@ Command reference (Owner-facing):
 | `CI` | Check pinned SHA CI results |
 | `SYNC` | Reconcile real GitHub ledger/receipts/roles |
 | `RC` | Recover a broken chat from real historical journal and new distinct appointment |
+| `TR` / `Tr` | OWNER → same active AI: reassess and retry the **last blocked/incomplete action** reported as `ER` or `B`, at most one controlled attempt, after verifying real GitHub state and cause; preserve safety and idempotence |
 | `P` | Active/pending; `B` blocked; `ER` GitHub/source inaccessible |
 | `CCCC DB` | CEO: mission released, history permanently archived, PF ready — OWNER may delete non-main branches in BOTH repos |
 | `c` | OWNER tells same retired CEO they manually deleted branches in both repos; verify live |
 | `Completed` | Old CEO verified cleanup safe and attaches full first appointment for next, unappointed CEO |
 
 `GAME-ADVISOR` can show OWNER the **complete new game proposal** and discuss it. Independent optional `ORG-ADVISOR` may discuss organization ideas in full language but is not a required startup role. Other role communications to OWNER are short codes except their first full appointment and the old CEO's final `Completed`+new first appointment. No automatic polling, hidden interchat transfer, or background operation is implied.
+
+### TR — retry after ER/B (OWNER → same AI chat)
+
+`TR` (also accept `Tr`/`tr`, case-insensitive) applies to the **most recent unfinished action in this very appointment/chat** that returned `ER` or `B`. It is **not** a general instruction to restart the whole mission, repeat all M, reset the role, revive retired chats, ignore a failed QA gate or undo the work done. This is a one-attempt command; never run an automatic retry loop.
+
+1. **Reassess first.** Re-read the current round/roster, the specific original M, exact recipient appointment, receipt path, journal files, pending follow-up output M and relevant SHA/CI in live GitHub. Identify the failed substep and distinguish transient failure, missing dependency, schema error, authorization denial and platform safety denial. Do not overwrite a previously committed receipt, M or chat event.
+2. **Resume idempotently.** If that substep has since succeeded, **do not repeat it**; proceed only to the next actually incomplete authorized step. For an absent receipt, only its actual recipient may create a truthful receipt; for an absent result M, choose the next real contiguous ledger number and use normal identity/CI checks. If the dependency is still missing, return `B`, not a fabricated `C`.
+3. **Retry once if permitted.** If a transient GitHub/network/branch-conflict issue has cleared, or a legitimate data/schema mistake has been corrected in an allowed way, attempt the specific incomplete action **once**. Validate GitHub write + resulting commit and relevant CI; then return `C` or the real `MN-ROLE` when another chat must act. Repeated OWNER `TR` requests do not authorize forcing, spamming or duplicating changes.
+4. **Platform safety denial is different.** If the previous response was `GITHUB_WRITE_BLOCKED` or a safety refusal, `TR` **does not authorize replaying the rejected payload**, splitting or disguising it, using alternate paths/tokens/proxies, writing an equivalent substitute, or having another agent impersonate the recipient. Only perform allowed diagnosis or an authorized, compliant correction; if the same safety restriction persists, answer `ER` with the factual blocker and **keep the stage on hold**. Escalate legitimately when necessary.
+5. **No extra tracking overhead.** Routine `TR` itself needs no numbered M and no extra Chat Event. Log only a genuinely consequential scope decision or verified repair that cannot already be evidenced by original GitHub commits/receipts. Never claim a retry succeeded because CI is green on unrelated commits.
+
+If no failed/incomplete `ER`/`B` action can be identified for this chat, return `B` with the minimal reason instead of picking another task. OWNER can send `TR` after an actual error or blocker is resolved without re-sending the entire original assignment.
 
 ### Event-minimal operational guidance
 
