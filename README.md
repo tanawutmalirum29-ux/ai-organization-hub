@@ -59,6 +59,7 @@ For existing active V6/older rounds, do **not** rewrite old numbered messages. C
 
 ## Policies and templates
 
+- **[I — ดูรายการคำสั่งทั้งหมดแบบสั้น](COMMANDS.md)**
 - **[V8 short command codes, MN routing, full inbox scan](CODE-RELAY-PROTOCOL.md)** · [Read-only inbox enumerator](scripts/v8-inbox.mjs)
 - **[V8 chat journal, per-message read receipts and crash recovery](CHAT-ARCHIVE-PROTOCOL.md)**
 - [Numbered messages, identity checks, consultations and closeout](MESSAGE-PROTOCOL.md)
