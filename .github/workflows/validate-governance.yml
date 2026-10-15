@@ -1,4 +1,4 @@
-name: Canonical Governance and Offline SIM
+name: Ant Kingdom — Governance Validation
 on:
   push:
     branches:
@@ -8,7 +8,7 @@ on:
     branches: [main]
   workflow_dispatch:
 jobs:
-  protocol:
+  governance:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -39,10 +39,10 @@ jobs:
         if: startsWith(github.ref_name, 'round/')
         shell: bash
         run: |
-          if [ -f workspace/round.json ] && node -e "const r=require('./workspace/round.json'); process.exit(r.protocol_version==='V10' ? 0:1)"; then
+          if [ -f workspace/round.json ] && node -e "const r=require('./workspace/round.json'); process.exit(r.round_id && r.startup_phase ? 0:1)"; then
             node scripts/org-dashboard.mjs workspace > organization-dashboard.md
           else
-            printf 'No current-policy round workspace in this branch.\n' > organization-dashboard.md
+            printf 'No active organization workspace in this branch.\n' > organization-dashboard.md
           fi
       - name: Upload dashboard artifact for active branch
         if: startsWith(github.ref_name, 'round/')
