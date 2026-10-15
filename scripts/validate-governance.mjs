@@ -2,9 +2,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { validateV8Artifacts } from './validate-v8-artifacts.mjs';
-import { validateV9Startup } from './validate-v9-startup.mjs';
-import { validateV10Lean } from './validate-v10-lean.mjs';
+import { validateRecords } from './validate-records.mjs';
+import { validatePlanning } from './validate-planning.mjs';
 import { validateMainArchives } from './validate-closeout-archive.mjs';
 
 const errors = [];
@@ -32,8 +31,6 @@ if (!roundBranch) {
   if (autonomyFrom != null && (!Number.isSafeInteger(autonomyFrom) || autonomyFrom < 2))
     fail('owner_relay_only_from_sequence must be an integer >= 2 (bootstrap exception).');
 
-  const v10 = round?.protocol_version === 'V10';
-  const v9 = ['V9','V10'].includes(round?.protocol_version);
   const roles = roster?.roles;
   const known = new Map();
   const ids = new Set();
@@ -51,16 +48,16 @@ if (!roundBranch) {
       if (r.parent_role !== 'CEO') fail('GAME-ADVISOR parent must be CEO');
     } else if (r.role_id === 'ORG-ADVISOR') {
       if (r.parent_role !== 'OWNER') fail('ORG-ADVISOR parent must be OWNER');
-    } else if (v9 && r.role_id === 'GAME-ADVISOR-DEPUTY') {
+    } else if (r.role_id === 'GAME-ADVISOR-DEPUTY') {
       if (r.parent_role !== 'GAME-ADVISOR') fail('GAME-ADVISOR-DEPUTY must report to GAME-ADVISOR');
-    } else if (v9 && ['DCEO-A','DCEO-B'].includes(r.role_id)) {
+    } else if (['DCEO-A','DCEO-B'].includes(r.role_id)) {
       if (r.parent_role !== 'CEO') fail('DCEO must report to CEO');
     } else if (dir) {
       if (r.parent_role !== 'CEO') fail(`DIR wrong parent: ${r.role_id}`);
     } else if (tl) {
-      if (r.parent_role !== `DIR-${tl[1]}` && !(v9 && r.parent_role === 'CEO')) fail(`TL wrong parent: ${r.role_id}`);
+      if (r.parent_role !== `DIR-${tl[1]}` && r.parent_role !== 'CEO') fail(`TL wrong parent: ${r.role_id}`);
     } else if (eng) {
-      if (r.parent_role !== `TL-${eng[1]}${eng[2]}` && !(v9 && [ `DIR-${eng[1]}`, 'CEO' ].includes(r.parent_role))) fail(`Engineer wrong parent: ${r.role_id}`);
+      if (r.parent_role !== `TL-${eng[1]}${eng[2]}` && ![ `DIR-${eng[1]}`, 'CEO' ].includes(r.parent_role)) fail(`Engineer wrong parent: ${r.role_id}`);
     } else {
       fail(`Invalid role_id ${r.role_id}: two TL per DIR and three Engineers per TL only`);
     }
@@ -72,7 +69,7 @@ if (!roundBranch) {
     if (id && !r.appointment_id.startsWith(id + '-')) fail(`Cross-round appointment ${r.appointment_id}`);
   }
 
-  // V8 replacement appointments preserve retired historical IDs and prevent
+  // Replacement appointments preserve retired historical IDs and prevent
   // a new session from silently claiming receipt of a previous session's work.
   const history = Array.isArray(round?.appointment_history) ? round.appointment_history : [];
   const priorAppointed = (role,appointment,sequence) => history.some(h =>
@@ -103,8 +100,8 @@ if (!roundBranch) {
       if (role === 'OWNER') { if (a !== 'OWNER') fail(`${expected}: OWNER ID must be OWNER`); }
       else if (!known.has(role) || !appointedAt(role,a,i+1)) fail(`${expected}: invalid ${side} role/appointment`);
     }
-    if (v10 && ['ACK','REPORT','REVIEW','ROLE_RETIRED'].includes(m.kind)) fail(`${expected}: V10 routine report or ACK not allowed; use receipt, activity, or batch retirement`);
-    if (!['APPOINTMENT','ACK','TASK','RESULT','BLOCKED','REJECTED','REPORT','REVIEW','RELEASE','ROUND_CLOSED','FEEDBACK','PROPOSAL','DECISION','CONSULTATION_REQUEST','MISSION_CHARTER','TASK_ACCEPTANCE',...(v9?['ADVISOR_PRESENTATION','ADVISOR_HANDOFF','PLAN_REVIEW','PLAN_SIGNOFF','PLAN_APPROVAL','ROLE_RETIRED']:[])].includes(m.kind)) fail(`${expected}: invalid kind`);
+    if (['ACK','REPORT','REVIEW','ROLE_RETIRED'].includes(m.kind)) fail(`${expected}: Routine report or ACK not allowed; use receipt, activity, or batch retirement`);
+    if (!['APPOINTMENT','ACK','TASK','RESULT','BLOCKED','REJECTED','REPORT','REVIEW','RELEASE','ROUND_CLOSED','FEEDBACK','PROPOSAL','DECISION','CONSULTATION_REQUEST','MISSION_CHARTER','TASK_ACCEPTANCE',...'ADVISOR_PRESENTATION ADVISOR_HANDOFF PLAN_REVIEW PLAN_SIGNOFF PLAN_APPROVAL ROLE_RETIRED'.split(' ')].includes(m.kind)) fail(`${expected}: invalid kind`);
     if (typeof m.task_ref !== 'string' || !m.task_ref) fail(`${expected}: missing task_ref`);
     if (typeof m.summary !== 'string' || !m.summary) fail(`${expected}: missing summary`);
     const copyReady=typeof m.relay_text==='string' &&
@@ -116,10 +113,10 @@ if (!roundBranch) {
       m.relay_text.includes(`TO_APPOINTMENT_ID: ${m.to_appointment_id}`) &&
       m.relay_text.includes(`TASK_REF: ${m.task_ref}`) &&
       m.relay_text.includes('IN_REPLY_TO:');
-    // Structured V10 proposals are already fully on GitHub; avoid duplicating
-    // a full Owner-facing proposal inside relay_text. The V10 phase validator
+    // Structured advisor proposals are already fully on GitHub; avoid duplicating
+    // a full Owner-facing proposal inside relay_text. The planning validator
     // must still verify actual OWNER request, complete visible proposal and C.
-    const structuredV10=v10 && (
+    const structuredAdvisor = (
       (m.kind==='ADVISOR_PRESENTATION' && m.from_role==='GAME-ADVISOR' &&
         m.to_role==='OWNER' && typeof m.presentation_text==='string' &&
         m.presentation_text.trim().length>0 && !!m.owner_request_event_path &&
@@ -128,15 +125,15 @@ if (!roundBranch) {
         m.to_role==='GAME-ADVISOR-DEPUTY' &&
         typeof m.advisor_presentation_message_id==='string' &&
         typeof m.owner_c_event_path==='string'));
-    if(!copyReady && !structuredV10)
+    if(!copyReady && !structuredAdvisor)
       fail(`${expected}: missing mandatory copy-ready relay fields`);
     if (m.kind === 'APPOINTMENT' && m.to_role !== 'CEO' && known.get(m.to_role)?.parent_role !== m.from_role &&
-        !(v9 && m.from_role === 'CEO' && m.to_role === 'GAME-ADVISOR-DEPUTY'))
+        !(m.from_role === 'CEO' && m.to_role === 'GAME-ADVISOR-DEPUTY'))
       fail(`${expected}: appointment must be issued by direct parent`);
     if (['FEEDBACK','PROPOSAL'].includes(m.kind)) {
       const allowedParent = known.get(m.from_role)?.parent_role;
       if (!allowedParent || (m.to_role !== allowedParent && !(m.from_role === 'ORG-ADVISOR' && m.to_role === 'CEO') &&
-          !(v9 && m.from_role === 'GAME-ADVISOR-DEPUTY' && m.to_role === 'CEO')))
+          !(m.from_role === 'GAME-ADVISOR-DEPUTY' && m.to_role === 'CEO')))
         fail(`${expected}: feedback/proposal must go to direct parent`);
     }
     if (m.kind === 'PROPOSAL') {
@@ -151,7 +148,7 @@ if (!roundBranch) {
     if (m.sequence === 1 && (m.from_role !== 'OWNER' || m.to_role !== 'CEO' || m.kind !== 'APPOINTMENT')) fail('Message 000001 must be Owner→CEO bootstrap.');
     if (autonomyFrom != null && m.sequence >= autonomyFrom) {
       if (m.from_role === 'OWNER' && m.kind !== 'CONSULTATION_REQUEST' &&
-          !(m.kind === 'APPOINTMENT' && m.to_role === 'ORG-ADVISOR')) fail(`${expected}: Owner is a courier, not a sender of implementation/decision messages in V7`);
+          !(m.kind === 'APPOINTMENT' && m.to_role === 'ORG-ADVISOR')) fail(`${expected}: Owner is a courier, not a sender of implementation/decision messages under the charter`);
       if (m.kind === 'DECISION' && m.to_role === 'OWNER')
         fail(`${expected}: Owner cannot receive a request to adjudicate decisions`);
       if (m.kind === 'CONSULTATION_REQUEST' && (!['OWNER','CEO'].includes(m.from_role) || !['GAME-ADVISOR','ORG-ADVISOR'].includes(m.to_role) ||
@@ -159,7 +156,7 @@ if (!roundBranch) {
         fail(`${expected}: CONSULTATION_REQUEST must be OWNER or CEO to GAME-ADVISOR with topic`);
       if (m.kind === 'MISSION_CHARTER') {
         const required=['scope','non_goals','source_proposals','acceptance_criteria','qa_plan'];
-        if (m.from_role !== 'CEO' || !(v9 ? /^(DIR-[A-Z]+|TL-[A-Z]+[12]|E-[A-Z]+[12]-[123])$/.test(m.to_role) : /^DIR-[A-Z]+$/.test(m.to_role)) ||
+        if (m.from_role !== 'CEO' || !/^(DIR-[A-Z]+|TL-[A-Z]+[12]|E-[A-Z]+[12]-[123])$/.test(m.to_role) ||
             !m.mission || required.some(k=>typeof m.mission[k] !== 'string' || !m.mission[k].trim()))
           fail(`${expected}: MISSION_CHARTER requires CEO to DIR with scoped mission and QA evidence plan`);
       }
@@ -169,7 +166,7 @@ if (!roundBranch) {
           (Array.isArray(x) && x.length > 0 &&
            x.every(v => typeof v === 'string' &&
              v.startsWith('https://github.com/') && v.length > 'https://github.com/'.length));
-        if (m.from_role !== 'CEO' || !(v9 ? /^(DIR-[A-Z]+|TL-[A-Z]+[12]|E-[A-Z]+[12]-[123])$/.test(m.to_role) : /^DIR-[A-Z]+$/.test(m.to_role)) ||
+        if (m.from_role !== 'CEO' || !/^(DIR-[A-Z]+|TL-[A-Z]+[12]|E-[A-Z]+[12]-[123])$/.test(m.to_role) ||
             !m.release || !nonempty(m.release.pr_url) ||
             !nonempty(m.release.rationale) ||
             !evidence(m.release.qa_evidence) || !evidence(m.release.ci_evidence))
@@ -187,7 +184,7 @@ if (!roundBranch) {
       const target = msgs.find(v => v.message_id === m.in_reply_to);
       if (!target || target.sequence >= m.sequence) fail(`Bad reply link: ${m.message_id}`);
       else if ((m.from_role !== target.to_role || m.from_appointment_id !== target.to_appointment_id) &&
-        !(v10 && m.kind==='ADVISOR_HANDOFF' && target.kind==='ADVISOR_PRESENTATION' &&
+        !(m.kind==='ADVISOR_HANDOFF' && target.kind==='ADVISOR_PRESENTATION' &&
           m.from_role===target.from_role && m.from_appointment_id===target.from_appointment_id &&
           m.to_role==='GAME-ADVISOR-DEPUTY'))
         fail(`Reply sender mismatch: ${m.message_id}`);
@@ -197,7 +194,7 @@ if (!roundBranch) {
             !target || target.kind !== 'TASK' ||
             target.to_role !== m.from_role || target.to_appointment_id !== m.from_appointment_id ||
             target.from_role !== expectedParent ||
-            (!v9 && !/^TL-[A-Z]+[12]$/.test(expectedParent)) ||
+            false ||
             target.from_appointment_id !== m.to_appointment_id ||
             m.to_role !== expectedParent)
           fail(`TASK_ACCEPTANCE must answer prior direct TL's exact Engineer TASK: ${m.message_id}`);
@@ -208,13 +205,12 @@ if (!roundBranch) {
         fail(`DECISION must answer original feedback/proposal author: ${m.message_id}`);
     } else if (['ACK','RESULT','REJECTED','TASK_ACCEPTANCE'].includes(m.kind)) fail(`Reply type requires in_reply_to: ${m.message_id}`);
   }
-  validateV8Artifacts({root,round,roster,msgs,fail});
-  validateV9Startup({root,round,roster,msgs,fail});
-  validateV10Lean({root,round,roster,msgs,fail});
-  // V6: closed rounds are terminal, including explicit Owner-cancelled unshipped missions.
+  validateRecords({root,round,roster,msgs,fail});
+  validatePlanning({root,round,roster,msgs,fail});
+  // Closed rounds are terminal, including explicit Owner-cancelled unshipped missions.
   if (round?.state === 'CLOSED') {
     if (!['MISSION_COMPLETED', 'OWNER_CANCELLED', 'AI_CANCELLED'].includes(round.closure_reason))
-      fail('CLOSED round requires valid V6 closure_reason');
+      fail('CLOSED round requires valid closure_reason');
     if (roles?.some(r => r.status !== 'CLOSED'))
       fail('CLOSED round must retire every role, including pending relay appointments');
     const final = msgs[msgs.length - 1];
@@ -233,7 +229,7 @@ if (!roundBranch) {
         (typeof round.ai_cancellation_evidence_url !== 'string' || !round.ai_cancellation_evidence_url))
       fail('AI_CANCELLED requires CEO decision evidence URL');
     if (autonomyFrom != null && round.closure_reason === 'OWNER_CANCELLED')
-      fail('V7 rounds cannot close with OWNER_CANCELLED; CEO decides AI_CANCELLED');
+      fail('Organization rounds cannot close with OWNER_CANCELLED; CEO decides AI_CANCELLED');
   }
   // READ markers under workspace/receipts/ are intentionally mutable for honest
   // corrections; they're inbox bookmarks, not immutable evidence of approval.
