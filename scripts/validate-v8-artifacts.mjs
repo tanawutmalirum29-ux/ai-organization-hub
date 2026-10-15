@@ -7,7 +7,7 @@ import path from 'node:path';
  * content exists only if the appointed AI actually wrote immutable files.
  */
 export function validateV8Artifacts({root='workspace',round,roster,msgs,fail}) {
-  if (round?.protocol_version !== 'V8') return;
+  if (!['V8','V9'].includes(round?.protocol_version)) return;
   const issue = (s) => fail('V8: ' + s);
   const rid = round.round_id;
   const roles = new Map((roster?.roles ?? []).map(x => [x.appointment_id,x.role_id]));
