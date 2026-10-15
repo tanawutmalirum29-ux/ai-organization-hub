@@ -8,6 +8,7 @@
 
 | Code in chat | Direction | Meaning / action |
 |---|---|---|
+| `I` | OWNER → any appointed active AI chat | แสดงรายการรหัสทั้งหมด + ความหมายสั้น ๆ ตาม [COMMANDS.md](COMMANDS.md); เป็นข้อยกเว้นสำหรับคู่มือย่อเท่านั้น ต้อง journal คำถามและคำตอบ, ไม่ใช่การขอรายงานยาว. |
 | `MN` | OWNER → target chat | "New Message": scan **every** valid pending message addressed to my active appointment in the live round; **not merely the newest**. Do not guess IDs. |
 | `MN-CEO` | sender AI → OWNER | A GitHub-stored message now awaits CEO chat. Owner copies `MN` into CEO chat. |
 | `MN-A-DIR` | sender → OWNER | New GitHub message(s) for DIR-A; Owner sends `MN` in DIR-A chat. |
@@ -39,6 +40,10 @@
 4. Output **only** `MN-<RECIPIENT>` or `C MN-<RECIPIENT>` (and additional recipient tokens if necessary). Owner carries only `MN` to each target, not a message body. Do not say delivered until real Owner relay is known.
 
 **No notification via GitHub alone.** An originator's outgoing code is only a courier cue. The recipient must physically receive `MN` in its own chat and actively fetch GitHub. If an AI cannot write/read the connected GitHub, reply `ER` and do not fabricate a ledger message.
+
+## 2.1 `I` — ดูรายการคำสั่ง (OWNER→AI)
+
+เมื่อ OWNER พิมพ์ `I` ในแชท AI ที่แต่งตั้งแล้ว ให้เปิด [COMMANDS.md](COMMANDS.md) บน canonical `main` ล่าสุด และตอบกลับเฉพาะรหัสทุกคำสั่งกับความหมาย **สั้น ๆ** ตามรายการนั้น (ไม่ส่งรายงานงานหรือข้อความ M ยาว). อนุญาตให้แสดง cheat sheet ย่อในแชทเป็นข้อยกเว้นจากกฎ short-code-only เพื่อให้ OWNER ไม่ต้องเปิด GitHub เอง. ต้องบันทึก turn OWNER และคำตอบใน chat journal จริง; `I` ไม่ใช่การแต่งตั้ง/อนุมัติ/ส่ง `MN` หรือการสร้าง numbered M ใหม่. หากอ่าน GitHub ไม่ได้ให้ `ER` ไม่คาดเดาว่ากฎล่าสุดมีคำสั่งใด.
 
 ## 2A. `NX` — ใครต้องได้รับ MN ต่อ (OWNER→CEO)
 
