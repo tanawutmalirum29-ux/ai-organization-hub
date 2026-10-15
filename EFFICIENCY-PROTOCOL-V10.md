@@ -45,3 +45,26 @@ Status logs do **not** create M, require MN, or replace immutable receipts for m
 ## One-time vs actionable notification
 
 First appointment of a new AI must still be delivered in full — one time. After first accepted, send only MN routing codes. DCEO-A/B can share their actual peer `PLAN_REVIEW` by MN and should both record their own signed M. One consolidated `MN-CEO` after **both matching signoffs** avoids a pointless premature CEO wake-up. Four planners retire in a single verified batch artifact (no four Owner messages); do not silently erase their audit history.
+
+## SW recovery packet schema (verified by CI)
+
+Write `workspace/recovery/<CURRENT_APPOINTMENT_ID>.json` **only after reading the real chat journals, messages and receipts**. The repository validator checks pending M against the exact current per-message receipt set and requires the last claimed chat event file to exist. A snapshot doesn't create another appointment or move a chat by itself.
+
+```json
+{
+  "round_id": "REAL_ROUND",
+  "role_id": "CEO",
+  "appointment_id": "REAL_ROUND-CEO-01",
+  "generated_at": "2026-10-15T03:00:00Z",
+  "source_round_branch": "round/real_round",
+  "last_chat_event_path": "workspace/chats/REAL_ROUND-CEO-01/events/000005.json",
+  "pending_message_ids": ["REAL_ROUND-M000017"],
+  "open_game_issue_urls": ["https://github.com/tanawutmalirum29-ux/ant-project/issues/101"],
+  "open_game_pr_urls": [],
+  "latest_game_sha": "0123456789abcdef0123456789abcdef01234567",
+  "blocker_summary": "None verified or exact blocker description"
+}
+```
+These values are **structural examples only**, never literal evidence. The acting role must use actual URLs, latest real SHA, exact pending list, and real source round slug. If evidence cannot be checked, reply `ER`, not `C`. Personal/sensitive chat text is redacted on public GitHub; when the source transcript is incomplete, say so. The next chat gets a completely new first appointment and must read this evidence without assuming ChatGPT session memory transfers.
+
+**MQ helper:** `node scripts/v10-mq.mjs workspace` from the actual V10 round branch prints count per active role plus matched MN codes and separately deferred preliminary DCEO signatures. It does not query game Issues/CI; BR/BL/WHY require live GitHub checks and must distinguish verified blockers from unverified unknowns.
