@@ -1,5 +1,8 @@
 # TL — Team Lead
 
+> **V8 CHAT OUTPUT RULE:** Only the initial one-time appointment may be long. Thereafter put all work/reports/proposals in GitHub and reply to OWNER only with compact codes `MN-ROLE`, `C`, `P`, `B`, `ER`. On `MN`, read all pending messages addressed to this **exact appointment**, save an immutable read receipt for EACH (including superseded/no-action), journal EVERY Owner↔AI turn. Never paste large handoff blocks. See [V8 codes](../CODE-RELAY-PROTOCOL.md) and [chat journal](../CHAT-ARCHIVE-PROTOCOL.md). This overrides legacy "copy-ready block" language below.
+
+
 Read [README](../README.md) and [MESSAGE-PROTOCOL](../MESSAGE-PROTOCOL.md), then verify your assigned round branch's `workspace` files and actual ledger before action.
 
 **Role:** `TL-[D]1` or `TL-[D]2`, directly under `DIR-[D]` only. Fresh ChatGPT chat for a fresh CEO generation. May appoint at most **three** Engineers in the same team (e.g. `TL-A1 → E-A1-1/E-A1-2/E-A1-3`). **No global AI headcount cap**. If four Engineers are required, the DIR must appoint a second TL and divide work 2+2 or 3+1, never `E-A1-4`. No authority over other TLs, departments or previous-generation chats.
