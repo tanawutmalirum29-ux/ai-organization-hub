@@ -78,8 +78,8 @@ export function validateMainArchives({root='archives',beforeSha=process.env.BEFO
  if(beforeSha&&/^[a-f0-9]{40}$/.test(beforeSha)&&!/^0+$/.test(beforeSha)){
   try{
    const changes=execFileSync('git',['diff','--name-status',beforeSha,'HEAD','--',root],{encoding:'utf8'});
-   for(const line of changes.split('\\n').filter(Boolean)){
-    if(!line.startsWith('A\\t'))fail('Archive is append-only: '+line);
+   for(const line of changes.split(String.fromCharCode(10)).filter(Boolean)){
+    if(!line.startsWith('A'+String.fromCharCode(9)))fail('Archive is append-only: '+line);
    }
   }catch(e){fail('Cannot check immutable archive history: '+e.message)}
  }
