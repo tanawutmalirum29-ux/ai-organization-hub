@@ -62,7 +62,7 @@ test('NX returns no courier codes after all messages independently receipted',()
  });
 });
 test('NX rejects closed round and never calls it finished',()=>{
- setup(root=>assert.throws(()=>nextCourierPlan(root),/Not an ACTIVE Organization round/),{state:'CLOSED'});
+ setup(root=>assert.throws(()=>nextCourierPlan(root),/Organization is not ACTIVE/),{state:'CLOSED'});
 });
 test('NX supports arbitrary existing role labels without guessing recipient',()=>{
  assert.equal(codeForRole('DIR-Z'),'MN-Z-DIR');
