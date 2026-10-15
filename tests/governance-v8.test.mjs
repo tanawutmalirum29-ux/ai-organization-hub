@@ -33,13 +33,13 @@ function event(n,appointment='DIR-A',speaker='OWNER',extra={}) {
     speaker,text:n===1?'MN':'C',code:n===1?'MN':'C',redacted:false,
     logged_at:'2026-10-15T01:00:00Z',...extra};
 }
-function run({messages=[base],roles=[ceo,dir],receipts=[],events=[],v8=true,autonomy=2}={}) {
+function run({messages=[base],roles=[ceo,dir],receipts=[],events=[],v8=true,autonomy=2,history=[]}={}) {
   const cwd=mkdtempSync(join(tmpdir(),'v8-archive-'));
   try {
     mkdirSync(join(cwd,'workspace','messages'),{recursive:true});
     writeFileSync(join(cwd,'workspace','round.json'),JSON.stringify({
       round_id:rid,state:'ACTIVE',game_repository:'tanawutmalirum29-ux/ant-project',
-      ...(v8?{protocol_version:'V8'}:{}),
+      ...(v8?{protocol_version:'V8',appointment_history:history}:{}),
       ...(autonomy==null?{}:{owner_relay_only_from_sequence:autonomy})
     }));
     writeFileSync(join(cwd,'workspace','roster.json'),JSON.stringify({round_id:rid,roles}));
@@ -112,4 +112,23 @@ test('V8 RELEASE supports nonempty Github arrays, but not empty arrays',()=>{
   assert.equal(good.status,0,good.stderr);
   const bad=run({messages:[base,msg(2,'CEO','DIR-A','RELEASE',{release:{...yes,qa_evidence:[]}})]});
   assert.notEqual(bad.status,0);assert.match(bad.stderr,/RELEASE must be CEO/);
+});
+
+test('V8 permits a fresh replacement appointment while old IDs remain read-only history',()=>{
+  const replacement={...dir,appointment_id:rid+'-DIR-A-02'};
+  const old=msg(2,'CEO','DIR-A','TASK');
+  const newer=msg(3,'CEO','DIR-A','TASK');
+  newer.to_appointment_id=replacement.appointment_id;
+  newer.relay_text=newer.relay_text.replace(app('DIR-A'),replacement.appointment_id);
+  const history=[{role_id:'DIR-A',appointment_id:app('DIR-A'),retired_after_sequence:2}];
+  const ok=run({messages:[base,old,newer],roles:[ceo,replacement],history});
+  assert.equal(ok.status,0,ok.stderr);
+  const stale=run({messages:[base,old,msg(3,'CEO','DIR-A','TASK')],roles:[ceo,replacement],history});
+  assert.notEqual(stale.status,0);assert.match(stale.stderr,/invalid to role\/appointment/);
+});
+test('V8 OWNER may appoint independent ORG-ADVISOR once, but not command game DIR',()=>{
+  const allowed=run({roles:[ceo,org],messages:[base,msg(2,'OWNER','ORG-ADVISOR','APPOINTMENT')]});
+  assert.equal(allowed.status,0,allowed.stderr);
+  const denied=run({roles:[ceo,dir],messages:[base,msg(2,'OWNER','DIR-A','APPOINTMENT')]});
+  assert.notEqual(denied.status,0);assert.match(denied.stderr,/Owner is a courier/);
 });
