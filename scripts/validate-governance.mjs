@@ -235,12 +235,15 @@ if (!roundBranch) {
     if (autonomyFrom != null && round.closure_reason === 'OWNER_CANCELLED')
       fail('V7 rounds cannot close with OWNER_CANCELLED; CEO decides AI_CANCELLED');
   }
+  // READ markers under workspace/receipts/ are intentionally mutable for honest
+  // corrections; they're inbox bookmarks, not immutable evidence of approval.
+  // Actionable messages, original journals and signoffs remain append-only.
   // Append-only enforcement on GitHub pushes. Branch protection is still needed
   // against actors who can bypass CI or rewrite history.
   const before = process.env.BEFORE_SHA;
   if (process.env.GITHUB_EVENT_NAME === 'push' && /^[0-9a-f]{40}$/.test(before || '') && !/^0{40}$/.test(before)) {
     try {
-      const changes = execFileSync('git', ['diff', '--name-status', before, 'HEAD', '--', 'workspace/messages', 'workspace/receipts', 'workspace/chats', 'workspace/activity', 'workspace/retirements', 'workspace/recovery'], {encoding: 'utf8'});
+      const changes = execFileSync('git', ['diff', '--name-status', before, 'HEAD', '--', 'workspace/messages', 'workspace/chats', 'workspace/activity', 'workspace/retirements', 'workspace/recovery'], {encoding: 'utf8'});
       for (const line of changes.trim().split('\n').filter(Boolean)) {
         if (!line.startsWith('A\t')) fail(`Prior message modification/deletion forbidden: ${line}`);
       }
