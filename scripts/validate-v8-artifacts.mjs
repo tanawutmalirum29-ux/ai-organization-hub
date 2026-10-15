@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
+import {receiptShapeErrors} from './receipt-contract.mjs';
 
 /**
  * V8 round-scoped audit checks. Not a ChatGPT transcript capture service:
@@ -52,15 +53,8 @@ export function validateV8Artifacts({root='workspace',round,roster,msgs,fail}) {
           r.recipient_role!==msg.to_role || r.recipient_appointment_id!==msg.to_appointment_id ||
           appointment!==msg.to_appointment_id || !validHistoric(appointment,msg.to_role))
         issue('receipt recipient or message identity mismatch '+folder+'/'+name);
-      if (!['MN','APPOINTMENT','RC','SYNC'].includes(r.trigger) ||
-          !['HANDLED','ACTION_STARTED','SUPERSEDED','NO_ACTION','BLOCKED','REJECTED'].includes(r.disposition) ||
-          !isNonempty(r.reason) || !date(r.read_at))
-        issue('receipt missing required trigger/disposition/reason/time '+folder+'/'+name);
-      if (r.evidence_ref!=null && (!isNonempty(r.evidence_ref) ||
-          (!r.evidence_ref.startsWith('https://github.com/') && !r.evidence_ref.startsWith(rid+'-M'))))
-        issue('receipt evidence_ref must be GitHub link or local message ID');
-      if ((r.disposition==='SUPERSEDED'||r.disposition==='ACTION_STARTED') && !isNonempty(r.evidence_ref))
-        issue('superseded or ongoing receipt needs explicit evidence_ref '+folder+'/'+name);
+      for(const err of receiptShapeErrors(r,rid))
+        issue(err+' '+folder+'/'+name);
     }
   }
 

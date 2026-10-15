@@ -79,6 +79,14 @@ test('V8 rejects empty disposition reason',()=>{
   const r=run({messages:two,receipts:[receipt(2,'DIR-A','NO_ACTION',{reason:''})]});
   assert.notEqual(r.status,0);assert.match(r.stderr,/receipt missing required/);
 });
+test('V8 accepts truthful ACTION_STARTED receipt without premature result evidence',()=>{
+  const r=run({messages:two,receipts:[receipt(2,'DIR-A','ACTION_STARTED')]});
+  assert.equal(r.status,0,r.stderr);
+});
+test('V8 rejects spoofed ACTION_STARTED receipt despite no result evidence',()=>{
+  const r=run({messages:two,receipts:[receipt(2,'DIR-A','ACTION_STARTED',{recipient_role:'CEO'})]});
+  assert.notEqual(r.status,0); assert.match(r.stderr,/receipt recipient or message identity mismatch/);
+});
 test('V8 requires superseded receipt to point to successor evidence',()=>{
   const r=run({messages:two,receipts:[receipt(2,'DIR-A','SUPERSEDED')]});
   assert.notEqual(r.status,0);assert.match(r.stderr,/needs explicit evidence_ref/);

@@ -4,6 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {receiptShapeErrors} from './receipt-contract.mjs';
 
 const read = file => JSON.parse(fs.readFileSync(file,'utf8'));
 const isSafe = value => typeof value==='string' && /^[A-Z0-9][A-Z0-9-]*$/.test(value);
@@ -29,9 +30,9 @@ export function getPendingInbox(workspace,roleId,appointmentId) {
     const receiptPath=path.join(workspace,'receipts','M'+files[i].slice(0,6),appointmentId+'.json');
     if(fs.existsSync(receiptPath)){
       const rec=read(receiptPath);
-      if(rec.message_id!==m.message_id||rec.recipient_role!==roleId||
-         rec.recipient_appointment_id!==appointmentId||
-         !['HANDLED','ACTION_STARTED','SUPERSEDED','NO_ACTION','BLOCKED','REJECTED'].includes(rec.disposition))
+      if(rec.round_id!==round.round_id||rec.message_id!==m.message_id||
+         rec.recipient_role!==roleId||rec.recipient_appointment_id!==appointmentId||
+         receiptShapeErrors(rec,round.round_id).length)
          throw Error('Invalid stored receipt: '+receiptPath);
       receipted.push({message_id:m.message_id,disposition:rec.disposition});
     }else pending.push({message_id:m.message_id,from_role:m.from_role,kind:m.kind,summary:m.summary,source_path:'workspace/messages/'+files[i]});

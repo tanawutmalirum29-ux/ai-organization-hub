@@ -10,6 +10,7 @@
 
 ## เครื่องมือทดสอบและสถานะ
 
+- `node scripts/org-receipt.mjs workspace <MESSAGE_ID> <APPOINTMENT_ID> ACTION_STARTED "อ่านและเริ่มทำงานจริง" MN` — ตรวจ Receipt แบบ read-only dry-run; ไม่สร้าง Receipt หรือส่งข้อความแทน AI; `SUPERSEDED` ต้องใส่ evidence-ref ของงานที่มาแทน
 - `node --test tests/*.test.mjs` — ทดสอบ governance/QA gates รวมทั้งสถานการณ์ผิดพลาด
 - `node scripts/org-sim.mjs` — จำลองวงจรองค์กรแบบ offline regression; ไม่ใช่การเปิด ChatGPT หลายแชทจริง
 - `node scripts/org-dashboard.mjs workspace --write` — สร้าง `workspace/DASHBOARD.md` บน round branch จาก ledger/receipts จริง; CEO ต้อง commit เองก่อน OWNER เปิดดู
