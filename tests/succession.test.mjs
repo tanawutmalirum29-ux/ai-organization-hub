@@ -22,7 +22,7 @@ function snapshot(){
 }
 test('After user c and verified cleanup, generate Completed plus single fresh complete CEO first appointment',()=>{
  const t=generateNewCeoHandoff(snapshot(),template,roundId);
- assert.ok(t.startsWith('Completed\n\nROUND_ID: '+roundId+'\n'));
+ assert.ok(t.startsWith('Completed\n\nANT KINGDOM | OWNER → CEO | OFFICIAL APPOINTMENT\n\nROUND_ID: '+roundId+'\n'));
  assert.ok(t.includes('TO_APPOINTMENT_ID: '+roundId+'-CEO-01'));
  assert.ok(t.includes('GAME_MAIN_SHA: '+SHA));
  assert.ok(t.includes('GOVERNANCE_MAIN_SHA: '+GOV));
