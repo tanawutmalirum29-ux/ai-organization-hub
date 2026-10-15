@@ -21,6 +21,10 @@ ROLE_CHARTER: https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/r
 CODES: https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/COMMANDS.md
 CHAT_JOURNAL: https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/CHAT-ARCHIVE-PROTOCOL.md
 ROUND_BRANCH: round/<FRESH_LOWERCASE_ROUND_ID>
+PREVIOUS_ROUND_ARCHIVE: <VERIFIED_OLD_GOVERNANCE_MAIN_ARCHIVE_MANIFEST_URL_OR_NONE_FOR_FIRST_GENERATION>
+PREVIOUS_GAME_MAIN_SHA: <ACTUAL_VERIFIED_SHA_OR_NONE_FOR_FIRST_GENERATION>
+GOVERNANCE_MAIN_SHA_AT_APPOINTMENT: <ACTUAL_VERIFIED_SHA_OR_NONE_FOR_FIRST_GENERATION>
+HANDOFF_CHECK: <VERIFIED_COMPLETED_MAIN_ONLY_CHECK_URL_OR_NONE_FOR_FIRST_GENERATION>
 BOOTSTRAP:
   1. อ่านกฎ V10 บน main และบทบาท CEO ให้ครบ สร้าง round branch ของตัวเอง; round.json.protocol_version="V10", startup_phase="CEO_SETUP", owner_relay_only_from_sequence=2.
   2. บันทึก M000001 และบันทึกการอ่านเป็นใบรับใน GitHub ไม่ต้องสร้าง ACK M ใหม่หรือส่งรายงานยาวให้ OWNER; journal แชทจริง.
@@ -48,3 +52,5 @@ LIMITS:
 ```
 
 No historical CEO is reappointed by copying its old ID; use a genuinely fresh appointment and branch. A round is not ACTIVE merely because the initial prompt was pasted. First verify GitHub persistence, credentials, and actual per-role first appointment receipts.
+
+**Post-cleanup handoff from outgoing CEO:** Only after OWNER types `c` and outgoing CEO verifies live GitHub both-repos main-only, all pertinent CI and archive, that CEO may return `Completed` followed by **this full first appointment** with all placeholders replaced. The outgoing CEO must select and verify a genuinely unused new round ID and record prepared handoff details in a governance/main Issue; do **not** create the new round branch until OWNER manually sends the appointment into a fresh CEO chat. Earlier `CCCC DB` is not an appointment or permission to start new game work; the outgoing CEO remains retired after it has sent the handoff.
