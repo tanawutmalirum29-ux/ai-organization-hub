@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
+import {auditPublicWorkspace} from './org-privacy-audit.mjs';
 
 const sha40=s=>typeof s==='string'&&/^[0-9a-f]{40}$/.test(s);
 const url=s=>typeof s==='string'&&s.startsWith('https://github.com/');
@@ -38,6 +39,11 @@ export function prepareCloseoutArchive({
    throw Error('Round is not fully CLOSED with pinned released game/main SHA');
  const root=path.join(governanceRoot,'archives',rid);
  if(fs.existsSync(root))throw Error('Archived round already exists; never overwrite');
+ const privacy=auditPublicWorkspace(sourceWorkspace);
+ if(!privacy.safe)
+  throw Error('Public archive blocked due to sensitive content ('+
+   privacy.problems.map(x=>x.kind+':'+x.path).join(', ')+
+   '); redact with documented provenance and retain originals in a VERIFIED PRIVATE archive before DB');
  const sourceFiles=filePaths(sourceWorkspace);
  const sourceRoot=path.resolve(sourceWorkspace);
  const names=sourceFiles.map(p=>path.relative(sourceRoot,p).replace(/\\/g,'/'));
