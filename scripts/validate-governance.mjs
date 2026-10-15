@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { validateV8Artifacts } from './validate-v8-artifacts.mjs';
 
 const errors = [];
 const fail = s => errors.push(s);
@@ -42,6 +43,8 @@ if (!roundBranch) {
       if (r.parent_role !== 'OWNER') fail('CEO parent must be OWNER');
     } else if (r.role_id === 'GAME-ADVISOR') {
       if (r.parent_role !== 'CEO') fail('GAME-ADVISOR parent must be CEO');
+    } else if (r.role_id === 'ORG-ADVISOR') {
+      if (r.parent_role !== 'OWNER') fail('ORG-ADVISOR parent must be OWNER');
     } else if (dir) {
       if (r.parent_role !== 'CEO') fail(`DIR wrong parent: ${r.role_id}`);
     } else if (tl) {
@@ -59,6 +62,14 @@ if (!roundBranch) {
     if (id && !r.appointment_id.startsWith(id + '-')) fail(`Cross-round appointment ${r.appointment_id}`);
   }
 
+  // V8 replacement appointments preserve retired historical IDs and prevent
+  // a new session from silently claiming receipt of a previous session's work.
+  const history = Array.isArray(round?.appointment_history) ? round.appointment_history : [];
+  const priorAppointed = (role,appointment,sequence) => history.some(h =>
+    h.role_id === role && h.appointment_id === appointment &&
+    Number.isSafeInteger(h.retired_after_sequence) && sequence <= h.retired_after_sequence);
+  const appointedAt = (role,appointment,sequence) =>
+    known.get(role)?.appointment_id === appointment || priorAppointed(role,appointment,sequence);
   const dir = path.join(root, 'messages');
   const names = fs.existsSync(dir) ? fs.readdirSync(dir).sort() : [];
   if (!names.length) fail('At least bootstrap message 000001.json required.');
@@ -80,9 +91,9 @@ if (!roundBranch) {
     for (const side of ['from', 'to']) {
       const role = m[`${side}_role`], a = m[`${side}_appointment_id`];
       if (role === 'OWNER') { if (a !== 'OWNER') fail(`${expected}: OWNER ID must be OWNER`); }
-      else if (!known.has(role) || known.get(role).appointment_id !== a) fail(`${expected}: invalid ${side} role/appointment`);
+      else if (!known.has(role) || !appointedAt(role,a,i+1)) fail(`${expected}: invalid ${side} role/appointment`);
     }
-    if (!['APPOINTMENT','ACK','TASK','RESULT','BLOCKED','REJECTED','REPORT','REVIEW','RELEASE','ROUND_CLOSED','FEEDBACK','PROPOSAL','DECISION','CONSULTATION_REQUEST','MISSION_CHARTER'].includes(m.kind)) fail(`${expected}: invalid kind`);
+    if (!['APPOINTMENT','ACK','TASK','RESULT','BLOCKED','REJECTED','REPORT','REVIEW','RELEASE','ROUND_CLOSED','FEEDBACK','PROPOSAL','DECISION','CONSULTATION_REQUEST','MISSION_CHARTER','TASK_ACCEPTANCE'].includes(m.kind)) fail(`${expected}: invalid kind`);
     if (typeof m.task_ref !== 'string' || !m.task_ref) fail(`${expected}: missing task_ref`);
     if (typeof m.summary !== 'string' || !m.summary) fail(`${expected}: missing summary`);
     if (typeof m.relay_text !== 'string' ||
@@ -98,7 +109,7 @@ if (!roundBranch) {
       fail(`${expected}: appointment must be issued by direct parent`);
     if (['FEEDBACK','PROPOSAL'].includes(m.kind)) {
       const allowedParent = known.get(m.from_role)?.parent_role;
-      if (!allowedParent || m.to_role !== allowedParent)
+      if (!allowedParent || (m.to_role !== allowedParent && !(m.from_role === 'ORG-ADVISOR' && m.to_role === 'CEO')))
         fail(`${expected}: feedback/proposal must go to direct parent`);
     }
     if (m.kind === 'PROPOSAL') {
@@ -115,7 +126,7 @@ if (!roundBranch) {
       if (m.from_role === 'OWNER' && m.kind !== 'CONSULTATION_REQUEST') fail(`${expected}: Owner is a courier, not a sender of implementation/decision messages in V7`);
       if (m.kind === 'DECISION' && m.to_role === 'OWNER')
         fail(`${expected}: Owner cannot receive a request to adjudicate decisions`);
-      if (m.kind === 'CONSULTATION_REQUEST' && (!['OWNER','CEO'].includes(m.from_role) || m.to_role !== 'GAME-ADVISOR' ||
+      if (m.kind === 'CONSULTATION_REQUEST' && (!['OWNER','CEO'].includes(m.from_role) || !['GAME-ADVISOR','ORG-ADVISOR'].includes(m.to_role) ||
           typeof m.consultation?.topic !== 'string' || !m.consultation.topic.trim()))
         fail(`${expected}: CONSULTATION_REQUEST must be OWNER or CEO to GAME-ADVISOR with topic`);
       if (m.kind === 'MISSION_CHARTER') {
@@ -125,16 +136,22 @@ if (!roundBranch) {
           fail(`${expected}: MISSION_CHARTER requires CEO to DIR with scoped mission and QA evidence plan`);
       }
       if (m.kind === 'RELEASE') {
-        const required=['pr_url','qa_evidence','ci_evidence','rationale'];
+        const nonempty = x => typeof x === 'string' && x.trim().length > 0;
+        const evidence = x => nonempty(x) ||
+          (Array.isArray(x) && x.length > 0 &&
+           x.every(v => typeof v === 'string' &&
+             v.startsWith('https://github.com/') && v.length > 'https://github.com/'.length));
         if (m.from_role !== 'CEO' || !/^DIR-[A-Z]+$/.test(m.to_role) ||
-            !m.release || required.some(k=>typeof m.release[k] !== 'string' || !m.release[k].trim()))
+            !m.release || !nonempty(m.release.pr_url) ||
+            !nonempty(m.release.rationale) ||
+            !evidence(m.release.qa_evidence) || !evidence(m.release.ci_evidence))
           fail(`${expected}: RELEASE must be CEO to DIR with PR, QA, CI and rationale`);
       }
     }
   }
   for (const m of msgs) {
     if (m.in_reply_to != null) {
-      if (['ACK', 'RESULT', 'REJECTED'].includes(m.kind)) {
+      if (['ACK', 'RESULT', 'REJECTED', 'TASK_ACCEPTANCE'].includes(m.kind)) {
         const receipt = [m.from_appointment_id, m.kind, m.in_reply_to].join('::');
         if (receiptKeys.has(receipt)) fail(`Duplicate processed receipt: ${m.message_id}`);
         receiptKeys.add(receipt);
@@ -143,12 +160,23 @@ if (!roundBranch) {
       if (!target || target.sequence >= m.sequence) fail(`Bad reply link: ${m.message_id}`);
       else if (m.from_role !== target.to_role || m.from_appointment_id !== target.to_appointment_id)
         fail(`Reply sender mismatch: ${m.message_id}`);
+      if (m.kind === 'TASK_ACCEPTANCE') {
+        const expectedParent = known.get(m.from_role)?.parent_role;
+        if (!/^E-[A-Z]+[12]-[123]$/.test(m.from_role) ||
+            !target || target.kind !== 'TASK' ||
+            target.to_role !== m.from_role || target.to_appointment_id !== m.from_appointment_id ||
+            target.from_role !== expectedParent ||
+            target.from_appointment_id !== m.to_appointment_id ||
+            m.to_role !== expectedParent)
+          fail(`TASK_ACCEPTANCE must answer prior direct TL's exact Engineer TASK: ${m.message_id}`);
+      }
       if (m.kind === 'DECISION' && target &&
         (!['PROPOSAL','FEEDBACK'].includes(target.kind) ||
          m.to_role !== target.from_role || m.to_appointment_id !== target.from_appointment_id))
         fail(`DECISION must answer original feedback/proposal author: ${m.message_id}`);
-    } else if (['ACK','RESULT','REJECTED'].includes(m.kind)) fail(`Reply type requires in_reply_to: ${m.message_id}`);
+    } else if (['ACK','RESULT','REJECTED','TASK_ACCEPTANCE'].includes(m.kind)) fail(`Reply type requires in_reply_to: ${m.message_id}`);
   }
+  validateV8Artifacts({root,round,roster,msgs,fail});
   // V6: closed rounds are terminal, including explicit Owner-cancelled unshipped missions.
   if (round?.state === 'CLOSED') {
     if (!['MISSION_COMPLETED', 'OWNER_CANCELLED', 'AI_CANCELLED'].includes(round.closure_reason))
@@ -178,7 +206,7 @@ if (!roundBranch) {
   const before = process.env.BEFORE_SHA;
   if (process.env.GITHUB_EVENT_NAME === 'push' && /^[0-9a-f]{40}$/.test(before || '') && !/^0{40}$/.test(before)) {
     try {
-      const changes = execFileSync('git', ['diff', '--name-status', before, 'HEAD', '--', 'workspace/messages'], {encoding: 'utf8'});
+      const changes = execFileSync('git', ['diff', '--name-status', before, 'HEAD', '--', 'workspace/messages', 'workspace/receipts', 'workspace/chats'], {encoding: 'utf8'});
       for (const line of changes.trim().split('\n').filter(Boolean)) {
         if (!line.startsWith('A\t')) fail(`Prior message modification/deletion forbidden: ${line}`);
       }
