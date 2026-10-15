@@ -1,3 +1,5 @@
+**V8 transport:** Sample long relays in this directory are GitHub audit content or one-time appointment samples, not routine text to send in ChatGPT. Use `MN-ROLE`/`MN`, receipts and journals as specified in [V8 Code Protocol](../CODE-RELAY-PROTOCOL.md).
+
 # Create a new round (example only; do NOT pre-book message IDs)
 
 A new CEO starts with a unique Owner-provided `ROUND_ID` (e.g. `COLONY-NEXT-02`) and creates the GitHub branch `round/colony-next-02` **from main**. On that branch only, create:
