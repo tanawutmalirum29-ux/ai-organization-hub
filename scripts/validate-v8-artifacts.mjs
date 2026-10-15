@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
-import {receiptShapeErrors} from './receipt-contract.mjs';
+import {isMessageRead} from './receipt-contract.mjs';
 
 /**
  * V8 round-scoped audit checks. Not a ChatGPT transcript capture service:
@@ -49,12 +49,10 @@ export function validateV8Artifacts({root='workspace',round,roster,msgs,fail}) {
       if (!name.endsWith('.json') || !safeAppointment.test(name.slice(0,-5))) {issue('invalid receipt filename '+name);continue;}
       const appointment=name.slice(0,-5),r=read(path.join(dir,name));
       if (!r) continue;
-      if (r.round_id!==rid || r.message_id!==msg.message_id ||
-          r.recipient_role!==msg.to_role || r.recipient_appointment_id!==msg.to_appointment_id ||
-          appointment!==msg.to_appointment_id || !validHistoric(appointment,msg.to_role))
-        issue('receipt recipient or message identity mismatch '+folder+'/'+name);
-      for(const err of receiptShapeErrors(r,rid))
-        issue(err+' '+folder+'/'+name);
+      // READ bookmarks only: never fail unrelated CI because of unread/bad marker.
+      // Invalid markers are ignored by inbox and surfaced as unread.
+      if(!validHistoric(appointment,msg.to_role) || !isMessageRead(r,msg,appointment))
+        console.warn('WARN: invalid/unread read marker '+folder+'/'+name);
     }
   }
 
@@ -110,7 +108,12 @@ export function validateV8Artifacts({root='workspace',round,roster,msgs,fail}) {
       else{
         const pending=msgs.filter(m=>m.to_appointment_id===appointment&&
           m.to_role===packet.role_id &&
-          !fs.existsSync(path.join(root,'receipts','M'+String(m.sequence).padStart(6,'0'),appointment+'.json')))
+          !(() => {
+            try {
+              const marker=JSON.parse(fs.readFileSync(path.join(root,'receipts','M'+String(m.sequence).padStart(6,'0'),appointment+'.json'),'utf8'));
+              return isMessageRead(marker,m,appointment);
+            }catch{return false;}
+          })()))
           .map(m=>m.message_id).sort();
         const saved=packet.pending_message_ids.slice().sort();
         if(JSON.stringify(pending)!==JSON.stringify(saved))
