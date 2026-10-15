@@ -76,4 +76,6 @@ Every **new round** sets `workspace/round.json.protocol_version = "V8"` and `own
 
 **Do not activate V8 retroactively on CLOSED older rounds.** V6/V7 history remains read-only and valid under its own original conventions. For a still ACTIVE V7 round, any migration must be recorded as a new CEO decision and a prospective protocol version switch with careful compatibility review; never hide earlier relay history or an unfinished task. No separate approvals from Owner for game decisions.
 
+**ตรวจงานและผู้รับถัดไป:** OWNER ส่ง `NX` ให้ CEO รุ่นที่ ACTIVE. CEO ตรวจทุก M/receipts และ Issue/PR/CI แล้วตอบเพียง `MN-ROLE` ให้ทุกแชทที่ต้องรับข้อความ หรือ `AP-ROLE` สำหรับบทบาทที่ต้องรับคำสั่งแต่งตั้งเต็มครั้งแรก; หากไม่มีให้ตอบ `C`/`P`/`B` ตามสถานะจริง. ไม่ใช่การอนุมัติงาน. รายละเอียดใน [V8 NX](CODE-RELAY-PROTOCOL.md#2a-nx--ใครต้องได้รับ-mn-ต่อ-ownerceo).
+
 **V8 inbox helper (optional):** From the checked-out *active round branch* run `node scripts/v8-inbox.mjs workspace <ROLE_ID> <APPOINTMENT_ID>` to enumerate all unreceipted messages for that exact live chat. If working through the GitHub connector in ChatGPT, scan those same directories directly; no assumption that a background process will deliver new messages. Each role still must journal the Owner turn and save one receipt per handled M before replying `C`.
