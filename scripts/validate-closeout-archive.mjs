@@ -27,7 +27,7 @@ export function validateMainArchives({root='archives',beforeSha=process.env.BEFO
   try{manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'))}
   catch(e){fail('Missing or invalid archive manifest '+rid+': '+e.message);continue;}
   const err=s=>fail('Archive '+rid+': '+s);
-  if(manifest.schema_version!=='V10-CLEANUP-1'||manifest.round_id!==rid||
+  if(manifest.artifact_type!=='CLOSEOUT_ARCHIVE'||manifest.round_id!==rid||
      manifest.source_round_branch!=='round/'+rid.toLowerCase()||
      !hex(manifest.source_round_commit_sha)||!hex(manifest.game_main_sha)||
      manifest.round_state!=='CLOSED' ||
