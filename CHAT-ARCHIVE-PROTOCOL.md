@@ -1,4 +1,6 @@
-# V8 — Per-appointment Owner conversation journal, receipts and chat recovery
+# V9/V8 — Per-appointment Owner conversation journal, receipts and chat recovery
+
+> **V9 proposal gate:** GAME-ADVISOR journals the OWNER's actual `NP` or own game idea, then the exact full visible AI proposal with its `ADVISOR_PRESENTATION` message reference, then the OWNER's **later literal `C`** as a separate event. The advisor may create `ADVISOR_HANDOFF` only when that evidence exists; `C` from OWNER is not game implementation approval. DCEO peers and CEO also individually receipt counterpart `PLAN_REVIEW`/`PLAN_SIGNOFF` messages before signing/approving. See [STARTUP-PROTOCOL-V9](STARTUP-PROTOCOL-V9.md).
 
 Applies to CEO, GAME-ADVISOR, optional ORG-ADVISOR, every DIR/TL/Engineer; **all conversations with OWNER**, including codes and Owner free-form requests, must be recorded as the receiving AI actually sees them. GitHub cannot capture other ChatGPT chats automatically.
 
