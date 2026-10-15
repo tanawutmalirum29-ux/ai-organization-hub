@@ -221,7 +221,7 @@ if (!roundBranch) {
   const before = process.env.BEFORE_SHA;
   if (process.env.GITHUB_EVENT_NAME === 'push' && /^[0-9a-f]{40}$/.test(before || '') && !/^0{40}$/.test(before)) {
     try {
-      const changes = execFileSync('git', ['diff', '--name-status', before, 'HEAD', '--', 'workspace/messages', 'workspace/receipts', 'workspace/chats'], {encoding: 'utf8'});
+      const changes = execFileSync('git', ['diff', '--name-status', before, 'HEAD', '--', 'workspace/messages', 'workspace/receipts', 'workspace/chats', 'workspace/activity', 'workspace/retirements', 'workspace/recovery'], {encoding: 'utf8'});
       for (const line of changes.trim().split('\n').filter(Boolean)) {
         if (!line.startsWith('A\t')) fail(`Prior message modification/deletion forbidden: ${line}`);
       }
