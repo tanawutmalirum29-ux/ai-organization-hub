@@ -4,6 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {createHash} from 'node:crypto';
 import {getPendingInbox} from './v8-inbox.mjs';
 
 const load = file => JSON.parse(fs.readFileSync(file,'utf8'));
@@ -21,6 +22,39 @@ export function nextCourierPlan(workspace) {
   const roster=load(path.join(workspace,'roster.json'));
   if(round.state!=='ACTIVE'||!['V8','V9','V10'].includes(round.protocol_version))throw Error('Not an ACTIVE V8 round (V9 also supported)');
   if(round.round_id!==roster.round_id||!Array.isArray(roster.roles))throw Error('Round/roster mismatch');
+  // V10 suppresses notifying CEO for an unmatched first DCEO PLAN_SIGNOFF.
+  // Both independently authored messages, the exact plan blob, and fresh IDs
+  // must match before the ONE Owner courier notification is appropriate.
+  let pendingApprovalReady = true, deferredSignoffs = 0;
+  if(round.protocol_version==='V10'){
+    const entries=fs.readdirSync(path.join(workspace,'messages'))
+      .filter(n=>/^[0-9]{6}[.]json$/.test(n)).sort()
+      .map(n=>load(path.join(workspace,'messages',n)));
+    const ceo=roster.roles.find(x=>x.role_id==='CEO');
+    const sig=entries.filter(x=>x.kind==='PLAN_SIGNOFF' && x.to_role==='CEO'
+      && x.to_appointment_id===ceo?.appointment_id);
+    const roleOk=role=>roster.roles.some(r=>r.role_id===role
+      && sig.some(x=>x.from_role===role && x.from_appointment_id===r.appointment_id &&
+        x.signoff?.signature_role===role &&
+        x.signoff?.signature_appointment_id===r.appointment_id &&
+        x.signoff?.decision==='APPROVED'));
+    pendingApprovalReady=false;
+    if(roleOk('DCEO-A') && roleOk('DCEO-B')){
+      const a=sig.filter(x=>x.from_role==='DCEO-A');
+      const b=sig.filter(x=>x.from_role==='DCEO-B');
+      pendingApprovalReady=a.some(x=>b.some(y=>{
+        if(!x.signoff?.plan_sha || !/^[0-9a-f]{40}$/.test(x.signoff.plan_sha) ||
+           !x.signoff.plan_path || x.signoff.plan_sha!==y.signoff?.plan_sha ||
+           x.signoff.plan_path!==y.signoff?.plan_path ||
+           !/^workspace\/plans\/[A-Z0-9-]+\/r[1-9][0-9]*[.]json$/.test(x.signoff.plan_path))return false;
+        try{
+          const bytes=fs.readFileSync(path.join(workspace,'..',x.signoff.plan_path));
+          return createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex')===x.signoff.plan_sha;
+        }catch{return false;}
+      }));
+    }
+    deferredSignoffs=pendingApprovalReady?0:sig.length;
+  }
   const routing=[], firstAppointments=[], unread=[];
   const seen=new Set();
   for(const r of roster.roles) {
@@ -29,20 +63,23 @@ export function nextCourierPlan(workspace) {
     seen.add(r.role_id);
     const box=getPendingInbox(workspace,r.role_id,r.appointment_id);
     const first=box.pending.filter(x=>x.kind==='APPOINTMENT');
-    const ordinary=box.pending.filter(x=>x.kind!=='APPOINTMENT');
-    if(!box.pending.length)continue;
+    const ordinary=box.pending.filter(x=>x.kind!=='APPOINTMENT'
+      && !(round.protocol_version==='V10' && r.role_id==='CEO' &&
+        x.kind==='PLAN_SIGNOFF' && !pendingApprovalReady));
+    if(!first.length && !ordinary.length)continue;
     if(first.length)firstAppointments.push({code:codeForRole(r.role_id,'AP'),
       role_id:r.role_id,appointment_id:r.appointment_id,message_ids:first.map(x=>x.message_id)});
     // For a newly appointed chat, deliver its one-time full APPOINTMENT first,
     // then MN is appropriate for any other pending M after appointment ACK.
     if(ordinary.length && !first.length)routing.push({code:codeForRole(r.role_id),
       role_id:r.role_id,appointment_id:r.appointment_id,message_ids:ordinary.map(x=>x.message_id)});
-    unread.push({role_id:r.role_id,total:box.pending_count});
+    unread.push({role_id:r.role_id,total:first.length+ordinary.length});
   }
   return {round_id:round.round_id,source:'verified GitHub round workspace, not proof of physical chat delivery',
     first_appointment_codes:firstAppointments.map(x=>x.code),
     mn_codes:routing.map(x=>x.code),
     unread_roles:unread,first_appointments:firstAppointments,routing,
+    deferred_partial_signoffs:deferredSignoffs,
     owner_code_line:[...firstAppointments.map(x=>x.code),...routing.map(x=>x.code)].join(' '),
     startup_phase:['V9','V10'].includes(round.protocol_version)?round.startup_phase:null,
     next_owner_hint:['V9','V10'].includes(round.protocol_version) && round.startup_phase==='WAIT_NP'
