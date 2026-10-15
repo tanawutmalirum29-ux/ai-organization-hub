@@ -4,7 +4,6 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { validateRecords } from './validate-records.mjs';
 import { validatePlanning } from './validate-planning.mjs';
-import { validateMainArchives } from './validate-closeout-archive.mjs';
 
 const errors = [];
 const fail = s => errors.push(s);
@@ -15,8 +14,10 @@ const roundBranch = branch.startsWith('round/');
 const exists = fs.existsSync(root);
 
 if (!roundBranch) {
-  if (exists) fail('Governance main/policy PR must not contain workspace/: live rounds belong on round/<slug>.');
-  validateMainArchives({fail});
+  // No retired-project workspace, archive or test-write diagnostics are permitted on main.
+  for (const name of ['workspace','archives','backups','history','diagnostics']) {
+    if (fs.existsSync(name)) fail('Governance main must not retain any previous project data: '+name);
+  }
 } else {
   if (process.env.GITHUB_BASE_REF === 'main') fail('Round branch must NEVER be merged into governance main.');
   const round = read(path.join(root, 'round.json'));
