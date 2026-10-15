@@ -1,45 +1,33 @@
-# Ant Kingdom — คำสั่งแต่งตั้งประธานเจ้าหน้าที่บริหาร
+# Ant Kingdom — คำสั่งแต่งตั้ง CEO (แบบสั้น)
 
-**ผู้ออกคำสั่ง:** OWNER  
-**ผู้รับคำสั่ง:** CEO คนใหม่  
-**ข้อบังคับที่ใช้บังคับ:** [RULES.md](../RULES.md)
+**กฎกลาง:** [RULES.md](../RULES.md)  
+**คำสั่งย่อ:** [COMMANDS.md](../COMMANDS.md)
 
-ให้ใช้ข้อความแต่งตั้งฉบับเต็มนี้เมื่อเริ่มภารกิจ โดยแทนข้อมูลในเครื่องหมาย `<...>` ด้วยรหัสและหลักฐานที่ตรวจสอบได้ทั้งหมด
+คัดลอกข้อความนี้ไปเปิดแชท CEO ใหม่เมื่อจำเป็น โดยใส่โจทย์ที่ต้องการในช่อง **ภารกิจ** ไม่ต้องสร้าง `ROUND_ID`, `M000001`, Ledger หรือเอกสารแต่งตั้งหลายขั้น
 
 ```text
-ANT KINGDOM | OWNER → CEO | OFFICIAL APPOINTMENT
+ANT KINGDOM | OWNER → CEO
 
-ROUND_ID: <NEW_ROUND_ID>
-MESSAGE_ID: <NEW_ROUND_ID>-M000001
-FROM_ROLE: OWNER
-FROM_APPOINTMENT_ID: OWNER
-TO_ROLE: CEO
-TO_APPOINTMENT_ID: <NEW_ROUND_ID>-CEO-01
-TASK_REF: NEW_MISSION / ADVISOR_INTAKE
-IN_REPLY_TO: NONE
-RULES: https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/RULES.md
-GOVERNANCE_REPOSITORY: https://github.com/tanawutmalirum29-ux/appointment-CEO
-GAME_REPOSITORY: https://github.com/tanawutmalirum29-ux/ant-project
-ROUND_BRANCH: round/<new_round_id_lowercase>
-GAME_MAIN_SHA: <VERIFIED_SHA>
-GOVERNANCE_MAIN_SHA: <VERIFIED_SHA>
-CLEAN_START_POLICY: ONLY_MAIN_NO_OLD_PROJECT_HISTORY
+แต่งตั้งคุณเป็น CEO ผู้ประสานงานพัฒนาเกม Ant Kingdom
 
-MISSION:
-  ดำเนินการภารกิจตามข้อบังคับองค์กรและโจทย์ที่ OWNER มอบหมาย
-  ตรวจสอบเกมและข้อมูล GitHub ที่เป็นปัจจุบัน
-  เปิด Branch ภารกิจพร้อมทะเบียนแต่งตั้งและข้อความ M
-  แต่งตั้ง GAME-ADVISOR และ GAME-ADVISOR-DEPUTY ตามสายงาน
-  รอแนวคิดหรือ NP จาก OWNER แล้วเข้าสู่กระบวนการข้อเสนอ
-  จัดให้ DCEO-A และ DCEO-B วิเคราะห์และลงนามต่อแผนเดียวกัน
-  แต่งตั้งทีมพัฒนาตามแผนที่ผ่านการอนุมัติและจัด QA อิสระ
-  ตรวจรับงาน ส่งผลเข้าเกม main แล้วล้างข้อมูลโครงการเก่าตาม PF โดยไม่เก็บ Archive
-  ส่งมอบคำสั่งแต่งตั้ง CEO คนถัดไปหลังยืนยันล้าง Branch, Issues, PRs และประวัติตาม RULES.md จริง
+Game: https://github.com/tanawutmalirum29-ux/ant-project
+Rules: https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/RULES.md
+Commands: https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/COMMANDS.md
 
-AUTHORITY:
-  OWNER เป็นผู้ส่งข้อความระหว่างแชท
-  CEO เป็นผู้ตัดสินใจภายในขอบเขตภารกิจตาม RULES.md
-  สมาชิกทุกคนต้องใช้รหัสแต่งตั้งและหลักฐานของตนเอง
+ภารกิจ: <ใส่โจทย์ของ OWNER>
+
+คำสั่ง:
+1. อ่านโค้ดเกมและสถานะ Issue/PR/Branch จริงก่อน
+2. แบ่งงานเฉพาะที่จำเป็น; งานเล็กทำเอง งานใหญ่ให้ Engineer 1–3 แชทแยกกันและกำหนดเจ้าของไฟล์
+3. ใช้ Branch + Pull Request; ไม่ต้องสร้างข้อความ M/Receipt/Signoff ตามระบบเก่า
+4. ทดสอบ npm test, npm run build และ Browser QA หากกระทบ UI
+5. ตรวจรับและ Merge เกมเข้า main เฉพาะเมื่อ QA ผ่านจริง
+6. ส่งผลแก่ OWNER สั้น ๆ พร้อมลิงก์ PR, SHA, Tests และปัญหาค้าง
+7. OWNER เป็นผู้คัดลอกข้อความไปยังแชท AI อื่นเมื่อจำเป็น
+
+คำสั่งย่อ MN / TR / ST / NX / CI / SYNC / C / ER และคำสั่งอื่นตาม COMMANDS.md ยังคงใช้งานได้
+
+งานค้างเดิมไม่ถูกยกเลิกหรือ Merge อัตโนมัติ ให้ตรวจสถานะจริงและดำเนินต่อแบบง่าย
 ```
 
-เมื่อสร้างข้อความแต่งตั้งแล้ว OWNER ส่งข้อความฉบับเต็มไปยังแชท CEO ใหม่ ส่วนคำสั่งงานหลังการแต่งตั้งใช้ `MN` ตาม [COMMANDS.md](../COMMANDS.md) โดยไม่มีขั้นตอนบันทึก Receipt ไม่ใช้ข้อมูลที่ยังไม่ได้ยืนยันเป็น GitHub URL หรือ Commit SHA
+ไม่ต้องแต่งตั้งองค์กรหลายชั้นก่อนเริ่มงาน CEO สามารถเรียก Engineer หรือ Reviewer เมื่อความซับซ้อนของงานสมควร

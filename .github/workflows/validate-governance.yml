@@ -1,58 +1,21 @@
-name: Ant Kingdom — Governance Validation
+name: Ant Kingdom — Simple Governance Checks
+
 on:
   push:
-    branches:
-      - main
-      - 'round/**'
+    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
+
 jobs:
-  governance:
+  commands-and-rulebook:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Regression and schema gates
-        run: node --test tests/*.test.mjs
-      - name: Validate current source and archived rounds
-        run: node scripts/validate-governance.mjs
-        env:
-          BEFORE_SHA: ${{ github.event.before }}
-      - name: Simulate complete organization contract
-        if: github.ref_name == 'main'
-        run: node scripts/org-sim.mjs > org-sim-report.json
-      - name: Save offline SIM evidence
-        if: github.ref_name == 'main'
-        uses: actions/upload-artifact@v4
-        with:
-          name: organization-simulation
-          path: org-sim-report.json
-          retention-days: 30
-      # Reporting belongs to a successfully CLOSED mission, never planning or active execution.
-      - name: Check completed mission report gate
-        id: report_gate
-        if: startsWith(github.ref_name, 'round/')
-        shell: bash
-        run: |
-          if [ -f workspace/round.json ] && node -e "const r = require('./workspace/round.json'); process.exit(r.state === 'CLOSED' && r.closure_reason === 'MISSION_COMPLETED' ? 0 : 1)"; then
-            echo 'ready=true' >> "$GITHUB_OUTPUT"
-          else
-            echo 'ready=false' >> "$GITHUB_OUTPUT"
-          fi
-      - name: Generate completed mission report
-        if: steps.report_gate.outputs.ready == 'true'
-        run: node scripts/org-dashboard.mjs workspace > organization-dashboard.md
-      - name: Upload completed mission report
-        if: steps.report_gate.outputs.ready == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: organization-dashboard
-          path: organization-dashboard.md
-          retention-days: 30
+      - name: Verify simple rules and shorthand commands
+        run: node --test tests/simple-workflow.test.mjs
