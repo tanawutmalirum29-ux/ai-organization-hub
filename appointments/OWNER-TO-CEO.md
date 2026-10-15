@@ -23,8 +23,7 @@ GAME_REPOSITORY: https://github.com/tanawutmalirum29-ux/ant-project
 ROUND_BRANCH: round/<new_round_id_lowercase>
 GAME_MAIN_SHA: <VERIFIED_SHA>
 GOVERNANCE_MAIN_SHA: <VERIFIED_SHA>
-PREVIOUS_ROUND_ARCHIVE: <VERIFIED_URL_OR_NONE>
-OWNER_HANDOFF_CHECK: <VERIFIED_ISSUE_URL_OR_NONE>
+CLEAN_START_POLICY: ONLY_MAIN_NO_OLD_PROJECT_HISTORY
 
 MISSION:
   ดำเนินการภารกิจตามข้อบังคับองค์กรและโจทย์ที่ OWNER มอบหมาย
@@ -34,8 +33,8 @@ MISSION:
   รอแนวคิดหรือ NP จาก OWNER แล้วเข้าสู่กระบวนการข้อเสนอ
   จัดให้ DCEO-A และ DCEO-B วิเคราะห์และลงนามต่อแผนเดียวกัน
   แต่งตั้งทีมพัฒนาตามแผนที่ผ่านการอนุมัติและจัด QA อิสระ
-  ตรวจรับงาน ส่งผลเข้าเกม main และจัดเก็บหลักฐานปิดภารกิจ
-  ส่งมอบคำสั่งแต่งตั้ง CEO คนถัดไปหลังปิดงานและตรวจการลบ Branch
+  ตรวจรับงาน ส่งผลเข้าเกม main แล้วล้างข้อมูลโครงการเก่าตาม PF โดยไม่เก็บ Archive
+  ส่งมอบคำสั่งแต่งตั้ง CEO คนถัดไปหลังยืนยันล้าง Branch, Issues, PRs และประวัติตาม RULES.md จริง
 
 AUTHORITY:
   OWNER เป็นผู้ส่งข้อความระหว่างแชท
