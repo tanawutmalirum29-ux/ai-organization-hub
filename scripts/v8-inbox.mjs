@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import {receiptShapeErrors} from './receipt-contract.mjs';
+import {isMessageRead} from './receipt-contract.mjs';
 
 const read = file => JSON.parse(fs.readFileSync(file,'utf8'));
 const isSafe = value => typeof value==='string' && /^[A-Z0-9][A-Z0-9-]*$/.test(value);
@@ -20,7 +20,7 @@ export function getPendingInbox(workspace,roleId,appointmentId) {
     throw Error('Fresh appointed role not active or ID mismatch');
   const dir=path.join(workspace,'messages');
   const files=fs.readdirSync(dir).sort().filter(n=>/^\d{6}\.json$/.test(n));
-  const pending=[],receipted=[];
+  const pending=[],receipted=[],invalid_markers=[];
   for(let i=0;i<files.length;i++){
     if(files[i]!==String(i+1).padStart(6,'0')+'.json') throw Error('Gap in numbered ledger');
     const m=read(path.join(dir,files[i]));
@@ -28,17 +28,18 @@ export function getPendingInbox(workspace,roleId,appointmentId) {
       throw Error('Message identity mismatch');
     if(m.to_role!==roleId||m.to_appointment_id!==appointmentId)continue;
     const receiptPath=path.join(workspace,'receipts','M'+files[i].slice(0,6),appointmentId+'.json');
+    let marked=false;
     if(fs.existsSync(receiptPath)){
-      const rec=read(receiptPath);
-      if(rec.round_id!==round.round_id||rec.message_id!==m.message_id||
-         rec.recipient_role!==roleId||rec.recipient_appointment_id!==appointmentId||
-         receiptShapeErrors(rec,round.round_id).length)
-         throw Error('Invalid stored receipt: '+receiptPath);
-      receipted.push({message_id:m.message_id,disposition:rec.disposition});
-    }else pending.push({message_id:m.message_id,from_role:m.from_role,kind:m.kind,summary:m.summary,source_path:'workspace/messages/'+files[i]});
+      try {marked=isMessageRead(read(receiptPath),m,appointmentId);}catch{marked=false;}
+      if(!marked)invalid_markers.push(receiptPath);
+    }
+    if(marked)receipted.push({message_id:m.message_id,read:true});
+    else pending.push({message_id:m.message_id,from_role:m.from_role,kind:m.kind,
+      summary:m.summary,source_path:'workspace/messages/'+files[i]});
   }
   return {round_id:round.round_id,role_id:roleId,appointment_id:appointmentId,
-    pending_count:pending.length,pending,already_receipted_count:receipted.length,already_receipted:receipted};
+    pending_count:pending.length,pending,already_receipted_count:receipted.length,already_receipted:receipted,
+    invalid_markers};
 }
 
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)) {
