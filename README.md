@@ -6,7 +6,7 @@
 
 > **V8 short-code mandate (retained transport rules):** After each role's ONE detailed appointment, AI chats send **only compact codes** (`MN`, `MN-CEO`, `MN-A-DIR`, `C`, `B`, etc.), never full numbered relays or long routine reports to OWNER. Full data remains in GitHub; each inbound M gets an immutable read receipt; every OWNER↔AI turn is journaled by the acting AI in its round. [CODE-RELAY-PROTOCOL](CODE-RELAY-PROTOCOL.md) and [CHAT-ARCHIVE-PROTOCOL](CHAT-ARCHIVE-PROTOCOL.md) supersede old V7 long-relay instructions. **GAME-ADVISOR may show full game proposals to OWNER during NP review; ORG-ADVISOR may discuss organization ideas.**
 
-> `appointment-CEO/main` is the reusable **governance template**, never a live organization's workspace. Each new CEO generation has its own `round/<slug>` branch and one mission. This V7 revision supersedes older Owner-approval wording in V4–V6 for **new actions**; preserve old historical ledger entries.
+> `appointment-CEO/main` is the reusable **governance template**, never a live organization's workspace. Each new CEO generation has its own `round/<slug>` branch and one mission. This V10 template supersedes older Owner-approval and V9 notification-overhead wording for **new V10 rounds only**; preserve old historical ledger entries.
 
 ## 1. Separation of responsibilities (binding)
 
@@ -88,3 +88,13 @@ Every **new round** sets `workspace/round.json.protocol_version = "V10"` and `st
 **NX helper (read-only):** from the active V8 round branch, run `node scripts/v8-next.mjs workspace` to list all roles with unreceipted M messages and output their compact `MN-ROLE` routing tokens. It separately outputs `AP-ROLE` for fresh first appointments. This local helper does **not** check game CI/Issues/PRs or deliver anything to ChatGPT: CEO must do those checks and journal them before deciding whether to reply `C`, `P` or `B`.
 
 **V10 canonical override:** Any conflicting prose in legacy role charter, feedback templates, old appointment examples or V9 startup file requiring courtesy ACK, report-to-CEO on every subtask, individual retirement M, or early CEO notification for only one signature does **not** apply to V10. The two V10 protocols and validated phase/receipts take precedence. Old saved round ledgers are immutable.
+
+## V10 implementation helpers and verifiable Owner commands
+
+- `node scripts/v8-next.mjs workspace`: NX router, includes V10's matched-signoff suppression and one-time appointment distinction.
+- `node scripts/v10-mq.mjs workspace`: MQ actionable counts, excluding retired roles and unmatched first DCEO signature. It is a read-only snapshot, not message delivery.
+- `workspace/activity/<appointment>/000001.json`: silent activity record for status/progress, no M number or OWNER notification.
+- `workspace/retirements/planning-council.json`: **one** verified four-role retirement batch with exact CEO approval SHA and all four CLOSED roster identities.
+- `workspace/recovery/<appointment>.json`: SW handoff package with latest real journal path, full pending-M snapshot and game references; never claim invisible past chat content.
+
+All new V10 role chats must use the full first-appointment exception exactly once, then compact `MN` transport and the distinct records above. Existing older rounds are not upgraded in place.
