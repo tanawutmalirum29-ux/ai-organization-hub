@@ -24,18 +24,18 @@ export function generateNewCeoHandoff(snapshot,template,roundId){
  const gov=snapshot.repositories.find(r=>r.repository==='tanawutmalirum29-ux/appointment-CEO');
  const game=snapshot.repositories.find(r=>r.repository==='tanawutmalirum29-ux/ant-project');
  const values={
-  '<FRESH_UNIQUE_ROUND_ID>':roundId,
-  '<FRESH_LOWERCASE_ROUND_ID>':roundId.toLowerCase(),
-  '<VERIFIED_OLD_GOVERNANCE_MAIN_ARCHIVE_MANIFEST_URL_OR_NONE_FOR_FIRST_GENERATION>':
+  '<FRESH_UNUSED_ROUND_ID>':roundId,
+  '<fresh_unused_round_id_lowercase>':roundId.toLowerCase(),
+  '<REAL_ARCHIVE_URL_OR_FIRST_GENERATION_NONE>':
    'https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/'+snapshot.archive.manifest_path,
-  '<VERIFIED_COMPLETED_MAIN_ONLY_CHECK_URL_OR_NONE_FOR_FIRST_GENERATION>':snapshot.handoff_issue_url
+  '<REAL_GITHUB_ISSUE_URL_OR_FIRST_GENERATION_NONE>':snapshot.handoff_issue_url
  };
  let s=old;
  for(const [k,v] of Object.entries(values))s=s.split(k).join(v);
- const placeholder='<ACTUAL_VERIFIED_SHA_OR_NONE_FOR_FIRST_GENERATION>';
- const line1='PREVIOUS_GAME_MAIN_SHA: '+placeholder,line2='GOVERNANCE_MAIN_SHA_AT_APPOINTMENT: '+placeholder;
- if(!s.includes(line1)||!s.includes(line2))throw Error('ER: official appointment placeholders changed');
- s=s.replace(line1,'PREVIOUS_GAME_MAIN_SHA: '+game.main_sha)
+ const line1='GAME_MAIN_SHA_AT_APPOINTMENT: <REAL_40_CHARACTER_SHA>';
+ const line2='GOVERNANCE_MAIN_SHA_AT_APPOINTMENT: <REAL_40_CHARACTER_SHA>';
+ if(!s.includes(line1)||!s.includes(line2))throw Error('ER: official appointment SHA placeholders changed');
+ s=s.replace(line1,'GAME_MAIN_SHA_AT_APPOINTMENT: '+game.main_sha)
     .replace(line2,'GOVERNANCE_MAIN_SHA_AT_APPOINTMENT: '+gov.main_sha);
  if(/<[^<>]*>/.test(s))throw Error('ER: unresolved first appointment placeholders');
  return 'Completed\n\n'+s+'\n';
