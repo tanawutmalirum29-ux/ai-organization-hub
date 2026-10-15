@@ -58,7 +58,7 @@ if (!roundBranch) {
   }
   if (!known.has('CEO')) fail('Round must contain CEO');
   for (const r of known.values()) {
-    if (r.role_id !== 'CEO' && !known.has(r.parent_role)) fail(`Missing parent for ${r.role_id}`);
+    if (!['CEO','ORG-ADVISOR'].includes(r.role_id) && !known.has(r.parent_role)) fail(`Missing parent for ${r.role_id}`);
     if (id && !r.appointment_id.startsWith(id + '-')) fail(`Cross-round appointment ${r.appointment_id}`);
   }
 
