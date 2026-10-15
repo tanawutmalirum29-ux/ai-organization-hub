@@ -23,18 +23,21 @@ export function prepareReceiptDraft({workspace='workspace',messageId,appointment
     throw Error('Wrong recipient/message identity');
   const target='workspace/receipts/M'+seq+'/'+appointmentId+'.json';
   const local=path.join(workspace,'receipts','M'+seq,appointmentId+'.json');
+  let repair_existing=false;
   if(fs.existsSync(local)){
     try{if(isMessageRead(read(local),message,appointmentId))
       return {already_read:true,target_path:target,record:null,dry_run:true};}
     catch{}
-    throw Error('Existing invalid marker: message remains unread; do not overwrite');
+    // No lock: only actual appointed recipient can replace a broken READ marker,
+    // and only after reading the original M. Git history retains old bytes.
+    repair_existing=true;
   }
   const record={round_id:round.round_id,message_id:messageId,
     recipient_appointment_id:appointmentId,read_at:now};
   const errors=receiptShapeErrors(record,round.round_id);
   if(errors.length)throw Error(errors.join('; '));
-  return {already_read:false,target_path:target,record,dry_run:true,
-    reminder:'Only actual recipient saves after reading; no task/approval status implied'};
+  return {already_read:false,repair_existing,target_path:target,record,dry_run:true,
+    reminder:'Only actual recipient saves after reading; READ is not an approval. Existing invalid marker may be corrected.'};
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
  try{
