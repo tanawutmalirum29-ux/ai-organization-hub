@@ -13,7 +13,7 @@ export function getPendingInbox(workspace,roleId,appointmentId) {
   const round=read(path.join(workspace,'round.json'));
   const roster=read(path.join(workspace,'roster.json'));
   const role=roster.roles?.find(x=>x.role_id===roleId);
-  if (round.protocol_version!=='V8') throw Error('V8 protocol not active');
+  if (!['V8','V9'].includes(round.protocol_version)) throw Error('V8/V9 short-code protocol not active');
   if (round.state!=='ACTIVE') throw Error('Round not ACTIVE');
   if (!role||role.appointment_id!==appointmentId||role.status==='CLOSED')
     throw Error('Fresh appointed role not active or ID mismatch');
