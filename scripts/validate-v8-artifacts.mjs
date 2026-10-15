@@ -91,6 +91,46 @@ export function validateV8Artifacts({root='workspace',round,roster,msgs,fail}) {
     }
   }
 
+  if(round.protocol_version==='V10'){
+    const recoveryDir=path.join(root,'recovery');
+    for(const name of list(recoveryDir)){
+      if(!name.endsWith('.json')||!safeAppointment.test(name.slice(0,-5))){
+        issue('invalid recovery packet filename '+name);continue;
+      }
+      const appointment=name.slice(0,-5),packet=read(path.join(recoveryDir,name));
+      if(!packet)continue;
+      if(packet.round_id!==rid||packet.appointment_id!==appointment||
+         !validHistoric(appointment,packet.role_id)||
+         !date(packet.generated_at)||
+         packet.source_round_branch!=='round/'+rid.toLowerCase()||
+         !isNonempty(packet.blocker_summary)||
+         !/^[0-9a-f]{40}$/.test(packet.latest_game_sha||'')||
+         !Array.isArray(packet.open_game_issue_urls)||
+         !Array.isArray(packet.open_game_pr_urls)||
+         [...(packet.open_game_issue_urls||[]),...(packet.open_game_pr_urls||[])]
+           .some(url=>!isNonempty(url)||!url.startsWith('https://github.com/')))
+        issue('invalid SW recovery packet metadata '+name);
+      if(!Array.isArray(packet.pending_message_ids) ||
+         packet.pending_message_ids.some(x=>typeof x!=='string' || !byId.has(x)))
+        issue('recovery refers to missing ledger M '+name);
+      else{
+        const pending=msgs.filter(m=>m.to_appointment_id===appointment&&
+          m.to_role===packet.role_id &&
+          !fs.existsSync(path.join(root,'receipts','M'+String(m.sequence).padStart(6,'0'),appointment+'.json')))
+          .map(m=>m.message_id).sort();
+        const saved=packet.pending_message_ids.slice().sort();
+        if(JSON.stringify(pending)!==JSON.stringify(saved))
+          issue('SW recovery pending M snapshot disagrees with GitHub receipts '+name);
+      }
+      const last=packet.last_chat_event_path;
+      const pref='workspace/chats/'+appointment+'/events/';
+      if(typeof last!=='string'||!last.startsWith(pref)||
+        !/^[0-9]{6}[.]json$/.test(last.slice(pref.length))||
+        !fs.existsSync(path.join(root,'..',last)))
+        issue('SW recovery requires real last journal event '+name);
+    }
+  }
+
   for (const appointment of list(chats)) {
     const dir=path.join(chats,appointment);
     if (!safeAppointment.test(appointment)||!fs.statSync(dir).isDirectory()) {issue('bad journal appointment directory '+appointment);continue;}
