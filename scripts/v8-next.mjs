@@ -9,7 +9,7 @@ import {getPendingInbox} from './v8-inbox.mjs';
 const load = file => JSON.parse(fs.readFileSync(file,'utf8'));
 export function codeForRole(role,prefix='MN') {
   if (!['MN','AP'].includes(prefix))throw Error('Bad prefix');
-  if (['CEO','GAME-ADVISOR','ORG-ADVISOR'].includes(role))return prefix+'-'+role;
+  if (['CEO','GAME-ADVISOR','GAME-ADVISOR-DEPUTY','ORG-ADVISOR','DCEO-A','DCEO-B'].includes(role))return prefix+'-'+role;
   const d=/^DIR-([A-Z]+)$/.exec(role);if(d)return prefix+'-'+d[1]+'-DIR';
   const tl=/^TL-([A-Z]+)([12])$/.exec(role);if(tl)return prefix+'-'+tl[1]+tl[2]+'-TL';
   const en=/^E-([A-Z]+)([12])-([123])$/.exec(role);if(en)return prefix+'-'+en[1]+en[2]+'-'+en[3]+'-E';
@@ -44,6 +44,12 @@ export function nextCourierPlan(workspace) {
     mn_codes:routing.map(x=>x.code),
     unread_roles:unread,first_appointments:firstAppointments,routing,
     owner_code_line:[...firstAppointments.map(x=>x.code),...routing.map(x=>x.code)].join(' '),
+    startup_phase:round.protocol_version==='V9'?round.startup_phase:null,
+    next_owner_hint:round.protocol_version==='V9' && round.startup_phase==='WAIT_NP'
+      ? 'P — advisor awaits OWNER NP or Owner game idea; CEO must not hire execution team'
+      : round.protocol_version==='V9' && round.startup_phase==='WAIT_OWNER_C'
+        ? 'P — GAME-ADVISOR awaits OWNER C after full visible proposal'
+        : 'Check active Issues/PR/CI; absence of unread messages does not mean delivery is complete',
     next_step:'CEO must still independently check active task/Issue/PR/CI status; zero unread does not prove completion'};
 }
 if (process.argv[1] && path.resolve(process.argv[1])===fileURLToPath(import.meta.url)) {
