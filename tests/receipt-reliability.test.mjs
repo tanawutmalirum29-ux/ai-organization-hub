@@ -50,7 +50,7 @@ test('existing invalid bookmark stays unread and can be repaired by actual recip
  assert.equal(repaired.repair_existing,true);
  assert.deepEqual(receiptShapeErrors(repaired.record,rid),[]);
 }));
-test('legacy disposition is optional for reading and does not gate result',()=>fixture(ws=>{
+test('optional disposition is optional for reading and does not gate result',()=>fixture(ws=>{
  const record=prepareReceiptDraft({...base(ws),disposition:'BLOCKED',reason:'unused',evidenceRef:'unused'}).record;
  assert.equal(Object.hasOwn(record,'disposition'),false);
  assert.equal(Object.hasOwn(record,'evidence_ref'),false);
