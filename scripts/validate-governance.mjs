@@ -107,15 +107,29 @@ if (!roundBranch) {
     if (!['APPOINTMENT','ACK','TASK','RESULT','BLOCKED','REJECTED','REPORT','REVIEW','RELEASE','ROUND_CLOSED','FEEDBACK','PROPOSAL','DECISION','CONSULTATION_REQUEST','MISSION_CHARTER','TASK_ACCEPTANCE',...(v9?['ADVISOR_PRESENTATION','ADVISOR_HANDOFF','PLAN_REVIEW','PLAN_SIGNOFF','PLAN_APPROVAL','ROLE_RETIRED']:[])].includes(m.kind)) fail(`${expected}: invalid kind`);
     if (typeof m.task_ref !== 'string' || !m.task_ref) fail(`${expected}: missing task_ref`);
     if (typeof m.summary !== 'string' || !m.summary) fail(`${expected}: missing summary`);
-    if (typeof m.relay_text !== 'string' ||
-       !m.relay_text.includes(`MESSAGE_ID: ${expectedId}`) ||
-       !m.relay_text.includes(`ROUND_ID: ${id}`) ||
-       !m.relay_text.includes(`FROM_ROLE: ${m.from_role}`) ||
-       !m.relay_text.includes(`TO_ROLE: ${m.to_role}`) ||
-       !m.relay_text.includes(`FROM_APPOINTMENT_ID: ${m.from_appointment_id}`) ||
-       !m.relay_text.includes(`TO_APPOINTMENT_ID: ${m.to_appointment_id}`) ||
-       !m.relay_text.includes(`TASK_REF: ${m.task_ref}`) ||
-       !m.relay_text.includes('IN_REPLY_TO:')) fail(`${expected}: missing mandatory copy-ready relay fields`);
+    const copyReady=typeof m.relay_text==='string' &&
+      m.relay_text.includes(`MESSAGE_ID: ${expectedId}`) &&
+      m.relay_text.includes(`ROUND_ID: ${id}`) &&
+      m.relay_text.includes(`FROM_ROLE: ${m.from_role}`) &&
+      m.relay_text.includes(`TO_ROLE: ${m.to_role}`) &&
+      m.relay_text.includes(`FROM_APPOINTMENT_ID: ${m.from_appointment_id}`) &&
+      m.relay_text.includes(`TO_APPOINTMENT_ID: ${m.to_appointment_id}`) &&
+      m.relay_text.includes(`TASK_REF: ${m.task_ref}`) &&
+      m.relay_text.includes('IN_REPLY_TO:');
+    // Structured V10 proposals are already fully on GitHub; avoid duplicating
+    // a full Owner-facing proposal inside relay_text. The V10 phase validator
+    // must still verify actual OWNER request, complete visible proposal and C.
+    const structuredV10=v10 && (
+      (m.kind==='ADVISOR_PRESENTATION' && m.from_role==='GAME-ADVISOR' &&
+        m.to_role==='OWNER' && typeof m.presentation_text==='string' &&
+        m.presentation_text.trim().length>0 && !!m.owner_request_event_path &&
+        !!m.advisor_presentation_event_path) ||
+      (m.kind==='ADVISOR_HANDOFF' && m.from_role==='GAME-ADVISOR' &&
+        m.to_role==='GAME-ADVISOR-DEPUTY' &&
+        typeof m.advisor_presentation_message_id==='string' &&
+        typeof m.owner_c_event_path==='string'));
+    if(!copyReady && !structuredV10)
+      fail(`${expected}: missing mandatory copy-ready relay fields`);
     if (m.kind === 'APPOINTMENT' && m.to_role !== 'CEO' && known.get(m.to_role)?.parent_role !== m.from_role &&
         !(v9 && m.from_role === 'CEO' && m.to_role === 'GAME-ADVISOR-DEPUTY'))
       fail(`${expected}: appointment must be issued by direct parent`);
@@ -172,7 +186,10 @@ if (!roundBranch) {
       }
       const target = msgs.find(v => v.message_id === m.in_reply_to);
       if (!target || target.sequence >= m.sequence) fail(`Bad reply link: ${m.message_id}`);
-      else if (m.from_role !== target.to_role || m.from_appointment_id !== target.to_appointment_id)
+      else if ((m.from_role !== target.to_role || m.from_appointment_id !== target.to_appointment_id) &&
+        !(v10 && m.kind==='ADVISOR_HANDOFF' && target.kind==='ADVISOR_PRESENTATION' &&
+          m.from_role===target.from_role && m.from_appointment_id===target.from_appointment_id &&
+          m.to_role==='GAME-ADVISOR-DEPUTY'))
         fail(`Reply sender mismatch: ${m.message_id}`);
       if (m.kind === 'TASK_ACCEPTANCE') {
         const expectedParent = known.get(m.from_role)?.parent_role;
