@@ -1,5 +1,8 @@
 # DIR → New TL (same department only)
 
+> **V10 Lean execution-stage first appointment override:** NEVER appoint before both DCEO signoffs, CEO PLAN_APPROVAL and one checked retirement batch with four CLOSED planners. Appoint this execution role only in the smallest suitable direct-parent chain. One initial full appointment, then only action-triggered M/MN; routine ACK/status/tests stay in Issue/PR or append-only activity. Do not message CEO for a fixable Engineer subtask within authorized scope. QA independence/CI/exact-head release still mandatory. See [V10 Lean](../EFFICIENCY-PROTOCOL-V10.md).
+
+
 > **V9 appointment gate:** Do not appoint this execution role at initial CEO bootstrap or during advisor/DCEO consultation. It may be created only AFTER identical DCEO-A/B signed plan SHA, CEO approval and closure of all four temporary planners. Staffing hierarchy is flexible/shallow; direct CEO→Engineer or CEO→DIR→Engineer may be preferable to a needless TL. [V9 flow](../STARTUP-PROTOCOL-V9.md).
 
 
