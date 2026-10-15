@@ -21,27 +21,35 @@ function fixture(fn){
     return fn(ws);
   }finally{rmSync(root,{recursive:true,force:true});}
 }
-const base=ws=>({workspace:ws,messageId:id(1),appointmentId:ap,
-  disposition:'ACTION_STARTED',reason:'Read and started review',now});
-test('preflight draft is schema-valid, safe and read-only',()=>fixture(ws=>{
-  const r=prepareReceiptDraft(base(ws));
-  assert.equal(r.dry_run,true);assert.deepEqual(receiptShapeErrors(r.record,rid),[]);
-  assert.equal(existsSync(path.join(ws,'receipts')),false);
+const base=ws=>({workspace:ws,messageId:id(1),appointmentId:ap,now});
+test('minimal four-field READ marker validates without approval fields',()=>fixture(ws=>{
+ const r=prepareReceiptDraft(base(ws));
+ assert.equal(r.dry_run,true);
+ assert.deepEqual(Object.keys(r.record),['round_id','message_id','recipient_appointment_id','read_at']);
+ assert.deepEqual(receiptShapeErrors(r.record,rid),[]);
+ assert.equal(existsSync(path.join(ws,'receipts')),false);
 }));
-test('preflight refuses false recipient and overwrites',()=>fixture(ws=>{
-  assert.throws(()=>prepareReceiptDraft({...base(ws),appointmentId:rid+'-OTHER-01'}),/recipient/);
-  const p=path.join(ws,'receipts','M000001',ap+'.json');
-  mkdirSync(path.dirname(p),{recursive:true});writeFileSync(p,'{}');
-  assert.throws(()=>prepareReceiptDraft(base(ws)),/already exists/);
+test('wrong recipient cannot falsely mark another appointment as read',()=>fixture(ws=>{
+ assert.throws(()=>prepareReceiptDraft({...base(ws),appointmentId:rid+'-OTHER-01'}),/recipient/);
 }));
-test('preflight requires real later M for superseding',()=>fixture(ws=>{
-  const opt={...base(ws),disposition:'SUPERSEDED'};
-  assert.throws(()=>prepareReceiptDraft(opt),/evidence_ref/);
-  assert.throws(()=>prepareReceiptDraft({...opt,evidenceRef:id(99)}),/missing local M/);
-  assert.throws(()=>prepareReceiptDraft({...opt,evidenceRef:id(1)}),/later M/);
-  assert.equal(prepareReceiptDraft({...opt,evidenceRef:id(2)}).record.evidence_ref,id(2));
+test('repeating a saved valid READ returns already_read instead of rewriting',()=>fixture(ws=>{
+ const p=path.join(ws,'receipts','M000001',ap+'.json');
+ mkdirSync(path.dirname(p),{recursive:true});
+ writeFileSync(p,JSON.stringify(prepareReceiptDraft(base(ws)).record));
+ const r=prepareReceiptDraft(base(ws));
+ assert.equal(r.already_read,true);
+ assert.equal(r.record,null);
 }));
-test('preflight rejects bad reason and invalid evidence URL',()=>fixture(ws=>{
-  assert.throws(()=>prepareReceiptDraft({...base(ws),reason:' '}),/required/);
-  assert.throws(()=>prepareReceiptDraft({...base(ws),evidenceRef:'ftp://bad'}),/evidence_ref/);
+test('existing invalid bookmark must not silently count as read',()=>fixture(ws=>{
+ const p=path.join(ws,'receipts','M000001',ap+'.json');
+ mkdirSync(path.dirname(p),{recursive:true});
+ writeFileSync(p,JSON.stringify({round_id:rid,message_id:id(2),
+ recipient_appointment_id:ap,read_at:now}));
+ assert.throws(()=>prepareReceiptDraft(base(ws)),/invalid marker/);
+}));
+test('legacy disposition is optional for reading and does not gate result',()=>fixture(ws=>{
+ const record=prepareReceiptDraft({...base(ws),disposition:'BLOCKED',reason:'unused',evidenceRef:'unused'}).record;
+ assert.equal(Object.hasOwn(record,'disposition'),false);
+ assert.equal(Object.hasOwn(record,'evidence_ref'),false);
+ assert.deepEqual(receiptShapeErrors({...record,disposition:'ACTION_STARTED'},rid),[]);
 }));
