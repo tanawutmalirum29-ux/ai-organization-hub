@@ -1,0 +1,21 @@
+{
+  "document_type": "OWNER_ADMIN_INSTRUCTION_ARCHIVE",
+  "date": "2026-10-15",
+  "repository": "tanawutmalirum29-ux/appointment-CEO",
+  "visibility": "public",
+  "source": "User instruction in current ChatGPT conversation; other ChatGPT chats not accessed or implied archived.",
+  "raw_owner_message": "และระบบองค์กรในตอนเริ่มงานดังนี้ เมื่อceoใหม่ได้รับแต่งตั้ง อ่านกฎ การทำงานอย่างละเอียดหลังจากนั้นแต่งตั้ง แค่ ที่ปรึกษา และรองที่ ปรึกษา มา และไม่ต้องทำอะไรเพิ่ม  ที่ปรึกษา รอผม ขอคำเสนอพัฒนาเกมคำสั่งคือNP หรือรอผมเสนอ หลังจากได้ จะเสนองานให้ผมดูข้อความเต็ม รอผมตอบC หลังจากนั้น ที่ปรึกษา จะส่งM0000หา รองที่ปรึกษา เพื่อให้ช่วย คิดงานเพิ่มเติมของตัวเอง หลังจากเสร็จแล้ว รองที่ปรึกษาจะเป็นคนยื่นคำเสนอหาceoเอง หลังจากceoได้รับคำเสนอแล้ว จะตั้ง รองceoมา2ฝ่าย มาช่วยกันวิเคราะห์ และคุยกันในเรื่องงานครั้งนี้ ปรึกษาจนเห็นตรงกัน ทั้งสองคน ลงลายเซ็น อนุมัติงาน และแผนงานที่ปรับปรุงแล้ว ส่งให้ceo และเสนอด้วยว่าceoควรตั้งทีมงานแบบไหน และหน้าที่ขอบเขตงาน ไม่ฟิก ตาม นี้แล้ว แต่โครงสร้างยังพอคล้ายๆตอนนี้ และไม่ควรหลายทอดเกินไป หลังceoได้ข้อสรุป งานที่จะทำแล้ว ให้ ปลดรองทั้งสองออก ที่ปรึกษาและรองที่ปรึกษาออกจากระบบเลย ไม่ต้องยุ่งกับแชทพวกนั้นอีก พวกนี้ถูกตั้งไว้ชั่วคราวเพื่อปรึกษางาน หลังจากนั้นก็แต่งตั้ง ตามควร และแบ่งงาน",
+  "protocol_version": "V9",
+  "summary": "CEO initially appoints only advisor and deputy advisor; NP or owner idea triggers full owner proposal; owner C unlocks deputy independent proposal to CEO; CEO appoints temporary DCEO-A and DCEO-B for peer debate with two identical signed-plan approvals; CEO retires all four planners and forms shallow flexible execution team only after plan consensus; V8 MN/C receipts and chat journaling remain.",
+  "evidence": [
+    "STARTUP-PROTOCOL-V9.md",
+    "roles/CEO.md",
+    "roles/GAME-ADVISOR.md",
+    "roles/GAME-ADVISOR-DEPUTY.md",
+    "roles/DCEO-A.md",
+    "roles/DCEO-B.md",
+    "scripts/validate-v9-startup.mjs",
+    "tests/governance-v9.test.mjs"
+  ],
+  "note": "This record is only the user request and governance edits. Runtime journals for future roles exist only if those future role chats save them through GitHub."
+}
