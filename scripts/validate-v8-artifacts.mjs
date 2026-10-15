@@ -113,7 +113,7 @@ export function validateV8Artifacts({root='workspace',round,roster,msgs,fail}) {
               const marker=JSON.parse(fs.readFileSync(path.join(root,'receipts','M'+String(m.sequence).padStart(6,'0'),appointment+'.json'),'utf8'));
               return isMessageRead(marker,m,appointment);
             }catch{return false;}
-          })()))
+          })())
           .map(m=>m.message_id).sort();
         const saved=packet.pending_message_ids.slice().sort();
         if(JSON.stringify(pending)!==JSON.stringify(saved))
