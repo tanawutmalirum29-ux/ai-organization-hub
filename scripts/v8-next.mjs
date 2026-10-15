@@ -19,7 +19,7 @@ export function codeForRole(role,prefix='MN') {
 export function nextCourierPlan(workspace) {
   const round=load(path.join(workspace,'round.json'));
   const roster=load(path.join(workspace,'roster.json'));
-  if(round.state!=='ACTIVE'||round.protocol_version!=='V8')throw Error('Not an ACTIVE V8 round');
+  if(round.state!=='ACTIVE'||!['V8','V9'].includes(round.protocol_version))throw Error('Not an ACTIVE V8/V9 round');
   if(round.round_id!==roster.round_id||!Array.isArray(roster.roles))throw Error('Round/roster mismatch');
   const routing=[], firstAppointments=[], unread=[];
   const seen=new Set();
