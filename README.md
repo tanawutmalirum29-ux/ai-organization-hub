@@ -70,7 +70,7 @@ For existing active V6/older rounds, do **not** rewrite old numbered messages. C
 - [Gameplay feedback and AI decision process](FEEDBACK-PROTOCOL.md)
 - [CEO](roles/CEO.md) · [Game Advisor](roles/GAME-ADVISOR.md) · [Deputy Advisor](roles/GAME-ADVISOR-DEPUTY.md) · [DCEO-A](roles/DCEO-A.md) · [DCEO-B](roles/DCEO-B.md) · [Organization Advisor](roles/ORG-ADVISOR.md) · [DIR](roles/DIR.md) · [TL](roles/TL.md) · [Engineer](roles/ENGINEER.md)
 - [Owner → CEO administrative bootstrap](appointments/OWNER-TO-CEO.md) · [CEO → Advisor appointment](appointments/CEO-TO-GAME-ADVISOR.md) · [CEO → Advisor consultation](appointments/CEO-TO-GAME-ADVISOR-CONSULT.md) · [Owner → Advisor question](appointments/OWNER-TO-GAME-ADVISOR-CONSULT.md)
-- [CEO → Deputy Advisor](appointments/CEO-TO-GAME-ADVISOR-DEPUTY.md) · [CEO → DCEO A/B](appointments/CEO-TO-DCEO.md) · [CEO → DIR](appointments/CEO-TO-DIR.md) · [DIR → TL](appointments/DIR-TO-TL.md) · [TL → Engineer](appointments/TL-TO-ENGINEER.md)
+- [V9 flexible execution first appointment](appointments/V9-FLEXIBLE-EXECUTION.md) · [CEO → Deputy Advisor](appointments/CEO-TO-GAME-ADVISOR-DEPUTY.md) · [CEO → DCEO A/B](appointments/CEO-TO-DCEO.md) · [CEO → DIR](appointments/CEO-TO-DIR.md) · [DIR → TL](appointments/DIR-TO-TL.md) · [TL → Engineer](appointments/TL-TO-ENGINEER.md)
 - [Round examples](examples/README.md) · [Governance validator](scripts/validate-governance.mjs)
 
 Closed historical Issues and cancelled game tasks are evidence, **never active appointments or current directives**.
