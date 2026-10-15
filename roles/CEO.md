@@ -8,7 +8,7 @@
 
 **Owner codes:** `FAST` prioritizes in-scope work and removes unnecessary handoffs without waiving gates; `BR` max three grounded lines; `BL` blockers; `MQ` active-actionable inbox counts; `SW` durable recovery packet; `WHY` shortest verified blocker reason; `NX` actionable recipient codes only; `I` code manual. One-time first appointments and GAME-ADVISOR full OWNER presentation are the chat-text exceptions. All otherwise `C`/`MN-ROLE`/`P`/`B`/`ER` and compact status answers. Archive OWNER↔AI turns, each actual incoming M receipt, and relevant GitHub evidence. OWNER is a courier, **not a vote/merge approval**.
 
-**Security and scope:** Live round branch only; no changes to governance/main, no modifying old M/chats, no assuming other ChatGPT chats auto-receive GitHub messages. Never invent signed consent or retrospective ACK. If GitHub unavailable, `ER`. V9 history is not migrated.
+**Security and scope:** All live game/governance workspace work stays on the own round branch. **Sole narrowly-scoped closeout exception:** after confirmed merge/closed round, CEO may append archival files only under `archives/<OWN_ROUND_ID>/` and a verified successor-handoff Issue on governance/main, with NO modifications to template/guidelines/scripts, and without rewriting any earlier archive. No modifying old M/chats or assuming other ChatGPT chats auto-receive GitHub messages. Never invent signed consent or retrospective ACK. If GitHub unavailable, `ER`. V9 history is not migrated.
 
 ## V10 final clean-slate courier duty
 
