@@ -4,6 +4,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { validateV8Artifacts } from './validate-v8-artifacts.mjs';
 import { validateV9Startup } from './validate-v9-startup.mjs';
+import { validateV10Lean } from './validate-v10-lean.mjs';
 
 const errors = [];
 const fail = s => errors.push(s);
@@ -29,7 +30,8 @@ if (!roundBranch) {
   if (autonomyFrom != null && (!Number.isSafeInteger(autonomyFrom) || autonomyFrom < 2))
     fail('owner_relay_only_from_sequence must be an integer >= 2 (bootstrap exception).');
 
-  const v9 = round?.protocol_version === 'V9';
+  const v10 = round?.protocol_version === 'V10';
+  const v9 = ['V9','V10'].includes(round?.protocol_version);
   const roles = roster?.roles;
   const known = new Map();
   const ids = new Set();
@@ -99,6 +101,7 @@ if (!roundBranch) {
       if (role === 'OWNER') { if (a !== 'OWNER') fail(`${expected}: OWNER ID must be OWNER`); }
       else if (!known.has(role) || !appointedAt(role,a,i+1)) fail(`${expected}: invalid ${side} role/appointment`);
     }
+    if (v10 && ['ACK','REPORT','REVIEW','ROLE_RETIRED'].includes(m.kind)) fail(`${expected}: V10 routine report or ACK not allowed; use receipt, activity, or batch retirement`);
     if (!['APPOINTMENT','ACK','TASK','RESULT','BLOCKED','REJECTED','REPORT','REVIEW','RELEASE','ROUND_CLOSED','FEEDBACK','PROPOSAL','DECISION','CONSULTATION_REQUEST','MISSION_CHARTER','TASK_ACCEPTANCE',...(v9?['ADVISOR_PRESENTATION','ADVISOR_HANDOFF','PLAN_REVIEW','PLAN_SIGNOFF','PLAN_APPROVAL','ROLE_RETIRED']:[])].includes(m.kind)) fail(`${expected}: invalid kind`);
     if (typeof m.task_ref !== 'string' || !m.task_ref) fail(`${expected}: missing task_ref`);
     if (typeof m.summary !== 'string' || !m.summary) fail(`${expected}: missing summary`);
@@ -188,6 +191,7 @@ if (!roundBranch) {
   }
   validateV8Artifacts({root,round,roster,msgs,fail});
   validateV9Startup({root,round,roster,msgs,fail});
+  validateV10Lean({root,round,roster,msgs,fail});
   // V6: closed rounds are terminal, including explicit Owner-cancelled unshipped missions.
   if (round?.state === 'CLOSED') {
     if (!['MISSION_COMPLETED', 'OWNER_CANCELLED', 'AI_CANCELLED'].includes(round.closure_reason))
