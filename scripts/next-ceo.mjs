@@ -8,13 +8,10 @@ export function generateNewCeoHandoff(snapshot,template,roundId){
  if(!check.ok)throw Error('B: cleanup not verified: '+check.blockers.join('; '));
  if(typeof roundId!=='string'|| !/^[A-Z0-9][A-Z0-9-]{2,39}$/.test(roundId))
    throw Error('B: new round ID invalid');
- if(!Array.isArray(snapshot.existing_round_ids)||snapshot.all_existing_round_ids_verified!==true)
-   throw Error('B: previous round IDs must be checked exhaustively from governance archives/issues');
- if(snapshot.existing_round_ids.includes(roundId)||
-    snapshot.archive?.manifest_path?.includes('/'+roundId+'/'))
-   throw Error('B: this round ID was already used');
- if(!/^https:\/\/github[.]com\/tanawutmalirum29-ux\/appointment-CEO\/issues\/[1-9][0-9]*$/.test(snapshot.handoff_issue_url||''))
-   throw Error('B: closeout status must be durably saved in an actual governance/main Issue');
+ if(snapshot.previous_round_id===roundId)
+   throw Error('B: new round ID must differ from the just-completed round');
+ if(snapshot.new_round_id_verified_unique!==true)
+   throw Error('B: new round ID must be verified unused among available active refs; do not write an archive to track IDs');
  const when=Date.parse(snapshot.verified_at),age=Date.now()-when;
  if(!Number.isFinite(when)||age>15*60*1000||age < -2*60*1000)
    throw Error('ER: stale verification; fetch both GitHub repositories again after OWNER c');
@@ -25,10 +22,7 @@ export function generateNewCeoHandoff(snapshot,template,roundId){
  const game=snapshot.repositories.find(r=>r.repository==='tanawutmalirum29-ux/ant-project');
  const values={
   '<NEW_ROUND_ID>':roundId,
-  '<new_round_id_lowercase>':roundId.toLowerCase(),
-  '<VERIFIED_URL_OR_NONE>':
-    'https://github.com/tanawutmalirum29-ux/appointment-CEO/blob/main/'+snapshot.archive.manifest_path,
-  '<VERIFIED_ISSUE_URL_OR_NONE>':snapshot.handoff_issue_url
+  '<new_round_id_lowercase>':roundId.toLowerCase()
  };
  let s=old;
  for(const [key,value] of Object.entries(values)) s=s.split(key).join(value);
