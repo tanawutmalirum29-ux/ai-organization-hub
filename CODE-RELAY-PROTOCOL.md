@@ -1,13 +1,14 @@
-# V8 — Short-code, GitHub-first inter-chat transport (binding)
+# V9 — Short-code, GitHub-first inter-chat transport (V8 transport retained)
 
-**Normative for every new V8 round.** This overrides V7's instruction to paste full messages between chats. `main` contains the reusable template; the only live data is under each new `round/<round-id-lowercase>/workspace`. Old V6/V7 ledgers are immutable history, not migrated.
+**Normative for every new V9 round with V8 message transport.** Read [phased startup](STARTUP-PROTOCOL-V9.md) first.  This overrides V7's instruction to paste full messages between chats. `main` contains the reusable template; the only live data is under each new `round/<round-id-lowercase>/workspace`. Old V6/V7 ledgers are immutable history, not migrated.
 
 ## 1. What appears in ChatGPT
 
-**First appointment only:** a full one-time appointment message explaining exactly: round, role, fresh appointment ID, direct parent and reports, repository/branch, authority/limits, game repository, role charter, how to read GitHub, `MN`/receipt workflow, how to journal, what to do if GitHub is unavailable. Every new replacement appointment gets its own single explicit full appointment again. All later AI-to-AI traffic is **SHORT CODES ONLY** in chats. Long tasks, QA, designs, debates, logs and evidence go in GitHub, not copy-paste relay blocks. Ordinary employees MUST NOT paste a long relay or report to Owner. **Exception:** appointed `ORG-ADVISOR` may discuss organizational ideas and explanations in full prose with Owner (still archives discussion). Owner is never required to adjudicate gameplay, engineering, QA, release or staffing.
+**First appointment only:** a full one-time appointment message explaining exactly: round, role, fresh appointment ID, direct parent and reports, repository/branch, authority/limits, game repository, role charter, how to read GitHub, `MN`/receipt workflow, how to journal, what to do if GitHub is unavailable. Every new replacement appointment gets its own single explicit full appointment again. All later AI-to-AI traffic is **SHORT CODES ONLY** in chats. Long tasks, QA, designs, debates, logs and evidence go in GitHub, not copy-paste relay blocks. Ordinary employees MUST NOT paste a long relay or report to Owner. **Exceptions:** appointed `GAME-ADVISOR` can present and discuss game proposals with OWNER during `NP`/idea intake and wait for OWNER `C`; `ORG-ADVISOR` may discuss governance ideas in full prose with Owner (still archives discussion). Owner is never required to adjudicate gameplay, engineering, QA, release or staffing.
 
 | Code in chat | Direction | Meaning / action |
 |---|---|---|
+| `NP` | OWNER → GAME-ADVISOR | ขอคำเสนอพัฒนาเกม; ที่ปรึกษาตรวจเกมและแสดงข้อเสนอ **เต็มข้อความ** ให้ OWNER แล้วรอ `C` ก่อนส่งให้รองที่ปรึกษา. |
 | `I` | OWNER → any appointed active AI chat | แสดงรายการรหัสทั้งหมด + ความหมายสั้น ๆ ตาม [COMMANDS.md](COMMANDS.md); เป็นข้อยกเว้นสำหรับคู่มือย่อเท่านั้น ต้อง journal คำถามและคำตอบ, ไม่ใช่การขอรายงานยาว. |
 | `MN` | OWNER → target chat | "New Message": scan **every** valid pending message addressed to my active appointment in the live round; **not merely the newest**. Do not guess IDs. |
 | `MN-CEO` | sender AI → OWNER | A GitHub-stored message now awaits CEO chat. Owner copies `MN` into CEO chat. |
@@ -78,3 +79,7 @@ CEO ต้องตรวจ **Round ล่าสุดที่ยัง ACTIVE
 - Do not silently ignore old messages, duplicate a task because `MN` repeated, or overwrite an ACK. If the receipt exists, classify as processed without writing another.
 - Owner is only a courier for AI-to-AI work. Owner can explicitly request an **administrative governance-template edit** by a designated editor; game decisions/release remain AI-autonomous under the main charter.
 - These codes have no cryptographic identity or independent push notification. GitHub permissions and real ChatGPT relay are necessary.
+
+## 5. V9 NP and special OWNER C
+
+New CEO hires only GAME-ADVISOR and GAME-ADVISOR-DEPUTY, then pauses. OWNER sends `NP` or an idea to GAME-ADVISOR. GAME-ADVISOR must present the full proposal to OWNER and archive this exception; a later OWNER `C` is an **acknowledgment to proceed**, not the normal AI-completion C and never a game release vote. Journal Owner's actual C **after** the visible presentation. Then create the numbered ADVISOR_HANDOFF for deputy, let deputy propose CEO, let two temporary DCEOs co-sign one SHA and retire all four planning roles before staffing. Codes: `MN-GAME-ADVISOR-DEPUTY`, `MN-CEO`, `MN-DCEO-A`, `MN-DCEO-B`. Otherwise codes/receipts remain identical to V8. [Startup requirements](STARTUP-PROTOCOL-V9.md).
