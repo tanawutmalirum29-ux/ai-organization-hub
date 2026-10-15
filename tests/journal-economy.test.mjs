@@ -38,9 +38,9 @@ test('Cannot manufacture Chat Event to falsely claim a missing M was read',()=>f
    message_refs:[rid+'-M000999']}));
  validate();assert.match(errors.join(' '),/journal references missing ledger message/);
 }));
-test('One canonical RULES document permits event-minimal journals without waiving M receipts',()=>{
+test('Canonical RULES defines READ as only inbox bookmark and preserves minimal journals',()=>{
  const s=fs.readFileSync('RULES.md','utf8');
  assert.match(s,/Do not archive every OWNER↔AI turn/);
- assert.match(s,/journal event is never a substitute for another role's individual M read receipt/);
- assert.match(s,/platform safety check rejects a receipt/);
+ assert.match(s,/READ.*inbox bookmark/);
+ assert.match(s,/never authorizes work/);
 });
