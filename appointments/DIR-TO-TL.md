@@ -1,5 +1,8 @@
 # DIR → New TL (same department only)
 
+> **V9 appointment gate:** Do not appoint this execution role at initial CEO bootstrap or during advisor/DCEO consultation. It may be created only AFTER identical DCEO-A/B signed plan SHA, CEO approval and closure of all four temporary planners. Staffing hierarchy is flexible/shallow; direct CEO→Engineer or CEO→DIR→Engineer may be preferable to a needless TL. [V9 flow](../STARTUP-PROTOCOL-V9.md).
+
+
 > **V8 first-appointment exception:** This document is the ONE full instruction that may be pasted into a fresh appointee's chat. It MUST identify exact role, fresh appointment ID, reporting parent, round branch, game repo, responsibilities, scope and prohibitions, links to role charter + [V8 short-code](../CODE-RELAY-PROTOCOL.md) and [chat logging](../CHAT-ARCHIVE-PROTOCOL.md). After this first appointment, **never paste long relay text again**; save numbered full text in GitHub and transport only `MN-ROLE` / `MN`. Recipient journals every Owner turn and reads/receipts all M messages before `C`. If blocked use `ER` or `B` with GitHub evidence. Consult the role charter for all necessary context.
 
 
