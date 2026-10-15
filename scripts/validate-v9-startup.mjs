@@ -58,6 +58,26 @@ export function validateV9Startup({root='workspace',round,roster,msgs,fail}) {
     !['NP','OWNER_IDEA'].includes(m.presentation?.source) ||
     !nonblank(m.presentation?.proposal_text) || !nonblank(m.presentation?.observed_game_evidence)))
     err('presentation must be advisor full proposal to Owner from NP or idea');
+  // The advisor must actually receive NP or an Owner idea and display the
+  // complete saved proposal to Owner before advancing to wait-for-C.
+  for(const p of presentations){
+    const dir=path.join(root,'chats',p.from_appointment_id,'events');
+    try{
+      const events=fs.readdirSync(dir).sort()
+        .filter(name=>/^\\d{6}\\.json$/.test(name))
+        .map(name=>JSON.parse(fs.readFileSync(path.join(dir,name),'utf8')));
+      const shown=events.findIndex(x=>x.speaker==='AI'&&x.appointment_id===p.from_appointment_id &&
+        Array.isArray(x.message_refs)&&x.message_refs.includes(p.message_id) &&
+        (x.text.trim()===p.presentation.proposal_text.trim() ||
+          (x.redacted===true && nonblank(x.reason))));
+      if(shown<1)throw Error('missing complete Owner-visible proposal journal');
+      const ownerRequests=events.slice(0,shown).filter(x=>x.speaker==='OWNER');
+      const hasOwnerRequest=ownerRequests.some(x=>
+        p.presentation.source==='NP' ? x.text.trim().toUpperCase()==='NP' :
+          nonblank(x.text) && !['NP','C','I','NX','MN','ST','SYNC'].includes(x.text.trim().toUpperCase()));
+      if(!hasOwnerRequest)throw Error('NP or Owner game idea did not precede proposal');
+    }catch(e){err('advisor must wait for real NP/idea and visibly present full proposal: '+e.message);}
+  }
   const handoffs=at('ADVISOR_HANDOFF');
   for(const m of handoffs) {
     if(!named(m,'GAME-ADVISOR','GAME-ADVISOR-DEPUTY'))err('advisor handoff recipient invalid');
@@ -95,10 +115,20 @@ export function validateV9Startup({root='workspace',round,roster,msgs,fail}) {
        !h||h.kind!=='ADVISOR_HANDOFF'||h.sequence>=m.sequence)
       err('deputy proposal must independently extend a verified advisor handoff and go directly to CEO');
   }
+  for(const m of msgs.filter(x=>['GAME-ADVISOR','GAME-ADVISOR-DEPUTY'].includes(x.from_role))){
+    const appointed=advApps.find(x=>x.to_role===m.from_role);
+    if(!appointed || m.sequence<=appointed.sequence)
+      err('advisor cannot send planning messages before appointment: '+m.from_role);
+  }
   const latestPresentation=presentations.at(-1);
   const handoff=handoffs.at(-1);
   const deputy=deputyProposals.at(-1);
   const dApps=app.filter(m=>['DCEO-A','DCEO-B'].includes(m.to_role));
+  for(const m of msgs.filter(x=>['DCEO-A','DCEO-B'].includes(x.from_role))){
+    const appointment=dApps.find(x=>x.to_role===m.from_role);
+    if(!appointment || m.sequence<=appointment.sequence)
+      err('DCEO cannot send reviews/signatures before actual appointment: '+m.from_role);
+  }
   if(dApps.some(m=>app.filter(x=>x.to_role===m.to_role).length!==1))
     err('each deputy CEO may be appointed only once');
   for(const m of dApps){
