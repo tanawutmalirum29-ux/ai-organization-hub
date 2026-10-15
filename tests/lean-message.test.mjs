@@ -61,6 +61,9 @@ test('Never overwrite messages or guess unconfirmed SHA / sequence',()=>{
   assert.throws(()=>checkMessageForWrite(m,{existingIds:preExisting.slice(0,-1),planSha:sha}),/sequence stale/);
   assert.throws(()=>checkMessageForWrite(m,{existingIds:preExisting,planSha:'f'.repeat(40)}),/not confirmed/);
   assert.throws(()=>checkMessageForWrite(m,{existingIds:preExisting}),/not confirmed/);
+  assert.throws(()=>checkMessageForWrite(m,{existingIds:[]}),/incomplete/);
+  const gap=[...preExisting];gap[7]=round+'-M000099';
+  assert.throws(()=>checkMessageForWrite(m,{existingIds:gap,planSha:sha}),/gap or foreign/);
 });
 
 test('Reject multiline summary and unsafe or nonexisting plan ref',()=>{
@@ -77,6 +80,8 @@ test('Generic actionable M is compact and prevents clobbering identities',()=>{
   assert.throws(()=>buildLeanMessage({...base,kind:'BLOCKED',signoff:undefined,
     extra:{summary:'fake'}}),/protected/);
   assert.throws(()=>buildLeanMessage({...base,kind:'ACK',signoff:undefined}),/Unknown or routine/);
+  assert.throws(()=>buildLeanMessage({...base,kind:'BLOCKED',signoff:undefined,
+    extra:JSON.parse('{"__proto__":"unsafe"}')}),/protected/);
 });
 
 test('Generate nothing from receipt-only or unrelated chat read activity',()=>{
