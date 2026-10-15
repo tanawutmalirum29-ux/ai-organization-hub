@@ -1,19 +1,21 @@
-# V7 — Numbered inter-chat communication; AI governance, Owner courier
+# V8 — Numbered GitHub messages with compact inter-chat notification codes
 
-**Scope:** ALL CEO/GAME-ADVISOR/DIR/TL/Engineer outbound instructions, appointments, ACKs, game feedback, proposals, decisions, work reports, QA verdicts, blockers, refusals and release handoffs. Owner manually transports the copy block between separate ChatGPT chats. GitHub is the source of truth for sequence/receipts, not shared chat memory.
+**ACTIVE V8 RULE (takes precedence over older wording anywhere in this document):** Full `relay_text` remains in immutable GitHub JSON **only**. After the very first one-time full appointment per new or replacement AI chat, absolutely **no long chat relay blocks**: sender outputs `MN-ROLE`; Owner posts `MN` into target chat; receiver scans all pending M IDs and writes individual sidecar read receipts; its reply is `C`, `C MN-ROLE`, `P`, `B`, or `ER`. Every Owner↔AI interaction is journaled. The sole natural-language chat exception is appointed `ORG-ADVISOR` speaking with Owner. Read [CODE-RELAY-PROTOCOL](CODE-RELAY-PROTOCOL.md) and [CHAT-ARCHIVE-PROTOCOL](CHAT-ARCHIVE-PROTOCOL.md). The long example below is a **GitHub payload example, not text to paste into ordinary chats**.
+
+**Scope:** ALL CEO/GAME-ADVISOR/DIR/TL/Engineer outbound instructions, appointments, ACKs, game feedback, proposals, decisions, work reports, QA verdicts, blockers, refusals and release handoffs. Owner transports only the short notification code; the complete copy-ready audit text stays in GitHub. GitHub is the source of truth for sequence/receipts, not shared chat memory.
 
 ## 1. Round bootstrap
 
 1. Owner transmits a **new unique** `ROUND_ID` (`[A-Z0-9][A-Z0-9-]{2,39}`) for ONE CEO generation, e.g. `COLONY-NEXT-02`, and its specific game repository. Owner's initial new-CEO appointment is explicitly numbered `<ROUND_ID>-M000001` (bootstrap exception: a branch does not exist *yet*).
 2. The appointed CEO must verify that the proposed `round/<lowercase-round-id>` branch does **not** already exist. If it exists, halt and ask Owner to resolve the collision: never hijack a previous round.
-3. CEO creates its round branch from governance `main`, creates `workspace/round.json`, `workspace/roster.json`, and persists the original Owner→CEO appointment as `workspace/messages/000001.json`, **verbatim** (including copy-ready relay). Record CEO's own new `APPOINTMENT_ID` in roster. After accepting, CEO generates and persists its ACK as `000002.json` and provides the Owner the copy-ready ACK.
+3. CEO creates its round branch from governance `main`, creates `workspace/round.json`, `workspace/roster.json`, and persists the original Owner→CEO appointment as `workspace/messages/000001.json`, **verbatim** (including copy-ready relay). Record CEO's own new `APPOINTMENT_ID` in roster. After accepting, CEO generates and persists its ACK as `000002.json` and saves a verifiable ACK/receipt and replies briefly (normally `C`, plus `MN-ROLE` if a message was created).
 4. For a new V7 round, `workspace/round.json` sets `owner_relay_only_from_sequence: 2`; for an existing round adopting V7, set it to the next available sequence, preserving old records. All subsequent append-only messages use the branch's sequential ledger. Do not modify governance `main`, inherit any prior-round message number, or merge this branch to `main`.
 
 **Onboarding to GitHub:** each receiving AI must read main README, its role charter, this protocol, [feedback protocol](FEEDBACK-PROTOCOL.md), and live `workspace/round.json`/`roster.json` from its **appointed branch**. No AI knows another conversation's completion without Owner relay.
 
 ## Staffing rule (no overall AI headcount cap)
 
-There is **no global maximum number of AI chats**. Exactly one role ID `GAME-ADVISOR` may be appointed per round (directly by CEO; no subordinates; does not consume a DIR/TL/Engineer seat). One DIR has at most **two** TLs. A TL can have **one, two or three Engineers** numbered `-1`, `-2`, `-3`; a fourth Engineer is invalid under the same TL and requires the Director's second TL. Use 2+2 or 3+1 for four Engineers. `E-A1-4` and `TL-A3` are invalid. New appointments still require numbered ledger entries, real Owner relay, distinct fresh AI chats and exact parent-child identity checks.
+There is **no global maximum number of AI chats**. Exactly one role ID `GAME-ADVISOR` may be appointed per round (directly by CEO; no subordinates; does not consume a DIR/TL/Engineer seat). One DIR has at most **two** TLs. A TL can have **one, two or three Engineers** numbered `-1`, `-2`, `-3`; a fourth Engineer is invalid under the same TL and requires the Director's second TL. Use 2+2 or 3+1 for four Engineers. `E-A1-4` and `TL-A3` are invalid. New appointments still require numbered ledger entries, short Owner-carried `MN`, distinct fresh AI chats and exact parent-child identity checks.
 
 ## 2. Ledger envelope and numbering
 
@@ -56,52 +58,33 @@ Use exactly the same numbered, GitHub-persisted copy-ready relay as any other ac
 - `RELEASE`: only CEO to DIR for game-main integration, with `release.pr_url`, `release.qa_evidence`, `release.ci_evidence`, `release.rationale`. Do not merge without the stated gate and verified evidence.
 - **No suggestion alone grants implementation rights;** the CEO's MISSION_CHARTER, delegated tasks, independent QA and CEO RELEASE control delivery. Owner approval is not part of any of these gates.
 
-## 3. Mandatory receiving gate — BEFORE any work
+## 3. V8 receiving gate: short MN and immutable receipts
 
-For *every* forwarded request in a ChatGPT conversation, read current round branch and confirm:
+A role never executes from an unverified chat code alone. On receiving `MN`, first validate round, current role and appointment ID, inspect every live numbered GitHub message addressed to that exact appointment (not just the newest), skip already individually receipted messages, and classify **all** remaining valid messages in sequence. Even obsolete/duplicate messages get one correctly reasoned `SUPERSEDED` or `NO_ACTION` sidecar read receipt, without executing stale work. Unauthorized/spoofed messages receive `REJECTED` evidence; do not act.
 
-1. `ROUND_ID` is your active generation; `MESSAGE_ID` exists in that branch's ledger with identical content, correct six-digit sequence and not revoked.
-2. `TO_ROLE` equals your own appointment's `role_id`; `TO_APPOINTMENT_ID` equals **your fresh-chat appointment ID**, not merely a reused title. Check round roster entry and source-parent authority. `OWNER` is an explicit endpoint, not a subordinate AI role.
-3. `FROM_ROLE`, `FROM_APPOINTMENT_ID`, `TASK_REF` and scope are valid. Only your direct parent can delegate regular work, except an explicitly numbered read-only CONSULTATION_REQUEST from CEO or OWNER to GAME-ADVISOR; that request never grants write scope or any Owner approval. A GAME-ADVISOR can advise the CEO but cannot delegate work; feedback and decisions never grant implementation rights.
-4. Check for an existing receipt/processing record: if an `ACK`, `RESULT` or `REJECTED` from **your same appointment** already references this `MESSAGE_ID` for the same action, it has been handled. An old message pasted twice is **not a new command**.
+Each read receipt is a **separate immutable** `workspace/receipts/M000000/<appointment_id>.json` file referring to the original M. Never overwrite the original M's body to mark read; do not create duplicate receipts. For assigned engineering tasks, any required numbered `TASK_ACCEPTANCE`, `RESULT`, `BLOCKED`, QA or RELEASE is a **separate** record and does not replace the read receipt.
 
-**Decision:** 
-- `TO_ROLE != SELF`, mismatched appointment/generation, unauthorized sender → `REJECTED_WRONG_RECIPIENT` / `REJECTED_UNAUTHORIZED`. **Do no work, no GitHub mutations.** Respond to Owner with the received ID and reason, asking for the correct message to the correct chat.
-- Already processed, repeated `MESSAGE_ID` or equivalent `event_key` → `REJECTED_DUPLICATE`. **Do not rerun or create a fresh duplicate ACK/report.**
-- Missing ledger entry, gaps, missing fields, mismatch or no GitHub read → `HOLD_UNVERIFIED`. **Do not act** until a verified version is supplied.
-- Only verified, authorized, new instructions may proceed; return a numbered ACK and later a numbered RESULT or BLOCKED report, as appropriate.
+If the recipient's `MN` includes multiple incoming messages, all must be checked/receipted before the chat response `C`; if work is still ongoing, record it in GitHub and use `P` / `B`. No message is silently dropped merely because it was superseded by a newer directive. Where GitHub cannot be accessed, report `ER`, not false success. See the complete [V8 checklist](CODE-RELAY-PROTOCOL.md).
 
-**Important limitation:** GitHub can confirm logged round and role IDs, but cannot prove which human pasted a message or cryptographically authenticate a ChatGPT conversation. An appointment ID is a routing identifier, not a secret. Owner must forward into the correct fresh chat; never claim full authentication.
+## 4. Owner-facing **short replies only**
 
-## 4. Mandatory owner-ready outgoing block
-
-At **every reporting or handoff boundary**—appointment acceptance, completion, blocker, review, refusal, next assignment—the sending AI MUST:
-1. Persist a new numbered message (unless a refusal is due to an invalid inbound message, where **no ledger mutations** are allowed).
-2. State `Next recipient: <EXACT_ROLE>`; supply one standalone verbatim **copy-ready** block containing all envelope fields, actual Github link, precise status, evidence/branch/PR/CI/SHA, required action, and prohibitions.
-3. Clearly state the relay is **PREPARED FOR OWNER TO FORWARD**, not sent automatically to another chat. Never just say "แจ้งหัวหน้าแล้ว" or "รอ AI อีกแชทเห็นเอง".
-4. If task is complete and nobody needs to act, send a numbered final report to the direct parent or Owner. This includes no-code administrative milestones.
-
-**Minimum handoff block:**
+**First appointment:** full detail once, including role, fresh ID, parent, branch, repo, authority, duties, codes and journaling. All later chat replies must be short (normally a single code line):
 
 ```text
-ROUND_ID: <ACTUAL_ROUND>
-MESSAGE_ID: <ACTUAL_ROUND>-M<6_DIGITS>
-FROM_ROLE: <ACTUAL_SENDER>
-FROM_APPOINTMENT_ID: <ACTUAL_ID>
-TO_ROLE: <EXACT_NEXT_RECIPIENT>
-TO_APPOINTMENT_ID: <ACTUAL_ID_OR_OWNER>
-TASK_REF: <ACTUAL_GAME_TASK_OR_ORG_SETUP>
-IN_REPLY_TO: <EXISTING_ID_OR_NONE>
-LEDGER_URL: <VERIFIED_GITHUB_FILE_URL>
-STATUS: <ACTUAL_STATUS>
-EVIDENCE: <VERIFIED_LINKS_AND_SHA>
-REQUESTED_ACTION: <EXACT_NEXT_STEP>
-LIMITS: <SCOPE_AND_MERGE_GATES>
+MN-A-DIR
+MN-CEO
+C
+C MN-CEO MN-A-DIR
+P
+B
+ER
 ```
 
-Never send placeholders such as `<ACTUAL...>` in a live relay.
+Long instruction content, status, evidence, SHA and decisions stay in GitHub. Sender sends `MN-ROLE` **only after** successfully persisting and verifying the new M JSON. Owner forwards `MN` into the relevant role's chat, **not the original long text**. Save each Owner and AI turn under `workspace/chats/<appointment-id>/events/` before claiming `C`. **ORG-ADVISOR↔OWNER full conversation is permitted and journaled.**
 
-## 5. V7 Closeout — ONE mission per round, self-directed by AI
+Do not misinterpret the short code as a cryptographic sender identity, a merge authorization, or automatic cross-chat delivery.
+
+## 5. V8/V7 Closeout — ONE mission per round, self-directed by AI
 
 A successful mission closes only after **CEO-authorized** merge to `ant-project/main`, independent QA and CI, exact final main SHA verification, completed game task Issues/PRs, permanent release/evidence summary and safe relay reconciliation. **No Owner approval or signature is part of scope, merge, QA acceptance or team dissolution.**
 
