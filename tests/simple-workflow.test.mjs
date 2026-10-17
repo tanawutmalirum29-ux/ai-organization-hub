@@ -41,3 +41,20 @@ test('issue-first appointment keeps mandatory gate and QA without M ledgers',()=
  assert.match(readme,/RULES.md/);
  assert.match(readme,/COMMANDS.md/);
 });
+
+test('all AI roles use brief owner relays and put full records in GitHub',()=>{
+ for(const role of ['CEO','Coordinator','Engineer','QA']){
+  assert.match(rules,new RegExp(role));
+ }
+ assert.match(rules,/กฎคำตอบสั้นถึง OWNER/);
+ assert.match(rules,/ไม่เกิน 2 บรรทัดสั้น/);
+ assert.match(rules,/Issue ของงาน\/PR/);
+ assert.match(rules,/ROLE: AP-ROLE/);
+ assert.match(rules,/ROLE: MN/);
+ assert.match(rules,/OWNER ขอ/);
+ assert.match(commands,/2 บรรทัดสั้น/);
+ assert.match(commands,/ROLE: AP-ROLE/);
+ assert.match(commands,/ROLE: MN/);
+ assert.match(template,/ไม่ต้องส่งใบแต่งตั้ง รายงาน QA หรือแผนงานเต็ม/);
+ assert.match(readme,/นโยบายสื่อสารถึง OWNER/);
+});
