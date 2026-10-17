@@ -48,7 +48,7 @@ test('all AI roles use brief owner relays and put full records in GitHub',()=>{
  }
  assert.match(rules,/กฎคำตอบสั้นถึง OWNER/);
  assert.match(rules,/ไม่เกิน 2 บรรทัดสั้น/);
- assert.match(rules,/GitHub Issue\/PR|GitHub Issue หรือ PR|GitHub Issue\/PR/);
+ assert.match(rules,/Issue ของงาน\/PR/);
  assert.match(rules,/ROLE: AP-ROLE/);
  assert.match(rules,/ROLE: MN/);
  assert.match(rules,/OWNER ขอ/);
