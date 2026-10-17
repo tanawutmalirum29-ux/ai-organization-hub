@@ -23,6 +23,12 @@ OWNER ส่งข้อความในแชทพนักงานสั�
 
 หากมีงานสองส่วนให้แยก Issue (เช่น #140, #141) แต่ผู้รับผิดชอบเดิมได้. การอนุญาตเริ่มงานต้องอยู่ใน Issue พร้อม Commit SHA และขอบเขตไฟล์ที่ตรวจได้; `APPOINTED` ไม่ใช่ `START`. Engineer เปิด PR ของตนไปยัง integration branch เท่านั้นจน Coordinator อนุญาตอย่างชัดเจน.
 
+## ข้อความที่ AI ทุกตัวส่งถึง OWNER
+
+**ไม่ต้องส่งใบแต่งตั้ง รายงาน QA หรือแผนงานเต็มให้ OWNER** ไม่ว่าผู้ส่งจะเป็น CEO, Coordinator, Engineer หรือ QA ให้บันทึกทั้งหมดไว้ใน GitHub Issue/PR และบอก OWNER เพียงสถานะสั้น ๆ กับข้อความส่งต่อ `ROLE: AP-ROLE #<issue> <url>` หรือ `ROLE: MN #<issue> <url>` เมื่อจำเป็น
+
+**กรณีไม่มีผู้รับที่ต้องส่งต่อ:** แจ้ง `ST: <สถานะ> | #<issue>` และ `OWNER: ไม่ต้องดำเนินการ` ตามจริง ไม่สร้างงานให้ OWNER โดยไม่จำเป็น; ถ้า OWNER ร้องขอรายละเอียดตรง ๆ จึงให้คำอธิบายเพิ่ม
+
 ## CEO ใหม่
 
 ถ้า OWNER ตั้ง CEO ใหม่ ให้สร้าง Issue ภารกิจใน GitHub แล้วส่ง `CEO: AP-ROLE #<issue> <url>`. CEO ต้องตรวจ `RULES.md`, Issue, PR, Branch, กฎ UI และงานค้างจริงก่อนเริ่ม. **Issues ใช้สื่อสาร, PR ส่งโค้ด, CI/Commit เป็นหลักฐาน**. ไม่มี Round ID, M/Receipt/Chat Event/Signoff.
