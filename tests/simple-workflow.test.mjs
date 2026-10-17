@@ -70,3 +70,26 @@ test('post-mission cleanup promises a real new issue namespace without corruptin
  assert.match(commands,/POST-MISSION CLEANUP/);
  assert.match(commands,/Completed\/CLEANUP_BLOCKED/);
 });
+
+test('all roles reload live main rules and recognize I before claiming an unknown command',()=>{
+ assert.match(rules,/โปรโตคอลคำตอบสั้นและคำสั่ง I/);
+ assert.match(rules,/COMMANDS\.md.*เวอร์ชันล่าสุด/);
+ assert.match(rules,/ห้ามตอบว่า "ไม่รู้จัก I"/);
+ assert.match(rules,/ไม่ซิงก์/);
+ assert.match(commands,/\| `I` \|/);
+ assert.match(commands,/ห้ามตอบว่าไม่รู้จัก `I`/);
+ assert.match(commands,/\| `C` \|/);
+ assert.match(template,/เมื่อ OWNER พิมพ์ `I`/);
+ assert.match(readme,/แชทเก่าเคยไม่รู้จัก/);
+});
+test('normal owner replies are exactly C or one MN relay, except I ST and ER',()=>{
+ assert.match(rules,/ค่าเริ่มต้นให้ตอบเพียง `C`/);
+ assert.match(rules,/มีงานต้องให้แชทอื่นดำเนินต่อจริง/);
+ assert.match(rules,/เพียงบรรทัดเดียว/);
+ assert.match(rules,/OWNER พิมพ์ `I`/);
+ assert.match(rules,/OWNER พิมพ์ `ST`/);
+ assert.match(rules,/ER: อ่านกฎล่าสุดไม่ได้/);
+ assert.match(commands,/ถ้าไม่มีงานต้องส่งต่อ ตอบเพียง/);
+ assert.match(commands,/ถ้าต้องให้แชทอื่นทำงานต่อ ตอบเพียง/);
+ assert.match(template,/ไม่มีผู้รับถัดไปให้ตอบ `C` เท่านั้น/);
+});
