@@ -27,7 +27,8 @@ test('retain shorthand command vocabulary and safe retry semantics',()=>{
   assert.ok(commands.includes('`'+cmd+'`'),'Missing short command '+cmd);
  }
  assert.match(commands,/หนึ่งครั้ง/);
- assert.match(commands,/ไม่ลบประวัติอัตโนมัติ/);
+ assert.match(commands,/ต้องสร้าง Repository ใหม่/);
+ assert.match(commands,/ห้ามอ้างว่าลบสำเร็จ/);
 });
 test('issue-first appointment keeps mandatory gate and QA without M ledgers',()=>{
  assert.match(template,/แต่งตั้งด้วย GitHub Issues/);
@@ -57,4 +58,15 @@ test('all AI roles use brief owner relays and put full records in GitHub',()=>{
  assert.match(commands,/ROLE: MN/);
  assert.match(template,/ไม่ต้องส่งใบแต่งตั้ง รายงาน QA หรือแผนงานเต็ม/);
  assert.match(readme,/นโยบายสื่อสารถึง OWNER/);
+});
+
+test('post-mission cleanup promises a real new issue namespace without corrupting current main',()=>{
+ assert.match(rules,/### 5\. ปิดงานและล้างประวัติทั้งหมด/);
+ assert.match(rules,/Issue แรกของงานใหม่ได้เลข #1/);
+ assert.match(rules,/สำรอง snapshot/);
+ assert.match(rules,/ไม่รีเซ็ตเลข Issue\/PR/);
+ assert.match(rules,/ห้าม Force Push\/Reset/);
+ assert.match(rules,/CLEANUP_BLOCKED/);
+ assert.match(commands,/POST-MISSION CLEANUP/);
+ assert.match(commands,/Completed\/CLEANUP_BLOCKED/);
 });
