@@ -16,6 +16,12 @@ DELIVERABLE: <ไฟล์, PR, การทดสอบ หรือผลล�
 STATUS: APPOINTED / START หรือ APPOINTED / HOLD
 ACCEPTANCE: <เกณฑ์ตรวจรับเฉพาะโปรเจกต์>
 NEXT_ACTION: <ขั้นแรกที่ผู้รับต้องทำ>
+# เฉพาะเมื่อสืบทอดงานจากแชทที่ถึงข้อจำกัด
+PREDECESSOR_ISSUE: #<เลข Issue เดิม>
+HANDOFF_MAIN_SHA: <SHA ของ main ที่ตรวจจริง>
+HANDOFF_CI: <ผล CI ที่ตรง SHA หรือ NOT_VERIFIED>
+OPEN_WORK: <Issue/PR และงาน/ข้อจำกัดที่ HOLD ที่ยังต้องทำ>
+SESSION_ACTIVATION: AWAITING_OWNER_RELAY / ACTIVE_IN_THIS_CHAT
 ```
 
 **ส่งเข้าแชทผู้รับครั้งแรก:** `ROLE: AP-ROLE #<issue> <issue-url>`  
