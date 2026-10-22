@@ -51,7 +51,7 @@
 
 **องค์กรแบบสั้น:** `OWNER → PROJECT LEAD → ENGINEER/CREATOR` พร้อม `QA` อิสระ; `COORDINATOR` เพิ่มเฉพาะภารกิจใหญ่และไม่เป็น Gate บังคับ. บทบาท CEO/อดีต DIR/TL ใช้ต่อได้ตามการโอนงาน ไม่ต้องตั้งใหม่ทั้งทีม.
 
-**พื้นที่ทำงานสำรอง:** [appointment-CEO](https://github.com/tanawutmalirum29-ux/ai-organization-hub) (Branch `work/<project>/...`) และ [Staging_area](https://github.com/tanawutmalirum29-ux/Staging_area) (Branch `stage/<project>/...`) เฉพาะเมื่อมีสิทธิ์และไม่มีการห้ามเดิม; งานสุดท้ายต้องกลับ PR/QA/Merge ที่ `PROJECT_REPO/main`. ลำดับ: ซ่อมจุดเดิม → retry อย่างจำกัด → local backup → staging ที่อนุญาต → ZIP ทางสุดท้าย. อ่าน RULES.md §§5.1–5.3.
+**พื้นที่ทำงานสำรอง:** [ai-organization-hub](https://github.com/tanawutmalirum29-ux/ai-organization-hub) (Branch `work/<project>/...`) และ [Staging_area](https://github.com/tanawutmalirum29-ux/Staging_area) (Branch `stage/<project>/...`) เฉพาะเมื่อมีสิทธิ์และไม่มีการห้ามเดิม; งานสุดท้ายต้องกลับ PR/QA/Merge ที่ `PROJECT_REPO/main`. ลำดับ: ซ่อมจุดเดิม → retry อย่างจำกัด → local backup → staging ที่อนุญาต → ZIP ทางสุดท้าย. อ่าน RULES.md §§5.1–5.3.
 
 ## การปิดงาน
 
