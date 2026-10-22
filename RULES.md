@@ -2,7 +2,7 @@
 
 **เอกสารบังคับ:** [RULES.md](RULES.md)  
 **คู่มือคำสั่ง:** [COMMANDS.md](COMMANDS.md)  
-**แบบแต่งตั้ง:** [appointments/OWNER-TO-CEO.md](appointments/OWNER-TO-CEO.md)
+**แบบแต่งตั้ง:** [appointments/OWNER-TO-LEAD.md](appointments/OWNER-TO-LEAD.md)
 
 ## 1. ขอบเขต
 
