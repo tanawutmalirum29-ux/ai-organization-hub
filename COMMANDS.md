@@ -22,7 +22,7 @@
 | `CI` | ตรวจ CI/Build/Tests สำหรับ SHA เป้าหมาย |
 | `RV` | ขอ Review/QA ที่เป็นอิสระเมื่อจำเป็น |
 | `SIM` | รันทดสอบจริงหรือจำลองระบบตามงาน ระบุ `REAL/SYNTHETIC`, `PASS/FAIL/NOT_RUN` ตามจริง |
-| `ORG` | ตรวจโครงสร้าง OWNER→PROJECT LEAD→WORKER/QA, Coordinator เป็นทางเลือก, AI ACTIVE รวมไม่เกิน 10, สาย REPORTS_TO/ACK จริง, ไฟล์ทับซ้อนและงานที่ค้าง |
+| `ORG` | ตรวจโครงสร้าง OWNER→PROJECT LEAD→WORKER/QA, คน ACTIVE ไม่เกิน 10, REPORTS_TO/ACK จริง, owned files และงานที่ค้าง; ถ้า OWNER สั่งยุบทีมทันทีใช้ HARD RETIRE ตาม RULES.md §2 |
 | `BK` | สร้าง/ตรวจ backup โดยอิง SHA, Manifest, Checksums และ Restore Test ตาม RULES.md §5.2 ก่อนเปลี่ยนงานที่เสี่ยง |
 | `DR` | ทดสอบกู้คืนจาก backup ใน Branch/สำเนาแยกโดยไม่แก้ `main`; แสดงผลการทดสอบจริง |
 | `SW` / `RC` | ส่งต่อหรือกู้บริบทจาก Issue/PR/Commit จริง |
@@ -31,6 +31,7 @@
 | `P` | สถานะกำลังดำเนินการ |
 | `B` | สถานะติดข้อจำกัด |
 | `ER` | แจ้งข้อผิดพลาดหรือสิทธิ์ไม่เพียงพอตามความจริง |
+| `RETIRE` | เมื่อ OWNER สั่งปลด/ยุบทีมทันที ให้ปิดเฉพาะ AP-ROLE เดิมเป็น RETIRED, หยุดงาน/การส่งข้อความจากบทบาทเก่า, รักษา Product Issue/PR/QA HOLD และตั้งผู้สืบทอดรอ OWNER relay; ไม่ใช่ PF หรือ Completed |
 | `PF` | ตรวจและดำเนินการล้างหลังส่งมอบตาม RULES.md §6 |
 | `CCCC DB` | ยืนยันจบภารกิจและเรียกขั้น `PF` |
 | `c` | ตรวจผลปิดงาน/ล้างข้อมูลอีกครั้ง |
