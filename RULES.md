@@ -10,53 +10,49 @@
 
 - ทุกภารกิจต้องระบุ URL เต็ม 3 แห่งตามหัวข้อถัดไป (`PROJECT_REPO`, `ORG_WORKSPACE_REPO`, `STAGING_REPO`) พร้อมเป้าหมาย, ขอบเขต, เกณฑ์เสร็จ, ผู้รับผิดชอบและสายรายงานจากงานจริง
 - **ห้ามเดาชื่อ Repository จากชื่อองค์กร ชื่อแชท หรือความทรงจำ** หากมีหลายโปรเจกต์ให้แยก Issue/PR/ขอบเขตอย่างชัดเจน
-- `appointment-CEO/main` เป็นกฎกลางและแบบแต่งตั้งเท่านั้น; โค้ดผลิตภัณฑ์และ Issue/PR ส่งมอบหลักอยู่ที่ `PROJECT_REPO` แต่อนุญาตพื้นที่ทำงาน **ชั่วคราวแยก Branch ตามโปรเจกต์** ในรีโปองค์กรนี้หรือ `Staging_area` ตามข้อ 5.1 เมื่อใช้สิทธิ์ได้จริง โดยห้ามแก้/ปะปน `main` ของกฎกลางด้วยไฟล์โปรเจกต์
+- `ai-organization-hub/main` เป็นกฎกลางและแบบแต่งตั้งเท่านั้น; โค้ดผลิตภัณฑ์และ Issue/PR ส่งมอบหลักอยู่ที่ `PROJECT_REPO` แต่อนุญาตพื้นที่ทำงาน **ชั่วคราวแยก Branch ตามโปรเจกต์** ในรีโปองค์กรนี้หรือ `Staging_area` ตามข้อ 5.1 เมื่อใช้สิทธิ์ได้จริง โดยห้ามแก้/ปะปน `main` ของกฎกลางด้วยไฟล์โปรเจกต์
 - อ่านกฎบน `main` ล่าสุดเมื่อรับแต่งตั้ง เมื่อใช้ `MN`/`I` และเมื่อพบความขัดแย้ง; คำสั่งใน Issue/PR ต้องไม่ขัดกับกฎกลางหรือข้อจำกัดเครื่องมือ/ความปลอดภัย
 
 ### ที่อยู่ 3 แห่งที่ต้องระบุทุก AP-ROLE และ Handoff
 
 1. **รีโปโปรเจกต์ (PROJECT_REPO):** URL เต็มของเกม/แอป/งาน **ที่กำลังทำจริง**; เป็นที่อยู่ Issue, PR, CI และ `main` ที่จะส่งมอบ เช่น `https://github.com/<owner>/<project>` (เป็นเพียงรูปแบบตัวอย่าง ไม่ใช่โปรเจกต์ถาวร).
-2. **รีโปองค์กรกลาง (ORG_WORKSPACE_REPO):** https://github.com/tanawutmalirum29-ux/appointment-CEO — อ่านกฎ/คำสั่ง/แบบแต่งตั้งบน `main` ล่าสุด, Branch `work/<project>/<mission>` ใช้พักงานธุรการที่อนุญาตเท่านั้น.
+2. **รีโปองค์กรกลาง (ORG_WORKSPACE_REPO):** https://github.com/tanawutmalirum29-ux/ai-organization-hub — อ่านกฎ/คำสั่ง/แบบแต่งตั้งบน `main` ล่าสุด, Branch `work/<project>/<mission>` ใช้พักงานธุรการที่อนุญาตเท่านั้น.
 3. **รีโปพื้นที่สำรอง (STAGING_REPO):** https://github.com/tanawutmalirum29-ux/Staging_area — Branch `stage/<project>/<mission>` สำหรับสำเนางาน/Tests/Recovery ที่ย้ายได้โดยได้รับอนุญาต ไม่ใช่ `main` ส่งมอบผลิตภัณฑ์.
 
 **เอกสาร AP-ROLE ทุกระดับ** (CEO, DIR, TL, Engineer, QA) และเอกสารสืบทอดต้องแสดง **ทั้ง 3 URL เป็นข้อความจริง** พร้อมป้ายชื่อข้างต้น. ในข้อความ OWNER→แชทใช้คำสั่งย่อ `ROLE: AP-ROLE #... <issue-url>` ได้ เพราะสามลิงก์ต้องอยู่ใน Issue ที่แนบและผู้รับเปิดอ่านเอง. เมื่อสรุปการแต่งตั้ง/เริ่มโปรเจกต์ให้ OWNER เห็น ให้แสดงทั้ง 3 ลิงก์ ไม่บอกเพียงลิงก์ Issue เว้นแต่ OWNER ขอคำสั่งสั้นอย่างเดียว.
 
-## 2. โครงสร้างองค์กร, ผู้รับผิดชอบ และการแต่งตั้ง
+## 2. องค์กรแบบสั้น — OWNER → PROJECT LEAD → WORKERS / QA
 
-**หลักการ:** หนึ่งภารกิจมี OWNER หนึ่งสายการตัดสินใจ, CEO หนึ่งคน, ผังรายงานที่รู้ว่าใครเป็นหัวหน้าของใคร และ QA ที่ตรวจเป็นอิสระ. องค์กรนี้ใช้ได้กับทุกประเภทโปรเจกต์ ไม่ผูกกับเกมหรือชื่อรีโปใดตายตัว.
+**โครงสร้างใหม่ใช้ 2 ชั้นหลัก ไม่บังคับผ่าน DIR และ TL.** `PROJECT_LEAD` เป็นชื่อกลางสำหรับคนรับผิดชอบโปรเจกต์ โดยอาจใช้ชื่อตำแหน่ง **CEO**, Lead หรือ Manager ได้ตามงาน. ไม่เกี่ยวกับชื่อรีโปองค์กร. ใช้ได้กับเกม แอป เว็บไซต์ เอกสารและทุกโปรเจกต์.
 
 ```text
 OWNER
-└── CEO (คุมเป้าหมาย อนุมัติแผน ตรวจ Integration และส่งมอบ)
-    ├── DIR-A (ดูแลแผนก A / ตรวจรวมระดับแผนก)
-    │   ├── TL-A1 (หัวหน้าทีม 1) → ENGINEER-A1-1, ENGINEER-A1-2
-    │   └── TL-A2 (หัวหน้าทีม 2) → ENGINEER-A2-1, ENGINEER-A2-2
-    ├── DIR-B (เพิ่มเฉพาะเมื่อภาระงานจำเป็น; มี TL ไม่เกิน 2 ทีม)
-    └── QA-REVIEWER (อิสระจากทีมผู้สร้าง; รายงาน CEO)
+└── PROJECT LEAD / CEO
+    ├── ENGINEER / CREATOR A       (เจ้าของไฟล์และ PR)
+    ├── ENGINEER / CREATOR B       (เจ้าของงานอีกส่วน)
+    ├── QA / REVIEWER              (ตรวจอิสระ แยกจากผู้สร้าง)
+    └── COORDINATOR / TECH REVIEW  (ทางเลือกเฉพาะงานใหญ่ ไม่ใช่ด่านบังคับ)
 ```
 
-- **เพดานทั้งองค์กรสำหรับภารกิจหนึ่ง:** AI/บทบาทที่ ACTIVE พร้อมกันรวมกัน **ไม่เกิน 10** (ไม่นับ OWNER); **หนึ่ง DIR มี TL ที่ ACTIVE ได้สูงสุด 2**, **หนึ่ง TL มี Engineer/Creator ที่ ACTIVE ได้สูงสุด 2**. ภาพข้างต้นเป็นเพดานของการแตกทีม ไม่ใช่คำสั่งให้ตั้งทุกช่องหรือให้เกิน 10 คน.
-- **OWNER:** ให้เป้าหมายและตัดสินเรื่องที่ต้องใช้การอนุมัติของ OWNER เท่านั้น; ไม่ต้องคัดลอกซอร์สจำนวนมากหรือทำงานทางเทคนิคแทนองค์กร.
-- **CEO:** อ่าน 3 รีโปและสถานะจริง, ตั้ง DIR เมื่อจะมอบหมายงาน, กำหนดขอบเขต/เจ้าของไฟล์, รับการรายงานจาก DIR, ประสาน QA อิสระ, รับผิดชอบ Integration/ความพร้อมของ `PROJECT_REPO/main`; เฉพาะ CEO หรือผู้ที่ OWNER อนุมัติชัดเจนมีหน้าที่ Merge เข้า `main`.
-- **DIR (Director):** รับเป้าหมายจาก CEO, ตั้ง TL ใต้ตนเองได้ไม่เกิน 2, แบ่งความรับผิดชอบไม่ให้ทีมชนกัน, ตรวจผลงาน TL/ความเข้ากันของ API/Dependencies, ยกระดับปัญหาให้ CEO.
-- **TL (Team Lead):** รับเป้าหมายจาก DIR, ตั้ง Engineer/Creator ได้ไม่เกิน 2, กำหนด `EDITABLE_PATHS` และเกณฑ์ตรวจรับ, Review Code/Tests/PR ของคนในทีม, ส่งต่อ DIR.
-- **ENGINEER/CREATOR:** พัฒนาเฉพาะไฟล์ที่ได้รับมอบหมายจริง, สร้าง Branch/Commit/PR ตามสิทธิ์, ทดสอบและบันทึก SHA/ผล PASS/FAIL/NOT_RUN. ห้ามเขียนหรืออนุมัติงานนอกขอบเขตตน.
-- **QA-REVIEWER:** เป็นอิสระจากผู้สร้าง ตรวจ Integration, Regression, Visual/Browser/Device ตามชนิดงาน; อนุมัติเฉพาะ **exact SHA ที่ตรวจจริง** และไม่แก้โค้ด Production ที่ตนเป็นผู้ตัดสิน.
-- **ADVISOR:** เพิ่มเมื่อจำเป็นเพื่อให้คำปรึกษาเรื่องกลยุทธ์/ความเสี่ยง ไม่ถือเป็นผู้อนุมัติ Code/QA และนับในเพดาน 10 ถ้า ACTIVE.
-- สำหรับงานเล็กที่ CEO ทำเองโดย **ไม่มีการมอบหมายทีม** ไม่ต้องตั้ง DIR/TL ว่างไว้. แต่ **ทันทีที่ตั้ง Engineer ภายใต้สายองค์กร** ต้องระบุ `CEO → DIR → TL → ENGINEER` จริง ไม่ให้ Engineer ไร้หัวหน้า; หากสืบงานจากโครงสร้างเดิมให้จัดสังกัดก่อนเริ่มการเขียนที่ต้องตรวจผ่านสายทีม.
-- **ลำดับแต่งตั้ง:** OWNER→CEO → CEO สร้าง AP-ROLE ให้ DIR → DIR แต่งตั้ง TL → TL แต่งตั้ง Engineer. CEO แต่งตั้ง QA อิสระได้โดยตรง. ผู้แต่งตั้งตรวจโควตาและการชนของไฟล์ก่อนเปิด Issue. หาก DIR/TL ยังไม่ ACTIVE ให้ผู้รับที่มีอยู่ทำได้เฉพาะงานในขอบเขตที่ START_AUTHORIZED อยู่แล้ว และรอการจัดสังกัดสำหรับงานใหม่ที่ต้องผ่านสายตรวจรับ.
-- **การรับช่วง:** ห้ามตั้ง Engineer ซ้ำเพียงเพราะเพิ่ม DIR/TL. ผูก Engineer เดิมเข้ากับ TL ที่ ACTIVE ด้วย `REPORTS_TO` ใน Issue เดิม โดยรักษา PR/Branch/ไฟล์เดิม และบันทึกวันที่/เหตุผลเปลี่ยนสาย.
-- **ตรวจรับเป็นชั้น:** ENGINEER ส่ง Commit SHA/PR/Tests → TL ตรวจงานสมาชิก → DIR ตรวจงานข้ามทีม/บูรณาการ → CEO ตรวจ CI/QA อิสระและ Merge `main`. QA รายงานตรง CEO เพื่อหลีกเลี่ยงผลประโยชน์ทับซ้อน.
-- **หนึ่งงานหนึ่งเจ้าของไฟล์:** ทุก Issue มี `PROJECT_REPO`, `ORG_WORKSPACE_REPO`, `STAGING_REPO`, `REPORTS_TO`, `PARENT_ISSUE`, `BRANCH`, `BASE_SHA`, `EDITABLE_PATHS`, `ACCEPTANCE`, `START/HOLD` และ `SESSION_ACTIVATION`. หากข้ามเจ้าของไฟล์ให้ขอ `API_REQUEST` ผ่าน TL→DIR→CEO ก่อน.
-- **Issue เป็นแหล่งหลักฐาน ไม่ใช่การเปิด Agent:** ทุกแชทต้องรับข้อความ AP-ROLE จริง, เปิด Issue แล้ว ACK/ลงมือด้วยตนเอง; ไม่มี AI เริ่มงานหรือได้รับสิทธิ์ GitHub จากการสร้าง Issue โดยอัตโนมัติ.
-- **การแต่งตั้งต้องแนบลิงก์ครบ 3 แห่ง** ตามข้อ 1 และ [OWNER-TO-CEO](appointments/OWNER-TO-CEO.md). ถ้าขาดลิงก์หรือไม่รู้ `PROJECT_REPO` ให้เติมก่อนแต่งตั้ง ไม่เดาจากชื่อโปรเจกต์.
+- **OWNER:** ระบุโปรเจกต์ เป้าหมาย และการตัดสินใจพิเศษ; ไม่ต้องตรวจโค้ด/คัดลอกซอร์สทุกครั้ง.
+- **PROJECT LEAD / CEO:** ตรวจ Issue/PR/CI และ GitHub 3 แห่ง, แตกงาน, **แต่งตั้ง Engineer/Creator/QA โดยตรง**, ให้ขอบเขตไฟล์, จัดลำดับ, ตรวจ Integration และรับผิดชอบ Merge `PROJECT_REPO/main` เมื่อผ่าน QA/CI ตามเงื่อนไขและมีสิทธิ์.
+- **ENGINEER / CREATOR / SPECIALIST:** รับ Issue/ขอบเขตจาก Lead โดยตรง, แก้เฉพาะไฟล์ของตน, Commit/PR, Tests และส่ง SHA + PASS/FAIL/NOT_RUN กลับ Lead. ขอ `API_REQUEST` จาก Lead โดยตรงเมื่อจะข้ามเจ้าของไฟล์.
+- **QA / REVIEWER:** รับมอบหมายจาก Lead โดยตรงแต่ตรวจอย่างเป็นอิสระ; ไม่แก้ Production ที่กำลังตรวจ และตัดสิน `FINAL_QA_APPROVED` เฉพาะ exact SHA ที่ตรวจจริงเมื่อภารกิจมี QA gate.
+- **COORDINATOR / TECH REVIEWER (ทางเลือก):** ช่วย Lead ติดตามหลาย Workstream, ตรวจ API หรือรวบรวมหลักฐาน PR; **ห้ามทำให้ Worker ต้องรอ ACK/ตรวจรับเพิ่มโดยอัตโนมัติ**. ไม่มีสิทธิ์ Merge main หรือให้ Final QA แทน Lead/QA เว้นแต่ OWNER อนุมัติ.
+- **เพดาน:** AI `ACTIVE` รวมสูงสุด **10 คนต่อภารกิจ** (ไม่นับ OWNER); ไม่มีข้อกำหนดต้องมี DIR/TL หรือจำนวน Engineer ต่ำสุด. จัดทีมเล็กให้สั้นที่สุดเท่าที่งานทำได้.
+- **แต่งตั้ง:** OWNER→PROJECT LEAD; PROJECT LEAD→WORKER/QA/COORDINATOR **โดยตรง**. ให้แต่ละคน `REPORTS_TO: <Lead Issue>`. ไม่ต้องสร้าง DIR/TL ก่อนเริ่มงานและไม่ต้องแต่งตั้งคนเก่าซ้ำ.
+- **งานเดิมที่มี DIR/TL:** คง Issue, Commit, PR, งานและหลักฐานเดิม. ผู้รับที่ ACTIVE อาจเปลี่ยนชื่อหน้าที่เป็น **COORDINATOR/REVIEWER ทางเลือก** หลังบันทึกการโอนงาน; ไม่บังคับให้ Engineer ผ่านสายเก่าต่อไป. ตำแหน่งกลางที่ยัง `AWAITING_OWNER_RELAY` และไม่จำเป็น ให้บันทึก `SUPERSEDED / NOT_ACTIVATED` และปิดอย่างระมัดระวัง; ห้ามอ้างว่า `COMPLETED`.
+- **ตรวจรับสั้น:** Worker ส่ง PR/SHA/Tests → Lead ตรวจเองหรือมอบรีวิวเฉพาะทาง → QA อิสระตรวจ exact integration SHA เมื่อจำเป็น → Lead Merge `PROJECT_REPO/main` → ตรวจ post-merge CI. Coordinator เป็นผู้ช่วย ไม่เป็น gate เพิ่ม.
+- **ความรับผิดชอบไฟล์:** ทุก Issue กำหนด `PROJECT_REPO`, `ORG_WORKSPACE_REPO`, `STAGING_REPO`, `REPORTS_TO`, `PARENT_ISSUE`, `EDITABLE_PATHS`, `BASE_SHA`, `BRANCH`, `ACCEPTANCE`, `START/HOLD`, `SESSION_ACTIVATION`; Lead จัดการเมื่อไฟล์ชนกัน. Worker แต่ละแชทต้องรับ AP-ROLE จริงและ ACK ของตน.
+- **งานเล็ก:** Lead ทำเองได้. งานใหญ่แยก Worker เพิ่มเฉพาะเมื่อจำเป็น; ไม่เพิ่มสายคำสั่งเพื่อให้ดูเป็นองค์กร.
+- **สาม URL บังคับ:** ทุก AP-ROLE/Handoff ทุกบทบาทระบุ URL โปรเจกต์จริง, รีโปองค์กรกลาง, รีโปสำรองครบตามข้อ 1. คำสั่งสั้นไปแชทระบุ Issue URL ได้เพราะข้อมูลเต็มอยู่ใน Issue.
 
 ### การเปลี่ยนชุด AI เมื่อแชทยาวจนถึงข้อจำกัด
 
-- OWNER สามารถแต่งตั้ง CEO/ทีมชุดใหม่ใน **แชทใหม่** ได้โดยไม่ต้องสร้างโปรเจกต์หรือ Repository ผลิตภัณฑ์ใหม่; ให้ CEO เปิด Issue แต่งตั้งชุดใหม่ใน `PROJECT_REPO` โดยใช้กฎกลาง `main` ปัจจุบัน และระบุสถานะว่าสืบงาน ไม่ใช่สร้างงานจากศูนย์
-- Issue CEO ใหม่ต้องระบุ `PROJECT_REPO`, SHA ของ `main` ที่ตรวจจริง, สถานะ CI ของ SHA นั้น, PR/Issue ที่ยังเปิด, ขอบเขตและปัญหาที่ HOLD, งานที่ต้องรับต่อ และข้อจำกัดสิทธิ์เครื่องมือ หาก CI ยังไม่ปรากฏให้แจ้งตามจริง
+- OWNER สามารถแต่งตั้ง PROJECT LEAD/ทีมชุดใหม่ใน **แชทใหม่** ได้โดยไม่ต้องสร้างโปรเจกต์หรือ Repository ผลิตภัณฑ์ใหม่; ให้ PROJECT LEAD เปิด Issue แต่งตั้งชุดใหม่ใน `PROJECT_REPO` โดยใช้กฎกลาง `main` ปัจจุบัน และระบุสถานะว่าสืบงาน ไม่ใช่สร้างงานจากศูนย์
+- Issue PROJECT LEAD ใหม่ต้องระบุ `PROJECT_REPO`, SHA ของ `main` ที่ตรวจจริง, สถานะ CI ของ SHA นั้น, PR/Issue ที่ยังเปิด, ขอบเขตและปัญหาที่ HOLD, งานที่ต้องรับต่อ และข้อจำกัดสิทธิ์เครื่องมือ หาก CI ยังไม่ปรากฏให้แจ้งตามจริง
 - แต่งตั้ง Worker/QA ใหม่ **เฉพาะตำแหน่งจำเป็น** พร้อม Issue ใหม่, งาน, เจ้าของไฟล์ไม่ทับกัน, acceptance และ `START/HOLD`; OWNER ส่ง `AP-ROLE` แยกไปยังแชทใหม่ ผู้รับต้องเปิดอ่านเอง การเปิด Issue **ไม่ใช่** การเปิดเซสชันของ AI หรือหลักฐานว่ามีผู้เริ่มงานแล้ว
-- ก่อนปิด Issue แต่งตั้งเก่า บันทึกผู้สืบทอดและงานที่ยังไม่สำเร็จ; ปิดสถานะบทบาทเป็น `SUPERSEDED/RETIRED` ไม่ใช่ `COMPLETED`. **ห้ามปิด Product Issue, ปล่อยของ, ล้าง Branch หรืออ้างว่า QA ผ่าน เพียงเพราะเปลี่ยน CEO/ทีม**
+- ก่อนปิด Issue แต่งตั้งเก่า บันทึกผู้สืบทอดและงานที่ยังไม่สำเร็จ; ปิดสถานะบทบาทเป็น `SUPERSEDED/RETIRED` ไม่ใช่ `COMPLETED`. **ห้ามปิด Product Issue, ปล่อยของ, ล้าง Branch หรืออ้างว่า QA ผ่าน เพียงเพราะเปลี่ยน PROJECT LEAD/ทีม**
 - ข้อจำกัดด้านความปลอดภัย สิทธิ์ การเงิน ข้อมูล และการห้ามดำเนินการเดิม **ไม่หมดอายุเพียงเพราะเปลี่ยนแชทหรือบทบาท**; ห้ามใช้การแต่งตั้งใหม่ให้ผู้รับลองคำสั่งที่เคยถูกปฏิเสธซ้ำเพื่อหลบข้อจำกัด
 - ทำงาน/บันทึกหลักฐานใน GitHub; เมื่อส่งมอบครบจริงจึงใช้ PF ตามข้อ 6. ไม่ต้องเพิ่มประวัติหรือเลขรอบลงในไฟล์กฎกลางทุกครั้งที่เปลี่ยนทีม
 
@@ -66,7 +62,7 @@ OWNER
 2. **จัดงาน:** แยก Issue และ Branch เฉพาะที่จำเป็น กำหนดผู้รับผิดชอบและขอบเขตไฟล์เพื่อป้องกันโค้ดชนกัน
 3. **ลงมือ:** แก้ไฟล์จริง ทดสอบ และบันทึก Commit/PR ในรีโปของโปรเจกต์ ไม่สร้างเอกสารการบริหารเกินจำเป็น
 4. **ตรวจ:** เลือก Build, Tests, Lint, Security, Browser, Device, Content Review หรือ QA ตามผลิตภัณฑ์; ตรวจ Integration และ Regression ให้ครบตามความเสี่ยง
-5. **ส่งมอบ:** ผู้มีหน้าที่รวมงานตรวจหลักฐานและ Merge เข้า `PROJECT_REPO/main` เมื่อผ่านจริง ตรวจผลบน `main` แล้วจึงเข้าสู่ขั้น **PF / Post-mission cleanup** โดยอัตโนมัติตามกฎข้อ 6
+5. **ส่งมอบ:** PROJECT LEAD หรือผู้มีหน้าที่ Merge ที่ OWNER แต่งตั้งตรวจหลักฐานและ Merge เข้า `PROJECT_REPO/main` เมื่อผ่านจริง ตรวจผลบน `main` แล้วจึงเข้าสู่ขั้น **PF / Post-mission cleanup** โดยอัตโนมัติตามกฎข้อ 6
 
 งานที่ไม่ผ่านต้องแก้ ไม่ถือว่าเสร็จจากการเปิด PR หรือได้ Commit SHA เท่านั้น
 
@@ -95,7 +91,7 @@ OWNER
 ### ที่อยู่และหน้าที่ของแต่ละรีโป
 
 - `PROJECT_REPO` (ผู้แต่งตั้งระบุทุกครั้ง): แหล่งจริงของผลิตภัณฑ์, Issue/PR, CI และ `main` ที่ส่งมอบ; ห้ามเปลี่ยนเป้าหมายการส่งมอบโดยอัตโนมัติ
-- `ORG_WORKSPACE_REPO`: https://github.com/tanawutmalirum29-ux/appointment-CEO — `main` เก็บเฉพาะกฎ/คำสั่ง/แบบแต่งตั้ง; Branch `work/<project>/<role-or-issue>` ใช้เป็นพื้นที่พักงานองค์กรแยกแต่ละโปรเจกต์ได้เมื่อมีสิทธิ์และไม่มีคำสั่งห้ามที่เกี่ยวข้อง
+- `ORG_WORKSPACE_REPO`: https://github.com/tanawutmalirum29-ux/ai-organization-hub — `main` เก็บเฉพาะกฎ/คำสั่ง/แบบแต่งตั้ง; Branch `work/<project>/<role-or-issue>` ใช้เป็นพื้นที่พักงานองค์กรแยกแต่ละโปรเจกต์ได้เมื่อมีสิทธิ์และไม่มีคำสั่งห้ามที่เกี่ยวข้อง
 - `STAGING_REPO`: https://github.com/tanawutmalirum29-ux/Staging_area — พื้นที่สำรองสำหรับสำเนาซอร์สที่อนุญาต, Patch, Integration, Tests และ CI บน Branch `stage/<project>/<issue-or-mission>`; `main` เก็บคู่มือพื้นที่สำรองและไม่ใช่ `main` สำหรับปล่อยผลิตภัณฑ์
 - ทั้งสองรีโปสำรอง **ไม่ใช่ทางลัดสำหรับการปลดล็อกสิทธิ์**, ไม่ใช่ที่เก็บรหัสผ่าน/Token/Secrets/ข้อมูลส่วนบุคคล และไม่รับสำเนาจากโปรเจกต์ที่ไม่มีสิทธิ์ย้ายหรือมีข้อกำหนดความลับไม่รองรับ
 
@@ -117,7 +113,7 @@ OWNER
 - **ก่อนแก้ที่มีความเสี่ยง:** ตรวจ `main SHA`, target branch, snapshot/backup ที่กู้ได้จริงและเจ้าของ Branch. บันทึก `BASE_SHA`, `HEAD_SHA`, `SOURCE_REPO`, `TASK_ISSUE`, `EDITABLE_PATHS`, รายการความเปลี่ยนแปลง, `CHECKSUM`, `ROLLBACK`. ห้ามสำรอง Secrets/Token/เซฟผู้ใช้ไปใน GitHub สาธารณะ.
 - **ชั้นที่ 1:** Commit/Branch/PR ใน `PROJECT_REPO` ที่มีสิทธิ์ เป็นแหล่งจริงของงาน. แยกทีมและ Branch ห้ามทับกัน. ก่อนรวมหลักต้องได้ CI และ QA ตามขอบเขตจริง.
 - **ชั้นที่ 2:** สำเนาในเครื่องที่แยกจากโปรเจกต์จริง พร้อม Manifest/Checksum และการทดสอบคืนค่า. ห้ามแก้ต้นฉบับ `main` เพื่อทดลอง Patch.
-- **ชั้นที่ 3 (เมื่ออนุญาต):** Branch ชั่วคราวใน `Staging_area` หรือ `appointment-CEO` โดยบันทึก `STAGING_MANIFEST.md`; ห้าม Merge งานผลิตภัณฑ์เข้า `main` ของสองรีโปนี้. การย้ายที่ทำงาน **ไม่ย้ายสิทธิ์/คำห้าม** ตามไปด้วย.
+- **ชั้นที่ 3 (เมื่ออนุญาต):** Branch ชั่วคราวใน `Staging_area` หรือ `ai-organization-hub` โดยบันทึก `STAGING_MANIFEST.md`; ห้าม Merge งานผลิตภัณฑ์เข้า `main` ของสองรีโปนี้. การย้ายที่ทำงาน **ไม่ย้ายสิทธิ์/คำห้าม** ตามไปด้วย.
 - **Manifest บังคับ:** `PROJECT_REPO` + `ORG_WORKSPACE_REPO` + `STAGING_REPO`, `ROLE`, `REPORTS_TO`, `ISSUE`, `SOURCE_SHA`, `TARGET_SHA`, `FILES`, `DEPENDENCIES`, `TEST_RESULTS` (PASS/FAIL/NOT_RUN), `BACKUP_REF`, `SHA256`, `RESTORE_STEPS`, `CLEANUP_AFTER`.
 - **กู้คืน:** หยุดเขียนซ้ำ → ยืนยันความถูกต้องของ snapshot/Checksum และ Base SHA → กู้บน Branch/สำเนาทดสอบ → ตรวจ Diff/Tests/CI → Review/QA → PR กลับ `PROJECT_REPO`. หากเป็นข้อมูล Save/Database ให้สำรองต้นฉบับก่อน migration, rollback ตามรุ่น และห้ามล้างข้อมูลที่อ่านไม่ได้โดยพลการ.
 - **กรณี ZIP ทางสุดท้าย:** บรรจุ Patch + Manifest + SHA-256 + Source SHA + ไฟล์ที่เปลี่ยน + Dry-run/Apply/Rollback + คำสั่ง Tests + ผลที่ได้ทำจริง; รายงาน `NOT_RUN` เมื่อไม่มีซอร์ส/เบราว์เซอร์ ไม่ให้ OWNER ไล่วางไฟล์ทีละไฟล์.
@@ -130,7 +126,7 @@ OWNER
 | DNS/Clone/Network ใช้ไม่ได้ | ตรวจ URL, DNS/Proxy/สถานะบริการ; ใช้ connector แบบอ่าน, SHA จริง, local checkout ที่อนุญาต; หลีกเลี่ยงให้ OWNER คัดลอกไฟล์จำนวนมาก | ไม่มีครบซอร์ส → `test/build NOT_RUN`, ห้ามอ้าง PASS |
 | GitHub 429, 5xx, timeout | เช็กว่า Write เดิมสำเร็จไปแล้วหรือไม่, ตรวจ SHA/Retry-After, retry จำกัดไม่เกินหนึ่งครั้งต่อเหตุเมื่อแก้สาเหตุหรือหมดระยะรอ | ไม่ยิงซ้ำไม่จำกัด, ไม่สร้างงานซ้ำ |
 | สิทธิ์ 401/403 / การปฏิเสธด้านความปลอดภัย | แยก Auth/Scope กับการปฏิเสธเฉพาะการกระทำ; ตรวจสิทธิ์ราย Action/Branch; ขอช่องทางอนุญาตอย่างถูกต้อง | **ห้ามสลับรีโป/บทบาท/API เพื่อทำการเขียนเดียวกันที่ถูกบล็อก**; local analysis ทำต่อได้ |
-| Branch SHA ไม่ตรง, Conflict หรือไฟล์ชนกัน | Fetch HEAD ใหม่, ตรวจ diff และ `EDITABLE_PATHS`, ส่ง `API_REQUEST` ให้ TL→DIR→CEO; rebase/cherry-pick เฉพาะสิทธิ์ที่มี | ไม่ Force Push ลบงานคนอื่น, CI ใหม่ต้องตรง SHA ใหม่ |
+| Branch SHA ไม่ตรง, Conflict หรือไฟล์ชนกัน | Fetch HEAD ใหม่, ตรวจ diff และ `EDITABLE_PATHS`, ส่ง `API_REQUEST` ให้ PROJECT LEAD; rebase/cherry-pick เฉพาะสิทธิ์ที่มี | ไม่ Force Push ลบงานคนอื่น, CI ใหม่ต้องตรง SHA ใหม่ |
 | Tests/CI RED | เปิด failed job logs, หา first failing test/callsite จริง, แยก legacy contract vs regression, แก้ในไฟล์เจ้าของ, rerun exact SHA | ห้ามปิด/ข้าม Tests เพื่อให้เขียว, Build/Browser ที่ข้ามคือ NOT_RUN |
 | Browser/Mobile UI ต่างกัน | ทดสอบขนาดเป้าหมาย, Chromium/WebKit, touch/keyboard/focus, reduced motion; บันทึก screenshot/error/ขั้นตอนซ้ำ | ห้ามอ้าง Physical Device PASS จาก emulator |
 | Save/Schema migration | Snapshot bytes, ตรวจ valid/invalid/future schema, atomic transaction/revision/stale tab, test reload/rollback | ไม่รีเซ็ตผู้ใช้เงียบ ๆ หรือสร้าง entitlement ที่ไม่ได้รับ |
