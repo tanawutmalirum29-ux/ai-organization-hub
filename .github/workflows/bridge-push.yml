@@ -27,11 +27,23 @@ jobs:
                 --data '{}' \
                 "${origin}/api/v1/bridge/sync" -o /tmp/bridge-sync.json; then
               python3 -c 'import json; x=json.load(open("/tmp/bridge-sync.json")); print("Bridge:", {k:x.get(k) for k in ("ok","processed","rejected","seen","errors")}); assert x.get("ok") is True'
-              exit 0
+              break
             fi
             if [[ "${attempt}" == "3" ]]; then
               echo "::error::Worker sync failed; the 5-minute Cron is a fallback"
               exit 1
             fi
             sleep 5
+          done
+          ids=$(python3 -c 'import json,os,re; event=json.load(open(os.environ["GITHUB_EVENT_PATH"])); files=[p for commit in event.get("commits",[]) for p in commit.get("added",[])+commit.get("modified",[])]; print(" ".join(p.rsplit("/",1)[-1][:-5] for p in files if re.fullmatch(r"bridge/requests/[0-9]{4}-[0-9]{2}-[0-9]{2}/[0-9a-f-]{36}\\.json",p)))')
+          if [[ -z "${ids}" ]]; then
+            echo "::warning::No JSON command file found in GitHub push event; sync itself succeeded"
+            exit 0
+          fi
+          for command_id in ${ids}; do
+            curl --fail --silent --show-error --max-time 15 "${origin}/api/v1/bridge/status?id=${command_id}" -o /tmp/bridge-receipt.json
+            room_id=$(python3 -c 'import json; r=json.load(open("/tmp/bridge-receipt.json")).get("receipt"); assert r and r.get("status")=="DONE", r; assert r.get("room_id"), r; print(r["room_id"])')
+            curl --fail --silent --show-error --max-time 15 "${origin}/api/v1/bridge/inbox?room_id=${room_id}" -o /tmp/bridge-inbox.json
+            python3 -c 'import json; x=json.load(open("/tmp/bridge-inbox.json")); assert x.get("room") and x.get("members"); print("PASS D1 inbox:",x["room"]["id"],"members",len(x["members"]),"tasks",len(x.get("tasks",[])),"messages",len(x.get("messages",[])))'
+            echo "PASS command ${command_id} delivery and D1 inbox"
           done
