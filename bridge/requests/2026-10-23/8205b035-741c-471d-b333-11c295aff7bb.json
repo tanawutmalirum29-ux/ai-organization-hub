@@ -1,0 +1,11 @@
+{
+  "v": 1,
+  "id": "8205b035-741c-471d-b333-11c295aff7bb",
+  "repo": "ai-control-center",
+  "room_id": "121d2e62-9d5b-4641-b388-e85a9d6acf7c",
+  "actor": "CEO",
+  "action": "appoint",
+  "data": {
+    "slot": "EN1"
+  }
+}
