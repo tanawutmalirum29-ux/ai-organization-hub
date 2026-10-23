@@ -1,0 +1,13 @@
+{
+  "v": 1,
+  "id": "552dd71d-6b8a-42b7-9b3f-590718e47324",
+  "repo": "ai-control-center",
+  "room_id": "121d2e62-9d5b-4641-b388-e85a9d6acf7c",
+  "actor": "CEO",
+  "action": "task",
+  "data": {
+    "title": "Bridge E2E task verification",
+    "description": "Public smoke test: verify T00001 is stored and readable in D1",
+    "assignee": "EN1"
+  }
+}
