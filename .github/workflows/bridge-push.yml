@@ -1,0 +1,37 @@
+name: Bridge command wake-up
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'bridge/requests/**'
+permissions:
+  contents: read
+concurrency:
+  group: github-bridge-poll-main
+  cancel-in-progress: false
+jobs:
+  deliver:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Notify Cloudflare to fetch GitHub Connector commands
+        shell: bash
+        run: |
+          set -euo pipefail
+          origin="https://ai-control-center.tanawutmalirum29.workers.dev"
+          echo "Bridge delivery: GitHub request file committed; Worker fetches and validates it"
+          for attempt in 1 2 3; do
+            if curl --fail --silent --show-error --max-time 40 --retry 1 -X POST \
+                -H "Origin: ${origin}" \
+                -H "Content-Type: application/json" \
+                --data '{}' \
+                "${origin}/api/v1/bridge/sync" -o /tmp/bridge-sync.json; then
+              python3 -c 'import json; x=json.load(open("/tmp/bridge-sync.json")); print("Bridge:", {k:x.get(k) for k in ("ok","processed","rejected","seen","errors")}); assert x.get("ok") is True'
+              exit 0
+            fi
+            if [[ "${attempt}" == "3" ]]; then
+              echo "::error::Worker sync failed; the 5-minute Cron is a fallback"
+              exit 1
+            fi
+            sleep 5
+          done
