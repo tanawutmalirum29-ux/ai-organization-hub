@@ -35,7 +35,7 @@ jobs:
             fi
             sleep 5
           done
-          ids=$(python3 -c 'import json,os,re; event=json.load(open(os.environ["GITHUB_EVENT_PATH"])); files=[p for commit in event.get("commits",[]) for p in commit.get("added",[])+commit.get("modified",[])]; print(" ".join(p.rsplit("/",1)[-1][:-5] for p in files if re.fullmatch(r"bridge/requests/[0-9]{4}-[0-9]{2}-[0-9]{2}/[0-9a-f-]{36}\\.json",p)))')
+          ids=$(python3 -c 'import json,os,re; event=json.load(open(os.environ["GITHUB_EVENT_PATH"])); files=[p for commit in event.get("commits",[]) for p in commit.get("added",[])+commit.get("modified",[])]; print(" ".join(p.rsplit("/",1)[-1][:-5] for p in files if re.fullmatch(r"bridge/requests/[0-9]{4}-[0-9]{2}-[0-9]{2}/[0-9a-f-]{36}\.json",p)))')
           if [[ -z "${ids}" ]]; then
             echo "::warning::No JSON command file found in GitHub push event; sync itself succeeded"
             exit 0
