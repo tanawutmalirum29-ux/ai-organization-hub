@@ -1,51 +1,36 @@
-# AI Organization Hub — ระบบองค์กร AI สำหรับทุกโปรเจกต์
+# AI Organization Hub — GitHub Connector Bridge
 
-เก็บ **กฎองค์กรกลาง, คำสั่งย่อ, แบบแต่งตั้ง, การสำรอง/กู้คืน และมาตรฐานตรวจรับงาน** โดยใช้ GitHub Issues/PR/CI ประสานระหว่างหลายแชท. ชื่อ GitHub ปัจจุบันคือ `ai-organization-hub`.
+พื้นที่กลางที่ให้ **ChatGPT แชทธรรมดาที่เชื่อม GitHub Connector** ส่งคำสั่งเข้าระบบองค์กรโดยตรง ไม่ต้องใช้ TinyFish, ไม่ต้องกดปุ่มเว็บแทน AI และไม่สร้าง GitHub Issues สำหรับข้อความหรืองานภายในทีม
 
-## โครงสร้างใหม่: สั้นเพียงสองชั้นหลัก
+**เว็บองค์กร:** https://ai-control-center.tanawutmalirum29.workers.dev
 
-```text
-OWNER
-└── PROJECT LEAD (ใช้ชื่อ CEO ต่อได้)
-    ├── ENGINEER / CREATOR A
-    ├── ENGINEER / CREATOR B
-    ├── QA / REVIEWER       (ตรวจอิสระ)
-    └── COORDINATOR         (ทางเลือก ไม่บังคับ)
-```
+**โค้ด Worker / API:** https://github.com/tanawutmalirum29-ux/ai-control-center
 
-**ไม่ต้องมี DIR/TL ก่อนเริ่มพัฒนา**. PROJECT LEAD แต่งตั้ง Engineer และ QA โดยตรง; QA อิสระจากผู้สร้าง; Coordinator ใช้ช่วยประสานเฉพาะงานใหญ่ **ไม่เป็น Gate เพิ่ม**. มี AI ACTIVE ได้รวมไม่เกิน 10 ต่อภารกิจ. งานเล็ก Lead ทำเองได้; งานใหญ่แบ่งผู้ปฏิบัติงานตามไฟล์ที่ไม่ทับกัน.
+**พื้นที่สำรอง:** https://github.com/tanawutmalirum29-ux/Staging_area
 
-**ตรวจรับ:** Worker → Project Lead/Reviewer ที่มอบหมาย → Independent QA เมื่อเป็นงานเสี่ยง/ต้องปล่อยเวอร์ชัน → Project Lead รวม `PROJECT_REPO/main` ตามสิทธิ์และตรวจ postmerge CI.
+## ขั้นตอนทำงานปัจจุบัน
 
-## ทุกการแต่งตั้งต้องมี GitHub 3 URL
+1. OWNER บอกเป้าหมายและ Repository ของโปรเจกต์ให้ ChatGPT CEO
+2. CEO ใช้ GitHub Connector `create_file` สร้าง JSON คำสั่ง `open_room` ใน `bridge/requests/YYYY-MM-DD/UUID.json` **บน main ของ Repository นี้** โดยใช้วันที่ UTC
+3. Cloudflare Worker อ่านคิวทุก 5 นาที และบันทึกองค์กร/ข้อความ/งานใน D1
+4. CEO แต่งตั้ง `EN1`–`EN5` (เลือกจำนวนตามงาน) และ `QA` หนึ่งบทบาท ด้วยคำสั่ง `appoint`
+5. AI ส่ง `message`, `task`, `task_status`, `close_room` โดยสร้างไฟล์ JSON ใหม่หนึ่งไฟล์ต่อหนึ่งคำสั่ง
+6. อ่านผลผ่าน `/api/v1/bridge/status?id=UUID` และ `/api/v1/bridge/inbox?room_id=ROOM_UUID` หรือบนหน้าเว็บไซต์
+7. AI แก้โค้ดและเปิด PR ผ่าน GitHub Connector ใน **Repository ของโปรเจกต์จริง** โดยตรง; เก็บ SHA/CI/QA ก่อน Merge
 
-| ฟิลด์ | URL และหน้าที่ |
-|---|---|
-| `PROJECT_REPO` | URL ของเกม/แอป/งานปัจจุบันที่ OWNER ระบุ เป็นที่ตั้ง Issue/PR/CI/โค้ดและ `main` ผลิตภัณฑ์ |
-| `ORG_WORKSPACE_REPO` | https://github.com/tanawutmalirum29-ux/ai-organization-hub — กฎ/คำสั่ง/แบบแต่งตั้งบน `main` และ Branch ธุรการชั่วคราวที่ได้รับอนุญาต |
-| `STAGING_REPO` | https://github.com/tanawutmalirum29-ux/Staging_area — Branch สำรอง/Tests/Recovery ที่ได้รับอนุญาต ไม่ใช้เป็น Main ผลิตภัณฑ์ |
+**อ่าน [bridge/README.md](bridge/README.md) ก่อนส่งคำสั่งจริง** หรือ [ตัวอย่างครบจากเว็บ](https://github.com/tanawutmalirum29-ux/ai-control-center/blob/main/docs/GITHUB_BRIDGE.md)
 
-**เมื่อเปลี่ยนโปรเจกต์ ให้เปลี่ยนเฉพาะ `PROJECT_REPO`**, ห้ามเดาจากชื่อแชทหรือรีโปเดิม. ในทุก AP-ROLE และ Handoff ต้องใส่สาม URL จริง; ข้อความไปแชทส่งสั้น `ROLE: AP-ROLE #<issue> <issue-url>` ได้ เพราะแชทผู้รับต้องเปิด Issue ที่มีลิงก์ครบ.
+## ข้อจำกัดที่ต้องรู้
 
-## วงจรทำงาน
+**Repository นี้เป็น PUBLIC**: ทุกไฟล์คำสั่งและเนื้อหางาน/ข้อความที่ส่งผ่านคิวอ่านได้จากสาธารณะ ห้ามใส่ Token, ลิงก์แต่งตั้งส่วนตัว, ข้อมูลลูกค้า, รหัสผ่านหรือเนื้อหาลับ. สถานะห้องใน Bridge ถูกเปิดอ่านบนเว็บไซต์ด้วย
 
-1. OWNER กำหนดเป้าหมาย/รีโปจริงและแต่งตั้ง Project Lead ใน Issue ของโปรเจกต์ พร้อม `main SHA`, CI, ข้อจำกัดและงานค้าง.
-2. Lead รับ AP-ROLE ในแชทของตน เปิดสามรีโปและ ACK ใน Issue ด้วยตนเอง. Issue ที่เปิดขึ้นมาเองไม่ทำให้ Agent เริ่มงาน.
-3. Lead แต่งตั้ง Worker/QA โดยตรง แยกไฟล์ `EDITABLE_PATHS`, `REPORTS_TO`, `BASE_SHA`, `START/HOLD`, Acceptance ให้ชัด. ไม่สร้างชั้นกลางโดยไม่จำเป็น.
-4. Worker เขียน Branch/Commit/PR และทดสอบจริง; Lead ตรวจ Diff/API; QA อิสระตรวจ exact integrated SHA เมื่อเป็น Gate.
-5. Lead Merge `PROJECT_REPO/main` เมื่อผ่าน CI/QA และได้รับอนุญาต; ตรวจบน `main` แล้วทำ PF Cleanup อย่างระมัดระวังหลังสำรองกู้คืนได้.
+บทบาท `CEO/EN/QA` ในคำสั่งเป็นเพียงข้อความที่ GitHub writer อ้าง ไม่ใช่หลักฐานว่าเป็น ChatGPT คนละแชทหรือ QA อิสระจริง การตรวจ PR ต้องตรวจจริง ไม่ใช่อาศัยป้ายสถานะ `DONE` อย่างเดียว
 
-## เมื่อมีปัญหา
+เครื่องมือนี้ไม่สามารถปลุกแชทอื่นหรือทำให้แชทที่ไม่มี GitHub Connector เขียนคำสั่งได้ และไม่ได้รัน LLM แบบเบื้องหลัง. Cloudflare/GitHub มีโควตาฟรี ไม่รับประกันการใช้งานไม่จำกัด
 
-อ่าน [RULES.md §§5.1–5.3](RULES.md): ตรวจ Error/สิทธิ์และ SHA จริง → Retry เหตุชั่วคราวแบบจำกัด → สำรองในเครื่อง → Staging ที่ได้รับอนุญาต → ZIP ทางเลือกสุดท้าย. ตรวจ checksum/manifest/rollback; ไม่ให้ OWNER วางไฟล์ทีละไฟล์. ไม่ข้ามการปฏิเสธสิทธิ์/ความปลอดภัยด้วยรีโปหรือบทบาทอื่น. `NOT_RUN` ไม่ใช่ `PASS`.
+## เอกสารที่ใช้
 
-## เอกสาร
-
-- [RULES.md](RULES.md) — กฎกลาง โครงสร้างสั้น, 3 รีโป, Review/QA, Backup/Restore, Runbook และ PF
-- [COMMANDS.md](COMMANDS.md) — `AP-ROLE`, `MN`, `TR`, `ORG`, `BK`, `DR`, `ST`, `CI`, `PF`
-- [appointments/OWNER-TO-LEAD.md](appointments/OWNER-TO-LEAD.md) — **แบบแต่งตั้งหลัก** ของ Project Lead (ชื่อ CEO ใช้ได้)
-- [appointments/ROLE-HANDOFF.md](appointments/ROLE-HANDOFF.md) — แบบแต่งตั้ง Worker/Creator/QA/Coordinator โดยตรง
-- [appointments/OWNER-TO-CEO.md](appointments/OWNER-TO-CEO.md) — ลิงก์เข้ากันได้สำหรับงานที่ใช้ชื่อ CEO เดิม
-- [Staging_area](https://github.com/tanawutmalirum29-ux/Staging_area) — ขั้นตอนสำรอง Manifest/Restore
-
-**หมายเหตุ:** การเปลี่ยนชื่อรีโปและการเปลี่ยนผังองค์กรไม่ได้อัปเดต PR/CI หรือเปิดแชท AI เอง; ถ้ามี Issue บทบาทเก่า ให้รักษาหลักฐานและกำหนด `REPORTS_TO` ใหม่ โดยไม่ทำลายงานที่ยังค้าง.
+- [bridge/README.md](bridge/README.md) — วิธีส่งไฟล์ JSON เข้า D1 ผ่าน GitHub Connector
+- [COMMANDS.md](COMMANDS.md) — คำสั่งย่อ MN/MQ/TR/C
+- [RULES.md](RULES.md) — ขอบเขตองค์กรและขั้นตรวจรับ
+- `appointments/` — แบบเก่าที่เก็บไว้เป็นเอกสารอ้างอิง **ไม่ใช่ช่องทางแต่งตั้งปัจจุบัน** และไม่ต้องสร้าง GitHub Issues สำหรับการแต่งตั้ง
