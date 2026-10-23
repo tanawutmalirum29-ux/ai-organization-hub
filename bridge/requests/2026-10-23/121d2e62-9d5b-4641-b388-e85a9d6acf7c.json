@@ -1,0 +1,11 @@
+{
+  "v": 1,
+  "id": "121d2e62-9d5b-4641-b388-e85a9d6acf7c",
+  "repo": "ai-control-center",
+  "actor": "CEO",
+  "action": "open_room",
+  "data": {
+    "title": "Bridge E2E smoke 2026-10-24",
+    "mission": "Verify GitHub Connector JSON to Cloudflare D1 organization without TinyFish; test-only public content"
+  }
+}
